@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
     <FrameLayout
@@ -274,6 +275,8 @@
                 android:layout_width="wrap_content"
                 android:text="线上问诊"
                 android:textSize="@dimen/font_18dp"
+                android:textStyle="bold"
+
                 android:layout_marginLeft="10dp"
                 android:textColor="@color/mobile_index_green"
                 android:layout_height="wrap_content" />
@@ -298,11 +301,23 @@
                 android:text="住院查房"
                 android:textSize="@dimen/font_18dp"
                 android:layout_marginLeft="10dp"
+                android:textStyle="bold"
+
                 android:textColor="@color/mobile_orange"
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
 
     </LinearLayout>
-
+    <TextView
+        android:layout_width="match_parent"
+        android:background="@color/mobile_gray"
+        android:layout_height="5dp" />
+    <TextView
+        android:layout_width="match_parent"
+        android:text="个人工作台"
+        android:padding="15dp"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_height="wrap_content" />
 </LinearLayout>

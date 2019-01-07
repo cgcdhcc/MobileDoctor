@@ -3,6 +3,7 @@ package com.imedical.mobiledoctor.fragment;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -35,6 +36,7 @@ import android.widget.Toast;
 import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.base.MyApplication;
+import com.imedical.mobiledoctor.util.StatusBarUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -57,6 +59,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+        StatusBarUtils.setWindowStatusBarColor(this, R.color.mobile_blue);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 //        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
@@ -190,6 +193,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 //        MobclickAgent.onResume(this);
 
     }
+
+
 
     //////////////////////////////////    动态权限申请   ////////////////////////////////////////
     public final static int REQ_PERMISSION_CODE = 0x1000;
