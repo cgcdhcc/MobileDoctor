@@ -50,13 +50,15 @@ import java.util.List;
 public class MainActivity extends FragmentActivity implements View.OnClickListener {
 	SectionsPagerAdapter mSectionsPagerAdapter;
     ViewPager mViewPager;
+    ImageView btn_work,btn_patient,btn_mine;
+    TextView tv_work,tv_patient,tv_mine;
+    View ll_work,ll_patient,ll_mine;
     public static final String ARG_SECTION_NUMBER = "section_number";
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 //        MyApplication myapp = (MyApplication)getApplication();
         checkPermission();
@@ -70,6 +72,12 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 	}
 
 	private void InitViews(){
+        ll_work=this.findViewById(R.id.ll_work);
+        ll_work.setOnClickListener(this);
+        ll_patient=this.findViewById(R.id.ll_patient);
+        ll_patient.setOnClickListener(this);
+        ll_mine=this.findViewById(R.id.ll_mine);
+        ll_mine.setOnClickListener(this);
         mViewPager=this.findViewById(R.id.pager);
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -79,38 +87,44 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 btnSelect(position+1,false);
             }
         });
+        btn_work =(ImageView) findViewById(R.id.btn_work);
+        btn_patient =(ImageView) findViewById(R.id.btn_patient);
+        btn_mine =(ImageView) findViewById(R.id.btn_mine);
+        tv_work=(TextView)findViewById(R.id.tv_work);
+        tv_patient=(TextView)findViewById(R.id.tv_patient);
+        tv_mine=(TextView)findViewById(R.id.tv_mine);
+        btn_work.setSelected(true);
     }
 
     public void btnSelect(int position,boolean IsClick){
-//        btn_home.setSelected(false);tv_home.setTextColor(getResources().getColor(R.color.index_font_gray));
-//        btn_search.setSelected(false);tv_search.setTextColor(getResources().getColor(R.color.index_font_gray));
-//        btn_consult.setSelected(false);tv_consult.setTextColor(getResources().getColor(R.color.index_font_gray));
-//        btn_center.setSelected(false);tv_center.setTextColor(getResources().getColor(R.color.index_font_gray));
-//        switch (position){
-//            case 1:btn_home.setSelected(true);tv_home.setTextColor(getResources().getColor(R.color.index_font));
-//                break;
-//            case 2:btn_search.setSelected(true);tv_search.setTextColor(getResources().getColor(R.color.index_font));break;
-//            case 3:btn_consult.setSelected(true);tv_consult.setTextColor(getResources().getColor(R.color.index_font));break;
-//            case 4:btn_center.setSelected(true);tv_center.setTextColor(getResources().getColor(R.color.index_font));break;
-//            default:break;
-//        }
+        btn_work.setSelected(false);tv_work.setTextColor(getResources().getColor(R.color.mobile_gray));
+        btn_patient.setSelected(false);tv_patient.setTextColor(getResources().getColor(R.color.mobile_gray));
+        btn_mine.setSelected(false);tv_mine.setTextColor(getResources().getColor(R.color.mobile_gray));
+        switch (position){
+            case 1:btn_work.setSelected(true);tv_work.setTextColor(getResources().getColor(R.color.mobile_blue));
+                break;
+            case 2:btn_patient.setSelected(true);tv_patient.setTextColor(getResources().getColor(R.color.mobile_blue));break;
+            case 3:btn_mine.setSelected(true);tv_mine.setTextColor(getResources().getColor(R.color.mobile_blue));break;
+            default:break;
+        }
         if(IsClick)mViewPager.setCurrentItem(position-1);
     }
 
     @Override
     public void onClick(View v) {
-//        switch (v.getId()) {
-//            case R.id.ll_home:
-//                btnSelect(1,true);break;
-//            case R.id.ll_search:
-//                btnSelect(2,true);break;
-//            case R.id.ll_consult:
-//                btnSelect(3,true);break;
-//            case R.id.ll_center:
-//                btnSelect(4,true);break;
-//            default:break;
-//        }
-
+        switch (v.getId()) {
+            case R.id.ll_work:
+                btnSelect(1, true);
+                break;
+            case R.id.ll_patient:
+                btnSelect(2, true);
+                break;
+            case R.id.ll_mine:
+                btnSelect(3, true);
+                break;
+            default:
+                break;
+        }
     }
 
 
@@ -184,31 +198,31 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     }
     /** 动态权限申请 */
     private boolean checkPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            List<String> permissions = new ArrayList<>();
-            if (PackageManager.PERMISSION_GRANTED != ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-            }
-            if (PackageManager.PERMISSION_GRANTED != ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA)) {
-                permissions.add(Manifest.permission.CAMERA);
-            }
-            if (PackageManager.PERMISSION_GRANTED != ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.RECORD_AUDIO)) {
-                permissions.add(Manifest.permission.RECORD_AUDIO);
-            }
-            if (PackageManager.PERMISSION_GRANTED != ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_PHONE_STATE)) {
-                permissions.add(Manifest.permission.READ_PHONE_STATE);
-            }
-            if (PackageManager.PERMISSION_GRANTED != ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
-            }
-            if (PackageManager.PERMISSION_GRANTED != ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE)) {
-                permissions.add(Manifest.permission.CALL_PHONE);
-            }
-            if (permissions.size() != 0) {
-                ActivityCompat.requestPermissions(MainActivity.this,permissions.toArray(new String[0]), REQ_PERMISSION_CODE);
-                return false;
-            }
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            List<String> permissions = new ArrayList<>();
+//            if (PackageManager.PERMISSION_GRANTED != ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+//                permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+//            }
+//            if (PackageManager.PERMISSION_GRANTED != ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA)) {
+//                permissions.add(Manifest.permission.CAMERA);
+//            }
+//            if (PackageManager.PERMISSION_GRANTED != ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.RECORD_AUDIO)) {
+//                permissions.add(Manifest.permission.RECORD_AUDIO);
+//            }
+//            if (PackageManager.PERMISSION_GRANTED != ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_PHONE_STATE)) {
+//                permissions.add(Manifest.permission.READ_PHONE_STATE);
+//            }
+//            if (PackageManager.PERMISSION_GRANTED != ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE)) {
+//                permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+//            }
+//            if (PackageManager.PERMISSION_GRANTED != ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE)) {
+//                permissions.add(Manifest.permission.CALL_PHONE);
+//            }
+//            if (permissions.size() != 0) {
+//                ActivityCompat.requestPermissions(MainActivity.this,permissions.toArray(new String[0]), REQ_PERMISSION_CODE);
+//                return false;
+//            }
+//        }
         return true;
     }
     @Override
