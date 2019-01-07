@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:background="@color/mobile_blue"
+            android:layout_height="180dp">
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/headLayout"
+            android:background="@color/mobile_blue"
+            android:layout_width="fill_parent"
+            android:layout_height="40.5dp"
+            >
+            <ImageView
+                android:id="@+id/tv_leftImage"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@color/mobile_gray"
+                android:padding="10dp"
+                android:gravity="center"
+                />
+            <TextView
+                android:id="@+id/tv_centerTitle"
+                android:textColor="@color/white"
+                android:textSize="18dp"
+                android:gravity="center"
+                android:text="移动医生"
+                android:layout_weight="1"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_centerInParent="true"
+                android:singleLine="true" />
+
+            <ImageView
+                android:layout_alignParentRight="true"
+                android:id="@+id/tv_rightImage"
+                android:background="@color/mobile_gray"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:padding="10dp"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:paddingTop="40.5dp"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <com.imedical.mobiledoctor.widget.CircleImageView
+                android:id="@+id/re_civ_photo"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:scaleType="centerCrop"
+                android:src="@drawable/dhead1_icon" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:id="@+id/tv_name"
+                    android:layout_marginTop="10dp"
+                    android:textSize="26dp"
+                    android:paddingTop="5dp"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:text="东华医生"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_toRightOf="@id/tv_name"
+                    android:layout_alignBottom="@id/tv_name"
+                    android:textSize="@dimen/font_18dp"
+                    android:layout_marginLeft="10dp"
+                    android:padding="5dp"
+                    android:textColor="@color/white"
+                    android:text="欢迎您"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:id="@+id/tv_department"
+                    android:layout_below="@id/tv_name"
+                    android:textSize="@dimen/font_18dp"
+                    android:padding="5dp"
+                    android:textColor="@color/white"
+                    android:text="心电内科"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:id="@+id/tv_title"
+                    android:layout_toRightOf="@id/tv_department"
+                    android:layout_marginLeft="10dp"
+                    android:layout_alignBottom="@id/tv_department"
+                    android:textSize="@dimen/font_18dp"
+                    android:padding="5dp"
+                    android:textColor="@color/white"
+                    android:text="主治医师"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="140.5dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/bg_shape_index"
+            android:layout_height="100dp">
+
+        </LinearLayout>
+    </FrameLayout>
+
+</LinearLayout>

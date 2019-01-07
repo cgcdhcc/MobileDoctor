@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/headLayout"
+    android:background="@color/mobile_blue"
+    android:layout_width="fill_parent"
+    android:layout_height="40.5dp"
+     >
+
+    <ImageView
+        android:id="@+id/tv_leftImage"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@color/mobile_gray"
+        android:padding="10dp"
+        android:gravity="center"
+        />
+
+
+    <TextView
+        android:id="@+id/tv_centerTitle"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        android:gravity="center"
+        android:text="移动医生"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:singleLine="true" />
+
+    <ImageView
+        android:layout_alignParentRight="true"
+        android:id="@+id/tv_rightImage"
+        android:background="@color/mobile_gray"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:padding="10dp"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        />
+
+</RelativeLayout>
