@@ -21,10 +21,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.imedical.mobiledoctor.R;
+import com.imedical.mobiledoctor.util.StatusBarUtils;
 import com.imedical.mobiledoctor.widget.CustomProgressDialog;
 
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends Activity {
     protected Button btn_right;
     private CustomProgressDialog progressDialog = null;
     private TextView tv_my;
@@ -33,6 +35,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        StatusBarUtils.setWindowStatusBarColor(this, R.color.mobile_blue);
         checkAndSetNetwork();
     }
 
