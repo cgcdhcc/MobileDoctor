@@ -8,6 +8,7 @@ import com.imedical.mobiledoctor.entity.SeeDoctorRecord;
 public final class Const {
     public static final boolean AES_OR_NOT = true; //接口是否加密   测试医生账号信息：00327 00327
     public static final boolean ISTEST = true;//是否是测试
+
     public static String brand_name;//设备名称
     public static String brand_type;//设备类型
     public static String DeviceId;//设备号

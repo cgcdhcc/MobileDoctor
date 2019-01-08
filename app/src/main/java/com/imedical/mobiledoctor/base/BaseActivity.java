@@ -11,9 +11,12 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -150,6 +153,18 @@ public abstract class BaseActivity extends Activity {
 
     }
 
+    public void showCustom(String content) {
+        LayoutInflater inflater = this.getLayoutInflater();
+        View layout = inflater.inflate(R.layout.custom,(ViewGroup)this.findViewById(R.id.llToast));
+        TextView title = (TextView) layout.findViewById(R.id.tvTitleToast);
+        TextView text = (TextView) layout.findViewById(R.id.tvTextToast);
+        text.setText(content==null?"网络错误！":content);
+        Toast toast= new Toast(this.getApplicationContext());
+        toast.setGravity(Gravity.CENTER , 0, 0);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setView(layout);
+        toast.show();
+    }
     public void showProgress() {
         if ((progressDialog != null) && progressDialog.isShowing()) {
             return;

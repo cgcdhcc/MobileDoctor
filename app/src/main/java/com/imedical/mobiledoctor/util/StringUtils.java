@@ -41,7 +41,9 @@ public class StringUtils {
     public static final int STR_PAD_LEFT = 1;
     public static final int STR_PAD_RIGHT = 2;
     public static final int STR_PAD_BOTH = 3;
-
+    public static boolean isNullOrEmpty(String str) {
+        return null == str || "".equals(str);
+    }
     //email address pattern
     public static final String EMAIL_ADDRESS_PATTERN
             = "^(\\w+([-+.]\\w+)*@\\w+([-]\\w+)*.\\w+)$|^(\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+).\\w+$";

@@ -34,12 +34,6 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okio.BufferedSink;
 
-/**
- * 请求服务器工具类
- *
- * @author sszvip@qq.com
- * @since 2013-7-2
- */
 public class RequestUtil {
 
 
