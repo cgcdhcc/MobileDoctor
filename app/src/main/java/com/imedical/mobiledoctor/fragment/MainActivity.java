@@ -77,7 +77,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         ll_patient.setOnClickListener(this);
         ll_mine=this.findViewById(R.id.ll_mine);
         ll_mine.setOnClickListener(this);
-        mViewPager=this.findViewById(R.id.pager);
+        mViewPager=(ViewPager)this.findViewById(R.id.pager);
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
