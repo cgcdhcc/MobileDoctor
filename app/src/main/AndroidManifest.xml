@@ -19,7 +19,8 @@
         </intent-filter>
     </activity>
         <activity android:name="com.imedical.mobiledoctor.activity.WardRoundActivity" android:screenOrientation="portrait"/>
-        <activity android:name="com.imedical.mobiledoctor.fragment.MainActivity"     android:launchMode="singleTask" android:screenOrientation="portrait"/>
+        <activity android:name="com.imedical.mobiledoctor.activity.frg_1.CriticalValueActivity" android:screenOrientation="portrait"/>
+        <activity android:name="com.imedical.mobiledoctor.fragment.MainActivity" android:launchMode="singleTask" android:screenOrientation="portrait"/>
     </application>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />

@@ -411,6 +411,7 @@
     <color name="mobile_orange">#FF8C43</color>
     <color name="mobile_gray">#AABFE2</color>
     <color name="mobile_font_gray">#F3F3F3</color>
+    <color name="mobile_bg_gray">#F1F6FA</color>
 
     <color name="mobile_index_green">#2B85A3</color>
     <color name="mobile_blue">#5E9FFF</color>

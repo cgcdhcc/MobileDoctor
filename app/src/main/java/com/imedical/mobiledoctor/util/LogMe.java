@@ -4,6 +4,7 @@ import android.os.Environment;
 import android.util.Log;
 
 
+import com.imedical.mobiledoctor.AppConfig;
 import com.imedical.mobiledoctor.Const;
 
 import java.io.File;
@@ -14,15 +15,15 @@ public class LogMe {
 
     public static void d(Object msg) {
         if (msg == null) {
-            if (Const.isTestMode) {
+            if (AppConfig.isTestMode) {
                 Log.d("LogMe:", " >>>> msg is null !!!");
             }
             return;
         }
-        if (Const.isTestMode) {
+        if (AppConfig.isTestMode) {
             Log.d("LogMe:", msg.toString());
         }
-        if (Const.isTestMode) {
+        if (AppConfig.isTestMode) {
             Log.d("LogMe:", msg.toString());
         }
 
@@ -33,27 +34,27 @@ public class LogMe {
 
     public static void e(Object msg) {
         Log.e("LogMe:", msg + "");
-        if (Const.isWrittenToSD) {
-            writeFileToSD("--------》" + msg.toString());
-        }
+//        if (AppConfig.isWrittenToSD) {
+//            writeFileToSD("--------》" + msg.toString());
+//        }
     }
 
     public static void e(String tag, Object msg) {
         Log.e("LogMe:" + tag, msg + "");
-        if (Const.isWrittenToSD) {
-            writeFileToSD("--------》" + msg.toString());
-        }
+//        if (AppConfig.isWrittenToSD) {
+//            writeFileToSD("--------》" + msg.toString());
+//        }
     }
 
 
     public static void d(String tag, Object msg) {
 
-        if (Const.isTestMode) {
+        if (AppConfig.isTestMode) {
             Log.d("LogMe:" + tag, "" + msg);
         }
-        if (Const.isWrittenToSD) {
-            writeFileToSD(tag + "--------》" + msg);
-        }
+//        if (Const.isWrittenToSD) {
+//            writeFileToSD(tag + "--------》" + msg);
+//        }
     }
 
 
