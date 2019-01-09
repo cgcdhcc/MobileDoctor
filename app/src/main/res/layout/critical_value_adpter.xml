@@ -12,6 +12,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:text="患者姓名"
+        android:id="@+id/tv_patName"
         android:textColor="@color/black"
         android:textSize="@dimen/font_16dp"
         android:textStyle="bold"
@@ -19,6 +20,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:text="0102床"
+        android:id="@+id/tv_arcimDesc"
         android:layout_marginLeft="5dp"
         android:textColor="@color/gray"
         android:textSize="@dimen/font_16dp"
@@ -27,6 +29,8 @@
         android:layout_width="wrap_content"
         android:layout_weight="1"
         android:gravity="right"
+        android:id="@+id/tv_specName"
+
         android:text="标本：3633421"
         android:layout_marginLeft="5dp"
         android:textColor="@color/gray"
@@ -37,11 +41,13 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_marginTop="5dp"
+
         android:layout_height="wrap_content">
         <ImageView
-            android:layout_width="wrap_content"
-            android:src="@drawable/all_trg"
-            android:layout_height="wrap_content" />
+            android:layout_gravity="center_vertical"
+            android:layout_width="16dp"
+            android:src="@drawable/all_amazing"
+            android:layout_height="16dp" />
         <TextView
             android:layout_width="wrap_content"
             android:text="危机提示："
@@ -51,6 +57,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_weight="1"
+            android:id="@+id/tv_reportMemo"
+
             android:text="心率87，血压165/98...."
             android:layout_marginLeft="5dp"
             android:textSize="@dimen/font_16dp"
@@ -76,6 +84,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:text="2019-01-08 12:00"
+            android:id="@+id/tv_authDateTime"
+
             android:layout_marginLeft="5dp"
             android:textColor="@color/gray"
             android:textSize="@dimen/font_14dp"
@@ -92,6 +102,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:text="医生姓名"
+            android:id="@+id/tv_appDocName"
+
             android:layout_marginLeft="5dp"
             android:textColor="@color/gray"
             android:textSize="@dimen/font_14dp"

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MobileDoctor</string>
+    <string name="pull_to_refresh_tap_label">Tap to refresh...</string>
+
 </resources>

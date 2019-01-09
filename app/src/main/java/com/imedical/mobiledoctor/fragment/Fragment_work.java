@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Fragment_work extends Fragment implements View.OnClickListener {
-    private Activity ctx;
+    private MainActivity ctx;
     private String mInfo=null;
     private RecyclerView mRecyView_wait;
     private WorkAdapter mAdapter_wait;
@@ -62,7 +62,7 @@ public class Fragment_work extends Fragment implements View.OnClickListener {
             "手术申请"
     };
     public void onAttach(Activity activity) {
-        this.ctx = activity;
+        this.ctx = (MainActivity)activity;
         super.onAttach(activity);
     }
 
@@ -135,8 +135,12 @@ public class Fragment_work extends Fragment implements View.OnClickListener {
         int vid=v.getId();
         switch (vid){
             case R.id.ll_ward:
-                Intent it =new Intent(ctx,WardRoundActivity.class);
-                startActivity(it);
+                if(Const.curPat!=null){
+                    Intent it =new Intent(ctx,WardRoundActivity.class);
+                    startActivity(it);
+                }else {
+                        ctx.showNoPatDialog(ctx,null,null);
+                }
                 break;
         }
     }
@@ -170,7 +174,7 @@ public class Fragment_work extends Fragment implements View.OnClickListener {
                     tempList.add(new funcCode("10018"));//出诊信息
                     for (funcCode item:tempList){
                         //工作台 wait
-                        for(int i=1;i<code_wait.length;i++){
+                        for(int i=0;i<code_wait.length;i++){
                             if(code_wait[i].equals(item.functionCode)){
                                 Item itemtep=new Item(images_wait[i],names_wait[i],i);
                                 mList_wait.add(itemtep);

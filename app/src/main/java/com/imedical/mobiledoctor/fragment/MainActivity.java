@@ -4,8 +4,10 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -37,6 +39,7 @@ import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.base.MyApplication;
 import com.imedical.mobiledoctor.util.StatusBarUtils;
+import com.imedical.mobiledoctor.widget.CustomProgressDialog;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -55,23 +58,16 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     ImageView btn_work,btn_patient,btn_mine;
     TextView tv_work,tv_patient,tv_mine;
     View ll_work,ll_patient,ll_mine;
+    private CustomProgressDialog progressDialog = null;
     public static final String ARG_SECTION_NUMBER = "section_number";
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
         StatusBarUtils.setWindowStatusBarColor(this, R.color.mobile_blue);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
-//        MyApplication myapp = (MyApplication)getApplication();
         checkPermission();
         InitViews();
-//        if(PrefManager.isFirst_Main()){
-//            MainDlg md=new MainDlg(this);
-//            md.show();
-//            md.setCanceledOnTouchOutside(true);
-//            PrefManager.saveFirst_Main(false);
-//        }
 	}
 
 	private void InitViews(){
@@ -105,15 +101,15 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         btn_mine.setSelected(false);tv_mine.setTextColor(getResources().getColor(R.color.mobile_gray));
         switch (position){
             case 1:btn_work.setSelected(true);tv_work.setTextColor(getResources().getColor(R.color.mobile_blue));
-                StatusBarUtils.setWindowStatusBarColor(this, R.color.mobile_blue);
+//                StatusBarUtils.setWindowStatusBarColor(this, R.color.mobile_blue);
 
                 break;
             case 2:btn_patient.setSelected(true);tv_patient.setTextColor(getResources().getColor(R.color.mobile_blue));
-                StatusBarUtils.setWindowStatusBarColor(this, R.color.white);
+//                StatusBarUtils.setWindowStatusBarColor(this, R.color.white);
 
                 break;
             case 3:btn_mine.setSelected(true);tv_mine.setTextColor(getResources().getColor(R.color.mobile_blue));
-                StatusBarUtils.setWindowStatusBarColor(this, R.color.mobile_blue);
+//                StatusBarUtils.setWindowStatusBarColor(this, R.color.mobile_blue);
 
                 break;
 
@@ -138,7 +134,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 break;
         }
     }
-
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 		public SectionsPagerAdapter(FragmentManager fm) {
@@ -177,7 +172,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
 	}
 
-	
 	@Override
 	 public boolean onKeyDown(int keyCode, KeyEvent event) {
 			if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -195,7 +189,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 //        MobclickAgent.onPause(this);
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -203,9 +196,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     }
 
-
-
-    //////////////////////////////////    动态权限申请   ////////////////////////////////////////
     public final static int REQ_PERMISSION_CODE = 0x1000;
     private Context getContext(){
         return this;
@@ -265,5 +255,56 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         toast.setDuration(Toast.LENGTH_SHORT);
         toast.setView(layout);
         toast.show();
+    }
+    public void showProgress() {
+        if ((progressDialog != null) && progressDialog.isShowing()) {
+            return;
+        } else {
+            progressDialog = CustomProgressDialog.createDialog(this);
+            progressDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+                public boolean onKey(DialogInterface arg0, int arg1, KeyEvent arg2) {
+                    if (arg1 == KeyEvent.KEYCODE_BACK) {
+                        if ((progressDialog != null) && progressDialog.isShowing()) {
+                            progressDialog.cancel();
+                        }
+                    }
+                    return false;
+                }
+            });
+            progressDialog.show();
+        }
+    }
+
+    public void dismissProgress() {
+        if ((progressDialog != null) && progressDialog.isShowing()) {
+            progressDialog.cancel();
+        }
+    }
+
+    public void  showNoPatDialog(final Activity ctx, final Bundle bundle, final Class classTarget){
+        new AlertDialog.Builder(ctx)
+                .setTitle("提示信息")
+                .setMessage("请先选择病人")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+//                        Intent i =  new Intent(ctx,MyPatActivity.class);
+//                        String target= classTarget.getName();
+//                        i.putExtra("target",target);
+//                        if(bundle!=null) {
+//                            i.putExtras(bundle);
+//                        }
+//                        startActivity(i);
+                        dialog.dismiss();
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create()
+                .show();
     }
 }

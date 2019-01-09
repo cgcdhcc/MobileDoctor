@@ -27,18 +27,19 @@
                 android:gravity="center"
                 android:layout_height="match_parent">
                 <TextView
-                    android:id="@+id/tv_centerTitle"
+                    android:id="@+id/tv_mydep"
                     android:textSize="18dp"
                     android:text="住院患者"
+                    android:textColor="@color/gray"
                     android:gravity="center"
                     android:textStyle="bold"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:singleLine="true" />
                 <TextView
+                    android:id="@+id/tv_mydep_line"
                     android:layout_marginTop="2dp"
                     android:layout_width="100dp"
-                    android:background="@color/mobile_blue"
                     android:layout_height="2dp" />
             </LinearLayout>
             <LinearLayout
@@ -50,15 +51,20 @@
                 <TextView
                     android:textSize="18dp"
                     android:text="门诊患者"
+                    android:id="@+id/tv_my"
                     android:gravity="center"
                     android:textStyle="bold"
+                    android:textColor="@color/mobile_blue"
+
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:singleLine="true" />
                 <TextView
+                    android:id="@+id/tv_my_line"
                     android:layout_marginTop="2dp"
                     android:layout_width="100dp"
                     android:background="@color/mobile_blue"
+
                     android:layout_height="2dp" />
             </LinearLayout>
             <ImageView
@@ -116,5 +122,26 @@
                 android:gravity="center_vertical"
                 android:layout_height="match_parent" />
         </LinearLayout>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_nodata"
+        android:visibility="gone"
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
+        android:text="没有找到相关病人的信息！"
+        android:textSize="18sp"
+        android:gravity="center"/>
+    <LinearLayout
+        android:id="@+id/ll_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+        <com.imedical.mobiledoctor.widget.ListViewPull
+            android:id="@+id/lv_pat"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="1dp"
+            android:layout_weight="1"
+            android:drawSelectorOnTop="false"
+            android:groupIndicator="@null" />
     </LinearLayout>
 </LinearLayout>

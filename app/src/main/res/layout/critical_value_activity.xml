@@ -96,7 +96,8 @@
             android:layout_height="match_parent">
             <TextView
                 android:textSize="18dp"
-                android:text="未处理"
+                android:text="需处理"
+                android:id="@+id/radio_V"
                 android:gravity="center"
                 android:textStyle="bold"
                 android:textColor="@color/mobile_blue"
@@ -104,6 +105,7 @@
                 android:layout_height="38dp"
                 android:singleLine="true" />
             <TextView
+                android:id="@+id/radio_V_line"
                 android:layout_marginTop="2dp"
                 android:layout_width="fill_parent"
                 android:background="@color/mobile_blue"
@@ -119,15 +121,26 @@
                 android:textSize="18dp"
                 android:text="已处理"
                 android:gravity="center"
+                android:textColor="@color/gray"
+                android:id="@+id/radio_D"
                 android:textStyle="bold"
                 android:layout_width="fill_parent"
                 android:layout_height="38dp"
                 android:singleLine="true" />
             <TextView
                 android:layout_marginTop="2dp"
+                android:id="@+id/radio_D_line"
                 android:layout_width="fill_parent"
                 android:layout_height="2dp" />
         </LinearLayout>
-
     </LinearLayout>
+    <include layout="@layout/inner_no_data" />
+    <com.imedical.mobiledoctor.widget.ListViewPull
+        android:id="@+id/lv_data"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:cacheColorHint="#00000000"
+        android:drawSelectorOnTop="false"
+        android:groupIndicator="@null" />
 </LinearLayout>
