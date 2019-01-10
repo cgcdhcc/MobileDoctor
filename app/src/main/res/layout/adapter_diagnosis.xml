@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--  -->
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_row"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:gravity="center_vertical" >
+
+    <TableRow
+     
+        android:paddingLeft="10dp"
+        android:layout_height="40dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:gravity="center"
+        >
+
+        <TextView
+            android:id="@+id/tv_diaDesc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="诊断名称"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp_content" 
+            >
+        </TextView>
+
+        <TextView
+            android:id="@+id/tv_diaType"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:singleLine="false"
+            android:text="类型"
+             android:textColor="@color/orange"
+            android:textSize="@dimen/sp_content" 
+             >
+        </TextView>
+        
+        <TextView
+            android:id="@+id/tv_diaDoc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:singleLine="false"
+            android:text="医生姓名"
+             android:textColor="@color/gray"
+            android:textSize="@dimen/sp_content"  >
+        </TextView>
+
+        <TextView
+            android:id="@+id/tv_diaDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:singleLine="false"
+            android:text="2015-11-01"
+             android:textColor="@color/gray"
+            android:textSize="@dimen/sp_content" >
+        </TextView>
+          <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textIsSelectable="false" />
+    </TableRow>
+
+    <TableRow 
+        android:visibility="gone"
+        >
+
+        <TextView
+            android:id="@+id/tv_diaStat"
+            android:paddingLeft="16dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:singleLine="false"
+            android:text="diaType"
+            android:textColor="#666666"
+            android:textSize="20sp"
+            android:textStyle="normal" >
+        </TextView>
+
+     
+
+        <TextView
+            android:id="@+id/tv_diaTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:singleLine="false"
+            android:text="diaTime"
+            android:textColor="#666666"
+            android:textSize="20sp"
+            android:textStyle="normal" >
+        </TextView>
+    </TableRow>
+
+</TableLayout>
