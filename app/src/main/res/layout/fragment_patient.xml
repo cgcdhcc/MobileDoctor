@@ -30,7 +30,7 @@
                     android:id="@+id/tv_mydep"
                     android:textSize="18dp"
                     android:text="住院患者"
-                    android:textColor="@color/gray"
+                    android:textColor="@color/mobile_blue"
                     android:gravity="center"
                     android:textStyle="bold"
                     android:layout_width="fill_parent"
@@ -39,6 +39,7 @@
                 <TextView
                     android:id="@+id/tv_mydep_line"
                     android:layout_marginTop="2dp"
+                    android:background="@color/mobile_blue"
                     android:layout_width="100dp"
                     android:layout_height="2dp" />
             </LinearLayout>
@@ -54,8 +55,6 @@
                     android:id="@+id/tv_my"
                     android:gravity="center"
                     android:textStyle="bold"
-                    android:textColor="@color/mobile_blue"
-
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:singleLine="true" />
@@ -63,8 +62,7 @@
                     android:id="@+id/tv_my_line"
                     android:layout_marginTop="2dp"
                     android:layout_width="100dp"
-                    android:background="@color/mobile_blue"
-
+                    android:background="@color/white"
                     android:layout_height="2dp" />
             </LinearLayout>
             <ImageView

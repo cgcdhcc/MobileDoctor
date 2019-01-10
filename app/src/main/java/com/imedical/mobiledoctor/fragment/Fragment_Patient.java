@@ -43,8 +43,7 @@ public class Fragment_Patient extends Fragment implements View.OnClickListener {
     private Intent intent;
     private DepartmentInfo info;
     private TextView tv_mydep,tv_my,tv_my_line,tv_mydep_line,tv_hos;
-    private String homePageName;
-    private boolean flag =false;
+    private boolean flag =true;
     private TextView tv_nodata;
     private ImageView iv_zxing;
     public void onAttach(Activity activity) {

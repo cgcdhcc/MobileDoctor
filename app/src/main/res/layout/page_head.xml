@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:orientation="vertical"
+    android:layout_height="wrap_content"
+     >
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/headLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="48dp"
+            >
+            <ImageView
+                android:id="@+id/iv_left"
+                android:layout_marginLeft="15dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/all_left_arrow"
+                android:layout_gravity="center"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/tv_recordList"
+                    android:textSize="18dp"
+                    android:text="就诊记录"
+                    android:textColor="@color/black"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true" />
+                <ImageView
+                    android:layout_width="15dp"
+                    android:src="@drawable/all_trg"
+                    android:layout_height="15dp" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_alignParentRight="true"
+                android:id="@+id/iv_right"
+                android:visibility="invisible"
+                android:layout_marginRight="15dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/frg_word"
+                android:layout_gravity="center"
+                />
+
+        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="切换患者"
+            android:layout_gravity="right"
+            android:gravity="center_vertical"
+            android:paddingRight="15dp"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:id="@+id/tv_patSwitch"
+            android:textColor="@color/mobile_blue"
+            android:layout_height="match_parent" />
+    </FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="@color/mobile_bg_gray"
+        android:orientation="horizontal"
+        android:layout_height="40dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="XXX"
+            android:id="@+id/tv_title"
+
+            android:textSize="@dimen/font_14dp"
+            android:layout_marginLeft="15dp"
+            android:gravity="center"
+            android:layout_height="match_parent" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:text="02床"
+            android:id="@+id/tv_bedNo"
+
+            android:textSize="@dimen/font_14dp"
+            android:layout_marginLeft="15dp"
+            android:gravity="center|right"
+            android:layout_height="match_parent" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="姓名(7775538)"
+            android:id="@+id/tv_infos"
+
+            android:textSize="@dimen/font_14dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:gravity="center"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+</LinearLayout>

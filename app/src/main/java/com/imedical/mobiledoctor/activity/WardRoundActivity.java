@@ -1,6 +1,7 @@
 package com.imedical.mobiledoctor.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +20,7 @@ import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.XMLservice.BusyManager;
 import com.imedical.mobiledoctor.XMLservice.SysManager;
+import com.imedical.mobiledoctor.activity.round.PatientInfoActivity;
 import com.imedical.mobiledoctor.adapter.HisRecordsAdapter;
 import com.imedical.mobiledoctor.base.BaseActivity;
 import com.imedical.mobiledoctor.entity.PatientInfo;
@@ -28,7 +30,7 @@ import com.imedical.mobiledoctor.widget.CircleImageView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WardRoundActivity extends BaseActivity {
+public class WardRoundActivity extends BaseActivity implements View.OnClickListener {
     private TextView   tv_name,tv_department,tv_title,tv_hisdept,tv_hisrcd;
     public int selectPos = 0;
     private HisRecordsAdapter mHisRecordsAdapter;
@@ -39,7 +41,7 @@ public class WardRoundActivity extends BaseActivity {
     private ListView mListViewRecord;
     private PopupWindow hisRecordPopWin;
     private SeeDoctorRecord mCurrectRecord = new SeeDoctorRecord();
-    private  View ll_switch;
+    private  View ll_switch,ll_1;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +64,7 @@ public class WardRoundActivity extends BaseActivity {
         tv_name=(TextView) findViewById(R.id.tv_name);
         tv_hisrcd=(TextView) findViewById(R.id.tv_hisrcd);
         tv_hisdept=(TextView) findViewById(R.id.tv_hisdept);
+        ll_1=findViewById(R.id.ll_1);
         ll_switch=findViewById(R.id.ll_switch);
         ll_switch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +72,7 @@ public class WardRoundActivity extends BaseActivity {
                 showWindow(v);
             }
         });
+        ll_1.setOnClickListener(this);
         tv_department=(TextView) findViewById(R.id.tv_department);
         tv_title=(TextView) findViewById(R.id.tv_title);
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -156,8 +160,19 @@ public class WardRoundActivity extends BaseActivity {
 
                     });
                 }
-
             }
         }.start();
+    }
+
+    @Override
+    public void onClick(View view) {
+        int vid=view.getId();
+        switch (vid){
+            case R.id.ll_1:
+                Intent it =new Intent(WardRoundActivity.this,PatientInfoActivity.class);
+                this.startActivity(it);
+                break;
+            default:break;
+        }
     }
 }

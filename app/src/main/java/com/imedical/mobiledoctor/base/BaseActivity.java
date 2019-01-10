@@ -33,7 +33,7 @@ public abstract class BaseActivity extends Activity {
     protected Button btn_right;
     private CustomProgressDialog progressDialog = null;
     private TextView tv_my;
-    private ImageView iv_back;
+    private ImageView iv_left;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,26 +54,26 @@ public abstract class BaseActivity extends Activity {
         }
     }
 
-//    //设置标题
-//    public void setTitle(CharSequence title) {
-//        iv_back = (ImageView) findViewById(R.id.iv_back);
-//        tv_my = (TextView) findViewById(R.id.tv_my);
-//        if (tv_my != null) {
-//            tv_my.setText(title);
-//        }
-//        if (iv_back != null) {
-//            iv_back.setOnClickListener(new OnClickListener() {
-//
-//                @Override
-//                public void onClick(View arg0) {
-//                    // TODO Auto-generated method stub
-//                    finish();
-//                }
-//
-//            });
-//        }
-//
-//    }
+    //设置标题
+    public void setTitle(CharSequence title) {
+        iv_left = (ImageView) findViewById(R.id.iv_left);
+        tv_my = (TextView) findViewById(R.id.tv_title);
+        if (tv_my != null) {
+            tv_my.setText(title);
+        }
+        if (iv_left != null) {
+            iv_left.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View arg0) {
+                    // TODO Auto-generated method stub
+                    finish();
+                }
+
+            });
+        }
+
+    }
 
 
 //    public void toLoginActivity() {

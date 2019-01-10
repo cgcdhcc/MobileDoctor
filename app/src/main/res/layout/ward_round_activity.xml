@@ -147,6 +147,7 @@
         android:orientation="horizontal"
         android:layout_height="wrap_content">
         <LinearLayout
+            android:id="@+id/ll_1"
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_weight="1"
@@ -165,6 +166,8 @@
             android:layout_height="wrap_content" />
     </LinearLayout>
         <LinearLayout
+            android:id="@+id/ll_2"
+
             android:layout_width="match_parent"
             android:orientation="vertical"
             android:layout_weight="1"
@@ -187,6 +190,8 @@
             android:orientation="vertical"
             android:layout_weight="1"
             android:gravity="center"
+            android:id="@+id/ll_3"
+
             android:layout_height="wrap_content">
             <ImageView
                 android:layout_width="36dp"
@@ -205,6 +210,8 @@
             android:orientation="vertical"
             android:layout_weight="1"
             android:gravity="center"
+            android:id="@+id/ll_4"
+
             android:layout_height="wrap_content">
             <ImageView
                 android:layout_width="36dp"
@@ -230,6 +237,8 @@
             android:orientation="vertical"
             android:layout_weight="1"
             android:gravity="center"
+            android:id="@+id/ll_5"
+
             android:layout_height="wrap_content">
             <ImageView
                 android:layout_width="36dp"
@@ -248,6 +257,7 @@
             android:orientation="vertical"
             android:layout_weight="1"
             android:gravity="center"
+            android:id="@+id/ll_6"
             android:layout_height="wrap_content">
             <ImageView
                 android:layout_width="36dp"
@@ -266,6 +276,7 @@
             android:orientation="vertical"
             android:layout_weight="1"
             android:gravity="center"
+            android:id="@+id/ll_7"
             android:layout_height="wrap_content">
             <ImageView
                 android:layout_width="36dp"
@@ -284,6 +295,7 @@
             android:orientation="vertical"
             android:layout_weight="1"
             android:gravity="center"
+            android:id="@+id/ll_8"
             android:layout_height="wrap_content">
             <ImageView
                 android:layout_width="36dp"
