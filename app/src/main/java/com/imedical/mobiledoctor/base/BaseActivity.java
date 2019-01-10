@@ -42,6 +42,16 @@ public abstract class BaseActivity extends Activity {
         checkAndSetNetwork();
     }
 
+    protected void showNodata(boolean isNodata,View mView) {
+        View v = mView.findViewById(R.id.ll_nodata);
+        if (isNodata) {
+            mView.findViewById(R.id.ll_content_area).setVisibility(View.GONE);
+            v.setVisibility(View.VISIBLE);
+        } else {
+            mView.findViewById(R.id.ll_content_area).setVisibility(View.VISIBLE);
+            v.setVisibility(View.GONE);
+        }
+    }
     protected void checkAndSetNetwork() {
         try {
             ConnectivityManager manager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);

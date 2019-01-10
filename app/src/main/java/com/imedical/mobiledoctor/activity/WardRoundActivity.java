@@ -20,6 +20,7 @@ import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.XMLservice.BusyManager;
 import com.imedical.mobiledoctor.XMLservice.SysManager;
+import com.imedical.mobiledoctor.activity.round.DiagnosisActivity;
 import com.imedical.mobiledoctor.activity.round.PatientInfoActivity;
 import com.imedical.mobiledoctor.adapter.HisRecordsAdapter;
 import com.imedical.mobiledoctor.base.BaseActivity;
@@ -41,7 +42,7 @@ public class WardRoundActivity extends BaseActivity implements View.OnClickListe
     private ListView mListViewRecord;
     private PopupWindow hisRecordPopWin;
     private SeeDoctorRecord mCurrectRecord = new SeeDoctorRecord();
-    private  View ll_switch,ll_1;
+    private  View ll_switch,ll_1,ll_2,ll_3,ll_4,ll_5,ll_6,ll_7,ll_8;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +66,22 @@ public class WardRoundActivity extends BaseActivity implements View.OnClickListe
         tv_hisrcd=(TextView) findViewById(R.id.tv_hisrcd);
         tv_hisdept=(TextView) findViewById(R.id.tv_hisdept);
         ll_1=findViewById(R.id.ll_1);
+        ll_1.setOnClickListener(this);
+        ll_2=findViewById(R.id.ll_2);
+        ll_2.setOnClickListener(this);
+        ll_3=findViewById(R.id.ll_3);
+        ll_3.setOnClickListener(this);
+        ll_4=findViewById(R.id.ll_4);
+        ll_4.setOnClickListener(this);
+        ll_5=findViewById(R.id.ll_5);
+        ll_5.setOnClickListener(this);
+        ll_6=findViewById(R.id.ll_6);
+        ll_6.setOnClickListener(this);
+        ll_7=findViewById(R.id.ll_7);
+        ll_7.setOnClickListener(this);
+        ll_8=findViewById(R.id.ll_8);
+        ll_8.setOnClickListener(this);
+
         ll_switch=findViewById(R.id.ll_switch);
         ll_switch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,7 +89,7 @@ public class WardRoundActivity extends BaseActivity implements View.OnClickListe
                 showWindow(v);
             }
         });
-        ll_1.setOnClickListener(this);
+
         tv_department=(TextView) findViewById(R.id.tv_department);
         tv_title=(TextView) findViewById(R.id.tv_title);
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -171,6 +188,10 @@ public class WardRoundActivity extends BaseActivity implements View.OnClickListe
             case R.id.ll_1:
                 Intent it =new Intent(WardRoundActivity.this,PatientInfoActivity.class);
                 this.startActivity(it);
+                break;
+            case R.id.ll_2:
+                Intent it2 =new Intent(WardRoundActivity.this,DiagnosisActivity.class);
+                this.startActivity(it2);
                 break;
             default:break;
         }

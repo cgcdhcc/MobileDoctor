@@ -19,6 +19,7 @@
         </intent-filter>
     </activity>
         <activity android:name="com.imedical.mobiledoctor.activity.round.PatientInfoActivity" android:screenOrientation="portrait"/>
+        <activity android:name="com.imedical.mobiledoctor.activity.round.DiagnosisActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.mobiledoctor.activity.WardRoundActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.mobiledoctor.activity.frg_1.CriticalValueActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.mobiledoctor.fragment.MainActivity" android:launchMode="singleTask" android:screenOrientation="portrait"/>

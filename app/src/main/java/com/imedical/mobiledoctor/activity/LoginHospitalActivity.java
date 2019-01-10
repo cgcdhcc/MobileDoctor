@@ -188,7 +188,7 @@ public class LoginHospitalActivity extends BaseActivity implements
 
 
     private void login(final String phoneNo, final String password, final String terminalId, final String hospitalId) {
-        showProgress();
+//        showProgress();
         try {
             new Thread() {
                 public void run() {
