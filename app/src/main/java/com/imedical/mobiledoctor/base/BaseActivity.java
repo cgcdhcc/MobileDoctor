@@ -32,7 +32,7 @@ import com.imedical.mobiledoctor.widget.CustomProgressDialog;
 public abstract class BaseActivity extends Activity {
     protected Button btn_right;
     private CustomProgressDialog progressDialog = null;
-    private TextView tv_my;
+    private TextView tv_my,tv_bedNo,tv_infos;
     private ImageView iv_left;
 
     public void onCreate(Bundle savedInstanceState) {
@@ -82,9 +82,18 @@ public abstract class BaseActivity extends Activity {
 
             });
         }
-
     }
 
+    public void setInfos(CharSequence name,CharSequence infos) {
+        tv_bedNo = (TextView) findViewById(R.id.tv_bedNo);
+        tv_infos= (TextView) findViewById(R.id.tv_infos);
+        if (tv_bedNo != null) {
+            tv_bedNo.setText(name);
+        }
+        if (tv_infos != null) {
+            tv_infos.setText(infos);
+        }
+    }
 
 //    public void toLoginActivity() {
 //        Intent i = new Intent(this, LoginHospitalActivity.class);

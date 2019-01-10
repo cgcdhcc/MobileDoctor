@@ -46,11 +46,13 @@ public class DiagnosisActivity extends BaseActivity {
     }
 
     private void InitViews() {
-        setTitle("诊断记录");
+
         tv_hisline=(TextView) findViewById(R.id.tv_hisline);
         RootView=this.findViewById(R.id.rootView);
         mLogin = Const.loginInfo;
         mPatientCurrSelected=Const.curPat;
+        setTitle("诊断记录");
+        setInfos(mPatientCurrSelected.patName,mPatientCurrSelected.bedCode+"床("+mPatientCurrSelected.patRegNo+")");
         mListView_now = (ListView) findViewById(R.id.lv_data_now);
         mAdapter_now = new DiagnosisAdapter(DiagnosisActivity.this, mListData_now);
         mListView_now.setAdapter(mAdapter_now);
