@@ -18,6 +18,31 @@ public class DateUtil {
         Calendar cal1 = Calendar.getInstance();
         return cal1.getTimeInMillis() / 1000;
     }
+    public static boolean isMax(String startDate, String endDate) {
+        String dateStr1 = startDate;
+        String dateStr2 = endDate;
+        Calendar time1 = DateTimePickDialogUtil.getCalendarByInintData(dateStr1, "yyyy-MM-dd");
+        Calendar time2 = DateTimePickDialogUtil.getCalendarByInintData(dateStr2, "yyyy-MM-dd");
+        if (time2.compareTo(time1) < 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public static int getDatediff(String dateStr1,String dateStr2) {
+//        String dateStr1 = tv_startDate.getText().toString();
+//        String dateStr2 = tv_endDate.getText().toString();
+        long time1 = DateTimePickDialogUtil.getCalendarByInintData(dateStr1, "yyyy-MM-dd").getTimeInMillis();
+        long time2 = DateTimePickDialogUtil.getCalendarByInintData(dateStr2, "yyyy-MM-dd").getTimeInMillis();
+        long between_days = (time2 - time1) / (1000 * 3600 * 24);
+        int diff = 0;
+        if (between_days >= 0 && between_days <= 7) {
+            diff = (int) between_days;
+        } else {
+            diff = 7;
+        }
+        return diff;
+    }
 
     public static String getWeek(String strCurrDate) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

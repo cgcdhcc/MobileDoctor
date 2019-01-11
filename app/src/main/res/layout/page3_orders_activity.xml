@@ -15,20 +15,24 @@
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
+            android:id="@+id/ll_isDoc"
             android:layout_height="56dp">
             <TextView
                 android:layout_width="match_parent"
                 android:gravity="center"
                 android:text="医嘱"
+                android:id="@+id/tv_isDoc"
                 android:textSize="@dimen/font_16dp"
                 android:textColor="@color/mobile_blue"
                 android:layout_height="54dp" />
             <TextView
+                android:id="@+id/tv_isDoc_line"
                 android:layout_width="match_parent"
                 android:background="@color/mobile_blue"
                 android:layout_height="2dp" />
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/ll_noDoc"
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
@@ -36,11 +40,13 @@
             <TextView
                 android:layout_width="match_parent"
                 android:gravity="center"
+                android:id="@+id/tv_noDoc"
                 android:text="护嘱"
                 android:textSize="@dimen/font_16dp"
                 android:textColor="@color/gray"
                 android:layout_height="54dp" />
             <TextView
+                android:id="@+id/tv_noDoc_line"
                 android:layout_width="match_parent"
                 android:background="@color/white"
                 android:layout_height="2dp" />
@@ -67,6 +73,7 @@
                 android:layout_height="match_parent"
                 android:paddingLeft="20dp"
                 android:gravity="center"
+                android:id="@+id/tv_time"
                 android:paddingRight="10dp"
                 android:text="长期"
                 android:textSize="@dimen/font_16dp"
@@ -109,7 +116,7 @@
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:text="已停"
-                    android:textColor="@color/new_font_blue"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/font_16dp" />
             </RadioGroup>
 
@@ -117,13 +124,13 @@
 
         <LinearLayout
             android:id="@+id/ll_tempview"
-            android:visibility="gone"
             android:layout_width="fill_parent"
+            android:visibility="gone"
             android:layout_height="40dp"
             android:gravity="center"
             android:orientation="horizontal">
             <TextView
-                android:id="@+id/btn_startDate"
+                android:id="@+id/tv_startDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="left"
@@ -141,7 +148,7 @@
                 />
 
             <TextView
-                android:id="@+id/btn_endDate"
+                android:id="@+id/tv_endDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="left"

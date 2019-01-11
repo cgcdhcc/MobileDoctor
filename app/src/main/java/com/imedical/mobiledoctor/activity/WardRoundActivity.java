@@ -34,7 +34,6 @@ import java.util.List;
 
 public class WardRoundActivity extends BaseActivity implements View.OnClickListener {
     private TextView   tv_name,tv_department,tv_title,tv_hisdept,tv_hisrcd;
-    public int selectPos = 0;
     private HisRecordsAdapter mHisRecordsAdapter;
     private CircleImageView re_civ_photo;
     private List<SeeDoctorRecord> list = new ArrayList<SeeDoctorRecord>();
@@ -54,9 +53,6 @@ public class WardRoundActivity extends BaseActivity implements View.OnClickListe
     private void showWindow(View parent) {
         if (hisRecordPopWin != null) {
             WindowManager windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-//            int xPos = windowManager.getDefaultDisplay().getWidth() / 2 - hisRecordPopWin.getWidth() / 2;
-            int xPos = windowManager.getDefaultDisplay().getWidth()/2 - ll_switch.getWidth() / 2;
-
             hisRecordPopWin.showAsDropDown(parent, 0, 0);
         }
     }
@@ -109,13 +105,12 @@ public class WardRoundActivity extends BaseActivity implements View.OnClickListe
                 mPatientInfo.admId = sr.admId;
                 mPatientInfo.admType= sr.admType;
                 Const.curSRecorder=sr;
-//               showProgress();
                 if (position == 0) {
-                    tv_hisrcd.setText("切换就诊记录" );
-                    tv_hisdept.setText("更多");
+                    tv_hisdept.setText("[默认]"+SysManager.getAdmTypeDesc(sr.admType) );
+                    tv_hisrcd.setText(sr.admDate);
                 } else {
-                    tv_hisrcd.setText(SysManager.getAdmTypeDesc(sr.admType) );
-                    tv_hisdept.setText(sr.admDate);
+                    tv_hisdept.setText(sr.admDept);
+                    tv_hisrcd.setText(sr.admDate);
                 }
                 selectPos = position;
                 mHisRecordsAdapter.notifyDataSetChanged();

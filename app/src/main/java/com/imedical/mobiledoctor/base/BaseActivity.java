@@ -3,8 +3,10 @@ package com.imedical.mobiledoctor.base;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -17,29 +19,136 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
+import com.imedical.mobiledoctor.XMLservice.BusyManager;
+import com.imedical.mobiledoctor.XMLservice.SysManager;
+import com.imedical.mobiledoctor.activity.WardRoundActivity;
+import com.imedical.mobiledoctor.adapter.HisRecordsAdapter;
+import com.imedical.mobiledoctor.entity.SeeDoctorRecord;
 import com.imedical.mobiledoctor.util.StatusBarUtils;
 import com.imedical.mobiledoctor.widget.CustomProgressDialog;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public abstract class BaseActivity extends Activity {
-    protected Button btn_right;
+    private SeeDoctorRecord mCurrectRecord = new SeeDoctorRecord();
     private CustomProgressDialog progressDialog = null;
-    private TextView tv_my,tv_bedNo,tv_infos;
+    private TextView tv_my,tv_bedNo,tv_infos,tv_record;
     private ImageView iv_left;
+    private ListView mListViewRecord;
+    private HisRecordsAdapter mHisRecordsAdapter;
+    private PopupWindow hisRecordPopWin;
+    private List<SeeDoctorRecord> list = new ArrayList<SeeDoctorRecord>();
+    private List<SeeDoctorRecord> listtemp = null;
+    public int selectPos = 0;//WardRoundActivity和基类专用
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         StatusBarUtils.setWindowStatusBarColor(this, R.color.mobile_blue);
         checkAndSetNetwork();
+    }
+    private void showWindow(View parent) {
+        if (hisRecordPopWin != null) {
+            WindowManager windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+            hisRecordPopWin.showAsDropDown(parent, 0, 0);
+        }
+    }
+    protected void InitRecordList(){
+        tv_record=(TextView) findViewById(R.id.tv_record);
+        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View view = layoutInflater.inflate(R.layout.his_record_list, null);
+        mListViewRecord = (ListView) view.findViewById(R.id.lv_data_list);
+        mHisRecordsAdapter = new HisRecordsAdapter(BaseActivity.this, list);
+        mListViewRecord.setAdapter(mHisRecordsAdapter);
+        mListViewRecord.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+                SeeDoctorRecord sr = list.get(position);
+                if (hisRecordPopWin != null) {
+                    hisRecordPopWin.dismiss();
+                }
+                Const.curPat.inDate=sr.admDate;
+                Const.curPat.admId = sr.admId;
+                Const.curPat.admType= sr.admType;
+                Const.curSRecorder=sr;
+                tv_record.setText(SysManager.getAdmTypeDesc(sr.admType) +sr.admDate);
+                selectPos = position;
+                mHisRecordsAdapter.notifyDataSetChanged();
+            }
+
+        });
+        mCurrectRecord.admDate =  Const.curPat.inDate;
+        mCurrectRecord.admDept =  Const.curPat.departmentName;
+        mCurrectRecord.admId =  Const.curPat.admId;
+        mCurrectRecord.admType =  Const.curPat.admType;
+        Const.curSRecorder=new SeeDoctorRecord();
+        Const.curSRecorder.admId=  Const.curPat.admId;
+        list.add(mCurrectRecord);
+        tv_record.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showWindow(v);
+            }
+        });
+        LoadHisRecord();
+        tv_record.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                // TODO Auto-generated method stub
+                tv_record.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                int width=tv_record.getWidth();
+                hisRecordPopWin = new PopupWindow(view, width, LinearLayout.LayoutParams.WRAP_CONTENT);
+                hisRecordPopWin.setFocusable(true);
+                hisRecordPopWin.setOutsideTouchable(true);
+                hisRecordPopWin.setBackgroundDrawable(new BitmapDrawable());
+            }
+        });
+    }
+    private void LoadHisRecord() {
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    listtemp = BusyManager.listSeeDoctorRecord(Const.curPat.admId);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    if (listtemp == null) {
+                        listtemp = new ArrayList<SeeDoctorRecord>();
+                    } else {
+                        list.addAll(listtemp);
+                    }
+                    runOnUiThread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            //		mListData.clear();
+                            mHisRecordsAdapter = new HisRecordsAdapter(BaseActivity.this, list);
+                            mListViewRecord.setAdapter(mHisRecordsAdapter);
+                            mHisRecordsAdapter.notifyDataSetChanged();
+                        }
+
+                    });
+                }
+            }
+        }.start();
     }
 
     protected void showNodata(boolean isNodata,View mView) {

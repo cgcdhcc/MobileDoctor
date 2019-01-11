@@ -22,9 +22,16 @@ import com.imedical.mobiledoctor.base.BaseActivity;
 import com.imedical.mobiledoctor.entity.LabelValue;
 import com.imedical.mobiledoctor.entity.OrderItem;
 import com.imedical.mobiledoctor.entity.PatientInfo;
+import com.imedical.mobiledoctor.util.DateTimePickDialogUtil;
 import com.imedical.mobiledoctor.util.DateUtil;
 import com.imedical.mobiledoctor.util.LogMe;
+import com.imedical.mobiledoctor.util.MyCallback;
+import com.imedical.mobiledoctor.util.ScreenUtils;
+import com.imedical.mobiledoctor.widget.Dic;
+import com.imedical.mobiledoctor.widget.DropDownMenu;
 import com.imedical.mobiledoctor.widget.ListViewPullExp;
+import com.imedical.mobiledoctor.widget.Madapter;
+import com.imedical.mobiledoctor.widget.SearchAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,18 +49,14 @@ public class OrdersActivity extends BaseActivity implements
     public static boolean isLongItem = true;
     private boolean isDocItem = true;
     private String mGroupId = "";
-
+    private SearchAdapter StatusAdapter=null;
     private ListViewPullExp mListView = null;
-    private TextView tv_startDate, tv_endDate;
+    private TextView tv_time,tv_startDate, tv_endDate,tv_isDoc,tv_noDoc,tv_isDoc_line,tv_noDoc_line;
     private RadioGroup rg_state;
-    private RadioGroup radio_orderType;
-    private RadioGroup radio_isDoc;
-    private RadioButton radio_D, radio_V, radio_long, radio_temp, radio_isDoc_Y, radio_isDoc_N;
-    private ImageButton btn_previous;
-    private ImageButton btn_next;
-    private View rootView;
+    private RadioButton radio_D, radio_V;
+    private View rootView,ll_time,listItem,listView,ll_longview,ll_tempview,ll_isDoc,ll_noDoc;
     private String mLastYear = "";
-    private View view_tab,view_add;
+    private DropDownMenu dropDownMenu;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +66,53 @@ public class OrdersActivity extends BaseActivity implements
     }
 
     private void InitViews() {
+        tv_isDoc=(TextView) findViewById(R.id.tv_isDoc);
+        tv_noDoc=(TextView) findViewById(R.id.tv_noDoc);
+        tv_isDoc_line=(TextView) findViewById(R.id.tv_isDoc_line);
+        tv_noDoc_line=(TextView) findViewById(R.id.tv_noDoc_line);
+        tv_time=(TextView) findViewById(R.id.tv_time);
+        ll_noDoc=this.findViewById(R.id.ll_noDoc);
+        ll_isDoc=this.findViewById(R.id.ll_isDoc);
+        ll_noDoc.setOnClickListener(this);
+        ll_isDoc.setOnClickListener(this);
+        ll_longview=this.findViewById(R.id.ll_longview);
+        ll_tempview=this.findViewById(R.id.ll_tempview);
+        ll_time=this.findViewById(R.id.ll_time);
+        ll_time.setOnClickListener(this);
+        listItem = getLayoutInflater().inflate(R.layout.item_listview, null, false);
+        listView = getLayoutInflater().inflate(R.layout.pup_selectlist, null, false);
+        dropDownMenu = DropDownMenu.getInstance(this, new DropDownMenu.OnListCkickListence() {
+            @Override
+            public void search(String code, String type) {
+                // 类型：长期、临时
+                if(code.equals("001")){
+                    isLongItem = true;
+                    ll_tempview.setVisibility(View.GONE);
+                    ll_longview.setVisibility(View.VISIBLE);
+               }else{
+                    isLongItem=false;
+                    ll_tempview.setVisibility(View.VISIBLE);
+                    ll_longview.setVisibility(View.GONE);
+               }
+                doQuery();
+            }
+
+            @Override
+            public void changeSelectPanel(Madapter madapter, View view) {
+
+            }
+
+        });
+        dropDownMenu.setIndexColor(R.color.mobile_gray);
+        dropDownMenu.setShowShadow(true);
+        dropDownMenu.setShowName("name");
+        dropDownMenu.setSelectName("code");
+        StatusAdapter = new SearchAdapter(this);  //真实项目里，适配器初始化一定要写在这儿 不然如果new出来的设配器里面没有值，会报空指针
+        List<Dic> sexResult = new ArrayList<>();
+        sexResult.add(new Dic("001","长期"));
+        sexResult.add(new Dic("002","临时"));
+        StatusAdapter.setItems(sexResult);
+
         rootView=this.findViewById(R.id.rootView);
         mPatientCurrSelected=Const.curPat;
         setTitle("医嘱信息");
@@ -96,18 +146,14 @@ public class OrdersActivity extends BaseActivity implements
         });
 
         // 查询条件
-//        final View ll_query_condition = findViewById(R.id.ll_query_condition);
-//        btn_previous = (ImageButton) findViewById(R.id.btn_previous);
-//        btn_previous.setOnClickListener(this);
-//        tv_startDate = (TextView) findViewById(R.id.tv_startDate);
-//        tv_startDate.setOnClickListener(this);
-//        tv_endDate = (TextView) findViewById(R.id.tv_endDate);
-//        tv_endDate.setOnClickListener(this);
-//
-//        String e = DateUtil.getDateToday("yyyy-MM-dd");
-//        String s = DateUtil.getDateTodayBefore("yyyy-MM-dd", -2);
-//        tv_startDate.setText(s);
-//        tv_endDate.setText(e);
+        tv_startDate = (TextView) findViewById(R.id.tv_startDate);
+        tv_startDate.setOnClickListener(this);
+        tv_endDate = (TextView) findViewById(R.id.tv_endDate);
+        tv_endDate.setOnClickListener(this);
+        String e = DateUtil.getDateToday("yyyy-MM-dd");
+        String s = DateUtil.getDateTodayBefore("yyyy-MM-dd", -2);
+        tv_startDate.setText(s);
+        tv_endDate.setText(e);
 
         // 在用已经停
         rg_state = (RadioGroup) findViewById(R.id.rg_state);
@@ -117,12 +163,8 @@ public class OrdersActivity extends BaseActivity implements
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == R.id.radio_V) {
-                    radio_V.setTextColor(getResources().getColor(R.color.white));
-                    radio_D.setTextColor(getResources().getColor(R.color.new_font_blue));
                     mOrderState = "V";// 在用
                 } else {
-                    radio_V.setTextColor(getResources().getColor(R.color.new_font_blue));
-                    radio_D.setTextColor(getResources().getColor(R.color.white));
                     mOrderState = "D";// 停用
                 }
             }
@@ -141,77 +183,8 @@ public class OrdersActivity extends BaseActivity implements
                 doQuery();
             }
         });
-        // 类型：长期、临时
-//        radio_orderType = (RadioGroup) findViewById(R.id.rg_orderitem);
-//        radio_long = (RadioButton) findViewById(R.id.radio_long);
-//        radio_temp = (RadioButton)findViewById(R.id.radio_temp);
-//        radio_orderType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(RadioGroup arg0, int arg1) {
-//                if (arg1 == R.id.radio_long) {
-//                    radio_long.setTextColor(getResources().getColor(R.color.white));
-//                    radio_temp.setTextColor(getResources().getColor(R.color.new_font_blue));
-//                    ll_query_condition.setVisibility(View.GONE);
-//                    rg_state.setVisibility(View.VISIBLE);
-//                    isLongItem = true;
-//                } else {
-//                    radio_long.setTextColor(getResources().getColor(R.color.new_font_blue));
-//                    radio_temp.setTextColor(getResources().getColor(R.color.white));
-//                    ll_query_condition.setVisibility(View.VISIBLE);
-//                    rg_state.setVisibility(View.GONE);
-//                    isLongItem = false;
-//                }
-//            }
-//        });
-//        radio_long.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                isLongItem = true;
-//                doQuery();
-//            }
-//        });
-//
-//        radio_temp.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                isLongItem = false;
-//                doQuery();
-//            }
-//        });
-        //医嘱与护嘱
-//        radio_isDoc = (RadioGroup)findViewById(R.id.rg_orderitem_isDoc);
-//        radio_isDoc_Y = (RadioButton)findViewById(R.id.radio_doc_Y);
-//        radio_isDoc_N = (RadioButton) findViewById(R.id.radio_doc_N);
-//        radio_isDoc.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(RadioGroup arg0, int arg1) {
-//                if (arg1 == R.id.radio_doc_Y) {
-//                    radio_isDoc_N.setTextColor(getResources().getColor(R.color.new_font_blue));
-//                    radio_isDoc_Y.setTextColor(getResources().getColor(R.color.white));
-//                    isDocItem = true;
-//                } else {
-//                    radio_isDoc_Y.setTextColor(getResources().getColor(R.color.new_font_blue));
-//                    radio_isDoc_N.setTextColor(getResources().getColor(R.color.white));
-//                    isDocItem = false;
-//                }
-//            }
-//        });
-//        radio_isDoc_Y.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                isDocItem = true;
-//                doQuery();
-//            }
-//        });
-//
-//        radio_isDoc_N.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                isDocItem = false;
-//                doQuery();
-//            }
-//        });
         doQuery();
+        InitRecordList();
     }
 
     private synchronized void checkAndLoadDataThread() {
@@ -222,7 +195,7 @@ public class OrdersActivity extends BaseActivity implements
         if (mListView == null) {
             return;
         }
-        LogMe.d("beToLoad:<<<<<<" + beToLoad);
+          LogMe.d("beToLoad:<<<<<<" + beToLoad);
         if (isReLoad()) {
             LogMe.d("checkAndLoadDataThread: 请求被忽略....");
             return;
@@ -240,7 +213,7 @@ public class OrdersActivity extends BaseActivity implements
         if (isLongItem) {//长期
             loadOrderitemLongThread(isDoc, mPatientCurrSelected.admId, mConLoad_4_pages);
         } else {
-//            loadOrderitemTempThread(isDoc, mPatientCurrSelected.admId, mConLoad_4_pages);
+            loadOrderitemTempThread(isDoc, mPatientCurrSelected.admId, mConLoad_4_pages);
         }
     }
 
@@ -253,6 +226,57 @@ public class OrdersActivity extends BaseActivity implements
 
     @Override
     public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.ll_isDoc:
+                    tv_isDoc.setTextColor(getResources().getColor(R.color.mobile_blue));
+                    tv_isDoc_line.setBackground(getDrawable(R.color.mobile_blue));
+                    tv_noDoc.setTextColor(getResources().getColor(R.color.gray));
+                    tv_noDoc_line.setBackground(getDrawable(R.color.white));
+                    isDocItem = true;
+                    doQuery();
+                break;
+            case R.id.ll_noDoc:
+                    tv_noDoc.setTextColor(getResources().getColor(R.color.mobile_blue));
+                    tv_noDoc_line.setBackground(getDrawable(R.color.mobile_blue));
+                    tv_isDoc.setTextColor(getResources().getColor(R.color.gray));
+                    tv_isDoc_line.setBackground(getDrawable(R.color.white));
+                    isDocItem = false;
+                    doQuery();
+                break;
+            case R.id.ll_time:
+                dropDownMenu.showSelectList(ScreenUtils.getScreenWidth(this),
+                        ScreenUtils.getScreenHeight(this), StatusAdapter,
+                        listView, listItem,ll_time, tv_time, "orders", false);
+                break;
+            case R.id.tv_startDate:
+                new DateTimePickDialogUtil(OrdersActivity.this).datePicKDialoBefor(tv_startDate.getText().toString(), "", new MyCallback() {
+                    @Override
+                    public void onCallback(Object date) {
+                        tv_startDate.setText(date.toString());
+                        String endDate = tv_endDate.getText().toString();
+                        if (DateUtil.isMax(date.toString(), endDate)) {
+                            tv_endDate.setText(DateUtil.getDateStr("yyyy-MM-dd", tv_startDate.getText().toString(), DateUtil.getDatediff(date.toString(),endDate)));
+                        }
+                        resetData();
+                        checkAndLoadDataThread();
+                    }
+                }).show();
+                break;
+            case R.id.tv_endDate:
+                new DateTimePickDialogUtil(OrdersActivity.this).datePicKDialoBefor(tv_endDate.getText().toString(), "", new MyCallback() {
+                    @Override
+                    public void onCallback(Object date) {
+                        tv_endDate.setText(date.toString());
+                        String startDate = tv_startDate.getText().toString();
+                        if (DateUtil.isMax(startDate, date.toString())) {
+                            tv_startDate.setText(DateUtil.getDateStr("yyyy-MM-dd", tv_endDate.getText().toString(), -1 * DateUtil.getDatediff(startDate,date.toString())));
+                        }
+                        resetData();
+                        checkAndLoadDataThread();
+                    }
+                }).show();
+        }
+
 
     }
 
@@ -290,6 +314,7 @@ public class OrdersActivity extends BaseActivity implements
     }
 
     private synchronized void loadOrderitemLongThread(final String isDoc, final String admId, final String conLoad) {
+        showProgress();
         new Thread() {
             public void run() {
                 Message message = new Message();
@@ -320,6 +345,46 @@ public class OrdersActivity extends BaseActivity implements
                 }
             }
 
+        }.start();
+    }
+
+    private synchronized void loadOrderitemTempThread(final String isDoc, final String admId, final String conLoad) {
+        showProgress();
+        final String startDate = tv_startDate.getText().toString();
+        final String endDate = tv_endDate.getText().toString();
+        new Thread() {
+            public void run() {
+                Message message = new Message();
+                try {
+                    List<OrderItem> list = OrderItemManager.listOrderItemTemp(
+                            isDoc, Const.loginInfo.userCode, admId, startDate, endDate,
+                            mGroupId, Const.loginInfo.defaultDeptId, conLoad);
+
+                    if (list.size() > 0) {
+                        mConLoad_4_pages = list.get(list.size() - 1).conLoad;
+                        beToLoad = true;
+                        LogMe.d("beToLoad:<<<<<<" + beToLoad);
+                        LogMe.d("mConLoad_4_pages:<<<<<<" + mConLoad_4_pages);
+                    }
+                    List<LabelValue> tempLlistDataGroup = new ArrayList();//一级
+                    List<List<OrderItem>> tempListChildren = new ArrayList<List<OrderItem>>();//二级菜单
+                    parseDataToLists(tempLlistDataGroup, tempListChildren, list);
+
+                    if (!admId.equals(mPatientCurrSelected.admId)) {
+                        message.what = -1;
+                        mInfo = "患者已切换!数据加载中...";
+                    } else {
+                        message.obj = new Object[]{tempLlistDataGroup, tempListChildren};
+                        message.what = 0;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    mInfo = e.getMessage();
+                    message.what = -1;
+                } finally {
+                    myHandler.sendMessage(message);
+                }
+            }
         }.start();
     }
 
