@@ -209,6 +209,32 @@ public abstract class BaseActivity extends Activity {
         }
     }
 
+    public void  showNoPatDialog(final Activity ctx, final Bundle bundle, final Class classTarget){
+        new AlertDialog.Builder(ctx)
+                .setTitle("提示信息")
+                .setMessage("请先选择病人")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+//                        Intent i =  new Intent(ctx,MyPatActivity.class);
+//                        String target= classTarget.getName();
+//                        i.putExtra("target",target);
+//                        if(bundle!=null) {
+//                            i.putExtras(bundle);
+//                        }
+//                        startActivity(i);
+                        dialog.dismiss();
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create()
+                .show();
+    }
 
     public void showToast(String msg) {
         Toast.makeText(BaseActivity.this, msg, Toast.LENGTH_LONG).show();

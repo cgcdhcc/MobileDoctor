@@ -38,9 +38,9 @@
                     android:layout_height="wrap_content"
                     android:singleLine="true" />
                 <ImageView
-                    android:layout_width="15dp"
+                    android:layout_width="10dp"
                     android:src="@drawable/all_trg"
-                    android:layout_height="15dp" />
+                    android:layout_height="10dp" />
             </LinearLayout>
 
             <ImageView
