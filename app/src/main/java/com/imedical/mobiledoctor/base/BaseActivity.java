@@ -57,7 +57,7 @@ public abstract class BaseActivity extends Activity {
     private List<SeeDoctorRecord> list = new ArrayList<SeeDoctorRecord>();
     private List<SeeDoctorRecord> listtemp = null;
     public int selectPos = 0;//WardRoundActivity和基类专用
-
+    public View ll_record;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -71,6 +71,7 @@ public abstract class BaseActivity extends Activity {
         }
     }
     protected void InitRecordList(){
+        ll_record=findViewById(R.id.ll_record);
         tv_record=(TextView) findViewById(R.id.tv_record);
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View view = layoutInflater.inflate(R.layout.his_record_list, null);
@@ -101,19 +102,19 @@ public abstract class BaseActivity extends Activity {
         Const.curSRecorder=new SeeDoctorRecord();
         Const.curSRecorder.admId=  Const.curPat.admId;
         list.add(mCurrectRecord);
-        tv_record.setOnClickListener(new View.OnClickListener() {
+        ll_record.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showWindow(v);
             }
         });
         LoadHisRecord();
-        tv_record.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        ll_record.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
                 // TODO Auto-generated method stub
-                tv_record.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                int width=tv_record.getWidth();
+                ll_record.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                int width=ll_record.getWidth();
                 hisRecordPopWin = new PopupWindow(view, width, LinearLayout.LayoutParams.WRAP_CONTENT);
                 hisRecordPopWin.setFocusable(true);
                 hisRecordPopWin.setOutsideTouchable(true);
@@ -143,6 +144,9 @@ public abstract class BaseActivity extends Activity {
                             mHisRecordsAdapter = new HisRecordsAdapter(BaseActivity.this, list);
                             mListViewRecord.setAdapter(mHisRecordsAdapter);
                             mHisRecordsAdapter.notifyDataSetChanged();
+                            if(list.size()>0){
+                                tv_record.setText(SysManager.getAdmTypeDesc(list.get(0).admType) +list.get(0).admDate);
+                            }
                         }
 
                     });

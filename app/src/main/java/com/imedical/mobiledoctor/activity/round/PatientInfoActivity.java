@@ -46,7 +46,8 @@ public class PatientInfoActivity  extends BaseActivity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.page1_patientinfo_activity);
         InitViews();
-        loadData();
+        loadData();   InitRecordList();
+
     }
 
     private void InitViews() {

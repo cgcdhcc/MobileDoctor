@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+ >
+    
+    <ImageView 
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        android:layout_height="match_parent"
+        android:background="@color/green"/>
+    <TextView 
+        android:visibility="gone"
+	     android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/gray"
+	    />
+    <TextView
+        android:id="@+id/lis_group_name"
+        android:text="测试测试测试测试测试测试测试测试"
+        android:layout_width="fill_parent"
+           android:background="@color/background"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:textSize="@dimen/sp_content"
+        android:textColor="@color/gray"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+       />
+	<TextView 
+	    android:visibility="gone"
+	     android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/gray"
+	    />
+	<ImageView 
+	    android:visibility="gone"
+	    android:paddingLeft="10dp"
+	    android:paddingRight="10dp"
+	    android:id="@+id/groupIcon"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:src="@drawable/left_arrow_right"/>
+</LinearLayout>

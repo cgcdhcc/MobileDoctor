@@ -43,6 +43,7 @@ public class DiagnosisActivity extends BaseActivity {
         setContentView(R.layout.page2_diagnosis_activity);
         InitViews();
         loadData();
+        InitRecordList();
     }
 
     private void InitViews() {
