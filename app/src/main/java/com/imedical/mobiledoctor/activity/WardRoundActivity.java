@@ -21,6 +21,7 @@ import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.XMLservice.BusyManager;
 import com.imedical.mobiledoctor.XMLservice.SysManager;
 import com.imedical.mobiledoctor.activity.round.DiagnosisActivity;
+import com.imedical.mobiledoctor.activity.round.LisActivity;
 import com.imedical.mobiledoctor.activity.round.OrdersActivity;
 import com.imedical.mobiledoctor.activity.round.PatientInfoActivity;
 import com.imedical.mobiledoctor.adapter.HisRecordsAdapter;
@@ -192,6 +193,10 @@ public class WardRoundActivity extends BaseActivity implements View.OnClickListe
             case R.id.ll_3:
                 Intent it3 =new Intent(WardRoundActivity.this,OrdersActivity.class);
                 this.startActivity(it3);
+                break;
+            case R.id.ll_4:
+                Intent it4 =new Intent(WardRoundActivity.this,LisActivity.class);
+                this.startActivity(it4);
                 break;
             default:break;
         }

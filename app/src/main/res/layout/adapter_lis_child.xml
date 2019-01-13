@@ -38,7 +38,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:src="@drawable/all_trg"
+            android:src="@drawable/all_arrow"
             android:textIsSelectable="false" />
     </LinearLayout>
 </LinearLayout>

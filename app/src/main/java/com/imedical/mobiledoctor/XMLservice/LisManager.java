@@ -26,7 +26,7 @@ public class LisManager {
 		LogMe.d(requestXml+"\n\n"+resultXml);
 		list = PropertyUtil.parseBeansToList(LisReportList.class, resultXml);
 		LogMe.d("mark", "返回的信息为:" + resultXml);	
-		return list;
+  		return list;
 	 }
 
  public static List<LisReportList> listLisReportListHis(Map params) throws Exception {

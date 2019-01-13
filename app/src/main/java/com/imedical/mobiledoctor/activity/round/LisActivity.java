@@ -31,7 +31,7 @@ import java.util.Map;
 public class LisActivity extends BaseActivity implements
         View.OnClickListener, AdapterView.OnItemClickListener,
         ListViewPullExp.IXListViewListener {
-    private View rootView,view,ll_type,ll_time;
+    private View rootView,ll_type,ll_time;
     private TextView btn_time,btn_type,btn_time_line,btn_type_line;
     private String mInfo = " test ";
     private PatientInfo mPatientCurrSelected;
@@ -54,14 +54,22 @@ public class LisActivity extends BaseActivity implements
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.page4_lis_activity);
         InitViews();
+        resetData();
+        loadDataThread(mPatientCurrSelected.admId, sort);
+        InitRecordList();
     }
 
     private void InitViews() {
         mPatientCurrSelected = Const.curPat;
+        setTitle("检验信息");
+        ll_type=findViewById(R.id.ll_type);
+        ll_time=findViewById(R.id.ll_time);
+        ll_type.setOnClickListener(this);
+        ll_time.setOnClickListener(this);
         btn_type = (TextView) findViewById(R.id.btn_type);
         btn_time = (TextView) findViewById(R.id.btn_time);
-        btn_type.setOnClickListener(this);
-        btn_time.setOnClickListener(this);
+        btn_time_line = (TextView) findViewById(R.id.btn_time_line);
+        btn_type_line = (TextView) findViewById(R.id.btn_type_line);
         expandList = (ListViewPullExp) findViewById(R.id.expandList);
         ll_nodata = (LinearLayout)findViewById(R.id.ll_nodata);
         ll_class = (LinearLayout)findViewById(R.id.ll_class);
@@ -92,9 +100,50 @@ public class LisActivity extends BaseActivity implements
 
         });
     }
+    private void resetData() {
+        mConLoad_4_pages = "";
+        mLastConLoad = null;
+        expandList.resetStatu();
+        groupData.clear();
+        childDataList.clear();
+        if (groupAdapter != null) {
+            groupAdapter.notifyDataSetChanged();
+        }
+    }
 
+    private void refreshDataOnUI() {
+       runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                groupAdapter.notifyDataSetChanged();
+            }
+        });
+    }
     @Override
     public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.ll_type:
+                resetData();
+                refreshDataOnUI();
+                sort = "Item";
+                btn_time.setTextColor(getResources().getColor(R.color.gray));
+                btn_time_line.setBackground(getResources().getDrawable(R.color.white));
+                btn_type.setTextColor(getResources().getColor(R.color.mobile_blue));
+                btn_type_line.setBackground(getResources().getDrawable(R.color.mobile_blue));
+                loadDataThread(mPatientCurrSelected.admId, sort);
+                break;
+            case R.id.ll_time:
+                resetData();
+                refreshDataOnUI();
+                sort = "Date";
+                btn_type.setTextColor(getResources().getColor(R.color.gray));
+                btn_time.setTextColor(getResources().getColor(R.color.mobile_blue));
+                btn_time_line.setBackground(getResources().getDrawable(R.color.mobile_blue));
+                btn_type_line.setBackground(getResources().getDrawable(R.color.white));
+                loadDataThread(mPatientCurrSelected.admId, sort);
+                break;
+            default:break;
+        }
 
     }
 
