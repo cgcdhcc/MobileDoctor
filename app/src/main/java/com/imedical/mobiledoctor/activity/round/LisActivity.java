@@ -34,7 +34,7 @@ public class LisActivity extends BaseActivity implements
     private View rootView,ll_type,ll_time;
     private TextView btn_time,btn_type,btn_time_line,btn_type_line;
     private String mInfo = " test ";
-    private PatientInfo mPatientCurrSelected;
+    public PatientInfo mPatientCurrSelected;
     private ListViewPullExp expandList;
     private LinearLayout ll_nodata;
     private LinearLayout ll_class;
@@ -60,6 +60,7 @@ public class LisActivity extends BaseActivity implements
     private void InitViews() {
         mPatientCurrSelected = Const.curPat;
         setTitle("检验信息");
+        setInfos(mPatientCurrSelected.patName,mPatientCurrSelected.bedCode+"床("+mPatientCurrSelected.patRegNo+")");
         ll_type=findViewById(R.id.ll_type);
         ll_time=findViewById(R.id.ll_time);
         ll_type.setOnClickListener(this);

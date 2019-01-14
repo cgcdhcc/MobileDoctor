@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.activity.round.LisActivity;
+import com.imedical.mobiledoctor.activity.round.detail.Lis_DetailActivity;
 import com.imedical.mobiledoctor.entity.LisReportList;
 
 import java.util.List;
@@ -96,12 +97,11 @@ public class LisReportAdapter extends SimpleExpandableListAdapter {
                                 ctx. mIndexSelectedPat = childPosition;
                                 ctx. mIndexSelectedGroup = groupPosition;
                                 notifyDataSetChanged();
-
                                 if (l.reportStatus.equals("报告已出")) {
-//                                    Intent i = new Intent(ctx, LisDetailListActivity.class);
-//                                    i.putExtra("PatientInfo", mPatientCurrSelected);
-//                                    i.putExtra("ordLabNo", l.ordLabNo);
-//                                    startActivity(i);
+                                    Intent i = new Intent(ctx, Lis_DetailActivity.class);
+                                    i.putExtra("PatientInfo", ctx.mPatientCurrSelected);
+                                    i.putExtra("ordLabNo", l.ordLabNo);
+                                    ctx.startActivity(i);
                                 }
 
                             }
