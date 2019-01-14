@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.activity.round.CommonBrowserActivity;
 import com.imedical.mobiledoctor.activity.round.RisActivity;
+import com.imedical.mobiledoctor.activity.round.detail.Ris_DetailActivity;
 import com.imedical.mobiledoctor.entity.RisReport;
 import com.imedical.mobiledoctor.entity.RisReportList;
 import com.imedical.mobiledoctor.util.LogMe;
@@ -65,6 +66,9 @@ public class AdapterRis extends BaseAdapter {
             //holder.tv_exam_desc.setEllipsize(TextUtils.TruncateAt.MIDDLE);//防止末位半个字体显示不全
             holder.btn_pic_link = (ImageView) convertView.findViewById(R.id.btn_pic_link);
             holder.btn_rep_link = (ImageView)convertView.findViewById(R.id.btn_rep_link);
+            holder.ll_pic_link=convertView.findViewById(R.id.ll_pic_link);
+            holder.ll_rep_link=convertView.findViewById(R.id.ll_rep_link);
+            holder.tv_risRegId=(TextView)convertView.findViewById(R.id.tv_risRegId);
             holder.ll_click = convertView.findViewById(R.id.ll_click);
             holder.itemLayout = (LinearLayout)convertView.findViewById(R.id.item_layout);
             convertView.setTag(holder);
@@ -76,11 +80,11 @@ public class AdapterRis extends BaseAdapter {
             final RisReport risDetail = ctx.mListData2.get(position).get(0);
             if (holder != null) {
                 if(Validator.isBlank(risDetail.imageURL)){
-                    holder.btn_pic_link.setVisibility(View.GONE);
+                    holder.ll_pic_link.setVisibility(View.GONE);
                 }else {
-                    holder.btn_pic_link.setVisibility(View.VISIBLE);
+                    holder.ll_pic_link.setVisibility(View.VISIBLE);
                 }
-                holder.btn_pic_link.setOnClickListener(new View.OnClickListener() {
+                holder.ll_pic_link.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if(Validator.isBlank(risDetail.imageURL)){
@@ -101,17 +105,17 @@ public class AdapterRis extends BaseAdapter {
                 holder.ll_click.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View arg0) {
-//                        Intent i = new Intent(mActivity, FormRISActivity.class);
-//                        i.putExtra("content_1", risDetail.examDescEx);
-//                        i.putExtra("content_2", risDetail.resultDescEx);
-//                        startActivity(i);
+                        Intent i = new Intent(ctx, Ris_DetailActivity.class);
+                        i.putExtra("content_1", risDetail.examDescEx);
+                        i.putExtra("content_2", risDetail.resultDescEx);
+                        ctx.startActivity(i);
                     }});
                 if(Validator.isBlank(risDetail.reportURL)){
-                    holder.btn_rep_link.setVisibility(View.GONE);
+                    holder.ll_rep_link.setVisibility(View.GONE);
                 }else{
-                    holder.btn_rep_link.setVisibility(View.VISIBLE);
+                    holder.ll_rep_link.setVisibility(View.VISIBLE);
                 }
-                holder.btn_rep_link.setOnClickListener(new View.OnClickListener() {
+                holder.ll_rep_link.setOnClickListener(new View.OnClickListener() {
                     //报告链接
                     @Override
                     public void onClick(View v) {
@@ -144,7 +148,7 @@ public class AdapterRis extends BaseAdapter {
                 holder.tv_status.setText(ris.reportStatus);
                 holder.tv_title.setText(ris.ordItemDesc);
                 holder.tv_title.setText(ris.ordItemDesc);
-
+                holder.tv_risRegId.setText(ris.risRegId);
                 holder.tv_studyId.setText(ris.studyId);
                 holder.tv_date.setText(ris.reportDate + " " + ris.reportTime);
 
@@ -172,7 +176,7 @@ public class AdapterRis extends BaseAdapter {
         public TextView tv_dept;
         public TextView tv_bed;
         public TextView tv_admDept;
-
+        public TextView tv_risRegId;
         public TextView tv_status;
         public TextView tv_diagnosis;
         public TextView tv_exam_desc;
@@ -180,6 +184,6 @@ public class AdapterRis extends BaseAdapter {
         public ImageView btn_pic_link;
         public ImageView btn_rep_link;
         public LinearLayout itemLayout;
-        public View ll_click;
+        public View ll_click,ll_rep_link,ll_pic_link;
     }
 }
