@@ -51,19 +51,24 @@ import okio.BufferedSink;
 
 public class RequestUtil {
 
-    public static String getRequestWithHead(final String url,final boolean isSingleton) throws Exception {
-        Log.d("msg",url);
+    public static String getRequestWithHead(final String url) throws Exception {
         try{
-            String Authorization="Basic "+  new String(Base64.encode((Const.key+":"+ Const.DeviceId).getBytes(),Base64.DEFAULT));//
-            Log.d("msg",Authorization.replaceAll("\r|\n", ""));
+            String Authorization=new String(Base64.encode((Const.appId+":"+ Const.key+":"+Const.DeviceId).getBytes(), Base64.DEFAULT));//
             BrandInfo info=new BrandInfo();
-            info.brand_name= Const.brand_name;
-            info.brand_type= Const.brand_type;
+            info.brand_name=Const.brand_name;
+            info.brand_type=Const.brand_type;
             Gson g = new Gson();
-            OkHttpClient client = new OkHttpClient();
+            OkHttpClient client ;
+            if(url.contains("https")){
+                client= new OkHttpClient().newBuilder().
+                        sslSocketFactory(SSLSocketClient.getSSLSocketFactory()).
+                        hostnameVerifier(SSLSocketClient.getHostnameVerifier()).build();
+            }else{
+                client= new OkHttpClient();
+            }
             HttpUrl.Builder urlBuilder = HttpUrl.parse(url).newBuilder();
-            urlBuilder.addQueryParameter("device_info",URLEncoder.encode(g.toJson(info),"utf-8"));
-            Log.d("msg",URLEncoder.encode(g.toJson(info),"utf-8"));
+            urlBuilder.addQueryParameter("device_info", URLEncoder.encode(g.toJson(info),"utf-8"));
+            Log.d("msg","device_info:"+g.toJson(info));
             Request request = new Request.Builder().addHeader("Authorization",Authorization.replaceAll("\r|\n", ""))
                     .url(urlBuilder.build())
                     .get()
@@ -107,6 +112,55 @@ public class RequestUtil {
         return json;
     }
 
+    public static String postRequest(String url, final String json) {
+        if(Const.ISTEST) {
+            Log.d("msg", url);
+            Log.d("msg", json);
+        }
+        try {
+
+            OkHttpClient client ;
+            if(url.contains("https")){
+                client= new OkHttpClient().newBuilder().
+                        sslSocketFactory(SSLSocketClient.getSSLSocketFactory()).
+                        hostnameVerifier(SSLSocketClient.getHostnameVerifier()).build();
+            }else{
+                client= new OkHttpClient();
+            }
+
+            Request request = new Request.Builder()
+                    .url(url)
+                    .post(new RequestBody() {
+                        @Override
+                        public MediaType contentType() {
+                            return MediaType.parse("application/json");
+                        }
+
+                        @Override
+                        public void writeTo(BufferedSink sink) throws IOException {
+                            byte[] str = json.getBytes();
+                            sink.write(str, 0, str.length);
+                        }
+                    })
+                    .addHeader("Connection", "close")
+                    .build();
+            Response response = client.newCall(request).execute();
+            if (response.code() == 200) {
+                String retData = response.body().string();
+                return retData;
+            } else {
+                if(Const.ISTEST) {
+                    Log.d("msg", response.message());
+                }
+                Log.d("exception", response.code()+""+response.message());
+                return "";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d("msg", "异常信息" + e.getMessage());
+        }
+        return "";
+    }
 
     public static String postRequest(final String url, final StringEntity params, final boolean isSingleton) throws Exception {
         String json = null;

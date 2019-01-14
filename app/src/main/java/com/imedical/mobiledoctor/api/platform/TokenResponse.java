@@ -7,6 +7,5 @@ package com.imedical.mobiledoctor.api.platform;
 public class TokenResponse {
     public String access_token;//":"NzAzNTExMjA1MSwyMTlhMDM4ZixuaW1kYSw3MDUwMTUxMDUx","
     public int remain_time;//":537029}
-    public int expires_in;//":537029}
 
 }

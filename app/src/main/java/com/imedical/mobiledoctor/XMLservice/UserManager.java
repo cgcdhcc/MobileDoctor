@@ -61,14 +61,11 @@ public class UserManager {
      *
      * @throws Exception
      */
-    public static LoginInfo login(Activity ctx, String userCode, String password, String terminalId, String padIP, String hospitalId) throws Exception {
+    public static LoginInfo login(Activity ctx, String userCode, String password, String terminalId) throws Exception {
         Map<String, String> map = new HashMap<String, String>();
         map.put("userCode", userCode);
         map.put("password", password);
         map.put("terminalId", terminalId);
-        map.put("padIP", padIP);
-        //map.put("hospitalId",hospitalId);//不需要
-
         SettingManager.initContext(ctx);
         String serviceUrl = SettingManager.getServerUrl();
         Log.d("msg", serviceUrl);

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@color/white"
+    android:gravity="center_vertical"
+    android:padding="10dp">
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:src="@drawable/pat_famale"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="bottom">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textColor="@color/text_base"
+                android:textStyle="bold"
+                android:textSize="@dimen/font_16dp"
+                android:layout_height="wrap_content"
+                android:text="张三"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:textColor="@color/text_gray"
+                android:textSize="@dimen/font_14dp"
+                android:layout_height="wrap_content"
+                android:text="2019-01-01 12:00"/>
+        </LinearLayout>
+        <TextView
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:textColor="@color/text_grayblack"
+            android:textSize="@dimen/font_16dp"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="头痛，每天精神都不好，十分疲劳，不知道如何是好"
+            />
+    </LinearLayout>
+</LinearLayout>

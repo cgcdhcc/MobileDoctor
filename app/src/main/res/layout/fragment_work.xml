@@ -260,6 +260,7 @@
         android:padding="15dp"
         android:layout_height="wrap_content">
         <LinearLayout
+            android:id="@+id/ll_Onlineinquiry"
             android:layout_width="match_parent"
             android:orientation="horizontal"
             android:background="@drawable/frg_bg_right"
