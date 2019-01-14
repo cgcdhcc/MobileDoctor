@@ -53,6 +53,7 @@ public class AdapterRis extends BaseAdapter {
             holder.tv_studyId = (TextView)convertView.findViewById(R.id.tv_studyid);
             holder.tv_date = (TextView)convertView.findViewById(R.id.tv_date);
             holder.tv_regNo = (TextView)convertView.findViewById(R.id.tv_regno);
+            holder.tv_admDept = (TextView)convertView.findViewById(R.id.tv_admDept);
             holder.tv_ward = (TextView)convertView.findViewById(R.id.tv_ward_desc);
             holder.tv_dept = (TextView)convertView.findViewById(R.id.tv_exam_dept);
             holder.tv_bed = (TextView)convertView.findViewById(R.id.tv_bed);
@@ -142,6 +143,8 @@ public class AdapterRis extends BaseAdapter {
                 });
                 holder.tv_status.setText(ris.reportStatus);
                 holder.tv_title.setText(ris.ordItemDesc);
+                holder.tv_title.setText(ris.ordItemDesc);
+
                 holder.tv_studyId.setText(ris.studyId);
                 holder.tv_date.setText(ris.reportDate + " " + ris.reportTime);
 
@@ -149,6 +152,7 @@ public class AdapterRis extends BaseAdapter {
                     holder.tv_regNo.setText(risDetail.regNo);
                     holder.tv_ward.setText(risDetail.wardDesc);
                     holder.tv_dept.setText(risDetail.examDept);
+                    holder.tv_admDept.setText(risDetail.admDept);
                     holder.tv_bed.setText(risDetail.bedCode);
                     holder.tv_diagnosis.setText(risDetail.diagnosis);
                     holder.tv_exam_desc.setText( risDetail.examDescEx);
@@ -167,6 +171,8 @@ public class AdapterRis extends BaseAdapter {
         public TextView tv_ward;
         public TextView tv_dept;
         public TextView tv_bed;
+        public TextView tv_admDept;
+
         public TextView tv_status;
         public TextView tv_diagnosis;
         public TextView tv_exam_desc;
