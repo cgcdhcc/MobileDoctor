@@ -35,11 +35,9 @@ public class LisActivity extends BaseActivity implements
     private TextView btn_time,btn_type,btn_time_line,btn_type_line;
     private String mInfo = " test ";
     private PatientInfo mPatientCurrSelected;
-    private LoginInfo mLogin = null;
     private ListViewPullExp expandList;
     private LinearLayout ll_nodata;
     private LinearLayout ll_class;
-    private ImageView iv_no_re;
     public List<Map<String, String>> groupData = new ArrayList<Map<String, String>>();
     public List<List<Map<String, LisReportList>>> childDataList = new ArrayList<List<Map<String, LisReportList>>>();
     private LisReportAdapter groupAdapter;
