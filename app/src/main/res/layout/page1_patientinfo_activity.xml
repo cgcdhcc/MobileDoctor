@@ -21,14 +21,15 @@
                 android:orientation="horizontal"
                 android:layout_height="36dp">
                 <ImageView
-                    android:layout_width="15dp"
+                    android:layout_width="10dp"
                     android:layout_marginLeft="15dp"
                     android:layout_gravity="center"
                     android:src="@drawable/page1_1"
-                    android:layout_height="15dp" />
+                    android:layout_height="10dp" />
                 <TextView
                     android:text="基本信息"
                     android:textColor="@color/black"
+                    android:layout_marginLeft="2dp"
                     android:textSize="@dimen/font_16dp"
                     android:gravity="center"
                     android:textStyle="bold"
@@ -164,22 +165,158 @@
                 android:layout_marginRight="20dp"
                 android:background="@drawable/dash_line"
                 android:layout_height="5dp" />
-			<LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="vertical" >
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_height="wrap_content">
+                <TableRow>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:paddingLeft="10dp"
+                        android:text="入院时间:"
+                        android:textSize="@dimen/sp_content"
+                        android:textColor="@color/gray"
+                        />
+                    <TextView
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="AAA"
+                        android:id="@+id/tv_inDate"
+                        android:textSize="@dimen/sp_content"
+                        android:textColor="@color/black"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="床位号:"
+                        android:textSize="@dimen/sp_content"
+                        android:textColor="@color/gray"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tv_bedCode"
+                        android:layout_margin="5dp"
+                        android:text="BBB"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/sp_content"
+                        android:textColor="@color/black"              />
+                </TableRow>
+                <TableRow>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:paddingLeft="10dp"
+                        android:text="入院天数:"
+                        android:textSize="@dimen/sp_content"
+                        android:textColor="@color/gray"
+                        />
+                    <TextView
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="AAA"
+                        android:id="@+id/tv_inDays"
+                        android:textSize="@dimen/sp_content"
+                        android:textColor="@color/black"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="住院科室:"
+                        android:textSize="@dimen/sp_content"
+                        android:textColor="@color/gray"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="BBB"
+                        android:id="@+id/tv_departmentName"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/sp_content"
+                        android:textColor="@color/black"              />
+                </TableRow>
+                <TableRow>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:paddingLeft="10dp"
+                        android:text="主管医生:"
+                        android:textSize="@dimen/sp_content"
+                        android:textColor="@color/gray"
+                        />
+                    <TextView
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="AAA"
+                        android:id="@+id/tv_mainDoctor"
+                        android:textSize="@dimen/sp_content"
+                        android:textColor="@color/black"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:visibility="invisible"
+                        android:textSize="@dimen/sp_content"
+                        android:textColor="@color/gray"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="BBB"
+                        android:layout_weight="1"
+                        android:visibility="invisible"
+                        android:textSize="@dimen/sp_content"
+                        android:textColor="@color/black"              />
+                </TableRow>
+            </TableLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_height="36dp">
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/page1_2"
+                    android:layout_height="10dp" />
+                <TextView
+                    android:text="过敏史"
+                    android:textColor="@color/black"
+                    android:layout_marginLeft="2dp"
+                    android:textSize="@dimen/font_16dp"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
 
 
-                <LinearLayout
+            <LinearLayout
                     android:layout_width="fill_parent"
+                    android:visibility="gone"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal" >
-
                     <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-	android:layout_margin="5dp"
+	                android:layout_margin="5dp"
                 	android:paddingLeft="20dp"
                 	                    android:text="婚姻"
                     android:textSize="@dimen/sp_content" 
@@ -196,409 +333,270 @@
                     android:textColor="@color/black"
                         />
                 </LinearLayout>
-                <TextView 
-                    android:layout_width="fill_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@color/new_line_gray"
-                    />
-                <LinearLayout
-                    android:layout_width="fill_parent"
+
+            <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
+                    android:orientation="vertical" >
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:paddingLeft="25dp"
+                        android:paddingRight="25dp"
+                        android:text="无"
+                        android:id="@+id/tv_allergies"
+                        android:textSize="@dimen/sp_content"
+                        android:textColor="@color/black"
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginBottom="2dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@color/gray"
+                        android:layout_height="0.5dp" />
 
                 </LinearLayout>
-               
-            </LinearLayout>
-            
-			<LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="vertical" >
 
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
-                    <TextView 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_height="36dp">
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/page1_3"
+                    android:layout_height="10dp" />
+                <TextView
+                    android:text="病情情况"
+                    android:textColor="@color/black"
+                    android:layout_marginLeft="2dp"
+                    android:textSize="@dimen/font_16dp"
+                    android:gravity="center"
+                    android:textStyle="bold"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                	android:layout_margin="5dp"
-                	android:paddingLeft="10dp"
-                    android:text="过  敏  史"
-                    android:textSize="@dimen/sp_content" 
-                    android:textColor="@color/new_font_blue"
-                        />
-
-                     <TextView
-                         android:id="@+id/tv_allergies"
-                         android:layout_width="0dp"
-                         android:layout_height="wrap_content"
-                         android:layout_margin="5dp"
-                         android:singleLine="false"
-                         android:layout_weight="1"
-                         android:text="未知"
-                         android:textColor="@color/gms_red"
-                         android:textSize="@dimen/sp_content" />
-
-                </LinearLayout>
-               
+                    android:layout_height="match_parent" />
             </LinearLayout>
-			
-			<LinearLayout
-                android:layout_width="fill_parent"
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:orientation="vertical" >
-
                 <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
-
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
-                        android:paddingLeft="10dp"
-                        android:text="住院科室"
-                        android:textColor="@color/new_font_blue"
-                        android:textSize="@dimen/sp_content" />
-
-                     <TextView 
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    	android:layout_margin="5dp"
-                	    android:id="@+id/tv_departmentName"
-                    android:text="未知"
-                    android:textSize="@dimen/sp_content"
-                    android:textColor="@color/black"
+                        android:paddingLeft="25dp"
+                        android:text="护理级别:"
+                        android:textSize="@dimen/sp_content"
+                        android:textColor="@color/gray"
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="AAA"
+                        android:id="@+id/tv_careLevel"
+                        android:textSize="@dimen/sp_content"
+                        android:textColor="@color/black"
                         />
                 </LinearLayout>
-                <TextView 
-                    android:layout_width="fill_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@color/new_line_gray"
-                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/gray"
+                    android:layout_height="0.5dp" />
                 <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
-
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
-                        android:paddingLeft="10dp"
-                        android:text="主管医生"
-                        android:textColor="@color/new_font_blue"
-                        android:textSize="@dimen/sp_content" />
-
-                     <TextView 
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    	android:layout_margin="5dp"
-                	        android:id="@+id/tv_mainDoctor"
-                    android:text="未知"
-                    android:textSize="@dimen/sp_content"
-                    android:textColor="@color/black"
+                        android:paddingLeft="25dp"
+                        android:text="病况:"
+                        android:textSize="@dimen/sp_content"
+                        android:textColor="@color/gray"
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="AAA"
+                        android:id="@+id/tv_condition"
+                        android:textSize="@dimen/sp_content"
+                        android:textColor="@color/black"
                         />
                 </LinearLayout>
-                <TextView 
-                    android:layout_width="fill_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@color/new_line_gray"
-                    />
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
-                    <TextView 
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_height="36dp">
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/page1_4"
+                    android:layout_height="10dp" />
+                <TextView
+                    android:text="费用信息"
+                    android:layout_weight="1"
+                    android:textColor="@color/black"
+                    android:layout_marginLeft="2dp"
+                    android:textSize="@dimen/font_16dp"
+                    android:gravity="center|left"
+                    android:textStyle="bold"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                	android:layout_margin="5dp"
-                	android:paddingLeft="10dp"
-                    android:text="床  位  号"
-                    android:textSize="@dimen/sp_content" 
-                    android:textColor="@color/new_font_blue"
-                        />
-                     <TextView 
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    	android:layout_margin="5dp"
-                	            android:id="@+id/tv_bedCode"
-                    android:text="未知"
-                    android:textSize="@dimen/sp_content"
-                    android:textColor="@color/black"
-                        />
-                </LinearLayout>
-               <TextView 
-                    android:layout_width="fill_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@color/new_line_gray"
-                    />
-<LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
+                    android:layout_height="match_parent" />
+                <ImageView
+                    android:layout_marginRight="15dp"
+                    android:layout_width="15dp"
+                    android:layout_marginLeft="15dp"
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:paddingLeft="10dp"
-                        android:text="入院日期"
-                        android:textColor="@color/new_font_blue"
-                        android:textSize="@dimen/sp_content" />
-
-                     <TextView 
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    	android:layout_margin="5dp"
-                	        android:id="@+id/tv_inDate"
-                    android:text="未知"
-                    android:textSize="@dimen/sp_content"
-                    android:textColor="@color/black"
-                        />
-                </LinearLayout>
-<TextView 
-                    android:layout_width="fill_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@color/new_line_gray"
-                    />
-<LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
-                    <TextView 
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                	android:layout_margin="5dp"
-                	android:paddingLeft="10dp"
-                    android:text="入院天数"
-                    android:textSize="@dimen/sp_content" 
-                    android:textColor="@color/new_font_blue"
-                        />
-                     <TextView 
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    	android:layout_margin="5dp"
-                	            android:id="@+id/tv_inDays"
-                    android:text="未知"
-                    android:textSize="@dimen/sp_content"
-                    android:textColor="@color/black"
-                        />
-                </LinearLayout>
+                    android:layout_gravity="center_vertical|right"
+                    android:src="@drawable/page1_5"
+                    android:layout_height="10dp" />
             </LinearLayout>
-			
-			<LinearLayout
-                android:layout_width="fill_parent"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:orientation="vertical" >
-
                 <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
-
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
-                        android:paddingLeft="10dp"
-                        android:text="护理级别"
-                        android:textColor="@color/new_font_blue"
-                        android:textSize="@dimen/sp_content" />
-
-                     <TextView 
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    	android:layout_margin="5dp"
-                	    android:id="@+id/tv_careLevel"
-                    android:text="未知"
-                    android:textSize="@dimen/sp_content"
-                    android:textColor="@color/black"
+                        android:paddingLeft="25dp"
+                        android:text="病人类型:"
+                        android:textSize="@dimen/sp_content"
+                        android:textColor="@color/gray"
                         />
-                </LinearLayout>
-                <TextView 
-                    android:layout_width="fill_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@color/new_line_gray"
-                    />
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
-                        android:paddingLeft="10dp"
-                        android:text="病情状况"
-                        android:textColor="@color/new_font_blue"
-                        android:textSize="@dimen/sp_content" />
-
-                     <TextView 
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    	android:layout_margin="5dp"
-                	        android:id="@+id/tv_condition"
-                    android:text="未知"
-                    android:textSize="@dimen/sp_content"
-                    android:textColor="@color/black"
+                        android:text="AAA"
+                        android:id="@+id/tv_payType"
+                        android:textSize="@dimen/sp_content"
+                        android:textColor="@color/black"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:gravity="right"
+                        android:text="自付金额:"
+                        android:textSize="@dimen/sp_content"
+                        android:textColor="@color/gray"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="AAA"
+                        android:id="@+id/tv_patShare"
+                        android:paddingRight="20dp"
+                        android:textSize="@dimen/sp_content"
+                        android:textColor="@color/black"
                         />
                 </LinearLayout>
+
             </LinearLayout>
-			
-			<LinearLayout
-                android:layout_width="fill_parent"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:orientation="vertical" >
-
                 <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
-
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginRight="25dp"
+                    android:background="@color/mobile_bg_gray"
+                    android:layout_height="wrap_content">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
-                        android:paddingLeft="10dp"
-                        android:text="病人类型"
-                        android:textColor="@color/new_font_blue"
-                        android:textSize="@dimen/sp_content" />
-
-                     <TextView
-                         android:id="@+id/tv_payType"
-                         android:layout_width="0dp"
-                         android:layout_height="wrap_content"
-                         android:layout_margin="5dp"
-                         android:layout_weight="1"
-                         android:text="未知"
-                         android:textColor="@color/black"
-                         android:textSize="@dimen/sp_content" />
-
-                </LinearLayout>
-                <TextView 
-                    android:layout_width="fill_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@color/new_line_gray"
-                    />
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
-
+                        android:text="预交金:"
+                        android:textSize="@dimen/sp_content"
+                        android:textColor="@color/gray"
+                        />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
-                        android:paddingLeft="10dp"
-                        android:text="预  交  金"
-                        android:textColor="@color/new_font_blue"
-                        android:textSize="@dimen/sp_content" />
-
-                     <TextView
-                         android:id="@+id/tv_deposit"
-                         android:layout_width="0dp"
-                         android:layout_height="wrap_content"
-                         android:layout_margin="5dp"
-                         android:layout_weight="1"
-                         android:text="未知"
-                         android:textColor="@color/black"
-                         android:textSize="@dimen/sp_content" />
-
-                </LinearLayout>
-                <TextView 
-                    android:layout_width="fill_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@color/new_line_gray"
-                    />
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
-
+                        android:text="AAA"
+                        android:id="@+id/tv_deposit"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/sp_content"
+                        android:textColor="@color/black"
+                        />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
-                        android:paddingLeft="10dp"
-                        android:text="总  费  用"
-                        android:textColor="@color/new_font_blue"
-                        android:textSize="@dimen/sp_content" />
-
-                     <TextView
-                         android:id="@+id/tv_total"
-                         android:layout_width="0dp"
-                         android:layout_height="wrap_content"
-                         android:layout_margin="5dp"
-                         android:layout_weight="1"
-                         android:text="未知"
-                         android:textColor="@color/black"
-                         android:textSize="@dimen/sp_content" />
-
-                </LinearLayout>
-               <TextView 
-                    android:layout_width="fill_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@color/new_line_gray"
-                    />
-<LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
-
+                        android:gravity="right"
+                        android:text="总费用:"
+                        android:textSize="@dimen/sp_content"
+                        android:textColor="@color/gray"
+                        />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
-                        android:paddingLeft="10dp"
-                        android:text="自付金额"
-                        android:textColor="@color/new_font_blue"
-                        android:textSize="@dimen/sp_content" />
-
-                     <TextView
-                         android:id="@+id/tv_patShare"
-                         android:layout_width="0dp"
-                         android:layout_height="wrap_content"
-                         android:layout_margin="5dp"
-                         android:layout_weight="1"
-                         android:text="未知"
-                         android:textColor="@color/black"
-                         android:textSize="@dimen/sp_content" />
-
+                        android:text="AAA"
+                        android:layout_weight="1"
+                        android:id="@+id/tv_total"
+                        android:textSize="@dimen/sp_content"
+                        android:textColor="@color/black"
+                        />
+                    <TextView
+                        android:visibility="invisible"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:gravity="right"
+                        android:text="余额:"
+                        android:textSize="@dimen/sp_content"
+                        android:textColor="@color/gray"
+                        />
+                    <TextView
+                        android:visibility="invisible"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="AAA"
+                        android:layout_weight="1"
+                        android:id="@+id/tv_balance"
+                        android:textSize="@dimen/sp_content"
+                        android:textColor="@color/black"
+                        />
                 </LinearLayout>
+
             </LinearLayout>
+
+
+、
+
 			
             <LinearLayout
                 android:id="@+id/layout_content"

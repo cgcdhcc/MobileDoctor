@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.XMLservice.SysManager;
 import com.imedical.mobiledoctor.activity.WardRoundActivity;
+import com.imedical.mobiledoctor.base.BaseActivity;
 import com.imedical.mobiledoctor.entity.SeeDoctorRecord;
 
 import java.util.ArrayList;
@@ -21,10 +22,10 @@ import java.util.List;
 public class HisRecordsAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
     private List<SeeDoctorRecord> mListData = new ArrayList<SeeDoctorRecord>();
-    private WardRoundActivity context;
+    private BaseActivity context;
     ViewHolder holder = null;
 
-    public HisRecordsAdapter(WardRoundActivity context, List<SeeDoctorRecord> list) {
+    public HisRecordsAdapter(BaseActivity context, List<SeeDoctorRecord> list) {
         this.context = context;
         if (mListData != null) {
             this.mListData.addAll(list);
@@ -67,12 +68,12 @@ public class HisRecordsAdapter extends BaseAdapter {
         SeeDoctorRecord b = mListData.get(position);
         //列表第一项为本次就诊记录,显示"默认"
         if (position == 0) {
-            holder.tv_admDate.setVisibility(View.GONE);
-            holder.tv_admDept.setVisibility(View.GONE);
-            holder.tv_admType.setText("默认");
+//            holder.tv_admDate.setVisibility(View.GONE);
+//            holder.tv_admDept.setVisibility(View.GONE);
+            holder.tv_admType.setText("[默认]"+SysManager.getAdmTypeDesc(b.admType));
         } else {
-            holder.tv_admDate.setVisibility(View.VISIBLE);
-            holder.tv_admDept.setVisibility(View.VISIBLE);
+//            holder.tv_admDate.setVisibility(View.VISIBLE);
+//            holder.tv_admDept.setVisibility(View.VISIBLE);
             holder.tv_admDate.setText(b.admDate);
             holder.tv_admDept.setText(b.admDept);
             holder.tv_admType.setText(SysManager.getAdmTypeDesc(b.admType));

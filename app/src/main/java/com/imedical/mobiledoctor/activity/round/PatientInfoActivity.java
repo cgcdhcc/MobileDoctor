@@ -36,19 +36,26 @@ public class PatientInfoActivity  extends BaseActivity {
     private TextView tv_payType;
     private TextView tv_total;
     private TextView tv_deposit;
-    private TextView tv_patShare,tv_patRegNo;
+    private TextView tv_patShare,tv_patRegNo,tv_balance;
     PatientInfo P_info=null;
+    LoginInfo mLogin;
+    PatientInfo curPat;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.page1_patientinfo_activity);
         InitViews();
-        loadData();
+        loadData();   InitRecordList();
+
     }
 
     private void InitViews() {
+        mLogin = Const.loginInfo;
+        curPat = Const.curPat;
         setTitle("患者信息");
+        setInfos(curPat.patName,curPat.bedCode+"床("+curPat.patRegNo+")");
+        tv_balance= (TextView) findViewById(R.id.tv_balance);
         tv_bedCode = (TextView) findViewById(R.id.tv_bedCode);
         tv_patRegNo = (TextView) findViewById(R.id.tv_patRegNo);
         tv_patName = (TextView) findViewById(R.id.tv_patName);
@@ -107,8 +114,6 @@ public class PatientInfoActivity  extends BaseActivity {
         new Thread() {
             public void run() {
                 try {
-                    LoginInfo mLogin = Const.loginInfo;
-                    PatientInfo curPat = Const.curPat;
                     if (curPat != null) {
                         P_info= BusyManager.loadPatientInfo(mLogin.userCode, curPat.admId);
                     }

@@ -50,9 +50,7 @@ public class DiagnosisAdapter extends BaseAdapter {
 			holder.tv_diaDoc = (TextView) convertView.findViewById(R.id.tv_diaDoc);
 			holder.tv_diaType = (TextView) convertView.findViewById(R.id.tv_diaType);
 			holder.tv_diaTime = (TextView) convertView.findViewById(R.id.tv_diaTime);
-			
 			holder.tv_diaStat = (TextView) convertView.findViewById(R.id.tv_diaStat);
-			
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();

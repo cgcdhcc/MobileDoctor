@@ -2,81 +2,92 @@
 <!--  -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
+    android:id="@+id/rootView"
     android:layout_height="fill_parent"
     android:background="@color/white"
     android:orientation="vertical" >
     <include layout="@layout/page_head"></include>
-
-    <ScrollView
+    <include layout="@layout/inner_no_data" />
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
+        android:layout_height="wrap_content"
+        android:id="@+id/ll_content_area"
+        android:orientation="vertical" >
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_height="36dp">
+            <TextView
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_16dp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:layout_width="120dp"
+                android:layout_height="match_parent" />
 
-            android:orientation="vertical" >
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_height="36dp">
-                <TextView
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/font_16dp"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:layout_width="120dp"
-                    android:layout_height="match_parent" />
-
-                <TextView
-                    android:text="本次诊断"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/font_16dp"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent" />
-            </LinearLayout>
-            <ListView
-                android:id="@+id/lv_data_now"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:cacheColorHint="#00000000"
-                android:descendantFocusability="afterDescendants"
-                android:dividerHeight="0.5dp"
-                android:fadingEdge="none"
-                android:listSelector="@android:color/transparent" />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_height="36dp">
-                <TextView
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/font_16dp"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:layout_width="120dp"
-                    android:layout_height="match_parent" />
-
-                <TextView
-                    android:text="历史诊断"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/font_16dp"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent" />
-            </LinearLayout>
-            <ListView
-                android:id="@+id/lv_data_his"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:dividerHeight="0.5dp"
-                android:cacheColorHint="#00000000"
-                android:descendantFocusability="afterDescendants"
-                android:fadingEdge="none"
-                android:listSelector="@android:color/transparent" />
+            <TextView
+                android:text="本次诊断"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_16dp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
         </LinearLayout>
-    </ScrollView>
+        <ListView
+            android:id="@+id/lv_data_now"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:cacheColorHint="#00000000"
+            android:descendantFocusability="afterDescendants"
+            android:divider="@null"
+            android:fadingEdge="none"
+            android:listSelector="@android:color/transparent" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="36dp">
+            <TextView
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_16dp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:layout_width="120dp"
+                android:layout_height="match_parent" />
+            <LinearLayout
+                android:layout_width="10dp"
+                android:gravity="center"
+                android:layout_height="match_parent">
+                <TextView
+                    android:layout_width="1dp"
+                    android:visibility="invisible"
+                    android:id="@+id/tv_hisline"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@color/mobile_bg_gray"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+
+            <TextView
+                android:text="历史诊断"
+
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_16dp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+        <ListView
+            android:id="@+id/lv_data_his"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:divider="@null"
+            android:cacheColorHint="#00000000"
+            android:descendantFocusability="afterDescendants"
+            android:fadingEdge="none"
+            android:listSelector="@android:color/transparent" />
+    </LinearLayout>
+
 
 </LinearLayout>
