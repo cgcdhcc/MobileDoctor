@@ -13,6 +13,7 @@ public class AppConfig {
 	//是否内网
 	public static boolean isIntranet = false;
 	public static String g_basePath = Environment.getExternalStorageDirectory().getAbsolutePath() ;
+	public static String FILE_PATH=g_basePath+"/mobiledoctor";
 	public static final String HOSPATAL_ID        = "1";//医院ID
 
 	public static final String ServerURL_INTERNET = "https://cloud.qduhospital.cn/MHCApi/services/PublicServiceSoap?wsdl";//秦皇岛

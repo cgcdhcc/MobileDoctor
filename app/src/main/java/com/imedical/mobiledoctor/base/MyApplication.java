@@ -1,11 +1,15 @@
 package com.imedical.mobiledoctor.base;
 
 import android.app.Application;
+import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 
 import com.imedical.mobiledoctor.util.PreferManager;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+
+import org.litepal.LitePal;
 
 
 public class MyApplication extends Application {
@@ -110,5 +114,8 @@ public class MyApplication extends Application {
 //        }
         ImageLoaderConfiguration configuration = ImageLoaderConfiguration.createDefault(this);
         ImageLoader.getInstance().init(configuration);
+        LitePal.initialize(this);
+        SQLiteDatabase db = LitePal.getDatabase();
+        Log.d("msg", "数据库版本号：" + db.getVersion());
     }
 }

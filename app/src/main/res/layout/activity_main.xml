@@ -1,42 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-            >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-    />
-    <TextView android:layout_width="fill_parent"
+        android:layout_weight="1" />
 
-              android:background="@color/mobile_gray"
-              android:layout_height="0.5dp"   />
+    <TextView
+        android:layout_width="fill_parent"
+
+        android:layout_height="0.5dp"
+        android:background="@color/mobile_gray" />
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
 
         <LinearLayout
             android:id="@+id/ll_work"
             android:layout_width="0dp"
-            android:padding="5dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
             android:background="?android:attr/selectableItemBackground"
-            android:orientation="vertical" >
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="5dp">
 
             <ImageView
                 android:id="@+id/btn_work"
-                android:src="@xml/frg_1_selector"
                 android:layout_width="44dp"
                 android:layout_height="44dp"
-                android:padding="8dp" />
+                android:padding="8dp"
+                android:src="@xml/frg_1_selector" />
 
             <TextView
                 android:id="@+id/tv_work"
@@ -51,20 +52,19 @@
         <LinearLayout
             android:id="@+id/ll_patient"
             android:layout_width="0dp"
-            android:padding="5dp"
-            android:background="?android:attr/selectableItemBackground"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackground"
             android:gravity="center"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:padding="5dp">
 
             <ImageView
                 android:id="@+id/btn_patient"
-                android:src="@xml/frg_2_selector"
                 android:layout_width="44dp"
                 android:layout_height="44dp"
                 android:padding="8dp"
-                />
+                android:src="@xml/frg_2_selector" />
 
             <TextView
                 android:id="@+id/tv_patient"
@@ -78,20 +78,19 @@
         <LinearLayout
             android:id="@+id/ll_mine"
             android:layout_width="0dp"
-            android:padding="5dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="?android:attr/selectableItemBackground"
             android:gravity="center"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:padding="5dp">
 
             <ImageView
                 android:id="@+id/btn_mine"
-                android:src="@xml/frg_3_selector"
                 android:layout_width="44dp"
                 android:layout_height="44dp"
                 android:padding="8dp"
-                />
+                android:src="@xml/frg_3_selector" />
 
             <TextView
                 android:id="@+id/tv_mine"

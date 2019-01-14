@@ -44,6 +44,20 @@ public class DateUtil {
         return diff;
     }
 
+    public static String ConvertDateTime(String time) {
+        String format = "yyyy-MM-dd HH:mm:ss";
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(Long.parseLong(time));
+        Date currentTime = c.getTime();
+        SimpleDateFormat formatter = new SimpleDateFormat(format);// "yyyyMMdd"
+        String dateString = formatter.format(currentTime);
+        return dateString;
+    }
+
+    public static String getNowTimeMillis(){
+        return System.currentTimeMillis()+"";
+    }
+
     public static String getWeek(String strCurrDate) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date dateCurr = null;

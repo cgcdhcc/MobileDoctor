@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.imedical.im.activity.ImMainActivity;
 import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.XMLservice.PageGridManager;
@@ -33,7 +34,7 @@ public class Fragment_work extends Fragment implements View.OnClickListener {
     private WorkAdapter mAdapter_wait;
     private List<Item> mList_wait = new ArrayList<>();
     View mView=null;
-    View ll_ward;
+    View ll_ward,ll_Onlineinquiry;
     TextView tv_name,tv_department,tv_title;
     private String code_wait[] = new String[]{
 //            "10001",//"我的病人",
@@ -119,6 +120,8 @@ public class Fragment_work extends Fragment implements View.OnClickListener {
         });
         ll_ward=mView.findViewById(R.id.ll_ward);
         ll_ward.setOnClickListener(this);
+        ll_Onlineinquiry=mView.findViewById(R.id.ll_Onlineinquiry);
+        ll_Onlineinquiry.setOnClickListener(this);
         tv_name=(TextView) mView.findViewById(R.id.tv_name);
         tv_department=(TextView) mView.findViewById(R.id.tv_department);
         tv_title=(TextView) mView.findViewById(R.id.tv_title);
@@ -142,6 +145,11 @@ public class Fragment_work extends Fragment implements View.OnClickListener {
                         ctx.showNoPatDialog(ctx,null,null);
                 }
                 break;
+            case R.id.ll_Onlineinquiry:
+                Intent it =new Intent(ctx,ImMainActivity.class);
+                startActivity(it);
+                break;
+
         }
     }
 
