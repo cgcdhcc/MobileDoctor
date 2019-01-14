@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:background="@color/white"
+    android:layout_height="fill_parent" >
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/headLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="48dp"
+            >
+            <ImageView
+                android:id="@+id/iv_left"
+
+                android:padding="5dp"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:src="@drawable/all_left_arrow"
+                android:layout_gravity="center"
+                />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:id="@+id/ll_record"
+                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/tv_record"
+                    android:textSize="18dp"
+                    android:text="检验结果"
+                    android:textColor="@color/black"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_alignParentRight="true"
+                android:id="@+id/iv_right"
+                android:visibility="invisible"
+                android:layout_marginRight="15dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/frg_word"
+                android:layout_gravity="center"
+                />
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:scrollbars="none" >
+
+        <include
+
+            layout="@layout/include_lis_header" />
+
+        <ListView
+            android:id="@+id/lv_lis_detail"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:layout_weight="1"
+            android:dividerHeight="0.5dp"
+            android:drawSelectorOnTop="false"
+            android:groupIndicator="@null" />
+    </LinearLayout>
+
+
+</LinearLayout>
