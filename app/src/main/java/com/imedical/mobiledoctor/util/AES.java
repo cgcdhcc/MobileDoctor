@@ -8,7 +8,7 @@ public class AES {
 
     private static final String VIPARA = "0102030405060708";
     private static final String bm = "UTF-8";
-    private static String key = "dhccjiankangle05";
+    private static String key = "doctor_data_rad8";
 
     public static String encrypt(String cleartext)
             throws Exception {

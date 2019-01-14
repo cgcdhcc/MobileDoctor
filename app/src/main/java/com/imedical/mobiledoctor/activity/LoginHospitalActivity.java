@@ -35,6 +35,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.imedical.im.entity.ImBaseResponse;
+import com.imedical.im.entity.userregister;
+import com.imedical.im.service.ImUserService;
 import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.XMLservice.PrefManager;
@@ -193,10 +196,14 @@ public class LoginHospitalActivity extends BaseActivity implements
             new Thread() {
                 public void run() {
                     try {
-                        String ip = "192.0.0.1";
                         mLoginInfo = UserManager.login(
                                 LoginHospitalActivity.this, phoneNo, password,
-                                terminalId, ip, hospitalId);
+                                terminalId);
+                        userregister userregister=new userregister(mLoginInfo.userCode,mLoginInfo.userCode,mLoginInfo.userName);
+                        ImBaseResponse imBaseResponse =ImUserService.getInstance().userRegister(userregister);
+                        if(imBaseResponse!=null){
+                            Log.d("msg",imBaseResponse.msg);
+                        }
                         Message mess = new Message();
                         mess.what = 0;
                         myHandler.handleMessage(mess);
