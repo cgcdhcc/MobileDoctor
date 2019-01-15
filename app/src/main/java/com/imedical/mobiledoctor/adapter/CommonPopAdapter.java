@@ -63,9 +63,9 @@ public class CommonPopAdapter extends BaseAdapter {
         ActionItem b = mListData.get(position);
         holder.tv_text.setText(b.getTitle());
         if (position == context.selectPos) {
-            holder.tv_success.setVisibility(View.VISIBLE);
+//            holder.tv_success.setVisibility(View.VISIBLE);
         } else {
-            holder.tv_success.setVisibility(View.GONE);
+//            holder.tv_success.setVisibility(View.GONE);
         }
         return convertView;
     }

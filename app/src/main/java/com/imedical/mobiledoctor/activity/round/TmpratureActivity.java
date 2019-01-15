@@ -47,7 +47,7 @@ public class TmpratureActivity extends BaseActivity {
     private List<TempImageFile> mList = null;
     private List<ActionItem> aiList=new ArrayList<ActionItem>();
     private LinearLayout ll_nodata,ll_date;
-    private Button btn_week;
+    private TextView btn_week;
     private ImageView btn_left,btn_right;
     private WebView webView = null;
     private int mWeekMax = 0;
@@ -76,7 +76,7 @@ public class TmpratureActivity extends BaseActivity {
         webView.getSettings().setUseWideViewPort(true);
         ll_nodata = (LinearLayout) findViewById(R.id.ll_nodata);
         ll_date = (LinearLayout) findViewById(R.id.ll_date);
-        btn_week = (Button)findViewById(R.id.btn_week);
+        btn_week = (TextView)findViewById(R.id.btn_week);
         btn_left=(ImageView) findViewById(R.id.btn_left);
         btn_right=(ImageView) findViewById(R.id.btn_right);
         btn_left.setOnClickListener(new View.OnClickListener() {
@@ -159,7 +159,7 @@ public class TmpratureActivity extends BaseActivity {
     }
     protected void InitPop(){
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View view = layoutInflater.inflate(R.layout.his_record_list, null);
+        final View view = layoutInflater.inflate(R.layout.common_pop_list, null);
         popList = (ListView) view.findViewById(R.id.lv_data_list);
         popAdapter = new CommonPopAdapter(TmpratureActivity.this, aiList);
         popList.setAdapter(popAdapter);

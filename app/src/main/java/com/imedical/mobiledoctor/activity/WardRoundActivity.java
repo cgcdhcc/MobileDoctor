@@ -20,6 +20,7 @@ import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.XMLservice.BusyManager;
 import com.imedical.mobiledoctor.XMLservice.SysManager;
+import com.imedical.mobiledoctor.activity.round.CaseActivity;
 import com.imedical.mobiledoctor.activity.round.DiagnosisActivity;
 import com.imedical.mobiledoctor.activity.round.LisActivity;
 import com.imedical.mobiledoctor.activity.round.OrdersActivity;
@@ -109,7 +110,7 @@ public class WardRoundActivity extends BaseActivity implements View.OnClickListe
                 mPatientInfo.admType= sr.admType;
                 Const.curSRecorder=sr;
                 if (position == 0) {
-                    tv_hisdept.setText("[默认]"+SysManager.getAdmTypeDesc(sr.admType) );
+                    tv_hisdept.setText(SysManager.getAdmTypeDesc(sr.admType) );
                     tv_hisrcd.setText(sr.admDate);
                 } else {
                     tv_hisdept.setText(sr.admDept);
@@ -127,6 +128,8 @@ public class WardRoundActivity extends BaseActivity implements View.OnClickListe
         Const.curSRecorder=new SeeDoctorRecord();
         Const.curSRecorder.admId= mPatientInfo.admId;
         list.add(mCurrectRecord);
+//        tv_hisdept.setText(SysManager.getAdmTypeDesc(listtemp.get(0).admType) );
+//        tv_hisrcd.setText(listtemp.get(0).admDate);
         LoadHisRecord();
         ll_switch.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -207,6 +210,10 @@ public class WardRoundActivity extends BaseActivity implements View.OnClickListe
             case R.id.ll_6:
                 Intent it6 =new Intent(WardRoundActivity.this,TmpratureActivity.class);
                 this.startActivity(it6);
+                break;
+            case R.id.ll_7:
+                Intent ll_7 =new Intent(WardRoundActivity.this,CaseActivity.class);
+                this.startActivity(ll_7);
                 break;
             default:break;
         }
