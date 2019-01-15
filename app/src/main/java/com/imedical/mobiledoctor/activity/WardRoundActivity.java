@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -20,13 +19,14 @@ import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.XMLservice.BusyManager;
 import com.imedical.mobiledoctor.XMLservice.SysManager;
+import com.imedical.mobiledoctor.activity.round.BaseRoundActivity;
 import com.imedical.mobiledoctor.activity.round.CaseActivity;
 import com.imedical.mobiledoctor.activity.round.DiagnosisActivity;
 import com.imedical.mobiledoctor.activity.round.LisActivity;
 import com.imedical.mobiledoctor.activity.round.OrdersActivity;
 import com.imedical.mobiledoctor.activity.round.PatientInfoActivity;
 import com.imedical.mobiledoctor.activity.round.RisActivity;
-import com.imedical.mobiledoctor.activity.round.TmpratureActivity;
+import com.imedical.mobiledoctor.activity.round.TempratureActivity;
 import com.imedical.mobiledoctor.adapter.HisRecordsAdapter;
 import com.imedical.mobiledoctor.base.BaseActivity;
 import com.imedical.mobiledoctor.entity.PatientInfo;
@@ -36,7 +36,7 @@ import com.imedical.mobiledoctor.widget.CircleImageView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WardRoundActivity extends BaseActivity implements View.OnClickListener {
+public class WardRoundActivity extends BaseRoundActivity implements View.OnClickListener {
     private TextView   tv_name,tv_department,tv_title,tv_hisdept,tv_hisrcd;
     private HisRecordsAdapter mHisRecordsAdapter;
     private CircleImageView re_civ_photo;
@@ -175,12 +175,24 @@ public class WardRoundActivity extends BaseActivity implements View.OnClickListe
                             mHisRecordsAdapter = new HisRecordsAdapter(WardRoundActivity.this, list);
                             mListViewRecord.setAdapter(mHisRecordsAdapter);
                             mHisRecordsAdapter.notifyDataSetChanged();
+                            tv_hisdept.setText(SysManager.getAdmTypeDesc(list.get(0).admType) );
+                            tv_hisrcd.setText(list.get(0).admDate);
                         }
 
                     });
                 }
             }
         }.start();
+    }
+
+    @Override
+    public void OnPatientSelected(PatientInfo p) {
+
+    }
+
+    @Override
+    public void OnRecordSelected(SeeDoctorRecord sr) {
+
     }
 
     @Override
@@ -208,7 +220,7 @@ public class WardRoundActivity extends BaseActivity implements View.OnClickListe
                 this.startActivity(it5);
                 break;
             case R.id.ll_6:
-                Intent it6 =new Intent(WardRoundActivity.this,TmpratureActivity.class);
+                Intent it6 =new Intent(WardRoundActivity.this,TempratureActivity.class);
                 this.startActivity(it6);
                 break;
             case R.id.ll_7:

@@ -21,7 +21,7 @@
         <activity android:name="com.imedical.mobiledoctor.activity.round.CaseActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.mobiledoctor.activity.round.CommonBrowserActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.mobiledoctor.activity.round.detail.Ris_DetailActivity" android:screenOrientation="portrait"/>
-        <activity android:name="com.imedical.mobiledoctor.activity.round.TmpratureActivity" android:screenOrientation="portrait"/>
+        <activity android:name="com.imedical.mobiledoctor.activity.round.TempratureActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.mobiledoctor.activity.round.RisActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.mobiledoctor.activity.round.detail.Lis_DetailActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.mobiledoctor.activity.round.LisActivity" android:screenOrientation="portrait"/>

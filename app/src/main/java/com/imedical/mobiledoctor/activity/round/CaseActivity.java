@@ -30,7 +30,7 @@ import com.imedical.mobiledoctor.widget.TabView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CaseActivity extends BaseActivity {
+public class CaseActivity extends BaseRoundActivity {
     private String mInfo = "error!";
     private BrowseLocation mBrowseLocation=null;
     private LayoutInflater mInflater;
@@ -48,19 +48,19 @@ public class CaseActivity extends BaseActivity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.page7_case_activity);
         InitViews();
-        InitRecordList();
+        InitRecordList(CaseActivity.this);
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        //刷新就诊记录，配合InitRecordList（）使用
-        SeeDoctorRecord sr= Const.curSRecorder;
-        Const.curPat.inDate=sr.admDate;
-        Const.curPat.admId = sr.admId;
-        Const.curPat.admType= sr.admType;
-//        loadData();
+    public void OnPatientSelected(PatientInfo p) {
+
     }
+
+    @Override
+    public void OnRecordSelected(SeeDoctorRecord sr) {
+        loadData();
+    }
+
 
     private void InitViews() {
 
@@ -78,7 +78,6 @@ public class CaseActivity extends BaseActivity {
         this.iv_nore  = (ImageView)findViewById(R.id.iv_no_re);
         this.listBtn = new ArrayList<TabView>();
         setTitle("电子病历");
-        setInfos(Const.curPat.patName,Const.curPat.bedCode+"床("+Const.curPat.patRegNo+")");
         loadData();
     }
 

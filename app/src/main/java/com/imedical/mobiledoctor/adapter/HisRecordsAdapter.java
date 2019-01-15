@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.XMLservice.SysManager;
 import com.imedical.mobiledoctor.activity.WardRoundActivity;
+import com.imedical.mobiledoctor.activity.round.BaseRoundActivity;
 import com.imedical.mobiledoctor.base.BaseActivity;
 import com.imedical.mobiledoctor.entity.SeeDoctorRecord;
 
@@ -22,10 +23,10 @@ import java.util.List;
 public class HisRecordsAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
     private List<SeeDoctorRecord> mListData = new ArrayList<SeeDoctorRecord>();
-    private BaseActivity context;
+    private BaseRoundActivity context;
     ViewHolder holder = null;
 
-    public HisRecordsAdapter(BaseActivity context, List<SeeDoctorRecord> list) {
+    public HisRecordsAdapter(BaseRoundActivity context, List<SeeDoctorRecord> list) {
         this.context = context;
         if (mListData != null) {
             this.mListData.addAll(list);

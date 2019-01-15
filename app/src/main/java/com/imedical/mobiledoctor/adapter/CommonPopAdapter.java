@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.XMLservice.SysManager;
+import com.imedical.mobiledoctor.activity.round.BaseRoundActivity;
 import com.imedical.mobiledoctor.base.BaseActivity;
 import com.imedical.mobiledoctor.entity.ActionItem;
 import com.imedical.mobiledoctor.entity.SeeDoctorRecord;
@@ -19,10 +20,10 @@ import java.util.List;
 public class CommonPopAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
     private List<ActionItem> mListData = new ArrayList<ActionItem>();
-    private BaseActivity context;
+    private BaseRoundActivity context;
     ViewHolder holder = null;
 
-    public CommonPopAdapter(BaseActivity context, List<ActionItem> list) {
+    public CommonPopAdapter(BaseRoundActivity context, List<ActionItem> list) {
         this.context = context;
         if (mListData != null) {
             this.mListData.addAll(list);

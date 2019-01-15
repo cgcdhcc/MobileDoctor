@@ -208,7 +208,7 @@ public class OrderItemAdapter extends BaseExpandableListAdapter {
 			final List<OrderItem> childList, final int childPos) {
 		try {
 			final LoginInfo u = Const.loginInfo;
-			final PatientInfo p = context.mPatientCurrSelected;
+			final PatientInfo p = Const.curPat;
 			new Thread() {
 				public void run() {
 					try {

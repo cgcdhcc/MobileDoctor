@@ -20,14 +20,14 @@ import com.imedical.mobiledoctor.base.BaseActivity;
 import com.imedical.mobiledoctor.entity.Diagnosis;
 import com.imedical.mobiledoctor.entity.LoginInfo;
 import com.imedical.mobiledoctor.entity.PatientInfo;
+import com.imedical.mobiledoctor.entity.SeeDoctorRecord;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DiagnosisActivity extends BaseActivity {
-    private PatientInfo mPatientCurrSelected;
+public class DiagnosisActivity extends BaseRoundActivity {
     private String mInfo = " test ";
     private TextView tv_hisline;
     private DiagnosisAdapter mAdapter_now,mAdapter_his;
@@ -43,17 +43,23 @@ public class DiagnosisActivity extends BaseActivity {
         setContentView(R.layout.page2_diagnosis_activity);
         InitViews();
         loadData();
-        InitRecordList();
+        InitRecordList(DiagnosisActivity.this);
     }
 
-    private void InitViews() {
+    @Override
+    public void OnPatientSelected(PatientInfo p) {
 
+    }
+
+    @Override
+    public void OnRecordSelected(SeeDoctorRecord sr) {
+        loadData();
+    }
+    private void InitViews() {
         tv_hisline=(TextView) findViewById(R.id.tv_hisline);
         RootView=this.findViewById(R.id.rootView);
         mLogin = Const.loginInfo;
-        mPatientCurrSelected=Const.curPat;
         setTitle("诊断记录");
-        setInfos(mPatientCurrSelected.patName,mPatientCurrSelected.bedCode+"床("+mPatientCurrSelected.patRegNo+")");
         mListView_now = (ListView) findViewById(R.id.lv_data_now);
         mAdapter_now = new DiagnosisAdapter(DiagnosisActivity.this, mListData_now);
         mListView_now.setAdapter(mAdapter_now);
@@ -72,7 +78,7 @@ public class DiagnosisActivity extends BaseActivity {
     }
 
     private void loadData() {
-        if (mPatientCurrSelected == null) {
+        if (Const.curPat == null) {
             return;
         }
         showNodata(false,RootView);
@@ -90,7 +96,7 @@ public class DiagnosisActivity extends BaseActivity {
                     Looper.prepare();
                     Map map = new HashMap();
                     map.put("userCode", mLogin.userCode);
-                    map.put("admId", mPatientCurrSelected.admId);
+                    map.put("admId", Const.curPat.admId);
                     // 缓存查询的数据
                     List<Diagnosis> list = DiagnosisManager.listDiagnosisCurr(map);
                     mListData_now.clear();
@@ -120,7 +126,7 @@ public class DiagnosisActivity extends BaseActivity {
                     Looper.prepare();
                     Map map = new HashMap();
                     map.put("userCode", mLogin.userCode);
-                    map.put("admId", mPatientCurrSelected.admId);
+                    map.put("admId", Const.curPat.admId);
                     // 缓存查询的数据
                     List<Diagnosis> list = DiagnosisManager.listDiagnosisHis(map);
                     if(list!=null) {

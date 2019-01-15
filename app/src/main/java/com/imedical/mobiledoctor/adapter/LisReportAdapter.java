@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.SimpleExpandableListAdapter;
 import android.widget.TextView;
 
+import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.activity.round.LisActivity;
 import com.imedical.mobiledoctor.activity.round.detail.Lis_DetailActivity;
@@ -99,7 +100,7 @@ public class LisReportAdapter extends SimpleExpandableListAdapter {
                                 notifyDataSetChanged();
                                 if (l.reportStatus.equals("报告已出")) {
                                     Intent i = new Intent(ctx, Lis_DetailActivity.class);
-                                    i.putExtra("PatientInfo", ctx.mPatientCurrSelected);
+                                    i.putExtra("PatientInfo", Const.curPat);
                                     i.putExtra("ordLabNo", l.ordLabNo);
                                     ctx.startActivity(i);
                                 }

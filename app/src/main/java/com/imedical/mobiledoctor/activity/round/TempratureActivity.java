@@ -12,36 +12,29 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebView;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.XMLservice.SettingManager;
-import com.imedical.mobiledoctor.XMLservice.SysManager;
 import com.imedical.mobiledoctor.XMLservice.TempManager;
 import com.imedical.mobiledoctor.adapter.CommonPopAdapter;
-import com.imedical.mobiledoctor.adapter.HisRecordsAdapter;
 import com.imedical.mobiledoctor.base.BaseActivity;
 import com.imedical.mobiledoctor.entity.ActionItem;
-import com.imedical.mobiledoctor.entity.LabelValue;
 import com.imedical.mobiledoctor.entity.LoginInfo;
 import com.imedical.mobiledoctor.entity.PatientInfo;
 import com.imedical.mobiledoctor.entity.SeeDoctorRecord;
 import com.imedical.mobiledoctor.entity.TempData;
 import com.imedical.mobiledoctor.entity.TempImageFile;
-import com.imedical.mobiledoctor.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TmpratureActivity extends BaseActivity {
+public class TempratureActivity extends BaseRoundActivity {
     private CommonPopAdapter popAdapter;
     private String mInfo = "error!";
     private List<TempImageFile> mList = null;
@@ -52,7 +45,6 @@ public class TmpratureActivity extends BaseActivity {
     private WebView webView = null;
     private int mWeekMax = 0;
     private LoginInfo mLogin;
-    public PatientInfo mPatientCurrSelected ;
     private TempData mTempData;
     private PopupWindow PopWin;
     ListView popList;
@@ -61,11 +53,21 @@ public class TmpratureActivity extends BaseActivity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.page6_temprature_activity);
         InitViews();
-        InitRecordList();
+        InitRecordList(TempratureActivity.this);
+    }
+
+
+    @Override
+    public void OnPatientSelected(PatientInfo p) {
+
+    }
+
+    @Override
+    public void OnRecordSelected(SeeDoctorRecord sr) {
+        loadData();
     }
 
     private void InitViews() {
-        mPatientCurrSelected = Const.curPat;
         mLogin = Const.loginInfo;
         this.webView = (WebView) findViewById(R.id.webView);
         webView.getSettings().setSupportZoom(true);
@@ -146,7 +148,6 @@ public class TmpratureActivity extends BaseActivity {
         btn_week.setHint("");// 开始为空
         btn_week.setTag(0);
         setTitle("体温单");
-        setInfos(mPatientCurrSelected.patName,mPatientCurrSelected.bedCode+"床("+mPatientCurrSelected.patRegNo+")");
         InitPop();
         loadData();
     }
@@ -161,7 +162,7 @@ public class TmpratureActivity extends BaseActivity {
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View view = layoutInflater.inflate(R.layout.common_pop_list, null);
         popList = (ListView) view.findViewById(R.id.lv_data_list);
-        popAdapter = new CommonPopAdapter(TmpratureActivity.this, aiList);
+        popAdapter = new CommonPopAdapter(TempratureActivity.this, aiList);
         popList.setAdapter(popAdapter);
         popList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -229,12 +230,12 @@ public class TmpratureActivity extends BaseActivity {
                 try {
                     LoginInfo log = Const.loginInfo;
                     String state = "";
-                    if (SettingManager.isIntranet(TmpratureActivity.this)) {
+                    if (SettingManager.isIntranet(TempratureActivity.this)) {
                         state = "Intranet";
                     } else {
                         state = "Internet";
                     }
-                    mList = TempManager.getPatTempInfo(log.userCode,mPatientCurrSelected.admId, state);
+                    mList = TempManager.getPatTempInfo(log.userCode,Const.curPat.admId, state);
                     if (mList.size() > 0) {
                         mWeekMax=mList.size();
                         msg.obj = mList;
@@ -281,7 +282,7 @@ public class TmpratureActivity extends BaseActivity {
                             aiList.add(actionItem);
                             i++;
                         }
-                        popAdapter = new CommonPopAdapter(TmpratureActivity.this, aiList);
+                        popAdapter = new CommonPopAdapter(TempratureActivity.this, aiList);
                         popList.setAdapter(popAdapter);
                         popAdapter.notifyDataSetChanged();
                         btn_week.setText("第 "+first.weekNo+" 周");
@@ -305,4 +306,6 @@ public class TmpratureActivity extends BaseActivity {
             }
         }
     };
+
+
 }

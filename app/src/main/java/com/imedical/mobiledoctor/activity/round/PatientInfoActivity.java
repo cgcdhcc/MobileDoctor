@@ -15,8 +15,9 @@ import com.imedical.mobiledoctor.XMLservice.BusyManager;
 import com.imedical.mobiledoctor.base.BaseActivity;
 import com.imedical.mobiledoctor.entity.LoginInfo;
 import com.imedical.mobiledoctor.entity.PatientInfo;
+import com.imedical.mobiledoctor.entity.SeeDoctorRecord;
 
-public class PatientInfoActivity  extends BaseActivity {
+public class PatientInfoActivity  extends BaseRoundActivity {
     private View layout_content;
     private TextView tv_condition;
     private TextView tv_careLevel;
@@ -39,22 +40,29 @@ public class PatientInfoActivity  extends BaseActivity {
     private TextView tv_patShare,tv_patRegNo,tv_balance;
     PatientInfo P_info=null;
     LoginInfo mLogin;
-    PatientInfo curPat;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.page1_patientinfo_activity);
         InitViews();
-        loadData();   InitRecordList();
+        loadData();
+        InitRecordList(PatientInfoActivity.this);
+    }
 
+    @Override
+    public void OnPatientSelected(PatientInfo p) {
+
+    }
+
+    @Override
+    public void OnRecordSelected(SeeDoctorRecord sr) {
+        loadData();
     }
 
     private void InitViews() {
         mLogin = Const.loginInfo;
-        curPat = Const.curPat;
         setTitle("患者信息");
-        setInfos(curPat.patName,curPat.bedCode+"床("+curPat.patRegNo+")");
         tv_balance= (TextView) findViewById(R.id.tv_balance);
         tv_bedCode = (TextView) findViewById(R.id.tv_bedCode);
         tv_patRegNo = (TextView) findViewById(R.id.tv_patRegNo);
@@ -114,8 +122,8 @@ public class PatientInfoActivity  extends BaseActivity {
         new Thread() {
             public void run() {
                 try {
-                    if (curPat != null) {
-                        P_info= BusyManager.loadPatientInfo(mLogin.userCode, curPat.admId);
+                    if (Const.curPat != null) {
+                        P_info= BusyManager.loadPatientInfo(mLogin.userCode, Const.curPat.admId);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
