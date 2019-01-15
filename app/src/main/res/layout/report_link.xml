@@ -23,13 +23,23 @@
 
         <TextView
             android:layout_width="fill_parent"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:gravity="center"
 
             android:text="图片报告系统"
             android:textColor="@color/mobile_blue"
+            android:textStyle="bold"
             android:textSize="@dimen/font_18dp" />
+        <ImageView
+            android:padding="5dp"
+            android:visibility="invisible"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:src="@drawable/all_left_arrow"
+            android:layout_gravity="center"
+            android:textIsSelectable="false" />
     </LinearLayout>
 
     <WebView
