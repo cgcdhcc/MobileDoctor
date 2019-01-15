@@ -128,7 +128,7 @@ public class LoginHospitalActivity extends BaseActivity implements
         loginIV = (TextView) this.findViewById(R.id.btn_login);
         loginIV.setOnClickListener(this);
         iv_eyes = (CheckBox) findViewById(R.id.iv_eyes);
-
+        SettingManager.setIsIntranet(LoginHospitalActivity.this, false);
         iv_eyes.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

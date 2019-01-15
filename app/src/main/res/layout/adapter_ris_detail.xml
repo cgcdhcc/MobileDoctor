@@ -56,13 +56,15 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingLeft="15dp"
-                            android:text="X374747"
+                            android:text="XXXXX"
+                            android:id="@+id/tv_risRegId"
                             android:textColor="@color/gray"
                             android:textSize="@dimen/sp_content" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingLeft="6dp"
+                            android:id="@+id/tv_admDept"
                             android:text="XXX病房"
                             android:textColor="@color/gray"
                             android:textSize="@dimen/sp_content" />
@@ -117,8 +119,9 @@
                     android:layout_width="wrap_content"
                     android:orientation="vertical"
                     android:gravity="center"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="15dp"
                     android:id="@+id/ll_rep_link"
-                    android:layout_margin="10dp"
                     android:layout_height="wrap_content">
                     <ImageView
                         android:id="@+id/btn_rep_link"
@@ -139,8 +142,9 @@
                     android:orientation="vertical"
                     android:id="@+id/ll_pic_link"
                     android:gravity="center"
-                    android:layout_marginTop="10dp"
                     android:layout_marginRight="15dp"
+                    android:layout_marginBottom="5dp"
+
                     android:layout_height="wrap_content">
                     <ImageView
                         android:id="@+id/btn_pic_link"

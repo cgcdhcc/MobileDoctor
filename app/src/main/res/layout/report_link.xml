@@ -25,10 +25,11 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:gravity="center_vertical"
+            android:gravity="center"
+
             android:text="图片报告系统"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:textColor="@color/mobile_blue"
+            android:textSize="@dimen/font_18dp" />
     </LinearLayout>
 
     <WebView
