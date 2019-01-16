@@ -1,18 +1,18 @@
 package com.imedical.mobiledoctor.activity.round;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.XMLservice.BusyManager;
-import com.imedical.mobiledoctor.base.BaseActivity;
+import com.imedical.mobiledoctor.base.BaseRoundActivity;
 import com.imedical.mobiledoctor.entity.LoginInfo;
 import com.imedical.mobiledoctor.entity.PatientInfo;
 import com.imedical.mobiledoctor.entity.SeeDoctorRecord;
@@ -47,12 +47,21 @@ public class PatientInfoActivity  extends BaseRoundActivity {
         setContentView(R.layout.page1_patientinfo_activity);
         InitViews();
         loadData();
-        InitRecordList(PatientInfoActivity.this);
+        InitRecordListAndPatientList(PatientInfoActivity.this);
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == SWITHC_CODE) {
+            loadData();
+        }
+        setInfos(Const.curPat.patName,Const.curPat.bedCode+"床("+Const.curPat.patRegNo+")");//更新姓名，床号
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+    @Override
     public void OnPatientSelected(PatientInfo p) {
-
+        Intent it0 =new Intent(PatientInfoActivity.this,PatientListActivity.class);
+        startActivityForResult(it0, SWITHC_CODE);
     }
 
     @Override

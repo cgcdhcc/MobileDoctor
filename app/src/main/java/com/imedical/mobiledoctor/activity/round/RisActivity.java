@@ -1,11 +1,10 @@
 package com.imedical.mobiledoctor.activity.round;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,7 +15,7 @@ import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.XMLservice.RisManager;
 import com.imedical.mobiledoctor.XMLservice.SettingManager;
 import com.imedical.mobiledoctor.adapter.AdapterRis;
-import com.imedical.mobiledoctor.base.BaseActivity;
+import com.imedical.mobiledoctor.base.BaseRoundActivity;
 import com.imedical.mobiledoctor.entity.LoginInfo;
 import com.imedical.mobiledoctor.entity.PatientInfo;
 import com.imedical.mobiledoctor.entity.RisReport;
@@ -43,15 +42,22 @@ public class RisActivity extends BaseRoundActivity implements View.OnClickListen
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.page5_ris_activity);
         InitViews();
-        InitRecordList(RisActivity.this);
+        InitRecordListAndPatientList(RisActivity.this);
     }
-
 
     @Override
-    public void OnPatientSelected(PatientInfo p) {
-
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == SWITHC_CODE) {
+            loadDataThread();
+        }
+        setInfos(Const.curPat.patName,Const.curPat.bedCode+"床("+Const.curPat.patRegNo+")");//更新姓名，床号
+        super.onActivityResult(requestCode, resultCode, data);
     }
-
+    @Override
+    public void OnPatientSelected(PatientInfo p) {
+        Intent it0 =new Intent(RisActivity.this,PatientListActivity.class);
+        startActivityForResult(it0, SWITHC_CODE);
+    }
     @Override
     public void OnRecordSelected(SeeDoctorRecord sr) {
         loadDataThread();

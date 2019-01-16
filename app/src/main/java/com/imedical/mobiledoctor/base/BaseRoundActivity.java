@@ -1,4 +1,4 @@
-package com.imedical.mobiledoctor.activity.round;
+package com.imedical.mobiledoctor.base;
 
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
@@ -16,27 +15,25 @@ import android.widget.TextView;
 
 import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
-import com.imedical.mobiledoctor.XMLservice.BusyManager;
 import com.imedical.mobiledoctor.XMLservice.SysManager;
-import com.imedical.mobiledoctor.activity.WardRoundActivity;
 import com.imedical.mobiledoctor.adapter.HisRecordsAdapter;
-import com.imedical.mobiledoctor.base.BaseActivity;
 import com.imedical.mobiledoctor.entity.PatientInfo;
 import com.imedical.mobiledoctor.entity.SeeDoctorRecord;
-import com.imedical.mobiledoctor.util.StatusBarUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class BaseRoundActivity extends BaseActivity {
     private ListView mListViewRecord;
+    private View ll_top;
     public BaseRoundActivity Instance;
     private HisRecordsAdapter mHisRecordsAdapter;
     private PopupWindow hisRecordPopWin;
     private List<SeeDoctorRecord> list = new ArrayList<SeeDoctorRecord>();
     private List<SeeDoctorRecord> listtemp = null;
     public int selectPos = 0;//WardRoundActivity和基类专用
-    public TextView tv_record;
+    public TextView tv_record,tv_patSwitch;
+    public int SWITHC_CODE = 101;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,15 +42,24 @@ public abstract class BaseRoundActivity extends BaseActivity {
     private void showWindow(View parent) {
         if (hisRecordPopWin != null) {
             WindowManager windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-            int xPos =-(windowManager.getDefaultDisplay().getWidth() - hisRecordPopWin.getWidth())/2;
-            hisRecordPopWin.showAsDropDown(parent, -1000, 300);
+            int xPos =(windowManager.getDefaultDisplay().getWidth() - hisRecordPopWin.getWidth())/2;
+            hisRecordPopWin.showAsDropDown(parent, xPos, 0);
         }
     }
 
-    protected void InitRecordList(BaseRoundActivity activity){
+
+    protected void InitRecordListAndPatientList(BaseRoundActivity activity){
         this.Instance=activity;
         setInfos(Const.curPat.patName,Const.curPat.bedCode+"床("+Const.curPat.patRegNo+")");
         tv_record=(TextView) findViewById(R.id.tv_record);
+        tv_patSwitch=(TextView) findViewById(R.id.tv_patSwitch);
+        tv_patSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Instance.OnPatientSelected(null);
+            }
+        });
+        ll_top= findViewById(R.id.ll_top);
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View view = layoutInflater.inflate(R.layout.his_record_list, null);
         mListViewRecord = (ListView) view.findViewById(R.id.lv_data_list);
@@ -73,7 +79,7 @@ public abstract class BaseRoundActivity extends BaseActivity {
                 tv_record.setText(SysManager.getAdmTypeDesc(sr.admType) +sr.admDate);
                 selectPos = position;
                 mHisRecordsAdapter.notifyDataSetChanged();
-                Instance.OnRecordSelected(sr);
+                Instance.OnRecordSelected(null);
             }
 
         });
@@ -81,7 +87,7 @@ public abstract class BaseRoundActivity extends BaseActivity {
         tv_record.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showWindow(v);
+                showWindow(ll_top);
             }
         });
         tv_record.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {

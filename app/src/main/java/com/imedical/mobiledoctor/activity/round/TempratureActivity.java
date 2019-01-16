@@ -1,6 +1,7 @@
 package com.imedical.mobiledoctor.activity.round;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,7 +24,7 @@ import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.XMLservice.SettingManager;
 import com.imedical.mobiledoctor.XMLservice.TempManager;
 import com.imedical.mobiledoctor.adapter.CommonPopAdapter;
-import com.imedical.mobiledoctor.base.BaseActivity;
+import com.imedical.mobiledoctor.base.BaseRoundActivity;
 import com.imedical.mobiledoctor.entity.ActionItem;
 import com.imedical.mobiledoctor.entity.LoginInfo;
 import com.imedical.mobiledoctor.entity.PatientInfo;
@@ -53,13 +54,22 @@ public class TempratureActivity extends BaseRoundActivity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.page6_temprature_activity);
         InitViews();
-        InitRecordList(TempratureActivity.this);
+        InitRecordListAndPatientList(TempratureActivity.this);
     }
 
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == SWITHC_CODE) {
+            loadData();
+        }
+        setInfos(Const.curPat.patName,Const.curPat.bedCode+"床("+Const.curPat.patRegNo+")");//更新姓名，床号
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+    @Override
     public void OnPatientSelected(PatientInfo p) {
-
+        Intent it0 =new Intent(TempratureActivity.this,PatientListActivity.class);
+        startActivityForResult(it0, SWITHC_CODE);
     }
 
     @Override

@@ -8,11 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.imedical.mobiledoctor.R;
-import com.imedical.mobiledoctor.XMLservice.SysManager;
-import com.imedical.mobiledoctor.activity.round.BaseRoundActivity;
-import com.imedical.mobiledoctor.base.BaseActivity;
+import com.imedical.mobiledoctor.base.BaseRoundActivity;
 import com.imedical.mobiledoctor.entity.ActionItem;
-import com.imedical.mobiledoctor.entity.SeeDoctorRecord;
 
 import java.util.ArrayList;
 import java.util.List;

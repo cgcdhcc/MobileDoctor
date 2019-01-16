@@ -1,23 +1,21 @@
 package com.imedical.mobiledoctor.activity.round;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.imedical.mobiledoctor.AppConfig;
 import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.XMLservice.LisManager;
 import com.imedical.mobiledoctor.adapter.LisReportAdapter;
-import com.imedical.mobiledoctor.base.BaseActivity;
+import com.imedical.mobiledoctor.base.BaseRoundActivity;
 import com.imedical.mobiledoctor.entity.LisReportList;
 import com.imedical.mobiledoctor.entity.LoginInfo;
 import com.imedical.mobiledoctor.entity.PatientInfo;
@@ -54,12 +52,20 @@ public class LisActivity extends BaseRoundActivity implements
         InitViews();
         resetData();
         loadDataThread(Const.curPat.admId, sort);
-        InitRecordList(LisActivity.this);
+        InitRecordListAndPatientList(LisActivity.this);
     }
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == SWITHC_CODE) {
+            loadDataThread(Const.curPat.admId, sort);
+        }
+        setInfos(Const.curPat.patName,Const.curPat.bedCode+"床("+Const.curPat.patRegNo+")");//更新姓名，床号
+        super.onActivityResult(requestCode, resultCode, data);
+    }
     @Override
     public void OnPatientSelected(PatientInfo p) {
-
+        Intent it0 =new Intent(LisActivity.this,PatientListActivity.class);
+        startActivityForResult(it0, SWITHC_CODE);
     }
 
     @Override

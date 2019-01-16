@@ -12,5 +12,5 @@
         android:left  ="0dp"
         android:right ="0dp" />
     <!-- 边角 -->
-    <corners android:radius="6dp" />
+    <corners android:radius="4dp" />
 </shape>

@@ -1,5 +1,6 @@
 package com.imedical.mobiledoctor.activity.round;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -8,17 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.webkit.WebView;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TableRow;
 
 import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.XMLservice.BrowseManager;
 import com.imedical.mobiledoctor.XMLservice.SettingManager;
-import com.imedical.mobiledoctor.XMLservice.SysManager;
-import com.imedical.mobiledoctor.base.BaseActivity;
+import com.imedical.mobiledoctor.base.BaseRoundActivity;
 import com.imedical.mobiledoctor.entity.BrowseLocation;
 import com.imedical.mobiledoctor.entity.CateCharpter;
 import com.imedical.mobiledoctor.entity.LoginInfo;
@@ -41,19 +39,27 @@ public class CaseActivity extends BaseRoundActivity {
     private List<TabView> listBtn;
     private int oldSel=-1;
     private ImageView iv_nore = null ;
-    private LoginInfo mLogin;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.page7_case_activity);
         InitViews();
-        InitRecordList(CaseActivity.this);
+        InitRecordListAndPatientList(CaseActivity.this);
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == SWITHC_CODE) {
+            loadData();
+        }
+        setInfos(Const.curPat.patName,Const.curPat.bedCode+"床("+Const.curPat.patRegNo+")");//更新姓名，床号
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+    @Override
     public void OnPatientSelected(PatientInfo p) {
-
+        Intent it0 =new Intent(CaseActivity.this,PatientListActivity.class);
+        startActivityForResult(it0, SWITHC_CODE);
     }
 
     @Override
@@ -63,8 +69,6 @@ public class CaseActivity extends BaseRoundActivity {
 
 
     private void InitViews() {
-
-        mLogin = Const.loginInfo;
         this.webView_case_report = (WebView)findViewById(R.id.webView_case_report);
         this.scr_browse = findViewById(R.id.lay_browse);
         ll_nodata= (LinearLayout) findViewById(R.id.ll_nodata);

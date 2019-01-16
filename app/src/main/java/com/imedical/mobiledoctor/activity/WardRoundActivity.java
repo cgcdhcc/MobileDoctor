@@ -19,7 +19,7 @@ import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.XMLservice.BusyManager;
 import com.imedical.mobiledoctor.XMLservice.SysManager;
-import com.imedical.mobiledoctor.activity.round.BaseRoundActivity;
+import com.imedical.mobiledoctor.base.BaseRoundActivity;
 import com.imedical.mobiledoctor.activity.round.CaseActivity;
 import com.imedical.mobiledoctor.activity.round.DiagnosisActivity;
 import com.imedical.mobiledoctor.activity.round.LisActivity;
@@ -29,7 +29,6 @@ import com.imedical.mobiledoctor.activity.round.PatientListActivity;
 import com.imedical.mobiledoctor.activity.round.RisActivity;
 import com.imedical.mobiledoctor.activity.round.TempratureActivity;
 import com.imedical.mobiledoctor.adapter.HisRecordsAdapter;
-import com.imedical.mobiledoctor.base.BaseActivity;
 import com.imedical.mobiledoctor.entity.PatientInfo;
 import com.imedical.mobiledoctor.entity.SeeDoctorRecord;
 import com.imedical.mobiledoctor.widget.CircleImageView;
@@ -46,7 +45,6 @@ public class WardRoundActivity extends BaseRoundActivity implements View.OnClick
     private ListView mListViewRecord;
     private PopupWindow hisRecordPopWin;
     private  View ll_switch,ll_1,ll_2,ll_3,ll_4,ll_5,ll_6,ll_7,ll_8;
-    private int SWITHC_CODE = 101;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,23 +58,28 @@ public class WardRoundActivity extends BaseRoundActivity implements View.OnClick
     protected void onResume() {
         super.onResume();
         if(Const.curSRecorder!=null){
-            tv_hisdept.setText(SysManager.getAdmTypeDesc(Const.curSRecorder.admType) );
-            tv_hisrcd.setText(Const.curSRecorder.admDate);
-            int i=0;
-            for(SeeDoctorRecord temp:Const.SRecorderList){  //同步选择标签
-                if(temp.admId.equals(Const.curSRecorder.admId)){
-                    selectPos=i;
+            try{
+                tv_hisdept.setText(SysManager.getAdmTypeDesc(Const.curSRecorder.admType) );
+                tv_hisrcd.setText(Const.curSRecorder.admDate);
+                int i=0;
+                for(SeeDoctorRecord temp:Const.SRecorderList){  //同步选择标签
+                    if(temp.admId.equals(Const.curSRecorder.admId)){
+                        selectPos=i;
+                    }
+                    i++;
                 }
-                i++;
+                mHisRecordsAdapter.notifyDataSetChanged();
+            }catch (Exception ee){
+               showCustom(ee.toString());
             }
-            mHisRecordsAdapter.notifyDataSetChanged();
+
         }
     }
 
     private void showWindow(View parent) {
         if (hisRecordPopWin != null) {
             WindowManager windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-            hisRecordPopWin.showAsDropDown(parent, 0, 0);
+            hisRecordPopWin.showAsDropDown(parent, 0, -10);
         }
     }
     private void InitViews(){

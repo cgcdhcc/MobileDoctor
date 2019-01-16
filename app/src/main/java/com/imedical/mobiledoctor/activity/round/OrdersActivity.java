@@ -5,11 +5,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AbsListView;
-import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -18,7 +16,7 @@ import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.XMLservice.OrderItemManager;
 import com.imedical.mobiledoctor.adapter.OrderItemAdapter;
-import com.imedical.mobiledoctor.base.BaseActivity;
+import com.imedical.mobiledoctor.base.BaseRoundActivity;
 import com.imedical.mobiledoctor.entity.LabelValue;
 import com.imedical.mobiledoctor.entity.OrderItem;
 import com.imedical.mobiledoctor.entity.PatientInfo;
@@ -63,14 +61,23 @@ public class OrdersActivity extends BaseRoundActivity implements
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.page3_orders_activity);
         InitViews();
+        InitRecordListAndPatientList(OrdersActivity.this);
     }
 
 
     @Override
-    public void OnPatientSelected(PatientInfo p) {
-
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == SWITHC_CODE) {
+            doQuery();
+        }
+        setInfos(Const.curPat.patName,Const.curPat.bedCode+"床("+Const.curPat.patRegNo+")");//更新姓名，床号
+        super.onActivityResult(requestCode, resultCode, data);
     }
-
+    @Override
+    public void OnPatientSelected(PatientInfo p) {
+        Intent it0 =new Intent(OrdersActivity.this,PatientListActivity.class);
+        startActivityForResult(it0, SWITHC_CODE);
+    }
     @Override
     public void OnRecordSelected(SeeDoctorRecord sr) {
         doQuery();
@@ -192,7 +199,7 @@ public class OrdersActivity extends BaseRoundActivity implements
             }
         });
         doQuery();
-        InitRecordList(OrdersActivity.this);
+//        InitRecordList(OrdersActivity.this);
     }
 
     private synchronized void checkAndLoadDataThread() {
