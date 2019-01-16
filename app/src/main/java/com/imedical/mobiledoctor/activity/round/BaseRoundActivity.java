@@ -18,6 +18,7 @@ import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.XMLservice.BusyManager;
 import com.imedical.mobiledoctor.XMLservice.SysManager;
+import com.imedical.mobiledoctor.activity.WardRoundActivity;
 import com.imedical.mobiledoctor.adapter.HisRecordsAdapter;
 import com.imedical.mobiledoctor.base.BaseActivity;
 import com.imedical.mobiledoctor.entity.PatientInfo;
@@ -37,7 +38,6 @@ public abstract class BaseRoundActivity extends BaseActivity {
     public int selectPos = 0;//WardRoundActivity和基类专用
     public View ll_record;
     public TextView tv_record;
-    private SeeDoctorRecord mCurrectRecord = new SeeDoctorRecord();
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,20 +78,13 @@ public abstract class BaseRoundActivity extends BaseActivity {
             }
 
         });
-        mCurrectRecord.admDate =  Const.curPat.inDate;
-        mCurrectRecord.admDept =  Const.curPat.departmentName;
-        mCurrectRecord.admId =  Const.curPat.admId;
-        mCurrectRecord.admType =  Const.curPat.admType;
-        Const.curSRecorder=new SeeDoctorRecord();
-        Const.curSRecorder.admId=  Const.curPat.admId;
-        list.add(mCurrectRecord);
+        InitHisRecord();
         ll_record.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showWindow(v);
             }
         });
-        LoadHisRecord();
         ll_record.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -105,38 +98,76 @@ public abstract class BaseRoundActivity extends BaseActivity {
             }
         });
     }
-    private void LoadHisRecord() {
-        new Thread() {
-            @Override
-            public void run() {
-                try {
-                    listtemp = BusyManager.listSeeDoctorRecord(Const.curPat.admId);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    if (listtemp == null) {
-                        listtemp = new ArrayList<SeeDoctorRecord>();
-                    } else {
-                        list.addAll(listtemp);
-                    }
-                    runOnUiThread(new Runnable() {
 
-                        @Override
-                        public void run() {
-                            //		mListData.clear();
-                            mHisRecordsAdapter = new HisRecordsAdapter(BaseRoundActivity.this, list);
-                            mListViewRecord.setAdapter(mHisRecordsAdapter);
-                            mHisRecordsAdapter.notifyDataSetChanged();
-                            if(list.size()>0){
-                                tv_record.setText(SysManager.getAdmTypeDesc(list.get(0).admType) +list.get(0).admDate);
-                            }
-                        }
-
-                    });
-                }
+    private void InitHisRecord(){
+//        if(Const.SRecorderList==null){//每个患者全局只执行一次查询
+//             SeeDoctorRecord newRcd = new SeeDoctorRecord();
+//            newRcd.admDate =  Const.curPat.inDate;
+//            newRcd.admDept =  Const.curPat.departmentName;
+//            newRcd.admId =  Const.curPat.admId;
+//            newRcd.admType =  Const.curPat.admType;
+//            list.add(newRcd);
+//            LoadHisRecord();
+//        }else {
+        if(Const.SRecorderList!=null){//加载WordRoundActivit读取的数据。
+            if(list.size()>0){
+                tv_record.setText(SysManager.getAdmTypeDesc(list.get(0).admType) +list.get(0).admDate);
             }
-        }.start();
+            list.addAll(Const.SRecorderList);
+            mHisRecordsAdapter = new HisRecordsAdapter(BaseRoundActivity.this, list);
+            mListViewRecord.setAdapter(mHisRecordsAdapter);
+            mHisRecordsAdapter.notifyDataSetChanged();
+            if(Const.curSRecorder!=null){
+                tv_record.setText(SysManager.getAdmTypeDesc(Const.curSRecorder.admType) +Const.curSRecorder.admDate);
+                int i=0;
+                for(SeeDoctorRecord temp:Const.SRecorderList){  //同步选择标签
+                    if(temp.admId.equals(Const.curSRecorder.admId)){
+                        selectPos=i;
+                    }
+                    i++;
+                }
+            }else if(list.size()>0){ //默认
+                tv_record.setText(SysManager.getAdmTypeDesc(list.get(0).admType) +list.get(0).admDate);
+            }else {
+                showCustom("就诊历史记录NULL");
+                tv_record.setText("无就诊历史记录");
+        }
+
+        }
     }
+    //用不上
+//    private void LoadHisRecord() {
+//        new Thread() {
+//            @Override
+//            public void run() {
+//                try {
+//                    listtemp = BusyManager.listSeeDoctorRecord(Const.curPat.admId);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                } finally {
+//                    if (listtemp == null) {
+//                        listtemp = new ArrayList<SeeDoctorRecord>();
+//                    } else {
+//                        list.addAll(listtemp);
+//                    }
+//                    runOnUiThread(new Runnable() {
+//
+//                        @Override
+//                        public void run() {
+//                            //		mListData.clear();
+//                            mHisRecordsAdapter = new HisRecordsAdapter(BaseRoundActivity.this, list);
+//                            mListViewRecord.setAdapter(mHisRecordsAdapter);
+//                            mHisRecordsAdapter.notifyDataSetChanged();
+//                            if(list.size()>0){
+//                                tv_record.setText(SysManager.getAdmTypeDesc(list.get(0).admType) +list.get(0).admDate);
+//                            }
+//                        }
+//
+//                    });
+//                }
+//            }
+//        }.start();
+//    }
 
     public abstract void OnPatientSelected(PatientInfo p);
     public abstract void OnRecordSelected(SeeDoctorRecord sr);

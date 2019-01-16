@@ -5,6 +5,8 @@ import com.imedical.mobiledoctor.entity.LoginInfo;
 import com.imedical.mobiledoctor.entity.PatientInfo;
 import com.imedical.mobiledoctor.entity.SeeDoctorRecord;
 
+import java.util.List;
+
 public final class Const {
 	public static boolean AES_OR_NOT=true;
 	public static boolean ISTEST=true;
@@ -18,9 +20,10 @@ public final class Const {
 	public static final String SERVICEURL = "http://58.87.69.164/dhccam-t/gateway/index";
 	public static final String URL_CREATE="http://58.87.69.164/dhccam-t/token/generate?grant_type=api_credentials";
 	public static final String URL_REFRESH="https://pay.qduhospital.cn/apimanager/api/token/generate?grant_type=refresh_token&refresh_token=";
-	public static LoginInfo loginInfo;
-	public static PatientInfo curPat;
-	public static SeeDoctorRecord curSRecorder;
+	public static LoginInfo loginInfo=null;
+	public static PatientInfo curPat=null;
+	public static SeeDoctorRecord curSRecorder=null;
+	public static List<SeeDoctorRecord> SRecorderList=null; //只在wardRoundActivity加载一次
 	public static final String KEY_DEFAULT_HOS_ID                  = "KEY_DEFAULT_HOS_ID";
 	public static final String KEY_DEFAULT_HOS_NAME                = "KEY_DEFAULT_HOS_NAME";
 	public static final String BIZ_CODE_LOSE_PSW = "1";

@@ -42,10 +42,8 @@ public class WardRoundActivity extends BaseRoundActivity implements View.OnClick
     private CircleImageView re_civ_photo;
     private List<SeeDoctorRecord> list = new ArrayList<SeeDoctorRecord>();
     private List<SeeDoctorRecord> listtemp = null;
-    private PatientInfo mPatientInfo;
     private ListView mListViewRecord;
     private PopupWindow hisRecordPopWin;
-    private SeeDoctorRecord mCurrectRecord = new SeeDoctorRecord();
     private  View ll_switch,ll_1,ll_2,ll_3,ll_4,ll_5,ll_6,ll_7,ll_8;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,6 +52,24 @@ public class WardRoundActivity extends BaseRoundActivity implements View.OnClick
         setContentView(R.layout.ward_round_activity);
         InitViews();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(Const.curSRecorder!=null){
+            tv_hisdept.setText(SysManager.getAdmTypeDesc(Const.curSRecorder.admType) );
+            tv_hisrcd.setText(Const.curSRecorder.admDate);
+            int i=0;
+            for(SeeDoctorRecord temp:Const.SRecorderList){  //同步选择标签
+                if(temp.admId.equals(Const.curSRecorder.admId)){
+                    selectPos=i;
+                }
+                i++;
+            }
+            mHisRecordsAdapter.notifyDataSetChanged();
+        }
+    }
+
     private void showWindow(View parent) {
         if (hisRecordPopWin != null) {
             WindowManager windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
@@ -61,7 +77,6 @@ public class WardRoundActivity extends BaseRoundActivity implements View.OnClick
         }
     }
     private void InitViews(){
-        mPatientInfo = Const.curPat;
         re_civ_photo=(CircleImageView)findViewById(R.id.re_civ_photo);
         tv_name=(TextView) findViewById(R.id.tv_name);
         tv_hisrcd=(TextView) findViewById(R.id.tv_hisrcd);
@@ -105,9 +120,9 @@ public class WardRoundActivity extends BaseRoundActivity implements View.OnClick
                 if (hisRecordPopWin != null) {
                     hisRecordPopWin.dismiss();
                 }
-                mPatientInfo.inDate=sr.admDate;
-                mPatientInfo.admId = sr.admId;
-                mPatientInfo.admType= sr.admType;
+                Const.curPat.inDate=sr.admDate;
+                Const.curPat.admId = sr.admId;
+                Const.curPat.admType= sr.admType;
                 Const.curSRecorder=sr;
                 if (position == 0) {
                     tv_hisdept.setText(SysManager.getAdmTypeDesc(sr.admType) );
@@ -121,16 +136,7 @@ public class WardRoundActivity extends BaseRoundActivity implements View.OnClick
             }
 
         });
-        mCurrectRecord.admDate = mPatientInfo.inDate;
-        mCurrectRecord.admDept = mPatientInfo.departmentName;
-        mCurrectRecord.admId = mPatientInfo.admId;
-        mCurrectRecord.admType = mPatientInfo.admType;
-        Const.curSRecorder=new SeeDoctorRecord();
-        Const.curSRecorder.admId= mPatientInfo.admId;
-        list.add(mCurrectRecord);
-//        tv_hisdept.setText(SysManager.getAdmTypeDesc(listtemp.get(0).admType) );
-//        tv_hisrcd.setText(listtemp.get(0).admDate);
-        LoadHisRecord();
+        InitHisRecord();
         ll_switch.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -153,12 +159,40 @@ public class WardRoundActivity extends BaseRoundActivity implements View.OnClick
         }
     }
 
+    private void InitHisRecord(){
+        if(Const.SRecorderList==null){//每个患者全局只执行一次查询,
+            SeeDoctorRecord newRcd = new SeeDoctorRecord();
+            newRcd.admDate =  Const.curPat.inDate;
+            newRcd.admDept =  Const.curPat.departmentName;
+            newRcd.admId =  Const.curPat.admId;
+            newRcd.admType =  Const.curPat.admType;
+            list.add(newRcd);
+            LoadHisRecord();
+        }else {
+            list.addAll(Const.SRecorderList);
+            mHisRecordsAdapter = new HisRecordsAdapter(WardRoundActivity.this, list);
+            mListViewRecord.setAdapter(mHisRecordsAdapter);
+            mHisRecordsAdapter.notifyDataSetChanged();
+            if(Const.curSRecorder!=null){
+                for(SeeDoctorRecord temp:Const.SRecorderList){
+                    if(temp.admId.equals(Const.curSRecorder.admId)){ //退出页面也同步
+                        tv_hisdept.setText(SysManager.getAdmTypeDesc(temp.admType) );
+                        tv_hisrcd.setText(temp.admDate);
+                    }
+                }
+            }else if(list.size()>0){ //默认
+                tv_hisdept.setText(SysManager.getAdmTypeDesc(list.get(0).admType) );
+                tv_hisrcd.setText(list.get(0).admDate);            }
+        }
+    }
+
     private void LoadHisRecord() {
+        showProgress();
         new Thread() {
             @Override
             public void run() {
                 try {
-                    listtemp = BusyManager.listSeeDoctorRecord(mPatientInfo.admId);
+                    listtemp = BusyManager.listSeeDoctorRecord(Const.curPat.admId);
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
@@ -166,15 +200,18 @@ public class WardRoundActivity extends BaseRoundActivity implements View.OnClick
                         listtemp = new ArrayList<SeeDoctorRecord>();
                     } else {
                         list.addAll(listtemp);
+                        Const.SRecorderList=new ArrayList<SeeDoctorRecord>();
+                        Const.SRecorderList.addAll(list);//每个患者全局加载一次
                     }
                     runOnUiThread(new Runnable() {
 
                         @Override
                         public void run() {
-                            //		mListData.clear();
+                            dismissProgress();
                             mHisRecordsAdapter = new HisRecordsAdapter(WardRoundActivity.this, list);
                             mListViewRecord.setAdapter(mHisRecordsAdapter);
                             mHisRecordsAdapter.notifyDataSetChanged();
+                            //默认就诊记录，之后会随着患者选择同步
                             tv_hisdept.setText(SysManager.getAdmTypeDesc(list.get(0).admType) );
                             tv_hisrcd.setText(list.get(0).admDate);
                         }

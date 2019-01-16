@@ -82,6 +82,7 @@ public class CaseActivity extends BaseRoundActivity {
     }
 
     private void loadData() {
+        showProgress();
         new Thread(){
             public void run(){
                 Message msg = new Message();

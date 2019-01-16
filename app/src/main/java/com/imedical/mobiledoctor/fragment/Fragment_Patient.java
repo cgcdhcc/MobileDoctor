@@ -115,6 +115,9 @@ public class Fragment_Patient extends Fragment implements View.OnClickListener {
                                     long arg3) {
                 PatientInfo p = mListDataPatient.get(pos);
                 if (p != null) {
+                    Const.curPat=null;
+                    Const.SRecorderList=null;
+                    Const.curSRecorder=null;
                     Const.curPat=p;
                 }
 //                view.setBackgroundResource(R.color.mobile_gray);
