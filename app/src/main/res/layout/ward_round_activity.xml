@@ -100,6 +100,7 @@
                     android:layout_height="wrap_content" />
                 <TextView
                     android:layout_width="80dp"
+                    android:id="@+id/tv_patSwitch"
                     android:layout_centerVertical="true"
                     android:background="@drawable/ward_switch"
                     android:layout_alignParentRight="true"

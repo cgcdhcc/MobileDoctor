@@ -14,7 +14,6 @@
             >
             <ImageView
                 android:id="@+id/iv_left"
-                android:visibility="invisible"
                 android:layout_marginLeft="15dp"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
@@ -30,38 +29,18 @@
                 <TextView
                     android:id="@+id/tv_mydep"
                     android:textSize="18dp"
-                    android:text="住院患者"
-                    android:textColor="@color/mobile_blue"
+                    android:text="患者"
+                    android:textColor="@color/black"
                     android:gravity="center"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:singleLine="true" />
                 <TextView
                     android:id="@+id/tv_mydep_line"
+                    android:visibility="gone"
                     android:layout_marginTop="2dp"
                     android:background="@color/mobile_blue"
                     android:layout_width="100dp"
-                    android:layout_height="2dp" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:layout_height="match_parent">
-                <TextView
-                    android:textSize="18dp"
-                    android:text="门诊患者"
-                    android:id="@+id/tv_my"
-                    android:gravity="center"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true" />
-                <TextView
-                    android:id="@+id/tv_my_line"
-                    android:layout_marginTop="2dp"
-                    android:layout_width="100dp"
-                    android:background="@color/white"
                     android:layout_height="2dp" />
             </LinearLayout>
             <ImageView

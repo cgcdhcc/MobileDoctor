@@ -25,6 +25,7 @@ import com.imedical.mobiledoctor.activity.round.DiagnosisActivity;
 import com.imedical.mobiledoctor.activity.round.LisActivity;
 import com.imedical.mobiledoctor.activity.round.OrdersActivity;
 import com.imedical.mobiledoctor.activity.round.PatientInfoActivity;
+import com.imedical.mobiledoctor.activity.round.PatientListActivity;
 import com.imedical.mobiledoctor.activity.round.RisActivity;
 import com.imedical.mobiledoctor.activity.round.TempratureActivity;
 import com.imedical.mobiledoctor.adapter.HisRecordsAdapter;
@@ -37,7 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WardRoundActivity extends BaseRoundActivity implements View.OnClickListener {
-    private TextView   tv_name,tv_department,tv_title,tv_hisdept,tv_hisrcd;
+    private TextView   tv_name,tv_department,tv_title,tv_hisdept,tv_hisrcd,tv_patSwitch;
     private HisRecordsAdapter mHisRecordsAdapter;
     private CircleImageView re_civ_photo;
     private List<SeeDoctorRecord> list = new ArrayList<SeeDoctorRecord>();
@@ -45,6 +46,8 @@ public class WardRoundActivity extends BaseRoundActivity implements View.OnClick
     private ListView mListViewRecord;
     private PopupWindow hisRecordPopWin;
     private  View ll_switch,ll_1,ll_2,ll_3,ll_4,ll_5,ll_6,ll_7,ll_8;
+    private int SWITHC_CODE = 101;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,8 +80,13 @@ public class WardRoundActivity extends BaseRoundActivity implements View.OnClick
         }
     }
     private void InitViews(){
+        listtemp=null;//onActivityResult需要初始化
+        list.clear();//onActivityResult需要初始化
+        setTitle("住院查房");
         re_civ_photo=(CircleImageView)findViewById(R.id.re_civ_photo);
         tv_name=(TextView) findViewById(R.id.tv_name);
+        tv_patSwitch=(TextView) findViewById(R.id.tv_patSwitch);
+        tv_patSwitch.setOnClickListener(this);
         tv_hisrcd=(TextView) findViewById(R.id.tv_hisrcd);
         tv_hisdept=(TextView) findViewById(R.id.tv_hisdept);
         ll_1=findViewById(R.id.ll_1);
@@ -233,9 +241,21 @@ public class WardRoundActivity extends BaseRoundActivity implements View.OnClick
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == SWITHC_CODE) {
+//            showCustom("101");
+            InitViews();
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+    @Override
     public void onClick(View view) {
         int vid=view.getId();
         switch (vid){
+            case R.id.tv_patSwitch:
+                Intent it0 =new Intent(WardRoundActivity.this,PatientListActivity.class);
+                startActivityForResult(it0, SWITHC_CODE);
+                break;
             case R.id.ll_1:
                 Intent it =new Intent(WardRoundActivity.this,PatientInfoActivity.class);
                 this.startActivity(it);

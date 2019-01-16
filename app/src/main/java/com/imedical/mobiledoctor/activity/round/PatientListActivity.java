@@ -1,23 +1,20 @@
-package com.imedical.mobiledoctor.fragment;
+package com.imedical.mobiledoctor.activity.round;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.XMLservice.BusyManager;
 import com.imedical.mobiledoctor.adapter.AdapterPat;
+import com.imedical.mobiledoctor.base.BaseActivity;
 import com.imedical.mobiledoctor.entity.DepartmentInfo;
 import com.imedical.mobiledoctor.entity.LoginInfo;
 import com.imedical.mobiledoctor.entity.PatientInfo;
@@ -31,10 +28,9 @@ import com.imedical.mobiledoctor.widget.SearchAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Fragment_Patient extends Fragment implements View.OnClickListener {
-    private MainActivity ctx;
+public class PatientListActivity extends BaseActivity implements View.OnClickListener {
     private String mInfo=null;
-    private View mView=null,ll_patient,listItem,listView;
+    private View ll_patient,listItem,listView;
     private List<PatientInfo> mListDataPatient = new ArrayList<PatientInfo>();
     private List<PatientInfo> mListDataSave = new ArrayList<PatientInfo>();
     private ListViewPull mListViewPat = null;
@@ -50,32 +46,24 @@ public class Fragment_Patient extends Fragment implements View.OnClickListener {
     private boolean flag =false;
     private TextView tv_nodata;
     private DropDownMenu dropDownMenu;
-    public void onAttach(Activity activity) {
-        this.ctx = (MainActivity) activity;
-        super.onAttach(activity);
-    }
-
-    @Override
+    private int SWITHC_CODE = 101;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_patient, null);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(R.layout.patientlist_activity);
         InitViews();
         loadSecondLevelData();
-        return mView;
     }
 
-    private void InitViews(){
+    private void InitViews() {
         mLogin = Const.loginInfo;
-        ll_patient=mView.findViewById(R.id.ll_patient);
+        setTitle("患者");
+        intent=this.getIntent();
+        ll_patient=findViewById(R.id.ll_patient);
         ll_patient.setOnClickListener(this);
         listItem = getLayoutInflater().inflate(R.layout.item_listview, null, false);
         listView = getLayoutInflater().inflate(R.layout.pup_selectlist, null, false);
-        dropDownMenu = DropDownMenu.getInstance(ctx, new DropDownMenu.OnListCkickListence() {
+        dropDownMenu = DropDownMenu.getInstance(PatientListActivity.this, new DropDownMenu.OnListCkickListence() {
             @Override
             public void search(String code, String type) {
                 if(code.equals("0")){
@@ -96,21 +84,19 @@ public class Fragment_Patient extends Fragment implements View.OnClickListener {
         dropDownMenu.setShowShadow(true);
         dropDownMenu.setShowName("name");
         dropDownMenu.setSelectName("code");
-        StatusAdapter = new SearchAdapter(ctx);  //真实项目里，适配器初始化一定要写在这儿 不然如果new出来的设配器里面没有值，会报空指针
+        StatusAdapter = new SearchAdapter(PatientListActivity.this);  //真实项目里，适配器初始化一定要写在这儿 不然如果new出来的设配器里面没有值，会报空指针
         List<Dic> sexResult = new ArrayList<>();
         sexResult.add(new Dic("0","我的病人"));
         sexResult.add(new Dic("1","科室病人"));
         StatusAdapter.setItems(sexResult);
-        tv_patient=(TextView)mView.findViewById(R.id.tv_patient);
-        tv_mydep=(TextView)mView.findViewById(R.id.tv_mydep);
-        tv_nodata=(TextView) mView.findViewById(R.id.tv_nodata);
-        tv_mydep_line=(TextView)mView.findViewById(R.id.tv_mydep_line);
-        tv_my=(TextView)mView.findViewById(R.id.tv_my);
-        tv_my_line=(TextView)mView.findViewById(R.id.tv_my_line);
-        tv_mydep.setOnClickListener(this);
-        tv_my.setOnClickListener(this);
-        mListViewPat = (ListViewPull) mView.findViewById(R.id.lv_pat);
-        mAdapterPat = new AdapterPat(ctx, mListDataPatient);
+        tv_patient=(TextView)findViewById(R.id.tv_patient);
+        tv_mydep=(TextView)findViewById(R.id.tv_mydep);
+        tv_nodata=(TextView) findViewById(R.id.tv_nodata);
+        tv_mydep_line=(TextView)findViewById(R.id.tv_mydep_line);
+        tv_my=(TextView)findViewById(R.id.tv_my);
+        tv_my_line=(TextView)findViewById(R.id.tv_my_line);
+        mListViewPat = (ListViewPull) findViewById(R.id.lv_pat);
+        mAdapterPat = new AdapterPat(PatientListActivity.this, mListDataPatient);
         mListViewPat.setAdapter(mAdapterPat);
         mListViewPat.setXListViewListener(new ListViewPull.IXListViewListener() {
             @Override
@@ -123,7 +109,6 @@ public class Fragment_Patient extends Fragment implements View.OnClickListener {
             }
         });
         mListViewPat.setOnScrollListener(new AbsListView.OnScrollListener() {
-
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 switch (scrollState) {
                     case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
@@ -137,7 +122,6 @@ public class Fragment_Patient extends Fragment implements View.OnClickListener {
                         break;
                 }
             }
-
             public void onScroll(AbsListView view, int firstVisibleItem,
                                  int visibleItemCount, int totalItemCount) {
             }
@@ -156,8 +140,49 @@ public class Fragment_Patient extends Fragment implements View.OnClickListener {
                     Const.curPat=p;
                 }
                 mAdapterPat.notifyDataSetChanged();
+                if (intent.getStringExtra("target") != null) {
+                    toActivity();
+                }else
+                {
+                    setResult(SWITHC_CODE);
+                    finish();
+                }
             }
         });
+    }
+    protected Class getCallbackActivityClass() {
+        String target = getIntent().getStringExtra("target");
+        Class targetAct = null;
+        try {
+            targetAct = Class.forName(target);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return targetAct;
+    }
+    private void toActivity() {
+        Class classzz = getCallbackActivityClass();
+        if(classzz!=null) {
+            Intent intent = new Intent(PatientListActivity.this, classzz);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            Bundle b = getIntent().getExtras();
+            if (b != null) {
+                intent.putExtras(b);
+            }
+            startActivity(intent);
+        }
+        finish();
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.ll_patient:
+                dropDownMenu.showSelectList(ScreenUtils.getScreenWidth(PatientListActivity.this),
+                        ScreenUtils.getScreenHeight(PatientListActivity.this), StatusAdapter,
+                        listView, listItem,ll_patient, tv_patient, "orders", false);
+                break;
+        }
     }
 
     private void loadSecondLevelData() {
@@ -177,7 +202,7 @@ public class Fragment_Patient extends Fragment implements View.OnClickListener {
         }
         mLastConLoad = mConLoad;
         final String departmentId = deptId;
-        ctx.showProgress();
+        showProgress();
         new Thread() {
             public void run() {
                 Message msg = myHandler.obtainMessage();
@@ -198,13 +223,6 @@ public class Fragment_Patient extends Fragment implements View.OnClickListener {
         }.start();
     }
 
-    private boolean isReLoad() {
-        if (mConLoad == mLastConLoad || (mConLoad != null && mConLoad.equals(mLastConLoad))) {
-            return true;
-        }
-        return false;
-    }
-
     Handler myHandler = new Handler() {
 
         public void handleMessage(Message msg) {
@@ -220,10 +238,10 @@ public class Fragment_Patient extends Fragment implements View.OnClickListener {
                 default:
                     if (mInfo == null)
                         mInfo = "";
-                    ctx.showCustom( mInfo);
+                    showCustom( mInfo);
                     break;
             }
-            ctx.dismissProgress();
+            dismissProgress();
             super.handleMessage(msg);
         }
 
@@ -238,7 +256,7 @@ public class Fragment_Patient extends Fragment implements View.OnClickListener {
                 mAdapterPat.notifyDataSetChanged();
             }else{
                 mListViewPat.setVisibility(View.GONE);
-               tv_nodata.setVisibility(View.VISIBLE);
+                tv_nodata.setVisibility(View.VISIBLE);
             }
             if ("".equals(mLastConLoad)) {
                 //  默认选中第一个,不知道有什么作用
@@ -252,36 +270,13 @@ public class Fragment_Patient extends Fragment implements View.OnClickListener {
         }
     };
 
-    @Override
-    public void onClick(View v) {
-        int vid=v.getId();
-        switch (vid){
-            case R.id.ll_patient:
-                dropDownMenu.showSelectList(ScreenUtils.getScreenWidth(ctx),
-                        ScreenUtils.getScreenHeight(ctx), StatusAdapter,
-                        listView, listItem,ll_patient, tv_patient, "orders", false);
 
-                break;
-            case R.id.tv_mydep:
-                tv_mydep_line.setBackground(getResources().getDrawable(R.color.mobile_blue));
-                tv_mydep.setTextColor(getResources().getColor(R.color.mobile_blue));
-                tv_my_line.setBackground(getResources().getDrawable(R.color.white));
-                tv_my.setTextColor(getResources().getColor(R.color.gray));
-
-                break;
-            case R.id.tv_my:
-                tv_my_line.setBackground(getResources().getDrawable(R.color.mobile_blue));
-                tv_my.setTextColor(getResources().getColor(R.color.mobile_blue));
-                tv_mydep_line.setBackground(getResources().getDrawable(R.color.white));
-                tv_mydep.setTextColor(getResources().getColor(R.color.gray));
-
-                break;
-            default:break;
+    private boolean isReLoad() {
+        if (mConLoad == mLastConLoad || (mConLoad != null && mConLoad.equals(mLastConLoad))) {
+            return true;
         }
+        return false;
     }
-
-
-
     private void resetUI(){
         tv_nodata.setVisibility(View.GONE);
         mConLoad = "";
@@ -292,5 +287,4 @@ public class Fragment_Patient extends Fragment implements View.OnClickListener {
         mListDataSave.clear();
         mAdapterPat.notifyDataSetChanged();
     }
-
 }

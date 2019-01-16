@@ -37,6 +37,7 @@ import android.widget.Toast;
 
 import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
+import com.imedical.mobiledoctor.activity.round.PatientListActivity;
 import com.imedical.mobiledoctor.base.MyApplication;
 import com.imedical.mobiledoctor.util.StatusBarUtils;
 import com.imedical.mobiledoctor.widget.CustomProgressDialog;
@@ -288,13 +289,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-//                        Intent i =  new Intent(ctx,MyPatActivity.class);
-//                        String target= classTarget.getName();
-//                        i.putExtra("target",target);
-//                        if(bundle!=null) {
-//                            i.putExtras(bundle);
-//                        }
-//                        startActivity(i);
+                        Intent i =  new Intent(ctx,PatientListActivity.class);
+                        String target= classTarget.getName();
+                        i.putExtra("target",target);
+                        if(bundle!=null) {
+                            i.putExtras(bundle);
+                        }
+                        startActivity(i);
                         dialog.dismiss();
                     }
                 })

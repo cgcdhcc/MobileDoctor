@@ -72,6 +72,8 @@ public class HisRecordsAdapter extends BaseAdapter {
 //            holder.tv_admDate.setVisibility(View.GONE);
 //            holder.tv_admDept.setVisibility(View.GONE);
             holder.tv_admType.setText("[默认]"+SysManager.getAdmTypeDesc(b.admType));
+            holder.tv_admDate.setText(b.admDate);
+            holder.tv_admDept.setText(b.admDept);
         } else {
 //            holder.tv_admDate.setVisibility(View.VISIBLE);
 //            holder.tv_admDept.setVisibility(View.VISIBLE);

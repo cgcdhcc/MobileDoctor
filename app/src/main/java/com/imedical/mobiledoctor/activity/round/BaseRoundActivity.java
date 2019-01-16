@@ -36,7 +36,6 @@ public abstract class BaseRoundActivity extends BaseActivity {
     private List<SeeDoctorRecord> list = new ArrayList<SeeDoctorRecord>();
     private List<SeeDoctorRecord> listtemp = null;
     public int selectPos = 0;//WardRoundActivity和基类专用
-    public View ll_record;
     public TextView tv_record;
 
     public void onCreate(Bundle savedInstanceState) {
@@ -46,14 +45,14 @@ public abstract class BaseRoundActivity extends BaseActivity {
     private void showWindow(View parent) {
         if (hisRecordPopWin != null) {
             WindowManager windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-            hisRecordPopWin.showAsDropDown(parent, 0, 0);
+            int xPos =-(windowManager.getDefaultDisplay().getWidth() - hisRecordPopWin.getWidth())/2;
+            hisRecordPopWin.showAsDropDown(parent, -1000, 300);
         }
     }
 
     protected void InitRecordList(BaseRoundActivity activity){
         this.Instance=activity;
         setInfos(Const.curPat.patName,Const.curPat.bedCode+"床("+Const.curPat.patRegNo+")");
-        ll_record=findViewById(R.id.ll_record);
         tv_record=(TextView) findViewById(R.id.tv_record);
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View view = layoutInflater.inflate(R.layout.his_record_list, null);
@@ -79,18 +78,18 @@ public abstract class BaseRoundActivity extends BaseActivity {
 
         });
         InitHisRecord();
-        ll_record.setOnClickListener(new View.OnClickListener() {
+        tv_record.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showWindow(v);
             }
         });
-        ll_record.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        tv_record.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                // TODO Auto-generated method stub
-                ll_record.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                int width=ll_record.getWidth();
+                WindowManager.LayoutParams params = getWindow().getAttributes();
+                tv_record.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                int width=getWindowManager().getDefaultDisplay().getWidth() - 200;
                 hisRecordPopWin = new PopupWindow(view, width, LinearLayout.LayoutParams.WRAP_CONTENT);
                 hisRecordPopWin.setFocusable(true);
                 hisRecordPopWin.setOutsideTouchable(true);
