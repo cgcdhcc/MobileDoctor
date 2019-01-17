@@ -307,12 +307,4 @@ public class ConsultActivity extends BaseActivity implements OnClickListener{
 		loadData();
 	}
 
-
-
-
-	@Override
-	protected void onRightBtnClicked() {
-		// TODO Auto-generated method stub
-
-	}
 }
