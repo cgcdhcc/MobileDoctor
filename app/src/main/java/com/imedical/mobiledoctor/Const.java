@@ -267,8 +267,11 @@ public final class Const {
 	public static final String BIZ_CODE_GetScheduleList				=  "doctor.dashboard.schedule";//51801//出诊信息
 	public static final String BIZ_CODE_GetDoctorAppList				=  "doctor.dashboard.patientlist";//51802//查询已预约患者列表
 	public static final String BIZ_CODE_GetHttpFilePath				=  "doctor.media.tags";//"51305";//获取HTTP服务器参数
-	public static final String BIZ_CODE_IM_USER_REGISTER="instantchat.usermanagementcategory.RegisteredUserI";
-
+	public static final String BIZ_CODE_IM_USER_REGISTER="instantchat.usermanagementcategory.RegisteredUserI";//医生聊天注册
+	public static final String BIZ_CODE_GETTIMERANGE="doctor.ihospital.gettimerange";//获取出诊时段
+	public static final String BIZ_CODE_SETSCHEDULE="doctor.ihospital.setschedule";//设置出诊时间段
+	public static final String BIZ_CODE_GetPatientList="doctor.ihospital.getpatientlist";//获取就诊患者
+	public static final String BIZ_CODE_GetAdmInfo="doctor.ihospital.getadminfo";//获取就诊信息
 	public static final String API_PHONEVALIDATE     ="mhealth/dhccApi/user/validUser/2/";
 	public static final String API_FINDPASS                 ="mhealth/dhccApi/user/updatePwdByVeriCode/";
 	public static final String VALUE_URL_JKB              = "http://www.jiankangbao.com/";

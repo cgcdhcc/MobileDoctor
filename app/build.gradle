@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 28
     buildToolsVersion '27.0.2'
 
     defaultConfig {
         applicationId "com.imedical.mobiledoctor"
         minSdkVersion 21
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
     }
@@ -33,4 +33,5 @@ dependencies {
         exclude group: 'org.json', module: 'json'
     }
     compile files('libs/litepal-2.0.0.jar')
+    compile project(path: ':CollapseCalendarView')
 }

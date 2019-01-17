@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="blue_light">#013017</color>
+    <color name="blue_dark">#1FFF87</color>
+    <color name="basecolor">#014f25</color>
+    <color name="text_base">#333333</color>
+    <color name="text_gray">#aaaaaa</color>
+    <color name="line_gray">#cccccc</color>
+    <color name="red">#FF0000</color>
+    <color name="text_normal">#555</color>
+    <color name="text_light">#3333</color>
+    <color name="text_super_light">#c0c0c0</color>
+    <color name="white">#FFFFFF</color><!--白色 -->
+    <color name="bg_commom">#0d8edf</color>
+</resources>

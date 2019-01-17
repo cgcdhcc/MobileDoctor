@@ -1,6 +1,7 @@
 package com.imedical.mobiledoctor.fragment;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,12 +11,13 @@ import android.widget.TextView;
 
 import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
+import com.imedical.mobiledoctor.activity.visit.DateVisitMulitActivity;
 
 public class Fragment_mine extends Fragment {
     private Activity ctx;
-    private String mInfo=null;
-    View mView=null;
-    TextView tv_name,tv_department,tv_title;
+    private String mInfo = null;
+    View mView = null;
+    TextView tv_name, tv_department, tv_title;
 
     public void onAttach(Activity activity) {
         this.ctx = activity;
@@ -34,13 +36,20 @@ public class Fragment_mine extends Fragment {
         return mView;
     }
 
-    private void InitViews(){
-        tv_name=(TextView) mView.findViewById(R.id.tv_name);
-        tv_department=(TextView) mView.findViewById(R.id.tv_department);
-        tv_title=(TextView) mView.findViewById(R.id.tv_title);
+    private void InitViews() {
+        tv_name = (TextView) mView.findViewById(R.id.tv_name);
+        tv_department = (TextView) mView.findViewById(R.id.tv_department);
+        tv_title = (TextView) mView.findViewById(R.id.tv_title);
         //==========initData============
         tv_name.setText(Const.loginInfo.userName);
         tv_title.setText(Const.loginInfo.userCode);
         tv_department.setText(Const.loginInfo.defaultDeptName);
+        mView.findViewById(R.id.view_menu_4).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), DateVisitMulitActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

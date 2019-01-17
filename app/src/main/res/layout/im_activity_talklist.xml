@@ -3,22 +3,23 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/background"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:background="@color/background"
         android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:background="@color/background" >
+        android:paddingBottom="10dp">
+
         <ImageView
             android:id="@+id/iv_left"
-            android:padding="6dp"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:src="@drawable/all_left_arrow"
             android:layout_gravity="left|center_vertical"
-            />
+            android:padding="6dp"
+            android:src="@drawable/all_left_arrow" />
+
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
@@ -29,24 +30,26 @@
             android:singleLine="true"
             android:text="张三"
             android:textColor="@color/text_base"
-            android:textStyle="bold"
-            android:textSize="@dimen/font_18dp" />
+            android:textSize="@dimen/font_18dp"
+            android:textStyle="bold" />
     </FrameLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/mobile_gray"/>
+        android:background="@color/mobile_gray" />
+
     <TextView
         android:id="@+id/chat_status"
-        android:text="咨询连接中"
-        android:textSize="14sp"
-        android:textColor="@color/text_gray"
-        android:padding="10dp"
-        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/mobile_titlebar_blue"/>
+        android:background="@color/mobile_titlebar_blue"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="咨询连接中"
+        android:textColor="@color/text_gray"
+        android:textSize="14sp" />
+
     <ListView
         android:id="@+id/list_data"
         android:layout_width="fill_parent"
@@ -54,68 +57,182 @@
         android:layout_weight="1"
         android:background="@color/background"
         android:divider="@color/background"
-        android:dividerHeight="0.5dp" >
-    </ListView>
+        android:dividerHeight="0.5dp"></ListView>
 
     <LinearLayout
         android:id="@+id/ll_talk"
-        android:visibility="gone"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@color/background"
-        android:gravity="bottom"
-        android:padding="8dp" >
+        android:gravity="bottom|center_horizontal"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:visibility="visible">
 
-        <Button
-            android:id="@+id/btn_img_send"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:layout_marginRight="8dp"
-            android:background="@drawable/photo_submit" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            >
+            <EditText
+                android:id="@+id/et_msg"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:padding="10dp"
+                android:textSize="@dimen/font_16dp"
+                android:textColor="@color/text_base"
+                android:background="@drawable/round_edittxt"
+                android:maxLength="250" />
+            <com.imedical.im.media.RecordButton
+                android:visibility="gone"
+                android:id="@+id/record_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:textSize="@dimen/font_14dp"
+                android:background="@drawable/round_edittxt"
+                android:textColor="@color/text_base"
+                android:gravity="center"
+                android:text="按住  说话"
+                />
+            <Button
+                android:visibility="gone"
+                android:id="@+id/btn_send"
+                android:layout_width="60dp"
+                android:layout_height="36dp"
+                android:layout_marginLeft="8dp"
+                android:background="@drawable/im_bg_shape_blue"
+                android:text="发送"
+                android:textColor="@color/white" />
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/keybord_button"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                android:adjustViewBounds="true"
+                android:layout_marginLeft="8dp"
+                android:src="@drawable/keybord" />
+        </LinearLayout>
 
-        <EditText
-            android:id="@+id/et_msg"
-            android:layout_width="0dp"
-            android:layout_height="36dp"
-            android:layout_weight="1.0"
-            android:background="@drawable/round_edittxt"
-            android:maxLength="250" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
 
-        <com.imedical.im.media.RecordButton
-            android:id="@+id/record_button"
-            android:layout_width="0dp"
-            android:layout_height="36dp"
-            android:layout_weight="1.0"
-            android:background="@drawable/round_edittxt"
-            android:gravity="center"
-            android:text="按住 说话"
-            android:visibility="gone" />
+            <LinearLayout
+                android:id="@+id/btn_img_voice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:gravity="center"
+                android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btn_send"
-            android:layout_width="60dp"
-            android:layout_height="36dp"
-            android:layout_marginLeft="8dp"
-            android:background="@drawable/im_bg_shape_blue"
-            android:text="发送"
-            android:textColor="@color/white"
-            android:visibility="gone" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/icon_im_voice" />
 
-        <Button
-            android:id="@+id/voice_button"
-            android:layout_width="60dp"
-            android:layout_height="36dp"
-            android:layout_marginLeft="8dp"
-            android:background="@drawable/voice_button" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="语音"
+                    android:textColor="@color/text_grayblack"
+                    android:textSize="@dimen/font_16dp" />
+            </LinearLayout>
 
-        <Button
-            android:id="@+id/keybord_button"
-            android:layout_width="60dp"
-            android:layout_height="36dp"
-            android:layout_marginLeft="8dp"
-            android:background="@drawable/keybord"
-            android:visibility="gone" />
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:id="@+id/btn_img_photo"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/icon_im_photo" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="图片"
+                    android:textColor="@color/text_grayblack"
+                    android:textSize="@dimen/font_16dp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:id="@+id/btn_img_patientinfo"
+                android:orientation="vertical">
+
+                <ImageView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/icon_im_patientinfo" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="电子病历"
+                    android:textColor="@color/text_grayblack"
+                    android:textSize="@dimen/font_16dp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:gravity="center"
+                android:id="@+id/btn_img_add_diagonsis"
+                android:orientation="vertical">
+
+                <ImageView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/icon_add_diagonsis" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="治疗建议"
+                    android:textColor="@color/text_grayblack"
+                    android:textSize="@dimen/font_16dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>

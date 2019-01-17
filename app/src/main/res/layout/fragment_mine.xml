@@ -304,6 +304,7 @@
         android:layout_marginRight="15dp"
         android:layout_height="0.5dp" />
     <LinearLayout
+        android:id="@+id/view_menu_4"
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:gravity="center_vertical"
@@ -318,7 +319,7 @@
             android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="出诊信息"
+            android:text="图文排班"
             android:textSize="@dimen/font_18dp"
             />
         <TextView

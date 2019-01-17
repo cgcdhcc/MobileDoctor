@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -26,6 +27,7 @@ import com.imedical.im.media.RecordButton;
 import com.imedical.mobiledoctor.AppConfig;
 import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
+import com.imedical.mobiledoctor.activity.WardRoundActivity;
 import com.imedical.mobiledoctor.util.DateUtil;
 import com.imedical.mobiledoctor.util.FileDataUtil;
 import com.imedical.mobiledoctor.util.Validator;
@@ -51,7 +53,8 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
     public MyBroadcastReceiver reciver;
     public String action = "";
     public UserFriend userfriend;
-    private Button btn_send, btn_img_send, voice_button, keybord_button;
+    private Button btn_send;
+    private View btn_img_voice,btn_img_photo,btn_img_patientinfo,btn_img_add_diagonsis,keybord_button;
     public RecordButton mRecordButton;
     public Intent IoService;
     public TextView chat_status;
@@ -76,7 +79,6 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
         registerReceiver(reciver, intentf);
         list_data = (ListView) findViewById(R.id.list_data);
         setTitle(userfriend.friendNickName);
-        btn_img_send = (Button) findViewById(R.id.btn_img_send);
         et_msg = (EditText) findViewById(R.id.et_msg);
         ta = new TalkMsgAdapter(this, data_list, userfriend);
         list_data.setAdapter(ta);
@@ -114,10 +116,8 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
                 // TODO Auto-generated method stub
                 if (et_msg.getText().toString().trim().equals("")
                         || et_msg.getText() == null) {
-                    voice_button.setVisibility(View.VISIBLE);
                     btn_send.setVisibility(View.GONE);
                 } else {
-                    voice_button.setVisibility(View.GONE);
                     btn_send.setVisibility(View.VISIBLE);
                 }
             }
@@ -143,33 +143,52 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
                 sendTxtData();
             }
         });
-        keybord_button = (Button) findViewById(R.id.keybord_button);
-        voice_button = (Button) findViewById(R.id.voice_button);
-        voice_button.setOnClickListener(new OnClickListener() {
+        btn_img_voice = findViewById(R.id.btn_img_voice);
+        btn_img_voice.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                voice_button.setVisibility(View.GONE);
                 keybord_button.setVisibility(View.VISIBLE);
+                et_msg.setVisibility(View.GONE);
                 et_msg.setVisibility(View.GONE);
                 mRecordButton.setVisibility(View.VISIBLE);
             }
         });
-
+        keybord_button= findViewById(R.id.keybord_button);
         keybord_button.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                voice_button.setVisibility(View.VISIBLE);
                 keybord_button.setVisibility(View.GONE);
                 et_msg.setVisibility(View.VISIBLE);
                 mRecordButton.setVisibility(View.GONE);
             }
         });
-        btn_img_send.setOnClickListener(new OnClickListener() {
+        btn_img_photo= findViewById(R.id.btn_img_photo);
+        btn_img_photo.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
                 // TODO Auto-generated method stub
                 popup(TalkMsgActivity.this);
+            }
+        });
+        btn_img_patientinfo= findViewById(R.id.btn_img_patientinfo);
+        btn_img_patientinfo.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                // TODO Auto-generated method stub
+                Intent intent=new Intent(TalkMsgActivity.this, WardRoundActivity.class);
+                startActivity(intent);
+            }
+        });
+        btn_img_add_diagonsis= findViewById(R.id.btn_img_add_diagonsis);
+        btn_img_add_diagonsis.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                // TODO Auto-generated method stub
+                Intent intent=new Intent(TalkMsgActivity.this,AddDiagnosisActivity.class);
+               startActivity(intent);
             }
         });
         ll_talk = findViewById(R.id.ll_talk);
