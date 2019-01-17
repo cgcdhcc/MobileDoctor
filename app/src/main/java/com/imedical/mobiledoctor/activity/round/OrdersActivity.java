@@ -5,11 +5,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AbsListView;
-import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -18,10 +16,11 @@ import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.XMLservice.OrderItemManager;
 import com.imedical.mobiledoctor.adapter.OrderItemAdapter;
-import com.imedical.mobiledoctor.base.BaseActivity;
+import com.imedical.mobiledoctor.base.BaseRoundActivity;
 import com.imedical.mobiledoctor.entity.LabelValue;
 import com.imedical.mobiledoctor.entity.OrderItem;
 import com.imedical.mobiledoctor.entity.PatientInfo;
+import com.imedical.mobiledoctor.entity.SeeDoctorRecord;
 import com.imedical.mobiledoctor.util.DateTimePickDialogUtil;
 import com.imedical.mobiledoctor.util.DateUtil;
 import com.imedical.mobiledoctor.util.LogMe;
@@ -36,9 +35,8 @@ import com.imedical.mobiledoctor.widget.SearchAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrdersActivity extends BaseActivity implements
+public class OrdersActivity extends BaseRoundActivity implements
         View.OnClickListener, ListViewPullExp.IXListViewListener{
-    public PatientInfo mPatientCurrSelected=null;
     private List<LabelValue> mLlistDataGroup = new ArrayList();//一级
     private List<List<OrderItem>> mListChildren = new ArrayList<List<OrderItem>>();//二级菜单
     public static OrderItemAdapter mAadapter = null;
@@ -63,6 +61,26 @@ public class OrdersActivity extends BaseActivity implements
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.page3_orders_activity);
         InitViews();
+        InitRecordListAndPatientList(OrdersActivity.this);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == SWITHC_CODE) {
+            doQuery();
+        }
+        setInfos(Const.curPat.patName,Const.curPat.bedCode+"床("+Const.curPat.patRegNo+")");//更新姓名，床号
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+    @Override
+    public void OnPatientSelected(PatientInfo p) {
+        Intent it0 =new Intent(OrdersActivity.this,PatientListActivity.class);
+        startActivityForResult(it0, SWITHC_CODE);
+    }
+    @Override
+    public void OnRecordSelected(SeeDoctorRecord sr) {
+        doQuery();
     }
 
     private void InitViews() {
@@ -112,11 +130,8 @@ public class OrdersActivity extends BaseActivity implements
         sexResult.add(new Dic("001","长期"));
         sexResult.add(new Dic("002","临时"));
         StatusAdapter.setItems(sexResult);
-
         rootView=this.findViewById(R.id.rootView);
-        mPatientCurrSelected=Const.curPat;
         setTitle("医嘱信息");
-        setInfos(mPatientCurrSelected.patName,mPatientCurrSelected.bedCode+"床("+mPatientCurrSelected.patRegNo+")");
         List<LabelValue> listDataGroup = new ArrayList<LabelValue>();
         mGroupId = Const.loginInfo.defaultGroupId;
         mListView = (ListViewPullExp) findViewById(R.id.elv_data);
@@ -184,11 +199,11 @@ public class OrdersActivity extends BaseActivity implements
             }
         });
         doQuery();
-        InitRecordList();
+//        InitRecordList(OrdersActivity.this);
     }
 
     private synchronized void checkAndLoadDataThread() {
-        if (mPatientCurrSelected == null) {
+        if (Const.curPat == null) {
             showNoPatDialog(OrdersActivity.this,null,null);
             return;
         }
@@ -211,9 +226,9 @@ public class OrdersActivity extends BaseActivity implements
             isDoc = "N";
         }
         if (isLongItem) {//长期
-            loadOrderitemLongThread(isDoc, mPatientCurrSelected.admId, mConLoad_4_pages);
+            loadOrderitemLongThread(isDoc, Const.curPat.admId, mConLoad_4_pages);
         } else {
-            loadOrderitemTempThread(isDoc, mPatientCurrSelected.admId, mConLoad_4_pages);
+            loadOrderitemTempThread(isDoc, Const.curPat.admId, mConLoad_4_pages);
         }
     }
 
@@ -287,7 +302,6 @@ public class OrdersActivity extends BaseActivity implements
     }
 
     public void doQuery() {
-        Const.curPat=mPatientCurrSelected;
         resetData();
         refreshDataOnUI();
         checkAndLoadDataThread();
@@ -320,7 +334,7 @@ public class OrdersActivity extends BaseActivity implements
                 Message message = new Message();
                 try {
                     List<OrderItem> list = OrderItemManager.listOrderItemLong(isDoc,
-                            Const.loginInfo.userCode, mPatientCurrSelected.admId, mOrderState,
+                            Const.loginInfo.userCode, Const.curPat.admId, mOrderState,
                             mGroupId, Const.loginInfo.defaultDeptId, mConLoad_4_pages);
                     if (list.size() > 0) {
                         mConLoad_4_pages = list.get(list.size() - 1).conLoad;
@@ -329,7 +343,7 @@ public class OrdersActivity extends BaseActivity implements
                     List<LabelValue> tempLlistDataGroup = new ArrayList();//一级
                     List<List<OrderItem>> tempListChildren = new ArrayList<List<OrderItem>>();//二级菜单
                     parseDataToLists(tempLlistDataGroup, tempListChildren, list);
-                    if (!admId.equals(mPatientCurrSelected.admId)) {
+                    if (!admId.equals(Const.curPat.admId)) {
                         message.what = -1;
                         mInfo = "患者已切换!数据加载中...";
                     } else {
@@ -369,8 +383,7 @@ public class OrdersActivity extends BaseActivity implements
                     List<LabelValue> tempLlistDataGroup = new ArrayList();//一级
                     List<List<OrderItem>> tempListChildren = new ArrayList<List<OrderItem>>();//二级菜单
                     parseDataToLists(tempLlistDataGroup, tempListChildren, list);
-
-                    if (!admId.equals(mPatientCurrSelected.admId)) {
+                    if (!admId.equals(Const.curPat.admId)) {
                         message.what = -1;
                         mInfo = "患者已切换!数据加载中...";
                     } else {

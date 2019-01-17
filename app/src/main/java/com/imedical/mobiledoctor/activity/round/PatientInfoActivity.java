@@ -1,22 +1,23 @@
 package com.imedical.mobiledoctor.activity.round;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.XMLservice.BusyManager;
-import com.imedical.mobiledoctor.base.BaseActivity;
+import com.imedical.mobiledoctor.base.BaseRoundActivity;
 import com.imedical.mobiledoctor.entity.LoginInfo;
 import com.imedical.mobiledoctor.entity.PatientInfo;
+import com.imedical.mobiledoctor.entity.SeeDoctorRecord;
 
-public class PatientInfoActivity  extends BaseActivity {
+public class PatientInfoActivity  extends BaseRoundActivity {
     private View layout_content;
     private TextView tv_condition;
     private TextView tv_careLevel;
@@ -39,22 +40,38 @@ public class PatientInfoActivity  extends BaseActivity {
     private TextView tv_patShare,tv_patRegNo,tv_balance;
     PatientInfo P_info=null;
     LoginInfo mLogin;
-    PatientInfo curPat;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.page1_patientinfo_activity);
         InitViews();
-        loadData();   InitRecordList();
+        loadData();
+        InitRecordListAndPatientList(PatientInfoActivity.this);
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == SWITHC_CODE) {
+            loadData();
+        }
+        setInfos(Const.curPat.patName,Const.curPat.bedCode+"床("+Const.curPat.patRegNo+")");//更新姓名，床号
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+    @Override
+    public void OnPatientSelected(PatientInfo p) {
+        Intent it0 =new Intent(PatientInfoActivity.this,PatientListActivity.class);
+        startActivityForResult(it0, SWITHC_CODE);
+    }
+
+    @Override
+    public void OnRecordSelected(SeeDoctorRecord sr) {
+        loadData();
     }
 
     private void InitViews() {
         mLogin = Const.loginInfo;
-        curPat = Const.curPat;
         setTitle("患者信息");
-        setInfos(curPat.patName,curPat.bedCode+"床("+curPat.patRegNo+")");
         tv_balance= (TextView) findViewById(R.id.tv_balance);
         tv_bedCode = (TextView) findViewById(R.id.tv_bedCode);
         tv_patRegNo = (TextView) findViewById(R.id.tv_patRegNo);
@@ -114,8 +131,8 @@ public class PatientInfoActivity  extends BaseActivity {
         new Thread() {
             public void run() {
                 try {
-                    if (curPat != null) {
-                        P_info= BusyManager.loadPatientInfo(mLogin.userCode, curPat.admId);
+                    if (Const.curPat != null) {
+                        P_info= BusyManager.loadPatientInfo(mLogin.userCode, Const.curPat.admId);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

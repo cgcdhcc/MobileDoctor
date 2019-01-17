@@ -1,11 +1,11 @@
 package com.imedical.mobiledoctor.activity.round;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -16,18 +16,18 @@ import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.XMLservice.DiagnosisManager;
 import com.imedical.mobiledoctor.adapter.DiagnosisAdapter;
-import com.imedical.mobiledoctor.base.BaseActivity;
+import com.imedical.mobiledoctor.base.BaseRoundActivity;
 import com.imedical.mobiledoctor.entity.Diagnosis;
 import com.imedical.mobiledoctor.entity.LoginInfo;
 import com.imedical.mobiledoctor.entity.PatientInfo;
+import com.imedical.mobiledoctor.entity.SeeDoctorRecord;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DiagnosisActivity extends BaseActivity {
-    private PatientInfo mPatientCurrSelected;
+public class DiagnosisActivity extends BaseRoundActivity {
     private String mInfo = " test ";
     private TextView tv_hisline;
     private DiagnosisAdapter mAdapter_now,mAdapter_his;
@@ -43,17 +43,31 @@ public class DiagnosisActivity extends BaseActivity {
         setContentView(R.layout.page2_diagnosis_activity);
         InitViews();
         loadData();
-        InitRecordList();
+        InitRecordListAndPatientList(DiagnosisActivity.this);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == SWITHC_CODE) {
+            loadData();
+        }
+        setInfos(Const.curPat.patName,Const.curPat.bedCode+"床("+Const.curPat.patRegNo+")");//更新姓名，床号
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+    @Override
+    public void OnPatientSelected(PatientInfo p) {
+        Intent it0 =new Intent(DiagnosisActivity.this,PatientListActivity.class);
+        startActivityForResult(it0, SWITHC_CODE);
+    }
+    @Override
+    public void OnRecordSelected(SeeDoctorRecord sr) {
+        loadData();
+    }
     private void InitViews() {
-
         tv_hisline=(TextView) findViewById(R.id.tv_hisline);
         RootView=this.findViewById(R.id.rootView);
         mLogin = Const.loginInfo;
-        mPatientCurrSelected=Const.curPat;
         setTitle("诊断记录");
-        setInfos(mPatientCurrSelected.patName,mPatientCurrSelected.bedCode+"床("+mPatientCurrSelected.patRegNo+")");
         mListView_now = (ListView) findViewById(R.id.lv_data_now);
         mAdapter_now = new DiagnosisAdapter(DiagnosisActivity.this, mListData_now);
         mListView_now.setAdapter(mAdapter_now);
@@ -72,7 +86,7 @@ public class DiagnosisActivity extends BaseActivity {
     }
 
     private void loadData() {
-        if (mPatientCurrSelected == null) {
+        if (Const.curPat == null) {
             return;
         }
         showNodata(false,RootView);
@@ -90,7 +104,7 @@ public class DiagnosisActivity extends BaseActivity {
                     Looper.prepare();
                     Map map = new HashMap();
                     map.put("userCode", mLogin.userCode);
-                    map.put("admId", mPatientCurrSelected.admId);
+                    map.put("admId", Const.curPat.admId);
                     // 缓存查询的数据
                     List<Diagnosis> list = DiagnosisManager.listDiagnosisCurr(map);
                     mListData_now.clear();
@@ -120,7 +134,7 @@ public class DiagnosisActivity extends BaseActivity {
                     Looper.prepare();
                     Map map = new HashMap();
                     map.put("userCode", mLogin.userCode);
-                    map.put("admId", mPatientCurrSelected.admId);
+                    map.put("admId", Const.curPat.admId);
                     // 缓存查询的数据
                     List<Diagnosis> list = DiagnosisManager.listDiagnosisHis(map);
                     if(list!=null) {

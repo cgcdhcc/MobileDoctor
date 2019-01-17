@@ -1,11 +1,10 @@
 package com.imedical.mobiledoctor.activity.round;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,20 +15,20 @@ import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.XMLservice.RisManager;
 import com.imedical.mobiledoctor.XMLservice.SettingManager;
 import com.imedical.mobiledoctor.adapter.AdapterRis;
-import com.imedical.mobiledoctor.base.BaseActivity;
+import com.imedical.mobiledoctor.base.BaseRoundActivity;
 import com.imedical.mobiledoctor.entity.LoginInfo;
 import com.imedical.mobiledoctor.entity.PatientInfo;
 import com.imedical.mobiledoctor.entity.RisReport;
 import com.imedical.mobiledoctor.entity.RisReportList;
+import com.imedical.mobiledoctor.entity.SeeDoctorRecord;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RisActivity extends BaseActivity implements View.OnClickListener {
+public class RisActivity extends BaseRoundActivity implements View.OnClickListener {
     private LoginInfo mLogin;
-    public PatientInfo mPatientCurrSelected ;
     public List<RisReportList> mListData ;
     public List<List<RisReport>> mListData2;
     private String mInfo = "test";
@@ -38,17 +37,33 @@ public class RisActivity extends BaseActivity implements View.OnClickListener {
     private ImageView ivNoInfo;
     private LinearLayout llNoInfo;
 
-
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.page5_ris_activity);
         InitViews();
-        InitRecordList();
+        InitRecordListAndPatientList(RisActivity.this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == SWITHC_CODE) {
+            loadDataThread();
+        }
+        setInfos(Const.curPat.patName,Const.curPat.bedCode+"床("+Const.curPat.patRegNo+")");//更新姓名，床号
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+    @Override
+    public void OnPatientSelected(PatientInfo p) {
+        Intent it0 =new Intent(RisActivity.this,PatientListActivity.class);
+        startActivityForResult(it0, SWITHC_CODE);
+    }
+    @Override
+    public void OnRecordSelected(SeeDoctorRecord sr) {
+        loadDataThread();
     }
 
     private void InitViews() {
-        mPatientCurrSelected = Const.curPat;
         mLogin = Const.loginInfo;
         mListData = new ArrayList<RisReportList>();
         mListData2 = new ArrayList<List<RisReport>>();
@@ -57,11 +72,8 @@ public class RisActivity extends BaseActivity implements View.OnClickListener {
         risList = (ListView)findViewById(R.id.ris_list);
         mAdapter = new AdapterRis(this);
         risList.setAdapter(mAdapter);
-        setTitle("检查信息");
-        setInfos(mPatientCurrSelected.patName,mPatientCurrSelected.bedCode+"床("+mPatientCurrSelected.patRegNo+")");
+        setTitle("检查报告");
         loadDataThread();
-
-
     }
 
     private void loadDataThread() {
@@ -73,7 +85,7 @@ public class RisActivity extends BaseActivity implements View.OnClickListener {
                 try {
                     Map map = new HashMap();
                     map.put("userCode", mLogin.userCode);
-                    map.put("admId",mPatientCurrSelected.admId);
+                    map.put("admId",Const.curPat.admId);
                     List<RisReportList> list = RisManager.listRisReportList(map);
                     if (list==null||list.size() == 0) {
                         message.what = 3;
@@ -104,7 +116,7 @@ public class RisActivity extends BaseActivity implements View.OnClickListener {
                     for (int i = 0; i < mListData.size(); i ++) {
                         Map map = new HashMap();
                         map.put("userCode", mLogin.userCode);
-                        map.put("admId", mPatientCurrSelected.admId);
+                        map.put("admId", Const.curPat.admId);
                         map.put("studyId", mListData.get(i).studyId);
                         map.put("netWorkType", netWorkType);
                         try {

@@ -144,7 +144,7 @@ public class Fragment_work extends Fragment implements View.OnClickListener {
                     Intent it =new Intent(ctx,WardRoundActivity.class);
                     startActivity(it);
                 }else {
-                        ctx.showNoPatDialog(ctx,null,null);
+                    ctx.showNoPatDialog(ctx,null,WardRoundActivity.class);
                 }
                 break;
             case R.id.ll_Onlineinquiry:

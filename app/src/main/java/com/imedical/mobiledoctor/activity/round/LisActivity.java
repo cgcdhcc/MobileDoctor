@@ -1,26 +1,25 @@
 package com.imedical.mobiledoctor.activity.round;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.imedical.mobiledoctor.AppConfig;
 import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.XMLservice.LisManager;
 import com.imedical.mobiledoctor.adapter.LisReportAdapter;
-import com.imedical.mobiledoctor.base.BaseActivity;
+import com.imedical.mobiledoctor.base.BaseRoundActivity;
 import com.imedical.mobiledoctor.entity.LisReportList;
 import com.imedical.mobiledoctor.entity.LoginInfo;
 import com.imedical.mobiledoctor.entity.PatientInfo;
+import com.imedical.mobiledoctor.entity.SeeDoctorRecord;
 import com.imedical.mobiledoctor.widget.ListViewPullExp;
 
 import java.util.ArrayList;
@@ -28,13 +27,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class LisActivity extends BaseActivity implements
+public class LisActivity extends BaseRoundActivity implements
         View.OnClickListener, AdapterView.OnItemClickListener,
         ListViewPullExp.IXListViewListener {
     private View rootView,ll_type,ll_time;
     private TextView btn_time,btn_type,btn_time_line,btn_type_line;
     private String mInfo = " test ";
-    public PatientInfo mPatientCurrSelected;
     private ListViewPullExp expandList;
     private LinearLayout ll_nodata;
     private LinearLayout ll_class;
@@ -53,14 +51,30 @@ public class LisActivity extends BaseActivity implements
         setContentView(R.layout.page4_lis_activity);
         InitViews();
         resetData();
-        loadDataThread(mPatientCurrSelected.admId, sort);
-        InitRecordList();
+        loadDataThread(Const.curPat.admId, sort);
+        InitRecordListAndPatientList(LisActivity.this);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == SWITHC_CODE) {
+            loadDataThread(Const.curPat.admId, sort);
+        }
+        setInfos(Const.curPat.patName,Const.curPat.bedCode+"床("+Const.curPat.patRegNo+")");//更新姓名，床号
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+    @Override
+    public void OnPatientSelected(PatientInfo p) {
+        Intent it0 =new Intent(LisActivity.this,PatientListActivity.class);
+        startActivityForResult(it0, SWITHC_CODE);
+    }
+
+    @Override
+    public void OnRecordSelected(SeeDoctorRecord sr) {
+        loadDataThread(Const.curPat.admId, sort);
     }
 
     private void InitViews() {
-        mPatientCurrSelected = Const.curPat;
         setTitle("检验信息");
-        setInfos(mPatientCurrSelected.patName,mPatientCurrSelected.bedCode+"床("+mPatientCurrSelected.patRegNo+")");
         ll_type=findViewById(R.id.ll_type);
         ll_time=findViewById(R.id.ll_time);
         ll_type.setOnClickListener(this);
@@ -85,7 +99,7 @@ public class LisActivity extends BaseActivity implements
                     case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
                         if (view.getLastVisiblePosition() == (view.getCount() - 1)// 滚动到底部
                                 && mConLoad_4_pages != null) {// 还有新的内容
-                            loadDataThread(mPatientCurrSelected.admId, sort);
+                            loadDataThread(Const.curPat.admId, sort);
                         }
                         break;
                     case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
@@ -129,7 +143,7 @@ public class LisActivity extends BaseActivity implements
                 btn_time_line.setBackground(getResources().getDrawable(R.color.white));
                 btn_type.setTextColor(getResources().getColor(R.color.mobile_blue));
                 btn_type_line.setBackground(getResources().getDrawable(R.color.mobile_blue));
-                loadDataThread(mPatientCurrSelected.admId, sort);
+                loadDataThread(Const.curPat.admId, sort);
                 break;
             case R.id.ll_time:
                 resetData();
@@ -139,7 +153,7 @@ public class LisActivity extends BaseActivity implements
                 btn_time.setTextColor(getResources().getColor(R.color.mobile_blue));
                 btn_time_line.setBackground(getResources().getDrawable(R.color.mobile_blue));
                 btn_type_line.setBackground(getResources().getDrawable(R.color.white));
-                loadDataThread(mPatientCurrSelected.admId, sort);
+                loadDataThread(Const.curPat.admId, sort);
                 break;
             default:break;
         }
@@ -195,7 +209,7 @@ public class LisActivity extends BaseActivity implements
                         parseListData(tempGroupData, tempChildDataList, list);
                         message.what = 0;
                         message.obj = new Object[]{tempGroupData, tempChildDataList};
-                        if (!admId.equals(mPatientCurrSelected.admId)) {// 如果已经切人了
+                        if (!admId.equals(Const.curPat.admId)) {// 如果已经切人了
                             mInfo = "已切换患者！数据加载中...";
                             message.what = -1;
                         }

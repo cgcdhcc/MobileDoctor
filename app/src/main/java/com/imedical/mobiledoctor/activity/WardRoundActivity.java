@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -20,13 +19,16 @@ import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.XMLservice.BusyManager;
 import com.imedical.mobiledoctor.XMLservice.SysManager;
+import com.imedical.mobiledoctor.base.BaseRoundActivity;
+import com.imedical.mobiledoctor.activity.round.CaseActivity;
 import com.imedical.mobiledoctor.activity.round.DiagnosisActivity;
 import com.imedical.mobiledoctor.activity.round.LisActivity;
 import com.imedical.mobiledoctor.activity.round.OrdersActivity;
 import com.imedical.mobiledoctor.activity.round.PatientInfoActivity;
+import com.imedical.mobiledoctor.activity.round.PatientListActivity;
 import com.imedical.mobiledoctor.activity.round.RisActivity;
+import com.imedical.mobiledoctor.activity.round.TempratureActivity;
 import com.imedical.mobiledoctor.adapter.HisRecordsAdapter;
-import com.imedical.mobiledoctor.base.BaseActivity;
 import com.imedical.mobiledoctor.entity.PatientInfo;
 import com.imedical.mobiledoctor.entity.SeeDoctorRecord;
 import com.imedical.mobiledoctor.widget.CircleImageView;
@@ -34,17 +36,16 @@ import com.imedical.mobiledoctor.widget.CircleImageView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WardRoundActivity extends BaseActivity implements View.OnClickListener {
-    private TextView   tv_name,tv_department,tv_title,tv_hisdept,tv_hisrcd;
+public class WardRoundActivity extends BaseRoundActivity implements View.OnClickListener {
+    private TextView   tv_name,tv_department,tv_title,tv_hisdept,tv_hisrcd,tv_patSwitch;
     private HisRecordsAdapter mHisRecordsAdapter;
     private CircleImageView re_civ_photo;
     private List<SeeDoctorRecord> list = new ArrayList<SeeDoctorRecord>();
     private List<SeeDoctorRecord> listtemp = null;
-    private PatientInfo mPatientInfo;
     private ListView mListViewRecord;
     private PopupWindow hisRecordPopWin;
-    private SeeDoctorRecord mCurrectRecord = new SeeDoctorRecord();
     private  View ll_switch,ll_1,ll_2,ll_3,ll_4,ll_5,ll_6,ll_7,ll_8;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,16 +53,43 @@ public class WardRoundActivity extends BaseActivity implements View.OnClickListe
         setContentView(R.layout.ward_round_activity);
         InitViews();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(Const.curSRecorder!=null){
+            try{
+                tv_hisdept.setText(SysManager.getAdmTypeDesc(Const.curSRecorder.admType) );
+                tv_hisrcd.setText(Const.curSRecorder.admDate);
+                int i=0;
+                for(SeeDoctorRecord temp:Const.SRecorderList){  //同步选择标签
+                    if(temp.admId.equals(Const.curSRecorder.admId)){
+                        selectPos=i;
+                    }
+                    i++;
+                }
+                mHisRecordsAdapter.notifyDataSetChanged();
+            }catch (Exception ee){
+               showCustom(ee.toString());
+            }
+
+        }
+    }
+
     private void showWindow(View parent) {
         if (hisRecordPopWin != null) {
             WindowManager windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-            hisRecordPopWin.showAsDropDown(parent, 0, 0);
+            hisRecordPopWin.showAsDropDown(parent, 0, -10);
         }
     }
     private void InitViews(){
-        mPatientInfo = Const.curPat;
+        listtemp=null;//onActivityResult需要初始化
+        list.clear();//onActivityResult需要初始化
+        setTitle("住院查房");
         re_civ_photo=(CircleImageView)findViewById(R.id.re_civ_photo);
         tv_name=(TextView) findViewById(R.id.tv_name);
+        tv_patSwitch=(TextView) findViewById(R.id.tv_patSwitch);
+        tv_patSwitch.setOnClickListener(this);
         tv_hisrcd=(TextView) findViewById(R.id.tv_hisrcd);
         tv_hisdept=(TextView) findViewById(R.id.tv_hisdept);
         ll_1=findViewById(R.id.ll_1);
@@ -103,12 +131,12 @@ public class WardRoundActivity extends BaseActivity implements View.OnClickListe
                 if (hisRecordPopWin != null) {
                     hisRecordPopWin.dismiss();
                 }
-                mPatientInfo.inDate=sr.admDate;
-                mPatientInfo.admId = sr.admId;
-                mPatientInfo.admType= sr.admType;
+                Const.curPat.inDate=sr.admDate;
+                Const.curPat.admId = sr.admId;
+                Const.curPat.admType= sr.admType;
                 Const.curSRecorder=sr;
                 if (position == 0) {
-                    tv_hisdept.setText("[默认]"+SysManager.getAdmTypeDesc(sr.admType) );
+                    tv_hisdept.setText(SysManager.getAdmTypeDesc(sr.admType) );
                     tv_hisrcd.setText(sr.admDate);
                 } else {
                     tv_hisdept.setText(sr.admDept);
@@ -119,14 +147,7 @@ public class WardRoundActivity extends BaseActivity implements View.OnClickListe
             }
 
         });
-        mCurrectRecord.admDate = mPatientInfo.inDate;
-        mCurrectRecord.admDept = mPatientInfo.departmentName;
-        mCurrectRecord.admId = mPatientInfo.admId;
-        mCurrectRecord.admType = mPatientInfo.admType;
-        Const.curSRecorder=new SeeDoctorRecord();
-        Const.curSRecorder.admId= mPatientInfo.admId;
-        list.add(mCurrectRecord);
-        LoadHisRecord();
+        InitHisRecord();
         ll_switch.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -149,12 +170,40 @@ public class WardRoundActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
+    private void InitHisRecord(){
+        if(Const.SRecorderList==null){//每个患者全局只执行一次查询,
+            SeeDoctorRecord newRcd = new SeeDoctorRecord();
+            newRcd.admDate =  Const.curPat.inDate;
+            newRcd.admDept =  Const.curPat.departmentName;
+            newRcd.admId =  Const.curPat.admId;
+            newRcd.admType =  Const.curPat.admType;
+            list.add(newRcd);
+            LoadHisRecord();
+        }else {
+            list.addAll(Const.SRecorderList);
+            mHisRecordsAdapter = new HisRecordsAdapter(WardRoundActivity.this, list);
+            mListViewRecord.setAdapter(mHisRecordsAdapter);
+            mHisRecordsAdapter.notifyDataSetChanged();
+            if(Const.curSRecorder!=null){
+                for(SeeDoctorRecord temp:Const.SRecorderList){
+                    if(temp.admId.equals(Const.curSRecorder.admId)){ //退出页面也同步
+                        tv_hisdept.setText(SysManager.getAdmTypeDesc(temp.admType) );
+                        tv_hisrcd.setText(temp.admDate);
+                    }
+                }
+            }else if(list.size()>0){ //默认
+                tv_hisdept.setText(SysManager.getAdmTypeDesc(list.get(0).admType) );
+                tv_hisrcd.setText(list.get(0).admDate);            }
+        }
+    }
+
     private void LoadHisRecord() {
+        showProgress();
         new Thread() {
             @Override
             public void run() {
                 try {
-                    listtemp = BusyManager.listSeeDoctorRecord(mPatientInfo.admId);
+                    listtemp = BusyManager.listSeeDoctorRecord(Const.curPat.admId);
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
@@ -162,15 +211,20 @@ public class WardRoundActivity extends BaseActivity implements View.OnClickListe
                         listtemp = new ArrayList<SeeDoctorRecord>();
                     } else {
                         list.addAll(listtemp);
+                        Const.SRecorderList=new ArrayList<SeeDoctorRecord>();
+                        Const.SRecorderList.addAll(list);//每个患者全局加载一次
                     }
                     runOnUiThread(new Runnable() {
 
                         @Override
                         public void run() {
-                            //		mListData.clear();
+                            dismissProgress();
                             mHisRecordsAdapter = new HisRecordsAdapter(WardRoundActivity.this, list);
                             mListViewRecord.setAdapter(mHisRecordsAdapter);
                             mHisRecordsAdapter.notifyDataSetChanged();
+                            //默认就诊记录，之后会随着患者选择同步
+                            tv_hisdept.setText(SysManager.getAdmTypeDesc(list.get(0).admType) );
+                            tv_hisrcd.setText(list.get(0).admDate);
                         }
 
                     });
@@ -180,9 +234,31 @@ public class WardRoundActivity extends BaseActivity implements View.OnClickListe
     }
 
     @Override
+    public void OnPatientSelected(PatientInfo p) {
+
+    }
+
+    @Override
+    public void OnRecordSelected(SeeDoctorRecord sr) {
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == SWITHC_CODE) {
+//            showCustom("101");
+            InitViews();
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+    @Override
     public void onClick(View view) {
         int vid=view.getId();
         switch (vid){
+            case R.id.tv_patSwitch:
+                Intent it0 =new Intent(WardRoundActivity.this,PatientListActivity.class);
+                startActivityForResult(it0, SWITHC_CODE);
+                break;
             case R.id.ll_1:
                 Intent it =new Intent(WardRoundActivity.this,PatientInfoActivity.class);
                 this.startActivity(it);
@@ -202,6 +278,14 @@ public class WardRoundActivity extends BaseActivity implements View.OnClickListe
             case R.id.ll_5:
                 Intent it5 =new Intent(WardRoundActivity.this,RisActivity.class);
                 this.startActivity(it5);
+                break;
+            case R.id.ll_6:
+                Intent it6 =new Intent(WardRoundActivity.this,TempratureActivity.class);
+                this.startActivity(it6);
+                break;
+            case R.id.ll_7:
+                Intent ll_7 =new Intent(WardRoundActivity.this,CaseActivity.class);
+                this.startActivity(ll_7);
                 break;
             default:break;
         }
