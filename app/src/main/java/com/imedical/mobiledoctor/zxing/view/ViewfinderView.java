@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.imedical.app.dhround.view.zxing.view;
+package com.imedical.mobiledoctor.zxing.view;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -24,11 +24,10 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
-
 import com.google.zxing.ResultPoint;
-import com.imedical.app.dhround.Const;
-import com.imedical.app.dhround.R;
-import com.imedical.app.dhround.view.zxing.camera.CameraManager;
+import com.imedical.mobiledoctor.Const;
+import com.imedical.mobiledoctor.R;
+import com.imedical.mobiledoctor.zxing.camera.CameraManager;
 
 import java.util.Collection;
 import java.util.HashSet;

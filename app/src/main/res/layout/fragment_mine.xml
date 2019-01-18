@@ -344,6 +344,7 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:padding="15dp"
+        android:id="@+id/ll_setting"
         android:layout_height="wrap_content">
 
         <ImageView
@@ -375,5 +376,19 @@
         android:layout_marginRight="15dp"
         android:layout_height="0.5dp" />
 
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:id="@+id/tv_exit"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="40dp"
+        android:text="退出登录"
+        android:textColor="@color/white"
+        android:background="@drawable/bg_shape_gray"
+        android:textSize="@dimen/font_18dp"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

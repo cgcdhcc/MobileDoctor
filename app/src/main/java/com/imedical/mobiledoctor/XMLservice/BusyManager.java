@@ -3,6 +3,7 @@ package com.imedical.mobiledoctor.XMLservice;
 
 import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.api.WsApiUtil;
+import com.imedical.mobiledoctor.entity.AdmInfo;
 import com.imedical.mobiledoctor.entity.AntAppData;
 import com.imedical.mobiledoctor.entity.AntAppInfo;
 import com.imedical.mobiledoctor.entity.BaseBean;
@@ -327,7 +328,25 @@ public class BusyManager {
 		}
 		return list ;
 	}
-	
+
+	public static List<AdmInfo> listOutPatInfo(String userCode, String visitType, String isHandle, String startDate,String endDate) throws Exception {
+
+		List<AdmInfo> list = null ;
+		Map map = new HashMap();
+		map.put("userCode", userCode);
+		map.put("terminalId", "android");
+		map.put("departmentId", "");
+		map.put("visitType", visitType);
+		map.put("flag", isHandle);
+		map.put("startDate", "");
+		map.put("endDate", "");
+		String serviceUrl = SettingManager.getServerUrl();
+		String requestXml = PropertyUtil.buildRequestXml(map);
+		String resultXml = WsApiUtil.loadSoapObject(serviceUrl,Const.BIZ_CODE_LIST_outPatInfo, requestXml);
+		list = PropertyUtil.parseBeansToList(AdmInfo.class, resultXml);
+		return list ;
+	}
+
 	public static List<PatientInfo> listQrPatientInfo(String userCode, String departmentId, String bracelet) throws Exception {
 
 		List<PatientInfo> list = null ;

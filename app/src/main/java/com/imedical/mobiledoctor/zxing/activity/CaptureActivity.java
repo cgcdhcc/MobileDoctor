@@ -1,17 +1,4 @@
-package com.imedical.app.dhround.view.zxing.activity;
-import java.io.IOException;
-import java.util.Vector;
-
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.Result;
-
-import com.imedical.app.dhround.Const;
-import com.imedical.app.dhround.R;
-import com.imedical.app.dhround.util.DensityUtils;
-import com.imedical.app.dhround.view.zxing.camera.CameraManager;
-import com.imedical.app.dhround.view.zxing.decoding.CaptureActivityHandler;
-import com.imedical.app.dhround.view.zxing.decoding.InactivityTimer;
-import com.imedical.app.dhround.view.zxing.view.ViewfinderView;
+package com.imedical.mobiledoctor.zxing.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -24,15 +11,29 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.view.SurfaceHolder;
+import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.SurfaceHolder.Callback;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class CaptureActivity extends Activity implements Callback{
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.Result;
+import com.imedical.mobiledoctor.Const;
+import com.imedical.mobiledoctor.R;
+import com.imedical.mobiledoctor.util.DensityUtils;
+import com.imedical.mobiledoctor.zxing.camera.CameraManager;
+import com.imedical.mobiledoctor.zxing.decoding.CaptureActivityHandler;
+import com.imedical.mobiledoctor.zxing.decoding.InactivityTimer;
+import com.imedical.mobiledoctor.zxing.view.ViewfinderView;
+
+
+import java.io.IOException;
+import java.util.Vector;
+
+public class CaptureActivity extends Activity implements Callback {
 	private CaptureActivityHandler handler;
 	private ViewfinderView viewfinderView;
 	private boolean hasSurface;
@@ -146,7 +147,7 @@ public class CaptureActivity extends Activity implements Callback{
 
 	
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
-			int height) {
+                               int height) {
 
 	}
 

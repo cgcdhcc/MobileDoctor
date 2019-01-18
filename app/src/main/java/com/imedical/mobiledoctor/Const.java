@@ -165,6 +165,8 @@ public final class Const {
 	public static final String BIZ_CODE_LIST_DEPT                  =  "doctor.login.logindepartment";//50102
 	public static final String BIZ_CODE_LIST_ALL_DEPT              =  "doctor.login.allhospitaldepartment";//50106
 	public static final String BIZ_CODE_LIST_PatientInfo           =  "doctor.patient.departmentpatints";//50201
+	public static final String BIZ_CODE_LIST_outPatInfo           =  "doctor.ihospital.getpatientlist";//50206
+
 	public static final String BIZ_CODE_CONTENT_PatientInfo        =  "doctor.patient.getpatient";//50202
 	public static final String BIZ__SEARCH_PatientInfo             =  "doctor.report.itemreportcompare";//"50204";//通过床位号和姓名查病人--lqz--add
 	public static final String BIZ_CODE_LIST_Diagnosis             =  "doctor.diagnose.getdiagnose";//50301

@@ -72,4 +72,18 @@ public class PatientInfo implements Serializable {
 
     public PatientInfo() {
     }
+
+    public PatientInfo(AdmInfo adm) {
+        this.patSex=adm.patientSex;
+        this.patAge=adm.patientAge;
+        this.patName=adm.patientName;
+        this.admId=adm.admId;
+        this.inDate=adm.registerDate;
+        this.mainDoctor=adm.doctorName;
+        this.admType="O";//默认门诊
+        this.departmentId=adm.departmentId;
+        this.departmentName=adm.departmentName;
+
+
+    }
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.imedical.app.dhround.view.zxing.decoding;
+package com.imedical.mobiledoctor.zxing.decoding;
 
 /**
  * This class provides the constants to use when sending an Intent to Barcode Scanner.

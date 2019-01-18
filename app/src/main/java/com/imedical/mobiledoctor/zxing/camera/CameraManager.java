@@ -1,6 +1,4 @@
-package com.imedical.app.dhround.view.zxing.camera;
-
-import java.io.IOException;
+package com.imedical.mobiledoctor.zxing.camera;
 
 import android.content.Context;
 import android.graphics.PixelFormat;
@@ -11,6 +9,8 @@ import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 import android.view.SurfaceHolder;
+
+import java.io.IOException;
 
 public class CameraManager {
 	private static final String TAG = CameraManager.class.getSimpleName();

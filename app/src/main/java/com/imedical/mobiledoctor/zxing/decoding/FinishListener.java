@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.imedical.app.dhround.view.zxing.decoding;
+package com.imedical.mobiledoctor.zxing.decoding;
 
 import android.app.Activity;
 import android.content.DialogInterface;

@@ -60,9 +60,10 @@ public class DiagnosisAdapter extends BaseAdapter {
 		 holder.tv_diaDesc.setText(b.diaDesc);
 		 holder.tv_diaDate.setText(b.diaDate);
 		 holder.tv_diaDoc.setText(b.diaDoctor);
+
 		 holder.tv_diaType.setText(b.diaType);
 		 holder.tv_diaTime.setText(b.diaTime);
-	     holder.tv_diaStat.setText(b.diaStat);
+	     holder.tv_diaStat.setText("备注:"+b.diaNote==null?"无":b.diaNote);
 		 
 		if (position == selectItem) {    
 			//Log.d("GetProduByNo", "------------------>......" );	 

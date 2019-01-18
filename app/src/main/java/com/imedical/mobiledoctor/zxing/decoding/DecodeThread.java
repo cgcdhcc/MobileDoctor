@@ -14,11 +14,7 @@
  * limitations under the License.
  */
 
-package com.imedical.app.dhround.view.zxing.decoding;
-
-import java.util.Hashtable;
-import java.util.Vector;
-import java.util.concurrent.CountDownLatch;
+package com.imedical.mobiledoctor.zxing.decoding;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -26,7 +22,11 @@ import android.os.Looper;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.ResultPointCallback;
-import com.imedical.app.dhround.view.zxing.activity.CaptureActivity;
+import com.imedical.mobiledoctor.zxing.activity.CaptureActivity;
+
+import java.util.Hashtable;
+import java.util.Vector;
+import java.util.concurrent.CountDownLatch;
 
 /**
  * This thread does all the heavy lifting of decoding the images.

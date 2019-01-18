@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-package com.imedical.app.dhround.view.zxing.decoding;
-
-import java.util.Vector;
+package com.imedical.mobiledoctor.zxing.decoding;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -27,13 +25,14 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
-import com.imedical.app.dhround.R;
-import com.imedical.app.dhround.view.zxing.activity.CaptureActivity;
-import com.imedical.app.dhround.view.zxing.camera.CameraManager;
-import com.imedical.app.dhround.view.zxing.view.ViewfinderResultPointCallback;
+import com.imedical.mobiledoctor.R;
+import com.imedical.mobiledoctor.zxing.activity.CaptureActivity;
+import com.imedical.mobiledoctor.zxing.camera.CameraManager;
+import com.imedical.mobiledoctor.zxing.view.ViewfinderResultPointCallback;
+
+import java.util.Vector;
 
 /**
  * This class handles all the messaging which comprises the state machine for capture.
@@ -53,7 +52,7 @@ public final class CaptureActivityHandler extends Handler {
   }
 
   public CaptureActivityHandler(CaptureActivity activity, Vector<BarcodeFormat> decodeFormats,
-      String characterSet) {
+                                String characterSet) {
     this.activity = activity;
     decodeThread = new DecodeThread(activity, decodeFormats, characterSet,
         new ViewfinderResultPointCallback(activity.getViewfinderView()));

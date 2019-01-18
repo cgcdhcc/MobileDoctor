@@ -84,7 +84,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="horizontal"
-        android:id="@+id/ll_switch"
+        android:id="@+id/ll_inPatient"
         android:layout_height="40dp">
         <LinearLayout
             android:layout_width="wrap_content"
@@ -128,12 +128,133 @@
                 android:layout_width="match_parent"
                 android:hint="请输入姓名,住院号搜索"
                 android:textSize="@dimen/font_14dp"
+                android:id="@+id/et_search"
                 android:background="@null"
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"
                 android:layout_height="32dp" />
         </LinearLayout>
     </LinearLayout>
+    <!--========================门诊患者布局====================================-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:id="@+id/ll_outPatient"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:background="@color/white"
+            android:layout_height="40dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:gravity="center_vertical"
+                android:id="@+id/ll_type"
+                android:orientation="horizontal"
+                android:layout_height="match_parent">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="20dp"
+                    android:gravity="center"
+                    android:id="@+id/tv_type"
+                    android:paddingRight="10dp"
+                    android:text="正常门诊"
+                    android:textSize="@dimen/font_16dp"
+                    />
+                <ImageView
+                    android:layout_width="10dp"
+                    android:src="@drawable/all_trg"
+                    android:layout_marginRight="20dp"
+                    android:layout_height="10dp" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/ll_tempview"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/tv_startDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:padding="6dp"
+                    android:text="2010-10-10"
+                    android:textSize="@dimen/font_16dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:text=" 至 "
+                    android:textSize="@dimen/font_16dp"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_endDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:padding="6dp"
+                    android:text="2019-10-10"
+                    android:textSize="@dimen/font_16dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:id="@+id/ll_noHandle"
+                android:layout_height="56dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:text="待就诊"
+                    android:id="@+id/tv_noHandle"
+                    android:textSize="@dimen/font_16dp"
+                    android:textColor="@color/mobile_blue"
+                    android:layout_height="54dp" />
+                <TextView
+                    android:id="@+id/tv_noHandle_line"
+                    android:layout_width="match_parent"
+                    android:background="@color/mobile_blue"
+                    android:layout_height="2dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_Handled"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_height="56dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:id="@+id/tv_Handled"
+                    android:text="已就诊"
+                    android:textSize="@dimen/font_16dp"
+                    android:textColor="@color/gray"
+                    android:layout_height="54dp" />
+                <TextView
+                    android:id="@+id/tv_Handled_line"
+                    android:layout_width="match_parent"
+                    android:background="@color/white"
+                    android:layout_height="2dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+    <!--========================门诊患者布局====================================-->
+
     <TextView
         android:id="@+id/tv_nodata"
         android:visibility="gone"
@@ -148,6 +269,15 @@
         android:layout_height="match_parent" >
         <com.imedical.mobiledoctor.widget.ListViewPull
             android:id="@+id/lv_pat"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="1dp"
+            android:layout_weight="1"
+            android:drawSelectorOnTop="false"
+            android:groupIndicator="@null" />
+        <com.imedical.mobiledoctor.widget.ListViewPull
+            android:id="@+id/lv_outpat"
+            android:visibility="gone"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_marginTop="1dp"

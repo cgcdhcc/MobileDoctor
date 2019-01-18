@@ -15,7 +15,9 @@ import android.widget.TextView;
 
 import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
+import com.imedical.mobiledoctor.XMLservice.BusyManager;
 import com.imedical.mobiledoctor.XMLservice.SysManager;
+import com.imedical.mobiledoctor.activity.WardRoundActivity;
 import com.imedical.mobiledoctor.adapter.HisRecordsAdapter;
 import com.imedical.mobiledoctor.entity.PatientInfo;
 import com.imedical.mobiledoctor.entity.SeeDoctorRecord;
@@ -103,18 +105,53 @@ public abstract class BaseRoundActivity extends BaseActivity {
             }
         });
     }
+    private void LoadHisRecord() {
+        showProgress();
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    listtemp = BusyManager.listSeeDoctorRecord(Const.curPat.admId);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    if (listtemp == null) {
+                        listtemp = new ArrayList<SeeDoctorRecord>();
+                    } else {
+                        list.addAll(listtemp);
+                        Const.SRecorderList=new ArrayList<SeeDoctorRecord>();
+                        Const.SRecorderList.addAll(list);//每个患者全局加载一次
+                    }
+                    runOnUiThread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            dismissProgress();
+                            mHisRecordsAdapter = new HisRecordsAdapter(BaseRoundActivity.this, list);
+                            mListViewRecord.setAdapter(mHisRecordsAdapter);
+                            mHisRecordsAdapter.notifyDataSetChanged();
+                            //默认就诊记录，之后会随着患者选择同步
+                            tv_record.setText(SysManager.getAdmTypeDesc(list.get(0).admType) +list.get(0).admDate);
+                        }
+
+                    });
+                }
+            }
+        }.start();
+    }
+
 
     private void InitHisRecord(){
-//        if(Const.SRecorderList==null){//每个患者全局只执行一次查询
-//             SeeDoctorRecord newRcd = new SeeDoctorRecord();
-//            newRcd.admDate =  Const.curPat.inDate;
-//            newRcd.admDept =  Const.curPat.departmentName;
-//            newRcd.admId =  Const.curPat.admId;
-//            newRcd.admType =  Const.curPat.admType;
-//            list.add(newRcd);
-//            LoadHisRecord();
-//        }else {
-        if(Const.SRecorderList!=null){//加载WordRoundActivit读取的数据。
+        if(Const.SRecorderList==null){//每个患者全局只执行一次查询
+             SeeDoctorRecord newRcd = new SeeDoctorRecord();
+            newRcd.admDate =  Const.curPat.inDate;
+            newRcd.admDept =  Const.curPat.departmentName;
+            newRcd.admId =  Const.curPat.admId;
+            newRcd.admType =  Const.curPat.admType;
+            list.add(newRcd);
+            LoadHisRecord();
+        }else {
+//        if(Const.SRecorderList!=null){//加载WordRoundActivit读取的数据。
             if(list.size()>0){
                 tv_record.setText(SysManager.getAdmTypeDesc(list.get(0).admType) +list.get(0).admDate);
             }
