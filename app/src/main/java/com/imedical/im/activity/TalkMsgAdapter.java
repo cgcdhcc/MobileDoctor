@@ -71,7 +71,9 @@ public class TalkMsgAdapter extends BaseAdapter {
 		View left = view.findViewById(R.id.view_left);
 		View right = view.findViewById(R.id.view_right);
 		TextView talk_time = (TextView) view.findViewById(R.id.talk_time);
-		talk_time.setText(DateUtil.ConvertDateTime(data_list.get(p).timeStamp));
+		if(data_list.get(p).timeStamp!=null){
+			talk_time.setText(DateUtil.ConvertDateTime(data_list.get(p).timeStamp));
+		}
 		if (!data_list.get(p).fromUser.equals(Const.loginInfo.userCode)) {// 自己发言
 			left.setVisibility(View.VISIBLE);
 			right.setVisibility(View.GONE);

@@ -31,6 +31,7 @@ import com.imedical.mobiledoctor.activity.round.TempratureActivity;
 import com.imedical.mobiledoctor.adapter.HisRecordsAdapter;
 import com.imedical.mobiledoctor.entity.PatientInfo;
 import com.imedical.mobiledoctor.entity.SeeDoctorRecord;
+import com.imedical.mobiledoctor.util.Validator;
 import com.imedical.mobiledoctor.widget.CircleImageView;
 
 import java.util.ArrayList;
@@ -45,12 +46,13 @@ public class WardRoundActivity extends BaseRoundActivity implements View.OnClick
     private ListView mListViewRecord;
     private PopupWindow hisRecordPopWin;
     private  View ll_switch,ll_1,ll_2,ll_3,ll_4,ll_5,ll_6,ll_7,ll_8;
-
+    private String title;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.ward_round_activity);
+        title = this.getIntent().getStringExtra("title");
         InitViews();
     }
 
@@ -90,7 +92,12 @@ public class WardRoundActivity extends BaseRoundActivity implements View.OnClick
     private void InitViews(){
         listtemp=null;//onActivityResult需要初始化
         list.clear();//onActivityResult需要初始化
-        setTitle("住院查房");
+        if (Validator.isBlank(title)){
+            setTitle("住院查房");
+        }else {
+            setTitle(title);
+        }
+
         re_civ_photo=(CircleImageView)findViewById(R.id.re_civ_photo);
         tv_name=(TextView) findViewById(R.id.tv_name);
         tv_patSwitch=(TextView) findViewById(R.id.tv_patSwitch);
