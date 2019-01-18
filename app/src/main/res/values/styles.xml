@@ -11,7 +11,7 @@
 
 
 
-    <style name="CustomDialog">
+    <style name="CustomDialog" parent="AlertDialog.AppCompat">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>

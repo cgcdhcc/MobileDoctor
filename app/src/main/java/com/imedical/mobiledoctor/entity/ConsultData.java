@@ -38,7 +38,6 @@ public class ConsultData implements Serializable {
     public String appDoc;
     public String appDateTime;
     public String docAttitude;
-
-    @Desc(label = "是否为已处理的", type = Desc.TYPE_PARSE_IGNORE)
-    public String conStatus;
+    public String status;
+    public String conLoad;//加载
 }

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:gravity="center_horizontal">
+
+    <include layout="@layout/dhcc_white_head"/>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/lv_data"
+        android:background="@color/white"
+        android:dividerHeight="10dp"
+        android:divider="@color/background">
+
+    </ListView>
+
+    <TextView
+        android:id="@+id/tv_save"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_marginTop="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_16dp"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
+        android:text="保存"
+        android:background="@drawable/button_shape_blue_gradient"/>
+
+</LinearLayout>

@@ -40,4 +40,5 @@ public class AntAppData implements Serializable {
     public String appDateTime;
     public String appStatus;
     public String conLoad;
+    public boolean isChecked=false;
 }

@@ -8,8 +8,14 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.imedical.im.entity.AdmInfo;
+import com.imedical.im.service.AdmManager;
+import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.base.BaseActivity;
+import com.imedical.mobiledoctor.util.DateTimePickDialogUtil;
+import com.imedical.mobiledoctor.util.DateUtil;
+import com.imedical.mobiledoctor.util.MyCallback;
 import com.imedical.mobiledoctor.widget.ListViewPull;
 
 import java.util.ArrayList;
@@ -19,8 +25,8 @@ public class ImMainActivity extends BaseActivity implements View.OnClickListener
     public TextView tv_imgtxt, tv_imgtxt_line, tv_videodept, tv_videodept_line, tv_startDate, tv_endDate, tv_hasfinish, tv_hasfinish_line, tv_isgoing, tv_isgoing_line;
     public ListViewPull lv_data;
     public int currentType = 0; //0图文资讯 1远程门诊
-    public int currentStatus = 0;//0已完成  1咨询中
-    public List<String> list = new ArrayList<>();
+    public int currentStatus = 0;//0咨询中  1已完成
+    public List<AdmInfo> list = new ArrayList<>();
     public MyAdapter adapter;
 
     @Override
@@ -46,10 +52,10 @@ public class ImMainActivity extends BaseActivity implements View.OnClickListener
 
         tv_startDate = (TextView) findViewById(R.id.tv_startDate);
         tv_startDate.setOnClickListener(this);
-
+        tv_startDate.setText(DateUtil.getDateToday(null));
         tv_endDate = (TextView) findViewById(R.id.tv_endDate);
         tv_endDate.setOnClickListener(this);
-
+        tv_endDate.setText(DateUtil.getDateTodayBefore(null, 7));
 
         tv_hasfinish = (TextView) findViewById(R.id.tv_hasfinish);
         tv_hasfinish.setOnClickListener(this);
@@ -68,7 +74,8 @@ public class ImMainActivity extends BaseActivity implements View.OnClickListener
         lv_data.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent=new Intent(ImMainActivity.this,TalkMsgActivity.class);
+                Intent intent=new Intent(ImMainActivity.this,AdmInfoActivity.class);
+                intent.putExtra("admId", list.get(position).admId);
                 startActivity(intent);
             }
         });
@@ -93,7 +100,7 @@ public class ImMainActivity extends BaseActivity implements View.OnClickListener
             tv_imgtxt_line.setVisibility(View.INVISIBLE);
         }
 
-        if (currentStatus == 0) {
+        if (currentStatus == 1) {
             tv_hasfinish.setTextColor(getResources().getColor(R.color.mobile_blue));
             tv_hasfinish_line.setVisibility(View.VISIBLE);
 
@@ -129,37 +136,65 @@ public class ImMainActivity extends BaseActivity implements View.OnClickListener
                 }
                 break;
             case R.id.tv_hasfinish:
-                if (currentStatus != 0) {
-                    currentStatus = 0;
-                    doCheck();
-                }
-                break;
-            case R.id.tv_isgoing:
                 if (currentStatus != 1) {
                     currentStatus = 1;
                     doCheck();
                 }
                 break;
+            case R.id.tv_isgoing:
+                if (currentStatus != 0) {
+                    currentStatus = 0;
+                    doCheck();
+                }
+                break;
             case R.id.tv_startDate:
+                new DateTimePickDialogUtil(ImMainActivity.this).datePicKDialog(tv_startDate.getText().toString(), new MyCallback() {
+                    @Override
+                    public void onCallback(Object value) {
+                        tv_startDate.setText((String)value);
+                        loadData();
+                    }
+                });
                 break;
             case R.id.tv_endDate:
+                new DateTimePickDialogUtil(ImMainActivity.this).datePicKDialog(tv_endDate.getText().toString(), new MyCallback() {
+                    @Override
+                    public void onCallback(Object value) {
+                        tv_endDate.setText((String)value);
+                        loadData();
+                    }
+                });
                 break;
         }
     }
 
     public void loadData() {
         showProgress();
-        list.clear();
         new Thread() {
+            List<AdmInfo> templist;
+            String msg="加载失败了";
             @Override
             public void run() {
                 super.run();
-                list.add("测试");
+                try{
+                    templist= AdmManager.GetPatientList(Const.DeviceId, Const.loginInfo.userCode, Const.loginInfo.defaultDeptId, currentType==0?"T":"V",currentStatus==0?"N":"Y" ,tv_startDate.getText().toString() ,tv_endDate.getText().toString() );
+                }catch (Exception e){
+                    e.printStackTrace();
+                    msg=e.getMessage();
+                }
+
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        dismissProgress();
-                        adapter.notifyDataSetChanged();
+                        list.clear();
+                        if(templist!=null){
+                            list.addAll(templist);
+                            adapter.notifyDataSetChanged();
+                            dismissProgress();
+                        }else{
+                            dismissProgress();
+                            showToast(msg);
+                        }
                     }
                 });
             }
@@ -185,6 +220,12 @@ public class ImMainActivity extends BaseActivity implements View.OnClickListener
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             convertView = getLayoutInflater().inflate(R.layout.im_item_activity_main, null);
+            TextView tv_patientName=convertView.findViewById(R.id.tv_patientName);
+            tv_patientName.setText(list.get(position).patientName);
+            TextView tv_registerDate=convertView.findViewById(R.id.tv_registerDate);
+            tv_registerDate.setText(list.get(position).registerDate+"   "+(list.get(position).sessionName==null?"":list.get(position).sessionName));
+            TextView tv_patientContent=convertView.findViewById(R.id.tv_patientContent);
+            tv_patientContent.setText(list.get(position).patientContent);
             return convertView;
         }
 

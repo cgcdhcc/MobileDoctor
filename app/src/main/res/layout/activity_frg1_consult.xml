@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/white"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <include layout="@layout/dhcc_white_head"></include>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:background="@color/mobile_titlebar_blue">
+        <TextView
+            android:id="@+id/tv_startDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="2012-12-12"
+            android:gravity="center"
+            android:textSize="@dimen/font_16dp"
+            android:textColor="@color/text_grayblack"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="至"
+            android:gravity="center"
+            android:textSize="@dimen/font_16dp"
+            android:textColor="@color/text_gray"/>
+        <TextView
+            android:id="@+id/tv_endDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="2012-12-12"
+            android:gravity="center"
+            android:textSize="@dimen/font_16dp"
+            android:textColor="@color/text_grayblack"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+            <TextView
+                android:padding="10dp"
+                android:id="@+id/tv_isgoing"
+                android:textSize="@dimen/font_16dp"
+                android:text="需处理"
+                android:textColor="@color/text_base"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true" />
+            <TextView
+                android:id="@+id/tv_isgoing_line"
+                android:layout_marginTop="3dp"
+                android:background="@color/mobile_blue"
+                android:layout_width="match_parent"
+                android:layout_height="3dp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+            <TextView
+                android:padding="10dp"
+                android:id="@+id/tv_hasfinish"
+                android:textSize="@dimen/font_16dp"
+                android:text="已处理"
+                android:textColor="@color/text_grayblack"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true" />
+            <TextView
+                android:visibility="invisible"
+                android:id="@+id/tv_hasfinish_line"
+                android:layout_marginTop="3dp"
+                android:background="@color/mobile_blue"
+                android:layout_width="match_parent"
+                android:layout_height="3dp" />
+        </LinearLayout>
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/mobile_gray"/>
+    <include layout="@layout/inner_no_data" />
+    <com.imedical.mobiledoctor.widget.ListViewPull
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@color/background"
+        android:dividerHeight="2dp"
+        android:id="@+id/lv_data">
+
+    </com.imedical.mobiledoctor.widget.ListViewPull>
+</LinearLayout>

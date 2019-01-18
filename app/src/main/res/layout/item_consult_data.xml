@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_patName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="患者姓名"
+            android:textColor="@color/text_base"
+            android:textSize="@dimen/font_16dp" />
+
+        <TextView
+            android:id="@+id/tv_patBed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="患者床号"
+            android:textColor="@color/text_gray"
+            android:textSize="@dimen/font_16dp" />
+
+        <TextView
+            android:id="@+id/tv_type"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:layout_height="wrap_content"
+            android:text="会诊类型"
+            android:textColor="@color/text_gray"
+            android:textSize="@dimen/font_16dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/icon_consult_data" />
+
+         <TextView
+             android:layout_marginLeft="5dp"
+            android:id="@+id/tv_mainDiag"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:singleLine="true"
+            android:text="主要诊断"
+            android:textColor="@color/text_grayblack"
+            android:textSize="@dimen/font_16dp" />
+    </LinearLayout>
+
+    <View
+        android:layerType="software"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@drawable/image_dot_line"/>
+
+    <LinearLayout
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:id="@+id/tv_appDateTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="申请时间"
+            android:textColor="@color/text_gray"
+            android:textSize="@dimen/font_16dp" />
+
+        <TextView
+            android:gravity="right"
+            android:id="@+id/tv_appDoc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="申请医生"
+            android:textColor="@color/text_gray"
+            android:textSize="@dimen/font_16dp" />
+    </LinearLayout>
+
+
+</LinearLayout>

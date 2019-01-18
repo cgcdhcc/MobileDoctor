@@ -17,6 +17,8 @@ import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.XMLservice.PageGridManager;
 import com.imedical.mobiledoctor.activity.WardRoundActivity;
+import com.imedical.mobiledoctor.activity.frg_1.AntActivity;
+import com.imedical.mobiledoctor.activity.frg_1.ConsultActivity;
 import com.imedical.mobiledoctor.activity.frg_1.CriticalValueActivity;
 import com.imedical.mobiledoctor.adapter.MyItemDecoration;
 import com.imedical.mobiledoctor.adapter.WorkAdapter;
@@ -101,10 +103,10 @@ public class Fragment_work extends Fragment implements View.OnClickListener {
                         intent =new Intent(ctx,CriticalValueActivity.class);
                         break;
                     case 2:
-//                            intent = new Intent(ctx, PageFragReportDataActivity.class);
+                        intent = new Intent(ctx, ConsultActivity.class);
                         break;
                     case 3:
-//                            intent =new Intent(ctx,FragmentConsultActivity.class);
+                        intent =new Intent(ctx, AntActivity.class);
                         break;
                     case 4:
 //                            intent =new Intent(ctx,FragmentAntActivity.class);
