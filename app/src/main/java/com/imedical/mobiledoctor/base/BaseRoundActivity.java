@@ -61,7 +61,7 @@ public abstract class BaseRoundActivity extends BaseActivity {
         });
         ll_top= findViewById(R.id.ll_top);
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View view = layoutInflater.inflate(R.layout.his_record_list, null);
+        final View view = layoutInflater.inflate(R.layout.his_record_list_2, null);
         mListViewRecord = (ListView) view.findViewById(R.id.lv_data_list);
         mHisRecordsAdapter = new HisRecordsAdapter(BaseRoundActivity.this, list);
         mListViewRecord.setAdapter(mHisRecordsAdapter);

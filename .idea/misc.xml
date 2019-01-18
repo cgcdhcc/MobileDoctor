@@ -29,5 +29,29 @@
       </value>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" project-jdk-name="1.8" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8 (4)" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+  <component name="SvnBranchConfigurationManager">
+    <option name="myConfigurationMap">
+      <map>
+        <entry key="$PROJECT_DIR$">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="branchUrls">
+                <list>
+                  <option value="https://cvs.dhcc.com.cn:8443/svn/yl/group/51HMI/android/branches" />
+                  <option value="https://cvs.dhcc.com.cn:8443/svn/yl/group/51HMI/android/tags" />
+                </list>
+              </option>
+              <option name="trunkUrl" value="https://cvs.dhcc.com.cn:8443/svn/yl/group/51HMI/android/trunk" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
 </project>

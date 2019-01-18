@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+     android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="30dp"
+    android:layout_marginBottom="30dp"
+     android:background="@drawable/bg_shape_dialog"
+    android:orientation="vertical" >
+
+ <!-- 标题 -->
+<LinearLayout
+   
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:background="@color/new_font_blue"
+          	
+            >
+        <TextView 
+            android:layout_width="50dp"
+            android:layout_height="fill_parent"
+           	android:gravity="center"
+            android:id="@+id/tv_back"
+            android:text="返回"
+            android:textColor="@color/white"
+            />
+        <TextView 
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:text="检验报告明细"
+            android:gravity="center|center"
+            android:id="@+id/tv_title"
+            android:textSize="@dimen/sp_content" 
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            />
+        <TextView 
+            android:layout_width="50dp"
+            android:layout_height="fill_parent"
+            android:text=" "
+            android:textColor="@color/white"
+            />
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:id="@+id/iv_no_re"
+            android:visibility="gone"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/icon_nodata"
+         />
+        <include layout="@layout/include_lis_compare" />
+    </LinearLayout>
+</LinearLayout>
