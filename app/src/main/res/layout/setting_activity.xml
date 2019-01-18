@@ -112,7 +112,7 @@
         android:id="@+id/tv_exit"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-
+        android:visibility="gone"
         android:text="退出登录"
         android:textColor="@color/white"
         android:background="@drawable/bg_shape_gray"

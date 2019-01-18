@@ -277,6 +277,7 @@
             android:groupIndicator="@null" />
         <com.imedical.mobiledoctor.widget.ListViewPull
             android:id="@+id/lv_outpat"
+            android:visibility="gone"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_marginTop="1dp"

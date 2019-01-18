@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.XMLservice.BusyManager;
+import com.imedical.mobiledoctor.activity.WardRoundActivity;
 import com.imedical.mobiledoctor.activity.round.OrdersActivity;
 import com.imedical.mobiledoctor.adapter.AdapterOutPat;
 import com.imedical.mobiledoctor.adapter.AdapterPat;
@@ -179,7 +180,10 @@ public class Fragment_Patient extends Fragment implements View.OnClickListener {
                     Const.curPat=fake_p;
                 }
                 outPat_AdapterPat.notifyDataSetChanged();
-                ctx.showCustom("跳转哪里");
+                if(Const.curPat!=null){
+                    Intent it =new Intent(ctx,WardRoundActivity.class);
+                    startActivity(it);
+                }
             }
         });
 
@@ -284,6 +288,10 @@ public class Fragment_Patient extends Fragment implements View.OnClickListener {
                     Const.curPat=p;
                 }
                 inPat_AdapterPat.notifyDataSetChanged();
+                if(Const.curPat!=null){
+                    Intent it =new Intent(ctx,WardRoundActivity.class);
+                    startActivity(it);
+                }
             }
         });
     }

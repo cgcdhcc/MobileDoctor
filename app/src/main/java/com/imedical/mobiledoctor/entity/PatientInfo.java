@@ -2,6 +2,7 @@ package com.imedical.mobiledoctor.entity;
 
 
 
+import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.util.Desc;
 
 import java.io.Serializable;
@@ -72,6 +73,12 @@ public class PatientInfo implements Serializable {
         this.patAge=adm.patientAge;
         this.patName=adm.patientName;
         this.admId=adm.admId;
+        this.inDate=adm.registerDate;
         this.mainDoctor=adm.doctorName;
+        this.admType="O";//默认门诊
+        this.departmentId=adm.departmentId;
+        this.departmentName=adm.departmentName;
+
+
     }
 }

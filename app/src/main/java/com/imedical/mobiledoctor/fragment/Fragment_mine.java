@@ -21,7 +21,7 @@ public class Fragment_mine extends Fragment implements View.OnClickListener {
     private MainActivity ctx;
     private String mInfo = null;
     View mView = null,ll_setting;
-    TextView tv_name, tv_department, tv_title;
+    TextView tv_name, tv_department, tv_title,tv_exit;
     private ImageView iv_scan;
     public void onAttach(Activity activity) {
         this.ctx =(MainActivity) activity;
@@ -41,6 +41,8 @@ public class Fragment_mine extends Fragment implements View.OnClickListener {
     }
 
     private void InitViews() {
+        tv_exit=(TextView) mView.findViewById(R.id.tv_exit);
+        tv_exit.setOnClickListener(this);
         ll_setting=mView.findViewById(R.id.ll_setting);
         ll_setting.setOnClickListener(this);
         tv_name = (TextView) mView.findViewById(R.id.tv_name);
@@ -87,6 +89,9 @@ public class Fragment_mine extends Fragment implements View.OnClickListener {
                 case R.id.ll_setting:
                     Intent intent = new Intent(getActivity(), SettingActivity.class);
                     startActivity(intent);
+                    break;
+                case R.id.tv_exit:
+                    System.exit(0);
                     break;
             }
     }
