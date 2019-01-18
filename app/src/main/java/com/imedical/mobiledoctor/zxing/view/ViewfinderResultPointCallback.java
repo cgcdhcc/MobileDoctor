@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.imedical.app.dhround.view.zxing.view;
+package com.imedical.mobiledoctor.zxing.view;
 
 import com.google.zxing.ResultPoint;
 import com.google.zxing.ResultPointCallback;

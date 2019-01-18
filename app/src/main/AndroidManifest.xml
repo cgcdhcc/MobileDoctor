@@ -18,7 +18,9 @@
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
     </activity>
-
+        <activity android:name="com.imedical.mobiledoctor.activity.frg_3.SettingActivity" android:screenOrientation="portrait"/>
+        <activity android:name="com.imedical.mobiledoctor.zxing.activity.CaptureActivity" android:screenOrientation="portrait"/>
+        <activity android:name="com.imedical.mobiledoctor.activity.round.detail.LisHis_DetailActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.mobiledoctor.activity.round.PatientListActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.mobiledoctor.activity.round.CaseActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.mobiledoctor.activity.round.CommonBrowserActivity" android:screenOrientation="portrait"/>
@@ -52,5 +54,6 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
 </manifest>

@@ -344,6 +344,7 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:padding="15dp"
+        android:id="@+id/ll_setting"
         android:layout_height="wrap_content">
 
         <ImageView

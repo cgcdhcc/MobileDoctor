@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.Window;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.imedical.mobiledoctor.Const;
@@ -47,6 +50,7 @@ public class PatientListActivity extends BaseActivity implements View.OnClickLis
     private TextView tv_nodata;
     private DropDownMenu dropDownMenu;
     private int SWITHC_CODE = 101;
+    private EditText et_search;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -59,6 +63,17 @@ public class PatientListActivity extends BaseActivity implements View.OnClickLis
         mLogin = Const.loginInfo;
         setTitle("患者");
         intent=this.getIntent();
+        et_search=(EditText) findViewById(R.id.et_search);
+        et_search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                searchlisten(s.toString(),mListDataPatient,mListDataSave);
+            }
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
         ll_patient=findViewById(R.id.ll_patient);
         ll_patient.setOnClickListener(this);
         listItem = getLayoutInflater().inflate(R.layout.item_listview, null, false);
@@ -185,6 +200,45 @@ public class PatientListActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
+    private void searchlisten(String str, List<PatientInfo> mListDataPatient, List<PatientInfo> mListDataSave) {
+        if ("".equals(str)) {
+            mListDataPatient.clear();
+            if (mListDataSave != null && mListDataSave.size() > 0) {
+                mListDataPatient.addAll(mListDataSave);
+                findViewById(R.id.tv_nodata).setVisibility(View.GONE);
+                mListViewPat.setVisibility(View.VISIBLE);
+                mAdapterPat.notifyDataSetChanged();
+            } else {
+                findViewById(R.id.tv_nodata).setVisibility(View.VISIBLE);
+                mListViewPat.setVisibility(View.GONE);
+            }
+            mAdapterPat.notifyDataSetChanged();
+            mListViewPat.endLoad(false);
+        } else {
+            List<PatientInfo> list = new ArrayList<PatientInfo>();
+            for (PatientInfo orderReg : mListDataSave) {
+                if (orderReg.patName.contains(str)) {
+                    list.add(orderReg);
+                } else {
+                    continue;
+                }
+            }
+            mListDataPatient.clear();
+            if (list != null && list.size() > 0) {
+                mListDataPatient.addAll(list);
+                findViewById(R.id.tv_nodata).setVisibility(View.GONE);
+                mListViewPat.setVisibility(View.VISIBLE);
+                mAdapterPat.notifyDataSetChanged();
+                mListViewPat.endLoad(false);
+            } else {
+                findViewById(R.id.tv_nodata).setVisibility(View.VISIBLE);
+                mListViewPat.setVisibility(View.GONE);
+            }
+            // getSearch();
+        }
+
+    }
+
     private void loadSecondLevelData() {
         String deptId = "";
         if(flag){
@@ -222,6 +276,8 @@ public class PatientListActivity extends BaseActivity implements View.OnClickLis
             };
         }.start();
     }
+
+
 
     Handler myHandler = new Handler() {
 

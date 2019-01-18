@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package com.imedical.app.dhround.view.zxing.decoding;
+package com.imedical.mobiledoctor.zxing.decoding;
+
+import android.app.Activity;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
-
-import android.app.Activity;
 
 /**
  * Finishes an activity after a period of inactivity.

@@ -107,6 +107,7 @@
                 android:layout_width="match_parent"
                 android:hint="请输入姓名,住院号搜索"
                 android:textSize="@dimen/font_14dp"
+                android:id="@+id/et_search"
                 android:background="@null"
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"

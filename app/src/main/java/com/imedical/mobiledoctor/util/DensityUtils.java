@@ -1,8 +1,7 @@
-package com.imedical.app.dhround.util;
+package com.imedical.mobiledoctor.util;
 
 import android.content.Context;
 import android.util.TypedValue;
-
 
 
 //常用单位转换的辅助类

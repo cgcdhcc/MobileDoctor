@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.imedical.app.dhround.view.zxing.camera;
-
-import com.google.zxing.LuminanceSource;
+package com.imedical.mobiledoctor.zxing.camera;
 
 import android.graphics.Bitmap;
+
+import com.google.zxing.LuminanceSource;
 
 /**
  * This object extends LuminanceSource around an array of YUV data returned from the camera driver,

@@ -72,64 +72,64 @@
 
 
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_diaDesc"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="诊断名称"
+            android:textColor="@color/mobile_blue"
+            android:textSize="@dimen/sp_content"
+            >
+        </TextView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_diaDoc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:gravity="left"
+            android:singleLine="false"
+            android:text="医生姓名"
+            android:textColor="@color/mobile_blue"
+            android:textSize="@dimen/sp_content"  >
+        </TextView>
+        <TextView
+            android:id="@+id/tv_diaType"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:singleLine="false"
+            android:text="类型"
+            android:textColor="@color/mobile_blue"
+            android:textSize="@dimen/sp_content"
+            >
+        </TextView>
+    </LinearLayout>
+        <TextView
+            android:id="@+id/tv_diaStat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:layout_marginLeft="15dp"
+            android:singleLine="false"
+            android:text="备注"
+            android:textColor="@color/mobile_blue"
+            android:textSize="@dimen/sp_content"
+            android:textStyle="normal" >
+        </TextView>
 
-
-    <TextView
-        android:id="@+id/tv_diaDesc"
-        android:layout_width="0dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:paddingBottom="20dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="left"
-        android:text="诊断名称"
-        android:textColor="@color/mobile_blue"
-        android:textSize="@dimen/sp_content"
-        >
-    </TextView>
-
-    <TextView
-        android:id="@+id/tv_diaType"
-        android:visibility="gone"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="left"
-        android:singleLine="false"
-        android:text="类型"
-        android:textColor="@color/orange"
-        android:textSize="@dimen/sp_content"
-        >
-    </TextView>
-
-    <TextView
-        android:id="@+id/tv_diaDoc"
-        android:visibility="gone"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="left"
-        android:singleLine="false"
-        android:text="医生姓名"
-        android:textColor="@color/gray"
-        android:textSize="@dimen/sp_content"  >
-    </TextView>
-
-    <TextView
-        android:id="@+id/tv_diaStat"
-        android:paddingLeft="16dp"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:visibility="gone"
-        android:gravity="left"
-        android:singleLine="false"
-        android:text="diaType"
-        android:textColor="#666666"
-        android:textSize="20sp"
-        android:textStyle="normal" >
-    </TextView>
-
+    </LinearLayout>
 
 </LinearLayout>

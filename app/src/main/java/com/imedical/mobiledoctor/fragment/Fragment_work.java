@@ -7,9 +7,11 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.imedical.im.activity.ImMainActivity;
@@ -25,6 +27,8 @@ import com.imedical.mobiledoctor.adapter.WorkAdapter;
 import com.imedical.mobiledoctor.entity.BaseBeanMy;
 import com.imedical.mobiledoctor.entity.Item;
 import com.imedical.mobiledoctor.entity.homegrid.funcCode;
+import com.imedical.mobiledoctor.util.DateUtil;
+import com.imedical.mobiledoctor.zxing.activity.CaptureActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,9 +39,10 @@ public class Fragment_work extends Fragment implements View.OnClickListener {
     private RecyclerView mRecyView_wait;
     private WorkAdapter mAdapter_wait;
     private List<Item> mList_wait = new ArrayList<>();
+    private ImageView iv_scan;
     View mView=null;
     View ll_ward,ll_Onlineinquiry;
-    TextView tv_name,tv_department,tv_title;
+    TextView tv_name,tv_department,tv_title,tv_date;
     private String code_wait[] = new String[]{
 //            "10001",//"我的病人",
 ////            "10002",//"我的科室",
@@ -83,6 +88,16 @@ public class Fragment_work extends Fragment implements View.OnClickListener {
     }
 
     private void InitView(){
+        tv_date=mView.findViewById(R.id.tv_date);
+        tv_date.setText(DateUtil.getDateToday(null));
+        iv_scan=(ImageView)mView.findViewById(R.id.iv_scan);
+        iv_scan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(ctx,CaptureActivity.class);
+                startActivityForResult(intent,100);
+            }
+        });
         mRecyView_wait= (RecyclerView) mView.findViewById(R.id.list_wait);
         mAdapter_wait =new WorkAdapter(mList_wait);
         mRecyView_wait.setAdapter(mAdapter_wait);
@@ -132,6 +147,21 @@ public class Fragment_work extends Fragment implements View.OnClickListener {
         tv_title.setText(Const.loginInfo.userCode);
         tv_department.setText(Const.loginInfo.defaultDeptName);
         mList_wait.clear();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 100 && resultCode == ctx.RESULT_OK) {
+            Bundle bundle = data.getExtras();
+            String scanResult = bundle.getString("result");
+            Log.d("mark", "条形码扫描结果：" + scanResult);
+            ctx.showCustom("条形码扫描结果：" + scanResult);
+        }else  {
+            ctx.showCustom("nothing to do!");
+        }
+
+
     }
 
 

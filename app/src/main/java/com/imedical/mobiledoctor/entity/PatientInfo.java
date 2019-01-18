@@ -6,11 +6,6 @@ import com.imedical.mobiledoctor.util.Desc;
 
 import java.io.Serializable;
 
-
-/**
- * @author sszvip
- * @Desc 注解内容可用于自动生成界面的label信息，非必要内容，开发完成后可删除
- */
 public class PatientInfo implements Serializable {
     public String admType;//就诊类型
     //要在界面上展现的内容
@@ -72,4 +67,11 @@ public class PatientInfo implements Serializable {
     public PatientInfo() {
     }
 
+    public PatientInfo(AdmInfo adm) {
+        this.patSex=adm.patientSex;
+        this.patAge=adm.patientAge;
+        this.patName=adm.patientName;
+        this.admId=adm.admId;
+        this.mainDoctor=adm.doctorName;
+    }
 }

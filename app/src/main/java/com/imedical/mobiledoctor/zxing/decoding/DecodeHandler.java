@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-package com.imedical.app.dhround.view.zxing.decoding;
-import java.util.Hashtable;
+package com.imedical.mobiledoctor.zxing.decoding;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,10 +28,12 @@ import com.google.zxing.MultiFormatReader;
 import com.google.zxing.ReaderException;
 import com.google.zxing.Result;
 import com.google.zxing.common.HybridBinarizer;
-import com.imedical.app.dhround.R;
-import com.imedical.app.dhround.view.zxing.activity.CaptureActivity;
-import com.imedical.app.dhround.view.zxing.camera.CameraManager;
-import com.imedical.app.dhround.view.zxing.camera.PlanarYUVLuminanceSource;
+import com.imedical.mobiledoctor.R;
+import com.imedical.mobiledoctor.zxing.activity.CaptureActivity;
+import com.imedical.mobiledoctor.zxing.camera.CameraManager;
+import com.imedical.mobiledoctor.zxing.camera.PlanarYUVLuminanceSource;
+
+import java.util.Hashtable;
 
 
 final class DecodeHandler extends Handler {

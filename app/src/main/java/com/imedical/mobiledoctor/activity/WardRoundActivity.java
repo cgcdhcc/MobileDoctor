@@ -57,6 +57,10 @@ public class WardRoundActivity extends BaseRoundActivity implements View.OnClick
     @Override
     protected void onResume() {
         super.onResume();
+        String name=tv_name.getText().toString();
+        if(!name.equals(Const.curPat.patName)){ //在其他页面切换患者后返回的页面不会触发OnActivityResult事件，需要同步更新患者信息,OnActivityResult先于onResume()不会重复执行InitViews();
+            InitViews();
+        }
         if(Const.curSRecorder!=null){
             try{
                 tv_hisdept.setText(SysManager.getAdmTypeDesc(Const.curSRecorder.admType) );
@@ -69,11 +73,12 @@ public class WardRoundActivity extends BaseRoundActivity implements View.OnClick
                     i++;
                 }
                 mHisRecordsAdapter.notifyDataSetChanged();
+
             }catch (Exception ee){
                showCustom(ee.toString());
             }
-
         }
+
     }
 
     private void showWindow(View parent) {

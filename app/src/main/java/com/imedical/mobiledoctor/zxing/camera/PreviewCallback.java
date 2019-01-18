@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.imedical.app.dhround.view.zxing.camera;
+package com.imedical.mobiledoctor.zxing.camera;
 
 import android.graphics.Point;
 import android.hardware.Camera;

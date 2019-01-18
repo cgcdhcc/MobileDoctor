@@ -35,7 +35,6 @@
                     android:text="检验结果"
                     android:textColor="@color/black"
                     android:gravity="center"
-                    android:textStyle="bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:singleLine="true" />

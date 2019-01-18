@@ -1,108 +1,104 @@
 package com.imedical.mobiledoctor.activity.round.detail;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Looper;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.XMLservice.LisReportItemManager;
+import com.imedical.mobiledoctor.adapter.AdapterLisCompare;
 import com.imedical.mobiledoctor.adapter.AdapterLisDetail;
 import com.imedical.mobiledoctor.base.BaseActivity;
 import com.imedical.mobiledoctor.entity.LisReportItem;
 import com.imedical.mobiledoctor.entity.LoginInfo;
 import com.imedical.mobiledoctor.entity.PatientInfo;
+import com.imedical.mobiledoctor.util.LogMe;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Lis_DetailActivity extends BaseActivity implements
-        View.OnClickListener, AdapterView.OnItemClickListener {
+public class LisHis_DetailActivity extends BaseActivity
+{
 
-    public PatientInfo mPatientCurrSelected;
+    private PatientInfo mPatientCurrSelected;
     private String mInfo = "程序错误！";
+    private ListView mListViewLisCompare;
+    public List<LisReportItem> mDataListLisCompare = new ArrayList<LisReportItem>();
+    private AdapterLisCompare mAdapterLisCompare;
+    public List<String> dateList = new ArrayList<String>();
+    private ImageView iv_no_re ;
+    private  TextView  tv_title;
     private LoginInfo mLogin = null;
-    // 检验明细
-    private ListView risListView;
-    public List<LisReportItem> mDataListLis = new ArrayList<LisReportItem>();
-    private AdapterLisDetail mAdapter = null;
+
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.page4_lis_detail);
-        mLogin= Const.loginInfo;
-        if(mLogin==null){
-            return;
-        }
-        View iv_left=findViewById(R.id.iv_left);
-        final TextView tv_record=(TextView) findViewById(R.id.tv_record);
-        iv_left.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        Intent i = getIntent();
-        final String ordLabNo = i.getStringExtra("ordLabNo");
-        if (mPatientCurrSelected == null) {
-            mPatientCurrSelected = (PatientInfo)i.getSerializableExtra("PatientInfo");
-            tv_record.setText(mPatientCurrSelected.patName+"-检验结果");
-        }
-        risListView = (ListView) findViewById(R.id.lv_lis_detail);
-        mAdapter = new AdapterLisDetail(this);
-        risListView.setAdapter(mAdapter);
-        risListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
-                try {
-                    final LisReportItem lr = mDataListLis.get(pos);
-                    String range = lr.naturalRange;
-                    String[] array = range.split("-");
-                    Float maxY = null, bottom = null;
-                    if (array.length == 2) {
-                        maxY = Float.parseFloat(array[1]);
-                        bottom = Float.parseFloat(array[0]);
-                    }
-                    Bundle bundle = new Bundle();
-                    bundle.putFloat("top", maxY);
-                    bundle.putFloat("bottom", bottom);
-                    bundle.putString("userCode", mLogin.userCode);
-                    bundle.putString("admId", mPatientCurrSelected.admId);
-                    bundle.putString("ordLabNo", ordLabNo);
-                    bundle.putString("itemCode",mDataListLis.get(pos).itemCode);
-                    // 显示坐标图
-//                    Intent intent = new Intent(LisDetailListActivity.this,CurvedLineActivity.class);
-//                    intent.putExtras(bundle);
-//                    startActivity(intent);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
-
-        });
-
-        loadLisReportItemsThread(ordLabNo);
+        setContentView(R.layout.page4_lis_his);
+        InitViews();
 
     }
+     private void InitViews() {
+         Window window = this.getWindow();
+         WindowManager m = getWindowManager();
+         WindowManager.LayoutParams params = window.getAttributes();
+         Display d = m.getDefaultDisplay();  //为获取屏幕宽、高
+         params.width=d.getWidth();
+         this.getWindow().setAttributes(params);
+         tv_title=(TextView)findViewById(R.id.tv_title);
+         mLogin= Const.loginInfo;
+         if(mLogin==null){
+             return;
+         }
+         //数据
+         Intent i = getIntent();
+         String arcItemId = i.getStringExtra("arcItemId");
+         mPatientCurrSelected = (PatientInfo)i.getSerializableExtra("PatientInfo");
+         tv_title.setText("历次记录 ("+mPatientCurrSelected.patName+")");
+         //对比列表
+         View tv_back=findViewById(R.id.iv_left);
+         tv_back.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 finish();
+             }
+         });
+         iv_no_re = (ImageView)findViewById(R.id.iv_no_re);
+         mListViewLisCompare = (ListView)findViewById(R.id.compareList);
+         mAdapterLisCompare = new AdapterLisCompare(LisHis_DetailActivity.this);
+         mListViewLisCompare.setAdapter(mAdapterLisCompare);
+         loadDataThreadCompare(mLogin.userCode,arcItemId,mPatientCurrSelected.admId);
+     }
 
-    private void loadLisReportItemsThread(final String no){
+    private void loadDataThreadCompare(final String userCode,
+                                       final String arcItemId, final String admId) {
         showProgress();
+        mDataListLisCompare.clear();
+        dateList.clear();
+        mAdapterLisCompare.notifyDataSetChanged();
         new Thread() {
-            private String mInfo;
-            List<LisReportItem> tmpList ;
             public void run() {
                 try {
+                    Looper.prepare();
                     Map map = new HashMap();
-                    map.put("userCode",mLogin.userCode);
-                    map.put("admId",mPatientCurrSelected.admId);
-                    map.put("ordLabNo", no);
-                    tmpList = LisReportItemManager.listLisReportItem(map);
+                    map.put("userCode", userCode);
+                    map.put("admId",admId);
+                    map.put("arcItemId", arcItemId);
+                    List<LisReportItem> list = LisReportItemManager.listLisReportItemCompare(map);
+                    mDataListLisCompare.addAll(list);
                 } catch (Exception e) {
                     e.printStackTrace();
                     mInfo = e.getMessage();
@@ -110,25 +106,63 @@ public class Lis_DetailActivity extends BaseActivity implements
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            dismissProgress();
-                            if(tmpList!=null){
-                                mDataListLis.clear();
-                                mDataListLis.addAll(tmpList);
-                                mAdapter.notifyDataSetChanged();
+                            if(mDataListLisCompare.size()==0){
+                                mListViewLisCompare.setVisibility(View.GONE);
+                                iv_no_re.setVisibility(View.VISIBLE);
+                            }else{
+                                iv_no_re.setVisibility(View.GONE);
+                                mListViewLisCompare.setVisibility(View.VISIBLE);
+                                createHeader();
+                                mAdapterLisCompare.notifyDataSetChanged();
                             }
+                            dismissProgress();
+
                         }
                     });
+
                 }
             }
         }.start();
     }
-    @Override
-    public void onClick(View view) {
 
+    private void createHeader() {
+        LinearLayout headLayout = (LinearLayout)findViewById(R.id.header);
+        headLayout.removeAllViews();
+        //根据数据返回的日期创建表头
+        for (int i = 0; i < mDataListLisCompare.size(); i ++) {
+            for (int j = 0; j < mDataListLisCompare.get(i).resultList.size(); j ++) {
+                String date = mDataListLisCompare.get(i).resultList.get(j).reportDate;
+                if(!dateList.contains(date) && !date.equals("参考范围")){
+                    dateList.add(date);
+                }else{
+                    continue;
+                }
+            }
+        }
+        dateList.add("参考范围");
+        LogMe.d("mark","日期列表的长度为" + dateList.size());
+        TextView tv_name = createItemTextView("项目名称");
+        tv_name.setTextColor(getResources().getColor(R.color.bg_commom));
+        tv_name.getPaint().setFakeBoldText(true);
+        headLayout.addView(tv_name);
+        for(int i = 0; i < dateList.size(); i ++) {
+            String txt = dateList.get(i) ;
+            TextView tv_date =  createItemTextView(txt);
+            tv_date.setTextColor(getResources().getColor(R.color.bg_commom));
+            headLayout.addView(tv_date);
+        }
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+    private TextView createItemTextView(String txt) {
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        lp.setMargins(1, 0, 1, 0);
+        TextView tv_name = new TextView(this);
+//		tv_name.setTextSize(18);
+        tv_name.setText(txt);
+        tv_name.setWidth(300);
+        tv_name.setLayoutParams(lp);
+        tv_name.setGravity(Gravity.CENTER);
+        tv_name.setBackgroundColor(Color.WHITE);
+        return tv_name;
     }
 }
