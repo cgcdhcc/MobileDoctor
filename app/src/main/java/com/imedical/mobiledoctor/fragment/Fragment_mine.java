@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.imedical.jpush.activity.MessageActivity;
 import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
+import com.imedical.mobiledoctor.activity.frg_3.QRActivity;
 import com.imedical.mobiledoctor.activity.frg_3.SettingActivity;
 import com.imedical.mobiledoctor.activity.visit.DateVisitMulitActivity;
 import com.imedical.mobiledoctor.zxing.activity.CaptureActivity;
@@ -72,6 +73,13 @@ public class Fragment_mine extends Fragment implements View.OnClickListener {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), MessageActivity.class);
+                startActivity(intent);
+            }
+        });
+        mView.findViewById(R.id.view_menu_qr).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), QRActivity.class);
                 startActivity(intent);
             }
         });

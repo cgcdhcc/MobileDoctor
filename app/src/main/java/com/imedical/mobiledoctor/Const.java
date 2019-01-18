@@ -3,6 +3,7 @@ package com.imedical.mobiledoctor;
 
 import android.support.v4.content.res.ColorStateListInflaterCompat;
 
+import com.imedical.im.entity.qrresponse;
 import com.imedical.mobiledoctor.entity.LoginInfo;
 import com.imedical.mobiledoctor.entity.PatientInfo;
 import com.imedical.mobiledoctor.entity.SeeDoctorRecord;
@@ -29,6 +30,7 @@ public final class Const {
 	public static PatientInfo curPat=null;
 	public static SeeDoctorRecord curSRecorder=null;
 	public static List<SeeDoctorRecord> SRecorderList=null; //只在wardRoundActivity加载一次
+	public static qrresponse qrContent=null;
 	public static final String KEY_DEFAULT_HOS_ID                  = "KEY_DEFAULT_HOS_ID";
 	public static final String KEY_DEFAULT_HOS_NAME                = "KEY_DEFAULT_HOS_NAME";
 	public static final String BIZ_CODE_LOSE_PSW = "1";
