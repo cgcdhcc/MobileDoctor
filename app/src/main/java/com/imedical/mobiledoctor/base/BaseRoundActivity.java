@@ -142,16 +142,16 @@ public abstract class BaseRoundActivity extends BaseActivity {
 
 
     private void InitHisRecord(){
-        if(Const.SRecorderList==null){//每个患者全局只执行一次查询
-             SeeDoctorRecord newRcd = new SeeDoctorRecord();
-            newRcd.admDate =  Const.curPat.inDate;
-            newRcd.admDept =  Const.curPat.departmentName;
-            newRcd.admId =  Const.curPat.admId;
-            newRcd.admType =  Const.curPat.admType;
-            list.add(newRcd);
-            LoadHisRecord();
-        }else {
-//        if(Const.SRecorderList!=null){//加载WordRoundActivit读取的数据。
+//        if(Const.SRecorderList==null){//每个患者全局只执行一次查询
+//             SeeDoctorRecord newRcd = new SeeDoctorRecord();
+//            newRcd.admDate =  Const.curPat.inDate;
+//            newRcd.admDept =  Const.curPat.departmentName;
+//            newRcd.admId =  Const.curPat.admId;
+//            newRcd.admType =  Const.curPat.admType;
+//            list.add(newRcd);
+//            LoadHisRecord();
+//        }else {
+        if(Const.SRecorderList!=null){//加载WordRoundActivit读取的数据。
             if(list.size()>0){
                 tv_record.setText(SysManager.getAdmTypeDesc(list.get(0).admType) +list.get(0).admDate);
             }
