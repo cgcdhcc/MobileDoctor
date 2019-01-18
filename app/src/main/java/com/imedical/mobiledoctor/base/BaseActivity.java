@@ -111,24 +111,16 @@ public abstract class BaseActivity extends Activity {
         }
     }
 
-//    public void toLoginActivity() {
-//        Intent i = new Intent(this, LoginHospitalActivity.class);
-//        showToastMsg("登陆信息失效，请重新登陆！");
-//        startActivity(i);
-//        finish();
-//    }
-//
-//    public void toLoginActivity(String callbackActivity) {
-//        Intent i = new Intent(this, LoginHospitalActivity.class);
-//        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        i.putExtra("target", callbackActivity);
-//        Bundle params = getIntent().getExtras();
-//        if (params != null) {
-//            i.putExtras(params);
-//        }
-//        startActivity(i);
-//        finish();
-//    }
+    protected void showNodataInListView(boolean isNodata) {
+        View v = findViewById(R.id.ll_nodata);
+        if (isNodata) {
+            findViewById(R.id.lv_data).setVisibility(View.GONE);
+            v.setVisibility(View.VISIBLE);
+        } else {
+            findViewById(R.id.lv_data).setVisibility(View.VISIBLE);
+            v.setVisibility(View.GONE);
+        }
+    }
 
     protected void onBackBtnClick() {
         finish();

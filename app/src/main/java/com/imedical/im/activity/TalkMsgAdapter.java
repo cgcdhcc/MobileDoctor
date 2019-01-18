@@ -12,10 +12,13 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.imedical.im.entity.MessageInfo;
+import com.imedical.im.entity.PatTemplate;
 import com.imedical.im.entity.UserFriend;
 import com.imedical.im.entity.VoicePlayItem;
 import com.imedical.mobiledoctor.Const;
@@ -76,6 +79,7 @@ public class TalkMsgAdapter extends BaseAdapter {
 					.findViewById(R.id.left_content);
 			final ImageView left_iv_content = (ImageView) view
 					.findViewById(R.id.left_iv_content);
+			LinearLayout left_ll_template=view.findViewById(R.id.left_ll_template);
 			ProgressBar left_pb_send=(ProgressBar)view.findViewById(R.id.left_pb_send);
 			if(data_list.get(p).sended==0){
 				left_pb_send.setVisibility(View.VISIBLE);
@@ -85,6 +89,7 @@ public class TalkMsgAdapter extends BaseAdapter {
 
 			if (data_list.get(p).messageType.equals("img")) {
 				left_content.setVisibility(View.GONE);
+				left_ll_template.setVisibility(View.GONE);
 				if(data_list.get(p).sended==0){
 					DownloadUtil.loadImage(left_iv_content,"file:///"+data_list.get(p).thumbnailRemotePath,
 							R.drawable.im_iconfont_tupian, R.drawable.im_iconfont_tupian,
@@ -114,6 +119,7 @@ public class TalkMsgAdapter extends BaseAdapter {
 
 			} else if (data_list.get(p).messageType.equals("audio")) {
 				left_content.setVisibility(View.GONE);
+				left_ll_template.setVisibility(View.GONE);
 				left_iv_content.setBackgroundResource(R.drawable.im_bg_blue_voice);
 				Log.d("msg", "设置声音图标");
 				left_iv_content.setImageResource(R.drawable.voice_left_p3);
@@ -142,9 +148,32 @@ public class TalkMsgAdapter extends BaseAdapter {
 					e.printStackTrace();
 				}
 
-			} else {
+			} else if(("template").equals(data_list.get(p).messageType)){
+				left_content.setVisibility(View.GONE);
+				left_iv_content.setVisibility(View.GONE);
+				left_ll_template.setVisibility(View.VISIBLE);
+				if(1==data_list.get(p).templateId){
+					View templateView=activity.getLayoutInflater().inflate(R.layout.im_item_patientinfo, null);
+					TextView tv_patientName=templateView.findViewById(R.id.tv_patientName);
+					TextView tv_patAge=templateView.findViewById(R.id.tv_patAge);
+					final PatTemplate patTemplate=new Gson().fromJson(data_list.get(p).content, PatTemplate.class);
+					tv_patientName.setText(patTemplate.patientName);
+					tv_patAge.setText(patTemplate.patientSex+"   "+patTemplate.patientAge);
+					templateView.setOnClickListener(new OnClickListener() {
+						@Override
+						public void onClick(View view) {
+							Intent intent=new Intent(activity,AdmInfoActivity.class);
+							intent.putExtra("admId", patTemplate.admId);
+							activity.startActivity(intent);
+						}
+					});
+					left_ll_template.addView(templateView);
+				}
+
+			}else {
 				left_content.setText(data_list.get(p).content);
 				left_iv_content.setVisibility(View.GONE);
+				left_ll_template.setVisibility(View.GONE);
 			}
 
 		} else {
@@ -155,6 +184,7 @@ public class TalkMsgAdapter extends BaseAdapter {
 			right_content.setText(data_list.get(p).content);
 			final ImageView right_iv_content = (ImageView) view
 					.findViewById(R.id.right_iv_content);
+			LinearLayout right_ll_template=view.findViewById(R.id.right_ll_template);
 			ProgressBar right_pb_send=(ProgressBar)view.findViewById(R.id.right_pb_send);
 			if(data_list.get(p).sended==0){
 				right_pb_send.setVisibility(View.VISIBLE);
@@ -163,6 +193,7 @@ public class TalkMsgAdapter extends BaseAdapter {
 			}
 			if (data_list.get(p).messageType.equals("img")) {
 				right_content.setVisibility(View.GONE);
+				right_ll_template.setVisibility(View.GONE);
 				if(data_list.get(p).sended==0){
 					DownloadUtil.loadImage(right_iv_content,  "file:///"+data_list.get(p).thumbnailRemotePath,
 							R.drawable.im_iconfont_tupian, R.drawable.im_iconfont_tupian,
@@ -190,6 +221,7 @@ public class TalkMsgAdapter extends BaseAdapter {
 				}
 			} else if (data_list.get(p).messageType.equals("audio")) {
 				right_content.setVisibility(View.GONE);
+				right_ll_template.setVisibility(View.GONE);
 				right_iv_content
 						.setBackgroundResource(R.drawable.im_bg_blue_voice);
 				Log.d("msg", "设置声音图标");
@@ -219,9 +251,19 @@ public class TalkMsgAdapter extends BaseAdapter {
 					e.printStackTrace();
 				}
 
-			} else {
+			} else if(("template").equals(data_list.get(p).messageType)){
+				right_content.setVisibility(View.GONE);
+				right_iv_content.setVisibility(View.GONE);
+				right_ll_template.setVisibility(View.VISIBLE);
+				if(2==data_list.get(p).templateId){
+					View templateView=activity.getLayoutInflater().inflate(R.layout.im_item_diagnosis, null);
+					right_ll_template.addView(templateView);
+				}
+
+			}else {
 				right_content.setText(data_list.get(p).content);
 				right_iv_content.setVisibility(View.GONE);
+				right_ll_template.setVisibility(View.GONE);
 			}
 		}
 

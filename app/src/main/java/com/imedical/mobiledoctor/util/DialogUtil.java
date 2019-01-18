@@ -204,7 +204,25 @@ public class DialogUtil {
         });
     }
 
-
+    public static void showAlertYesOrNo(final Activity ctx, final String title,final String msg,
+                                        final MyCallback<Boolean> callback) {
+        new AlertDialog.Builder(ctx)
+                .setMessage(msg)
+                .setTitle(title)
+                .setCancelable(false)
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        callback.onCallback(true);
+                        dialog.dismiss();
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        callback.onCallback(false);
+                        dialog.dismiss();
+                    }
+                }).show();
+    }
 
 
 }

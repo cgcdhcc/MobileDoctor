@@ -74,8 +74,8 @@ public class ImMainActivity extends BaseActivity implements View.OnClickListener
         lv_data.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent=new Intent(ImMainActivity.this,AdmInfoActivity.class);
-                intent.putExtra("admId", list.get(position).admId);
+                Intent intent=new Intent(ImMainActivity.this,TalkMsgActivity.class);
+                intent.putExtra("admInfo", list.get(position));
                 startActivity(intent);
             }
         });

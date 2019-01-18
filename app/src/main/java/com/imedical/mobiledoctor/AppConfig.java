@@ -9,7 +9,7 @@ import android.os.Environment;
  */
 public class AppConfig {
 	//是否测试模式,控制日志,内外网按钮
-	public static boolean isTestMode = false;
+	public static boolean isTestMode = true;
 	//是否内网
 	public static boolean isIntranet = false;
 	public static String g_basePath = Environment.getExternalStorageDirectory().getAbsolutePath() ;

@@ -1,6 +1,8 @@
 package com.imedical.mobiledoctor;
 
 
+import android.support.v4.content.res.ColorStateListInflaterCompat;
+
 import com.imedical.mobiledoctor.entity.LoginInfo;
 import com.imedical.mobiledoctor.entity.PatientInfo;
 import com.imedical.mobiledoctor.entity.SeeDoctorRecord;
@@ -8,6 +10,8 @@ import com.imedical.mobiledoctor.entity.SeeDoctorRecord;
 import java.util.List;
 
 public final class Const {
+	public static String jpushurl="https://pay.qduhospital.cn/message/api/messageapi/";
+	public static String jpushkey="04bf4651651d89ac88cda97c";
 	public static boolean AES_OR_NOT=true;
 	public static boolean ISTEST=true;
 	public static int suffontsize=30;
@@ -15,10 +19,11 @@ public final class Const {
 	public static String brand_name;
 	public static String brand_type;
 	public static final String source="android";
-	public static final String key="17625ff088cbf96b3df3d42ea0f1baf4";
-	public static final String appId="c630798a-1342-11e9-8e5f-525400d51ea6";
-	public static final String SERVICEURL = "http://58.87.69.164/dhccam-t/gateway/index";
-	public static final String URL_CREATE="http://58.87.69.164/dhccam-t/token/generate?grant_type=api_credentials";
+	public static final String key="d33c40752927d5d6d7ef904a73ea253e";
+	public static final String appId="548d19cb-1ac8-11e9-9475-005056914e7e";
+	public static final String IMG_URL="https://wxzfb.qduhospital.cn/mpupload";
+	public static final String SERVICEURL = "https://wxzfb.qduhospital.cn/dhccam/gateway/index";
+	public static final String URL_CREATE="https://wxzfb.qduhospital.cn/dhccam/token/generate?grant_type=api_credentials";
 	public static final String URL_REFRESH="https://pay.qduhospital.cn/apimanager/api/token/generate?grant_type=refresh_token&refresh_token=";
 	public static LoginInfo loginInfo=null;
 	public static PatientInfo curPat=null;
@@ -271,8 +276,11 @@ public final class Const {
 	public static final String BIZ_CODE_GetDoctorAppList				=  "doctor.dashboard.patientlist";//51802//查询已预约患者列表
 	public static final String BIZ_CODE_GetHttpFilePath				=  "doctor.media.tags";//"51305";//获取HTTP服务器参数
 	public static final String BIZ_CODE_IM_USER_REGISTER="instantchat.usermanagementcategory.RegisteredUserI";//医生聊天注册
+	public static final String BIZ_CODE_qrcodegenerate="doctor.ihospital.qrcodegenerate";//生成医生头像
 	public static final String BIZ_CODE_GETTIMERANGE="doctor.ihospital.gettimerange";//获取出诊时段
 	public static final String BIZ_CODE_SETSCHEDULE="doctor.ihospital.setschedule";//设置出诊时间段
+	public static final String BIZ_CODE_DoctorSchedule="doctor.ihospital.getoneschedule";//互联网医院排班-获取医生图文咨询出诊信息（图文咨询）
+	public static final String BIZ_CODE_UpdateOneSchedule="doctor.ihospital.updateoneschedule";//## 51903   互联网医院排班-调整挂号限额（图文咨询）
 	public static final String BIZ_CODE_GetPatientList="doctor.ihospital.getpatientlist";//获取就诊患者
 	public static final String BIZ_CODE_GetAdmInfo="doctor.ihospital.getadminfo";//获取就诊信息
 	public static final String API_PHONEVALIDATE     ="mhealth/dhccApi/user/validUser/2/";

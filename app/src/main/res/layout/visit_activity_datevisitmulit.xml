@@ -13,7 +13,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+   <ListView
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_marginTop="10dp"
+       android:id="@+id/lv_data"
+       android:background="@color/white">
 
+   </ListView>
 
     <TextView
         android:id="@+id/tv_newsche"
@@ -26,6 +33,6 @@
         android:textSize="@dimen/font_16dp"
         android:paddingLeft="40dp"
         android:paddingRight="40dp"
-        android:text="编辑排版"
-        android:background="@drawable/button_shape_gray"/>
+        android:text="新增排班"
+        android:background="@drawable/button_shape_blue_gradient"/>
 </LinearLayout>

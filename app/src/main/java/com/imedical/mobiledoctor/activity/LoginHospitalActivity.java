@@ -1,17 +1,10 @@
 package com.imedical.mobiledoctor.activity;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -21,11 +14,9 @@ import android.text.InputFilter;
 import android.text.InputType;
 import android.text.Selection;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -40,27 +31,26 @@ import com.imedical.im.entity.userregister;
 import com.imedical.im.service.ImUserService;
 import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
-import com.imedical.mobiledoctor.XMLservice.PrefManager;
 import com.imedical.mobiledoctor.XMLservice.SettingManager;
 import com.imedical.mobiledoctor.XMLservice.UserManager;
 import com.imedical.mobiledoctor.base.BaseActivity;
-import com.imedical.mobiledoctor.base.MyApplication;
 import com.imedical.mobiledoctor.entity.LoginInfo;
-import com.imedical.mobiledoctor.entity.PatientInfo;
+import com.imedical.mobiledoctor.entity.QrCodeGenerateRequest;
 import com.imedical.mobiledoctor.fragment.MainActivity;
-import com.imedical.mobiledoctor.util.DateUtil;
+import com.imedical.mobiledoctor.util.LogMe;
 import com.imedical.mobiledoctor.util.PhoneUtil;
 import com.imedical.mobiledoctor.util.Validator;
-import com.imedical.mobiledoctor.widget.CustomProgressDialog;
 
-import java.io.File;
-import java.util.List;
+import java.util.Set;
+
+import cn.jpush.android.api.CustomPushNotificationBuilder;
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 
 
 public class LoginHospitalActivity extends BaseActivity implements
         OnClickListener, OnCheckedChangeListener {
     private TextView loginIV;
-    private CustomProgressDialog progressDialog = null;
     private EditText et_username;
     private EditText et_pwd = null;
     private String terminalId = null;
@@ -77,51 +67,7 @@ public class LoginHospitalActivity extends BaseActivity implements
         this.terminalId = PhoneUtil.getImei(this);
         initView();
         ((TextView) findViewById(R.id.tv_my)).setText("账号登录");
-        findViewById(R.id.iv_back).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
     }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            exit();
-            return true;
-        } else {
-            return super.onKeyDown(keyCode, event);
-        }
-    }
-
-    //两秒后isExit=flase;
-    private Handler mHandler = new Handler() {
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case 0:
-                    isExit = false;
-            }
-        }
-    };
-
-    public void exit() {
-        if (!isExit) {
-            isExit = true;
-            Toast.makeText(getApplicationContext(),
-                 "完全退出", Toast.LENGTH_SHORT).show();
-            mHandler.sendEmptyMessageDelayed(0, 2000);
-        } else {
-            //完全退出程序
-            Intent intent = new Intent(Intent.ACTION_MAIN);
-            intent.addCategory(Intent.CATEGORY_HOME);
-            startActivity(intent);
-//			System.exit(0);
-            finish();
-        }
-    }
-
-
 
     @SuppressLint("NewApi")
     private void initView() {
@@ -154,17 +100,13 @@ public class LoginHospitalActivity extends BaseActivity implements
         ll_switch = (LinearLayout) findViewById(R.id.ll_switch);
 
         et_username = (EditText) this.findViewById(R.id.et_username);
-//		et_username.setHint("输入用户名.");
         et_username.setSingleLine();
         et_username.requestFocus();
         et_pwd = (EditText) this.findViewById(R.id.et_pwd);
-
-//		et_pwd.setHint("输入登录密码.");
         et_pwd.setSingleLine();
         et_pwd.setInputType(InputType.TYPE_CLASS_TEXT
                 | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         et_pwd.setFilters(new InputFilter[]{new InputFilter.LengthFilter(20)});
-        //输入光标一直在文本后面
     }
 
     /**
@@ -191,7 +133,7 @@ public class LoginHospitalActivity extends BaseActivity implements
 
 
     private void login(final String phoneNo, final String password, final String terminalId, final String hospitalId) {
-//        showProgress();
+        showProgress();
         try {
             new Thread() {
                 public void run() {
@@ -199,8 +141,9 @@ public class LoginHospitalActivity extends BaseActivity implements
                         mLoginInfo = UserManager.login(
                                 LoginHospitalActivity.this, phoneNo, password,
                                 terminalId);
-                        userregister userregister=new userregister(mLoginInfo.userCode,mLoginInfo.userCode,mLoginInfo.userName);
+                        userregister userregister=new userregister(mLoginInfo.docMarkId,mLoginInfo.docMarkId,mLoginInfo.docMarkId);
                         ImBaseResponse imBaseResponse =ImUserService.getInstance().userRegister(userregister);
+                        ImUserService.getInstance().qrcodegenerate(new QrCodeGenerateRequest(mLoginInfo.userCode, mLoginInfo.userName));
                         if(imBaseResponse!=null){
                             Log.d("msg",imBaseResponse.msg);
                         }
@@ -209,12 +152,17 @@ public class LoginHospitalActivity extends BaseActivity implements
                         myHandler.handleMessage(mess);
                     } catch (Exception e) {
                         e.printStackTrace();
-
                         Message mess = new Message();
                         mess.what = -1;
-                        mess1 = e.getMessage();
+                        mess.obj=e.getMessage();
                         myHandler.handleMessage(mess);
                     }
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            dismissProgress();
+                        }
+                    });
 
                 }
             }.start();
@@ -228,54 +176,36 @@ public class LoginHospitalActivity extends BaseActivity implements
 
     protected void onDestroy() {
         super.onDestroy();
-        if (progressDialog != null) {
-            progressDialog.dismiss();
-            progressDialog.cancel();
-            progressDialog = null;
-        }
-
     }
 
-    // /** 从当前Activity开启一个新的Activity */
-    // private void startNewActivity() {
-    // // Intent it = new Intent(this, MainActivity.class);
-    // // it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-    // // startActivity(it);
-    // // this.finish();
-    // }
-//
-//	/** 重新定义按键操作 */
-//	public boolean onKeyDown(int keyCode, KeyEvent event) {
-//		if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-//			finish();
-//			return true;
-//		}
-//		if (keyCode == KeyEvent.KEYCODE_HOME) {
-//			return true;
-//		}
-//		return super.onKeyDown(keyCode, event);
-//	}
 
-    private void toActivity() {
-        Class classzz = getCallbackActivityClass();
-
-        if (classzz != null) {
-            Intent intent = new Intent(LoginHospitalActivity.this, classzz);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            Bundle b = getIntent().getExtras();
-            if (b != null) {
-                intent.putExtras(b);
-            }
-            startActivity(intent);
-        } else {
-            Intent intent = new Intent(LoginHospitalActivity.this, MainActivity.class);
-            startActivity(intent);
+    public void intiJpush(){
+        if(Const.loginInfo!=null){
+            JPushInterface.setDebugMode(true);
+            JPushInterface.init(this);
+            JPushInterface.setAlias(this,"reg_"+Const.loginInfo.userCode,new TagAliasCallback(){
+                @Override
+                public void gotResult(int i, String s, Set<String> set) {
+                    LogMe.d("msg","设置别名成功:"+s);
+                    LogMe.d("msg","初始化完成");
+                }
+            });
+            CustomPushNotificationBuilder builder = new
+                    CustomPushNotificationBuilder(this,
+                    R.layout.jpush_customer_notitfication_layout,
+                    R.id.icon,
+                    R.id.title,
+                    R.id.text);
+            // 指定定制的 Notification Layout
+            builder.statusBarDrawable = R.drawable.icon;
+            // 指定最顶层状态栏小图标
+            builder.layoutIconDrawable = R.drawable.icon;
+            // 指定下拉状态栏时显示的通知图标
+            JPushInterface.setPushNotificationBuilder(2, builder);
         }
-
-        finish();
     }
 
-    String mess1 = "Login ";
+
     Handler myHandler = new Handler() {
         public void handleMessage(Message msg) {
             Looper.prepare();
@@ -283,27 +213,17 @@ public class LoginHospitalActivity extends BaseActivity implements
                 case 0:
                     Const.loginInfo = mLoginInfo;
                     Const.curPat = null;
-                    toActivity();
+                    intiJpush();
+                    Intent intent=new Intent(LoginHospitalActivity.this,MainActivity.class);
+                    startActivity(intent);
                     break;
-                case 2:
-                    if (progressDialog != null) {
-                        progressDialog.cancel();
-                        progressDialog = null;
-                    }
-                    PrefManager.saveLastLoginDate(LoginHospitalActivity.this, DateUtil.getDateToday(null));
-                    toActivity();
-                    break;
+
                 //密码错误
                 case -1:
                   dismissProgress();
-                    showCustom(mess1);
+                    showCustom(msg.obj.toString());
                     break;
-                //没有获取病人的错误
-                case -3:
-                    dismissProgress();
-                    toActivity();
-                    break;
-                //网络出现问题
+
                 case -2:
                     dismissProgress();
                     showCustom("网络出现问题");
@@ -325,35 +245,6 @@ public class LoginHospitalActivity extends BaseActivity implements
         // 保存是否保存密码的状态
         Log.e("INFO", "--------arg1   " + checked);
         SettingManager.setRememberPsw4Hos(this, checked);
-    }
-
-    DialogInterface.OnKeyListener KeyListener = new DialogInterface.OnKeyListener() {
-
-        public boolean onKey(DialogInterface arg0, int arg1, KeyEvent arg2) {
-            if (arg1 == KeyEvent.KEYCODE_BACK) {
-
-                if ((progressDialog != null) && progressDialog.isShowing()) {
-                    progressDialog.dismiss();
-                }
-            }
-            return false;
-        }
-    };
-
-
-    protected Class getCallbackActivityClass() {
-        String target = getIntent().getStringExtra("target");
-        Class targetAct = null;
-        try {
-            targetAct = Class.forName(target);
-        } catch (Exception e) {
-            e.printStackTrace();
-
-
-            //lqz_need modify
-//			targetAct = MainActivity.class;
-        }
-        return targetAct;
     }
 
 }

@@ -34,16 +34,16 @@ public class WsApiUtil {
                 return String.format(BaseResultStr, "获取Token失败请稍后再试");
             }
         }
-//        else {
-//            if (Long.parseLong(expires_in) - DateUtil.getNowTime() > 100) {//未失效
-//            } else {//失效了
-//                if (client_credentials()) {
-//                    access_token = PreferManager.getValue("access_token");
-//                } else {
-//                    return String.format(BaseResultStr, "获取Token失败请稍后再试");
-//                }
-//            }
-//        }
+        else {
+            if (Long.parseLong(expires_in) - DateUtil.getNowTime() > 100) {//未失效
+            } else {//失效了
+                if (client_credentials()) {
+                    access_token = PreferManager.getValue("access_token");
+                } else {
+                    return String.format(BaseResultStr, "获取Token失败请稍后再试");
+                }
+            }
+        }
 
         CommonRequest request = new CommonRequest(access_token,requestCode, requestXml);
         String retData = "";
@@ -84,16 +84,16 @@ public class WsApiUtil {
                 return String.format(BaseResultStr, "获取Token失败请稍后再试");
             }
         }
-//        else {
-//            if (Long.parseLong(expires_in) - DateUtil.getNowTime() > 100) {//未失效
-//            } else {//失效了
-//                if (client_credentials()) {
-//                    access_token = PreferManager.getValue("access_token");
-//                } else {
-//                    return String.format(BaseResultStr, "获取Token失败请稍后再试");
-//                }
-//            }
-//        }
+        else {
+            if (Long.parseLong(expires_in) - DateUtil.getNowTime() > 100) {//未失效
+            } else {//失效了
+                if (client_credentials()) {
+                    access_token = PreferManager.getValue("access_token");
+                } else {
+                    return String.format(BaseResultStr, "获取Token失败请稍后再试");
+                }
+            }
+        }
 
         if (Const.ISTEST) {
             Log.i("requestXml", query+body);

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.imedical.jpush.activity.MessageActivity;
 import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.activity.visit.DateVisitMulitActivity;
@@ -51,5 +52,13 @@ public class Fragment_mine extends Fragment {
                 startActivity(intent);
             }
         });
+        mView.findViewById(R.id.iv_word).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MessageActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 }

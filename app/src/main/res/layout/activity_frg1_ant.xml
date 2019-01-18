@@ -113,13 +113,18 @@
     <include layout="@layout/inner_no_data" />
     <com.imedical.mobiledoctor.widget.ListViewPull
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:divider="@color/background"
         android:dividerHeight="2dp"
         android:id="@+id/lv_data">
 
     </com.imedical.mobiledoctor.widget.ListViewPull>
     <LinearLayout
+        android:visibility="gone"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:id="@+id/view_operation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"

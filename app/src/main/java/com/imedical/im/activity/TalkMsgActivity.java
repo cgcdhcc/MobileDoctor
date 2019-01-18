@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -21,13 +22,17 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.imedical.im.ImConst;
 import com.imedical.im.SocketService;
+import com.imedical.im.entity.AdmInfo;
 import com.imedical.im.entity.MessageInfo;
+import com.imedical.im.entity.PatTemplate;
 import com.imedical.im.entity.UserFriend;
 import com.imedical.im.media.RecordButton;
 import com.imedical.mobiledoctor.AppConfig;
 import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
+import com.imedical.mobiledoctor.XMLservice.BusyManager;
 import com.imedical.mobiledoctor.activity.WardRoundActivity;
+import com.imedical.mobiledoctor.entity.PatientInfo;
 import com.imedical.mobiledoctor.util.DateUtil;
 import com.imedical.mobiledoctor.util.FileDataUtil;
 import com.imedical.mobiledoctor.util.Validator;
@@ -59,17 +64,17 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
     public Intent IoService;
     public TextView chat_status;
     public boolean isonline = false;
-
+    public AdmInfo admInfo;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.im_activity_talklist);
-        //userfriend = (UserFriend)this.getIntent().getSerializableExtra("userfriend");
+        admInfo = (AdmInfo)this.getIntent().getSerializableExtra("admInfo");
         userfriend = new UserFriend();
-        userfriend.friendUsername = "zhangwei";
-        userfriend.friendNickName = "张伟";
-        userfriend.ownerUsername = Const.loginInfo.userCode;
+        userfriend.friendUsername = admInfo.admId;
+        userfriend.friendNickName = admInfo.patientName;
+        userfriend.ownerUsername = Const.loginInfo.docMarkId;
         action = userfriend.friendUsername + "_chat";
         reciver = new MyBroadcastReceiver();
         IntentFilter intentf = new IntentFilter();
@@ -177,8 +182,7 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
             @Override
             public void onClick(View arg0) {
                 // TODO Auto-generated method stub
-                Intent intent=new Intent(TalkMsgActivity.this, WardRoundActivity.class);
-                startActivity(intent);
+                loadPatinfo();
             }
         });
         btn_img_add_diagonsis= findViewById(R.id.btn_img_add_diagonsis);
@@ -200,6 +204,8 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
 
     public synchronized void loadData() {
         data_list.clear();
+        PatTemplate patTemplate=new PatTemplate(admInfo.admId, admInfo.patientAge, admInfo.patientSex, admInfo.patientName);
+        data_list.add(new MessageInfo("template", userfriend.friendUsername,userfriend.ownerUsername,DateUtil.getNowTimeMillis(),new Gson().toJson(patTemplate) ,1,1));
         data_list.addAll(LitePal.limit(50).where("(fromUser=? and toUser=?) or (fromUser=? and toUser=?)", userfriend.ownerUsername, userfriend.friendUsername, userfriend.friendUsername, userfriend.ownerUsername).order("timeStamp asc").find(MessageInfo.class));
         Log.d("msg", "获取消息记录：" + data_list.size());
         ta.notifyDataSetChanged();
@@ -512,5 +518,35 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
         super.onDestroy();
         stopService(IoService);
         unregisterReceiver(reciver);
+    }
+
+    public void loadPatinfo(){
+            showProgress();
+            new Thread() {
+                PatientInfo patientInfo;
+                public void run() {
+                    try {
+                       patientInfo= BusyManager.loadPatientInfo(Const.loginInfo.userCode, admInfo.admId);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            dismissProgress();
+                            if(patientInfo!=null){
+                                Const.curPat=patientInfo;
+                                Const.curSRecorder=null;
+                                Const.SRecorderList=null;
+                                Intent intent=new Intent(TalkMsgActivity.this, WardRoundActivity.class);
+                                intent.putExtra("title", "患者资料");
+                                startActivity(intent);
+                            }else {
+                                showToast("获取患者信息失败");
+                            }
+                        }
+                    });
+                };
+            }.start();
     }
 }

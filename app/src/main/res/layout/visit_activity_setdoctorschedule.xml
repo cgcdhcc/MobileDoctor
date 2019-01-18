@@ -8,15 +8,14 @@
 
     <include layout="@layout/dhcc_white_head"/>
 
-    <ListView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/lv_data"
+        android:id="@+id/ll_data"
         android:background="@color/white"
-        android:dividerHeight="10dp"
-        android:divider="@color/background">
+        android:orientation="vertical">
 
-    </ListView>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tv_save"

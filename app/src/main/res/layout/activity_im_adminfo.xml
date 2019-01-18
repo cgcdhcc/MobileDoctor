@@ -93,7 +93,6 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:orientation="horizontal">
 
                         <TextView
@@ -155,7 +154,6 @@
                         android:id="@+id/tv_doctorTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
                         android:text="张三"
                         android:textColor="@color/text_gray"
                         android:textSize="@dimen/font_14dp" />
@@ -206,12 +204,12 @@
                                 android:textSize="16sp" />
 
                             <TextView
-                                android:id="@+id/tv_complaintStr"
+                                android:id="@+id/tv_complaintStr_Item1"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:gravity="right"
-                                android:text="既往史"
+                                android:text="未填写"
                                 android:textColor="@color/base_text_black"
                                 android:textSize="16sp" />
                         </TableRow>
@@ -232,11 +230,12 @@
                                 android:textSize="16sp" />
 
                             <TextView
+                                android:id="@+id/tv_complaintStr_Item2"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:gravity="right"
-                                android:text="婚育史"
+                                android:text="未填写"
                                 android:textColor="@color/base_text_black"
                                 android:textSize="16sp" />
                         </TableRow>
@@ -257,11 +256,12 @@
                                 android:textSize="16sp" />
 
                             <TextView
+                                android:id="@+id/tv_complaintStr_Item3"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:gravity="right"
-                                android:text="过敏史"
+                                android:text="未填写"
                                 android:textColor="@color/base_text_black"
                                 android:textSize="16sp" />
                         </TableRow>
@@ -282,11 +282,12 @@
                                 android:textSize="16sp" />
 
                             <TextView
+                                android:id="@+id/tv_complaintStr_Item4"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:gravity="right"
-                                android:text="家族史"
+                                android:text="未填写"
                                 android:textColor="@color/base_text_black"
                                 android:textSize="16sp" />
                         </TableRow>
@@ -307,11 +308,12 @@
                                 android:textSize="16sp" />
 
                             <TextView
+                                android:id="@+id/tv_complaintStr_Item5"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:gravity="right"
-                                android:text="个人习惯"
+                                android:text="未填写"
                                 android:textColor="@color/base_text_black"
                                 android:textSize="16sp" />
                         </TableRow>
@@ -321,10 +323,13 @@
                 </LinearLayout>
 
                 <GridView
+                    android:padding="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/gv_img"
-                    android:numColumns="3">
+                    android:numColumns="3"
+                    android:horizontalSpacing="10dp"
+                    android:verticalSpacing="10dp">
 
                 </GridView>
 

@@ -20,24 +20,29 @@ package com.imedical.mobiledoctor.api;
 import android.util.Base64;
 import android.util.Log;
 import com.google.gson.Gson;
+import com.imedical.jpush.bean.ErrorResponse;
 import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.api.platform.BrandInfo;
 import com.imedical.mobiledoctor.util.HttpClientManager;
+import com.imedical.mobiledoctor.util.Validator;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
 
@@ -242,4 +247,44 @@ public class RequestUtil {
     }
 
 
+    public static String doPost(String url, List<NameValuePair> params)
+    {
+        String uriAPI = url;//Post方式没有参数在这里
+        String result = "";
+        HttpPost httpRequst = new HttpPost(uriAPI);//创建HttpPost对象
+
+//        List <NameValuePair> params = new ArrayList<NameValuePair>();
+//        params.add(new BasicNameValuePair("str", "I am Post String"));
+
+        try {
+            httpRequst.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
+            HttpResponse httpResponse = new DefaultHttpClient().execute(httpRequst);
+            if(httpResponse.getStatusLine().getStatusCode() == 200)
+            {
+                HttpEntity httpEntity = httpResponse.getEntity();
+                result = EntityUtils.toString(httpEntity);//取出应答字符串
+            }
+        } catch (UnsupportedEncodingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+
+        }
+        catch (ClientProtocolException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+
+        }
+        catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+
+        }
+        if(Validator.isBlank(result)){
+            ErrorResponse response=new ErrorResponse();
+            response.code=-1;
+            response.msg="网络跑去睡觉了，请检查网络";
+            return (new Gson()).toJson(response);
+        }
+        return result;
+    }
 }

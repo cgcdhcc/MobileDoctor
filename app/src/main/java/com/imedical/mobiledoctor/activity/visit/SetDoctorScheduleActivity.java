@@ -1,6 +1,5 @@
 package com.imedical.mobiledoctor.activity.visit;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -26,64 +26,71 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SetDoctorScheduleActivity extends BaseActivity {
-    public TimeRangeAdapter adapter;
-    public ListView lv_data;
+    public LinearLayout ll_data;
     public View tv_save;
     public List<TimeRange> data_list = new ArrayList<>();
     public String scheduleDate;
+    public int currentChecked = -1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.visit_activity_setdoctorschedule);
-        scheduleDate=getIntent().getStringExtra("scheduleDate");
+        scheduleDate = getIntent().getStringExtra("scheduleDate");
         setTitle("图文咨询排班");
         intiView();
         loadTimeRange();
     }
 
     public void intiView() {
-        lv_data = findViewById(R.id.lv_data);
-        adapter = new TimeRangeAdapter();
-        lv_data.setAdapter(adapter);
+        ll_data = findViewById(R.id.ll_data);
         tv_save = findViewById(R.id.tv_save);
         tv_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                saveData();
+                if (currentChecked > -1) {
+                    saveData();
+                } else {
+                    showToast("请先选择一个排班时间段");
+                }
             }
         });
     }
 
-    public class TimeRangeAdapter extends BaseAdapter {
-        @Override
-        public int getCount() {
-            return data_list.size();
-        }
-
-        @Override
-        public Object getItem(int i) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
+    public void intiTimeRangeView(){
+        ll_data.removeAllViews();
+        for(int i=0;i<data_list.size();i++){
             final int position = i;
-            view = getLayoutInflater().inflate(R.layout.visit_item_setdoctorschedule, null);
+            View view = getLayoutInflater().inflate(R.layout.visit_item_setdoctorschedule, null);
             CheckBox cb_status = view.findViewById(R.id.cb_status);
             final EditText et_regLimit = view.findViewById(R.id.et_regLimit);
             cb_status.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    if(data_list.get(position).isChecked != b){
-                        data_list.get(position).isChecked = b;
-                        notifyDataSetChanged();
+                    if (b) {
+                        Log.d("msg", "选中设置可用");
+                        CheckBox oldCb=null;
+                        if(currentChecked>-1){
+                            oldCb = ll_data.getChildAt(currentChecked).findViewById(R.id.cb_status);
+                        }
+                        currentChecked = position;
+                        et_regLimit.setEnabled(true);
+                        et_regLimit.setFocusable(true);
+                        et_regLimit.setFocusableInTouchMode(true);
+                        et_regLimit.requestFocus();
+                        if(oldCb!=null){
+                            oldCb.setChecked(false);
+                        }
+                    }else{
+                        Log.d("msg", "取消选中设置不可用");
+                        et_regLimit.setText("0");
+                        et_regLimit.setFocusable(false);
+                        et_regLimit.setEnabled(false);
+                        if(currentChecked == position){
+                            currentChecked =-1;
+                        }
                     }
+
                 }
             });
             et_regLimit.addTextChangedListener(new TextWatcher() {
@@ -99,56 +106,49 @@ public class SetDoctorScheduleActivity extends BaseActivity {
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    if(Validator.isBlank(et_regLimit.getText().toString())){
+                    if (Validator.isBlank(et_regLimit.getText().toString())) {
                         data_list.get(position).regLimit = "0";
-                    }else{
-                        try{
-                            int num= Integer.parseInt(et_regLimit.getText().toString());
-                            if(num>=0){
+                    } else {
+                        try {
+                            int num = Integer.parseInt(et_regLimit.getText().toString());
+                            if (num >= 0) {
                                 data_list.get(position).regLimit = et_regLimit.getText().toString();
-                            }else{
+                            } else {
                                 showToast("请正确填写号源数,不能为负数");
                             }
-                        }catch (Exception e){
-                            showToast("请正确填写号源数"+e.getMessage());
+                        } catch (Exception e) {
+                            showToast("请正确填写号源数" + e.getMessage());
                         }
                     }
                 }
             });
-            Log.d("msg","选中后刷新操作" );
             et_regLimit.setText(data_list.get(position).regLimit);
-            cb_status.setChecked(data_list.get(position).isChecked);
-            et_regLimit.setFocusable(data_list.get(position).isChecked);
-            et_regLimit.setEnabled(data_list.get(position).isChecked);
+            et_regLimit.setEnabled(false);
+            et_regLimit.setFocusable(false);
             TextView tv_timeRangeDesc = view.findViewById(R.id.tv_timeRangeDesc);
             tv_timeRangeDesc.setText(data_list.get(position).timeRangeDesc);
-            return view;
+            ll_data.addView(view);
         }
     }
 
     public void saveData() {
         showProgress();
         new Thread() {
-            int num=0;
-            String msg="";
+            String msg = "";
+
             @Override
             public void run() {
                 super.run();
-                for (int i = 0; i < data_list.size(); i++) {
-                    if (data_list.get(i).isChecked) {
-                        try {
-                            BaseBean baseBean = DateOrderManager.DoctorSchedule(Const.DeviceId, Const.loginInfo.userCode, data_list.get(i).timeRangeId, data_list.get(i).regLimit, "T", scheduleDate);
-                            if(baseBean.getResultCode().equals("0")){
-                                num++;
-                                msg="设置成功";
-                            }else {
-                                msg=baseBean.getResultDesc();
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            msg=e.getMessage();
-                        }
+                try {
+                    BaseBean baseBean = DateOrderManager.DoctorSchedule(Const.DeviceId, Const.loginInfo.userCode, data_list.get(currentChecked).timeRangeId, data_list.get(currentChecked).regLimit, "T", scheduleDate);
+                    if (baseBean.getResultCode().equals("0")) {
+                        msg = "设置成功";
+                    } else {
+                        msg = baseBean.getResultDesc();
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    msg = e.getMessage();
                 }
                 runOnUiThread(new Runnable() {
                     @Override
@@ -186,7 +186,7 @@ public class SetDoctorScheduleActivity extends BaseActivity {
                         } else {
                             showToast(msg);
                         }
-                        adapter.notifyDataSetChanged();
+                        intiTimeRangeView();
                     }
                 });
             }

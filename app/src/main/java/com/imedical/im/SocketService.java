@@ -91,8 +91,8 @@ public class SocketService extends Service {
                                     super.run();
                                         try{
                                             JSONObject jsonObject = new JSONObject();
-                                            jsonObject.put( "username", Const.loginInfo.userCode);
-                                            jsonObject.put( "password", Const.loginInfo.userCode );
+                                            jsonObject.put( "username", Const.loginInfo.docMarkId);
+                                            jsonObject.put( "password", Const.loginInfo.docMarkId );
                                             jsonObject.put( "authType", ImConst.source );
                                             jsonObject.put( "appId", ImConst.appId );
                                             ImConst.mSocket.emit("authentication",jsonObject);

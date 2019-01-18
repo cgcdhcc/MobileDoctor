@@ -6,7 +6,6 @@ public class TimeRange {
     public String timeRangeDesc;//>出诊时段描述</timeRangeDesc>
     public String startTime;//>开始时间</startTime>
     public String endTime;//>结束时间</endTime>
-    public boolean isChecked=false;
     public String regLimit="0";
 
 }

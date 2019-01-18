@@ -2,6 +2,7 @@ package com.imedical.mobiledoctor.entity;
 
 
 
+import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.util.Desc;
 
 import java.io.Serializable;
@@ -71,5 +72,4 @@ public class PatientInfo implements Serializable {
 
     public PatientInfo() {
     }
-
 }

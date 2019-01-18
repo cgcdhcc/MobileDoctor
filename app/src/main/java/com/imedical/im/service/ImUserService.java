@@ -7,6 +7,7 @@ import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.XMLservice.SettingManager;
 import com.imedical.mobiledoctor.api.RequestUtil;
 import com.imedical.mobiledoctor.api.WsApiUtil;
+import com.imedical.mobiledoctor.entity.QrCodeGenerateRequest;
 import com.imedical.mobiledoctor.util.PropertyUtil;
 
 public class ImUserService {
@@ -32,5 +33,15 @@ public class ImUserService {
 			imBaseResponse=null;
 		}
 		return imBaseResponse;
+	}
+
+	public void qrcodegenerate(QrCodeGenerateRequest request){
+		try {
+			String serviceUrl = SettingManager.getServerUrl();
+			String resultXml  = WsApiUtil.loadSoapObjectJson(serviceUrl,Const.BIZ_CODE_qrcodegenerate,null, new Gson().toJson(request));
+			Log.d("msg",resultXml);
+		} catch (Exception e) {
+		}
+
 	}
 }

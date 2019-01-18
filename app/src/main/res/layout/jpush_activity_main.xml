@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+   >
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        >
+        <include layout="@layout/dhcc_white_head"/>
+        <ImageView
+            android:id="@+id/iv_menu"
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:adjustViewBounds="true"
+            android:paddingBottom="8dp"
+            android:paddingRight="10dp"
+            android:paddingTop="8dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/icon_msg_menu_green" />
+    </FrameLayout>
+    <include layout="@layout/inner_no_data" />
+    <com.imedical.mobiledoctor.widget.xlistview.XListView
+        android:id="@+id/lv_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@color/background"
+        android:dividerHeight="1dp">
+
+    </com.imedical.mobiledoctor.widget.xlistview.XListView>
+
+</LinearLayout>

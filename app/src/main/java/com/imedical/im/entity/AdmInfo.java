@@ -1,6 +1,8 @@
 package com.imedical.im.entity;
 
-public class AdmInfo {
+import java.io.Serializable;
+
+public class AdmInfo implements Serializable {
     public String admId;//>就诊Id</admId>
     public String patientAge;//>患者年龄</patientAge>
     public String patientSex;//>患者性别</patientSex>

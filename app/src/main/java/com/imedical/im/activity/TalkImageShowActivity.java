@@ -5,6 +5,7 @@ import android.os.Bundle;
 import com.imedical.im.ui.photoview.PhotoView;
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.base.BaseActivity;
+import com.imedical.mobiledoctor.util.DownloadUtil;
 import com.imedical.mobiledoctor.util.Validator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -22,9 +23,7 @@ public class TalkImageShowActivity extends BaseActivity {
         this.setContentView(R.layout.im_talk_img_show_item);
         PhotoView iv_img=(PhotoView)findViewById(R.id.iv_img);
         if(!Validator.isBlank(imgurl)){
-            ImageLoader.getInstance().displayImage(imgurl,iv_img);
-        }else{
-            ImageLoader.getInstance().displayImage(imgurl,iv_img);
+            DownloadUtil.loadImage(iv_img,imgurl,R.drawable.icon,R.drawable.icon,R.drawable.icon);
         }
     }
 

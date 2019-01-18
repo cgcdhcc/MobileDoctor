@@ -20,7 +20,7 @@ public class MessageInfo extends LitePalSupport implements Serializable {
     public String fileRemotePath;//: 'http://47.104.229.18:5555/9275aaac-17ae-48b6-b7f9-d697d5cbca7d.jpeg',
     public String originalName;//: '24.jpeg',
     public String thumbnailRemotePath;//: 'http://47.104.229.18:5555/s_9275aaac-17ae-48b6-b7f9-d697d5cbca7d.jpeg',
-    public int teplateId;// 1 病情描述 2 诊疗方案
+    public int templateId;// 1 病情描述 2 诊疗方案
     public String extend;//
 
     public MessageInfo(String messageType,String content,String fromUser,String toUser,String timeStamp,String fileRemotePath,String thumbnailRemotePath){
@@ -33,13 +33,14 @@ public class MessageInfo extends LitePalSupport implements Serializable {
             this.thumbnailRemotePath=thumbnailRemotePath;
             this.sended=0;
     }
-    public MessageInfo(String messageType,String fromUser,String toUser,String timeStamp,int teplateId){
+    public MessageInfo(String messageType,String fromUser,String toUser,String timeStamp,String content,int templateId,int sended){
         this.messageType=messageType;
         this.fromUser=fromUser;
         this.toUser=toUser;
         this.timeStamp=timeStamp;
-        this.teplateId=teplateId;
-        this.sended=0;
+        this.templateId=templateId;
+        this.content=content;
+        this.sended=sended;
     }
     public String getContent() {
         return content;

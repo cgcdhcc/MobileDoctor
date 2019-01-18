@@ -35,6 +35,7 @@
         <activity android:name="com.imedical.mobiledoctor.activity.frg_1.ConsultActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.mobiledoctor.activity.frg_1.detail.FormConsultInfoActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.mobiledoctor.activity.frg_1.AntActivity" android:screenOrientation="portrait"/>
+        <activity android:name="com.imedical.mobiledoctor.activity.frg_1.detail.FormAntiDrugDetailActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.mobiledoctor.fragment.MainActivity" android:launchMode="singleTask" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.mobiledoctor.activity.LoginHospitalActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.im.activity.ImMainActivity" android:screenOrientation="portrait"/>
@@ -44,7 +45,28 @@
         <activity android:name="com.imedical.im.activity.AdmInfoActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.mobiledoctor.activity.visit.DateVisitMulitActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.mobiledoctor.activity.visit.SetDoctorScheduleActivity" android:screenOrientation="portrait"/>
+        <activity android:name="com.imedical.mobiledoctor.activity.visit.PatientAppScheduleActivity" android:screenOrientation="portrait"/>
+        <activity android:name="com.imedical.mobiledoctor.activity.visit.DoctorScheduleActivity" android:screenOrientation="portrait"/>
+        <activity android:name="com.imedical.mobiledoctor.activity.visit.UpdateDoctorScheduleActivity" android:screenOrientation="portrait"/>
+        <activity android:name="com.imedical.jpush.activity.MessageDetailActivity" />
+        <activity android:name="com.imedical.jpush.activity.MessageActivity" />
+        <activity android:name="com.imedical.jpush.activity.WebViewActivity" />
+        <receiver
+            android:name="com.imedical.jpush.MyReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.REGISTRATION" />
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_CLICK_ACTION" />
+                <action android:name="cn.jpush.android.intent.CONNECTION" />
+                <category android:name="com.imedical.mobiledoctor" />
+            </intent-filter>
+        </receiver>
         <service android:name="com.imedical.im.SocketService"/>
+
+
     </application>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>

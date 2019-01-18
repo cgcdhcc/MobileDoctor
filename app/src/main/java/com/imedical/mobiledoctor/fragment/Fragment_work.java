@@ -20,6 +20,7 @@ import com.imedical.mobiledoctor.activity.WardRoundActivity;
 import com.imedical.mobiledoctor.activity.frg_1.AntActivity;
 import com.imedical.mobiledoctor.activity.frg_1.ConsultActivity;
 import com.imedical.mobiledoctor.activity.frg_1.CriticalValueActivity;
+import com.imedical.mobiledoctor.activity.visit.DoctorScheduleActivity;
 import com.imedical.mobiledoctor.adapter.MyItemDecoration;
 import com.imedical.mobiledoctor.adapter.WorkAdapter;
 import com.imedical.mobiledoctor.entity.BaseBeanMy;
@@ -97,7 +98,7 @@ public class Fragment_work extends Fragment implements View.OnClickListener {
                 Intent intent = null;
                 switch (mList_wait.get(position).getId()) {
                     case 0:
-//                        intent = new  Intent(ctx, FragmentPatActivity.class);
+                        intent = new  Intent(ctx, DoctorScheduleActivity.class);
                         break;
                     case 1:
                         intent =new Intent(ctx,CriticalValueActivity.class);
@@ -109,7 +110,7 @@ public class Fragment_work extends Fragment implements View.OnClickListener {
                         intent =new Intent(ctx, AntActivity.class);
                         break;
                     case 4:
-//                            intent =new Intent(ctx,FragmentAntActivity.class);
+                        intent =new Intent(ctx, DoctorScheduleActivity.class);
                         break;
                     default:
                         break;
