@@ -228,4 +228,12 @@ public class DateVisitMulitActivity extends BaseActivity {
 		super.onResume();
 	}
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if(100==resultCode){
+			BIZ_CODE_GetScheduleListState(startDate,endDate);
+			GetDoctorSchedule();
+		}
+	}
 }

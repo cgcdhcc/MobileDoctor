@@ -13,6 +13,6 @@ public class extras implements Serializable {
     public String actionName;//": "挂号成功",
     public String msgGroupCode;//": "appRemaind",
     public String msgGroupName;//": "预约提醒",
-    public Map<String,String> jumpData;//": []
+    public Map<String,Object> jumpData;//": []
     public String actionUrl;//H5跳转
 }

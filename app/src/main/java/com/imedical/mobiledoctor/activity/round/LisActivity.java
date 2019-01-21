@@ -59,7 +59,7 @@ public class LisActivity extends BaseRoundActivity implements
         if (resultCode == SWITHC_CODE) {
             loadDataThread(Const.curPat.admId, sort);
         }
-        setInfos(Const.curPat.patName,Const.curPat.bedCode+"床("+Const.curPat.patRegNo+")");//更新姓名，床号
+        setInfos(Const.curPat.patName,(Const.curPat.bedCode==null?"":Const.curPat.bedCode)+"床("+(Const.curPat.patRegNo==null?"":Const.curPat.patRegNo)+")");//更新姓名，床号
         super.onActivityResult(requestCode, resultCode, data);
     }
     @Override

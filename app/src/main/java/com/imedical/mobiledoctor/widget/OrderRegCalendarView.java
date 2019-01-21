@@ -18,6 +18,7 @@ import com.dhcc.calendar.widget.SquareLinearLayout;
 import com.dhcc.calendar.widget.WeekView;
 import com.imedical.mobiledoctor.entity.dateorder.OrderDate;
 import com.imedical.mobiledoctor.entity.dateorder.ScheduleState;
+import com.imedical.mobiledoctor.util.DateUtil;
 
 import org.joda.time.LocalDate;
 
@@ -80,7 +81,11 @@ public class OrderRegCalendarView extends CollapseCalendarView {
                     if(day.getDate().toString().equals(currentDay)){
                         iv_status.setImageResource(com.imedical.mobiledoctor.R.drawable.img_shape_white_dot);
                     }else{
-                        iv_status.setImageResource(com.imedical.mobiledoctor.R.drawable.img_shape_blue_dot);
+                        if(DateUtil.isBeforeToday(day.getDate().toString())){
+                            iv_status.setImageResource(com.imedical.mobiledoctor.R.drawable.img_shape_gray_dot);
+                        }else{
+                            iv_status.setImageResource(com.imedical.mobiledoctor.R.drawable.img_shape_blue_dot);
+                        }
                     }
                     view_extend.addView(view);
                 }

@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.imedical.im.entity.AdmInfo;
@@ -233,6 +234,12 @@ public class ImMainActivity extends BaseActivity implements View.OnClickListener
             tv_registerDate.setText(list.get(position).registerDate+"   "+(list.get(position).sessionName==null?"":list.get(position).sessionName));
             TextView tv_patientContent=convertView.findViewById(R.id.tv_patientContent);
             tv_patientContent.setText(list.get(position).patientContent);
+            ImageView iv_head=convertView.findViewById(R.id.iv_head);
+            if("女".equals(list.get(position).patientSex)){
+                iv_head.setImageResource(R.drawable.pat_famale);
+            }else{
+                iv_head.setImageResource(R.drawable.pat_male);
+            }
             return convertView;
         }
 

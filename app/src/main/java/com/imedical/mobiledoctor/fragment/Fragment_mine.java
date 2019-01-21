@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.imedical.im.activity.ImMainActivity;
 import com.imedical.jpush.activity.MessageActivity;
 import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
@@ -84,6 +85,13 @@ public class Fragment_mine extends Fragment implements View.OnClickListener {
             }
         });
 
+        mView.findViewById(R.id.view_menu_2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ImMainActivity.class);
+                startActivity(intent);
+            }
+        });
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

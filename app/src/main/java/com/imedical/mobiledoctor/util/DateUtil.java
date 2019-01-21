@@ -63,6 +63,12 @@ public class DateUtil {
         return dateString;
     }
 
+    public static long CountDistance(String startTime,String endTime) {
+        long count=Long.parseLong(endTime)-Long.parseLong(startTime);
+        return count;
+    }
+
+
     public static String getNowTimeMillis(){
         return System.currentTimeMillis()+"";
     }

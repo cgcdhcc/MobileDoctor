@@ -91,7 +91,7 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
         list_data = (ListView) findViewById(R.id.list_data);
         setTitle(userfriend.friendNickName);
         et_msg = (EditText) findViewById(R.id.et_msg);
-        ta = new TalkMsgAdapter(this, data_list, userfriend);
+        ta = new TalkMsgAdapter(this, data_list, admInfo);
         list_data.setAdapter(ta);
         String path = AppConfig.FILE_PATH + "/" + createVoiceName();
         File file = new File(AppConfig.FILE_PATH);

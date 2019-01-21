@@ -67,17 +67,17 @@ public class MessageDetailActivity extends BaseActivity {
                     case "PAT_REPLY":// : 消息回复
                         intent=new Intent(MessageDetailActivity.this, TalkMsgActivity.class);
                         intent.putExtra("admInfo",new AdmInfo(
-                                sysMsg.jumpData.get("patName"),
-                                sysMsg.jumpData.get("admId"),
-                                sysMsg.jumpData.get("patSex"),
-                                sysMsg.jumpData.get("patAge"),
-                                sysMsg.jumpData.get("patAvatarUrl"),
-                                sysMsg.jumpData.get("docMarkId"),
-                                sysMsg.jumpData.get("doctorName"),
-                                sysMsg.jumpData.get("doctorTitle"),
-                                sysMsg.jumpData.get("doctorCode"),
-                                sysMsg.jumpData.get("doctorPicUrl"),
-                                sysMsg.jumpData.get("chatStatus")
+                                sysMsg.jumpData.get("patName").toString(),
+                                sysMsg.jumpData.get("admId").toString(),
+                                sysMsg.jumpData.get("patSex").toString(),
+                                sysMsg.jumpData.get("patAge").toString(),
+                                sysMsg.jumpData.get("patAvatarUrl").toString(),
+                                sysMsg.jumpData.get("docMarkId").toString(),
+                                sysMsg.jumpData.get("doctorName").toString(),
+                                sysMsg.jumpData.get("doctorTitle").toString(),
+                                sysMsg.jumpData.get("doctorCode").toString(),
+                                sysMsg.jumpData.get("doctorPicUrl").toString(),
+                                sysMsg.jumpData.get("chatStatus").toString()
                         ));
                         startActivity(intent);
                         break;

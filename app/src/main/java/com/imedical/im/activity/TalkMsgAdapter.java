@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.imedical.im.entity.AdmInfo;
 import com.imedical.im.entity.DoctorTemplate;
 import com.imedical.im.entity.MessageInfo;
 import com.imedical.im.entity.PatTemplate;
@@ -27,6 +28,7 @@ import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.base.BaseActivity;
 import com.imedical.mobiledoctor.util.DateUtil;
 import com.imedical.mobiledoctor.util.DownloadUtil;
+import com.imedical.mobiledoctor.util.Validator;
 
 import java.util.HashMap;
 import java.util.List;
@@ -38,11 +40,11 @@ public class TalkMsgAdapter extends BaseAdapter {
 	public List<MessageInfo> data_list;
 	VoicePlayItem vp = new VoicePlayItem();
 	public Map<String, MediaPlayer> mapPlay = new HashMap<String, MediaPlayer>();
-    public UserFriend userFriend;
-	public TalkMsgAdapter(BaseActivity activity, List<MessageInfo> data_list, UserFriend userFriend) {
+    public AdmInfo admInfo;
+	public TalkMsgAdapter(BaseActivity activity, List<MessageInfo> data_list,AdmInfo admInfo) {
 		this.activity = activity;
 		this.data_list = data_list;
-		this.userFriend=userFriend;
+		this.admInfo=admInfo;
 	}
 
 	@Override
@@ -74,6 +76,21 @@ public class TalkMsgAdapter extends BaseAdapter {
 		TextView talk_time = (TextView) view.findViewById(R.id.talk_time);
 		if(data_list.get(p).timeStamp!=null){
 			talk_time.setText(DateUtil.ConvertDateTime(data_list.get(p).timeStamp));
+			if(p>0&&data_list.get(p-1).timeStamp!=null){
+				if(DateUtil.CountDistance(data_list.get(p-1).timeStamp,data_list.get(p).timeStamp)<5000){
+					talk_time.setVisibility(View.GONE);
+				}
+			}
+		}
+		ImageView iv_pat_head=view.findViewById(R.id.iv_pat_head);
+		if("女".equals(admInfo.patientSex)){
+			iv_pat_head.setImageResource(R.drawable.pat_famale);
+		}else{
+			iv_pat_head.setImageResource(R.drawable.pat_male);
+		}
+		ImageView iv_doctor_head=view.findViewById(R.id.iv_doctor_head);
+		if(Validator.isBlank(admInfo.doctorPicUrl)){
+			DownloadUtil.loadImage(iv_doctor_head, admInfo.doctorPicUrl, R.drawable.pat_male, R.drawable.pat_male, R.drawable.pat_male);
 		}
 		if (!data_list.get(p).fromUser.equals(Const.loginInfo.docMarkId)) {// 自己发言
 			left.setVisibility(View.VISIBLE);

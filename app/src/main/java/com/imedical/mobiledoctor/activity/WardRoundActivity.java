@@ -38,7 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WardRoundActivity extends BaseRoundActivity implements View.OnClickListener {
-    private TextView   tv_name,tv_department,tv_title,tv_hisdept,tv_hisrcd,tv_patSwitch;
+    private TextView   tv_name,tv_department,tv_doctorTitle,tv_hisdept,tv_hisrcd,tv_patSwitch;
     private HisRecordsAdapter mHisRecordsAdapter;
     private CircleImageView re_civ_photo;
     private List<SeeDoctorRecord> list = new ArrayList<SeeDoctorRecord>();
@@ -130,7 +130,7 @@ public class WardRoundActivity extends BaseRoundActivity implements View.OnClick
         });
 
         tv_department=(TextView) findViewById(R.id.tv_department);
-        tv_title=(TextView) findViewById(R.id.tv_title);
+        tv_doctorTitle=(TextView) findViewById(R.id.tv_doctorTitle);
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
        final View view = layoutInflater.inflate(R.layout.his_record_list, null);
         mListViewRecord = (ListView) view.findViewById(R.id.lv_data_list);
@@ -174,7 +174,7 @@ public class WardRoundActivity extends BaseRoundActivity implements View.OnClick
         });
         //==========initData============
         tv_name.setText(Const.curPat.patName);
-        tv_title.setText(Const.curPat.patRegNo);
+        tv_doctorTitle.setText(Const.curPat.patRegNo);
         if(("女").equals(Const.curPat.patSex)){
             re_civ_photo.setImageDrawable(getDrawable(R.drawable.pat_famale));
         }else {
@@ -188,7 +188,7 @@ public class WardRoundActivity extends BaseRoundActivity implements View.OnClick
             newRcd.admDate =  Const.curPat.inDate;
             newRcd.admDept =  Const.curPat.departmentName;
             newRcd.admId =  Const.curPat.admId;
-            newRcd.admType =  Const.curPat.admType;
+            newRcd.admType =  Const.curPat.admType==null?"O":Const.curPat.admType;
             list.add(newRcd);
             LoadHisRecord();
         }else {

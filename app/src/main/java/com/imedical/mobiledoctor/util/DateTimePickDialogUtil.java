@@ -123,7 +123,7 @@ public class DateTimePickDialogUtil implements OnDateChangedListener, OnTimeChan
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,
                                         int whichButton) {
-                        callBack.onCallback(init);
+                        //callBack.onCallback(init);
                     }
                 }).show();
 
