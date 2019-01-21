@@ -17,7 +17,9 @@
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
+
     </activity>
+        <activity android:name="com.imedical.mobiledoctor.activity.round.detail.Lis_CurvedLineActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.mobiledoctor.activity.frg_3.QRActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.mobiledoctor.activity.frg_3.SettingActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.mobiledoctor.zxing.activity.CaptureActivity" android:screenOrientation="portrait"/>

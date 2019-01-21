@@ -75,10 +75,9 @@ public class Lis_DetailActivity extends BaseActivity implements
                     bundle.putString("admId", mPatientCurrSelected.admId);
                     bundle.putString("ordLabNo", ordLabNo);
                     bundle.putString("itemCode",mDataListLis.get(pos).itemCode);
-                    // 显示坐标图
-//                    Intent intent = new Intent(LisDetailListActivity.this,CurvedLineActivity.class);
-//                    intent.putExtras(bundle);
-//                    startActivity(intent);
+                    Intent intent = new Intent(Lis_DetailActivity.this,Lis_CurvedLineActivity.class);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
