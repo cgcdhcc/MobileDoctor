@@ -246,8 +246,9 @@ public class BusyManager {
 			
 			String serviceUrl = SettingManager.getServerUrl();
 			
-			String requestXml = PropertyUtil.buildRequestXml(map);
-			LogMe.d("msg", requestXml);
+//			String requestXml = PropertyUtil.buildRequestXml(map);
+			String requestXml ="<Request><endDate>2019-01-21</endDate><readFlag>0</readFlag><departmentId>633</departmentId><conLoad></conLoad><userCode>15392</userCode><startDate>2019-01-14</startDate></Request>";
+					LogMe.d("msg", requestXml);
 			String resultXml = WsApiUtil.loadSoapObject(serviceUrl,Const.BIZ_CODE_LIST_ReportData, requestXml);
 			LogMe.d("msg", resultXml);
 			List<ReportData> list = PropertyUtil.parseBeansToList(ReportData.class, resultXml);

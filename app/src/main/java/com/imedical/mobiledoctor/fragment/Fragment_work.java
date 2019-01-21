@@ -96,7 +96,7 @@ public class Fragment_work extends Fragment implements View.OnClickListener {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(ctx,CaptureActivity.class);
-                startActivityForResult(intent,100);
+                ctx.startActivityForResult(intent,100);
             }
         });
         mRecyView_wait= (RecyclerView) mView.findViewById(R.id.list_wait);
@@ -150,20 +150,7 @@ public class Fragment_work extends Fragment implements View.OnClickListener {
         mList_wait.clear();
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 100 && resultCode == ctx.RESULT_OK) {
-            Bundle bundle = data.getExtras();
-            String scanResult = bundle.getString("result");
-            Log.d("mark", "条形码扫描结果：" + scanResult);
-            ctx.showCustom("条形码扫描结果：" + scanResult);
-        }else  {
-            ctx.showCustom("nothing to do!");
-        }
 
-
-    }
 
 
     @Override

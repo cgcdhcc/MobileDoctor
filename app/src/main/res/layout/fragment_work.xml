@@ -266,7 +266,7 @@
             android:id="@+id/ll_Onlineinquiry"
             android:layout_width="match_parent"
             android:orientation="horizontal"
-            android:background="@drawable/frg_bg_right"
+            android:background="@xml/ripple_frg_bg_right"
             android:layout_weight="1"
             android:gravity="center"
             android:layout_height="100dp">
@@ -292,7 +292,7 @@
             android:layout_width="match_parent"
             android:id="@+id/ll_ward"
             android:orientation="horizontal"
-            android:background="@drawable/frg_bg_left"
+            android:background="@xml/ripple_frg_bg_left"
             android:layout_weight="1"
             android:gravity="center"
             android:layout_height="100dp">

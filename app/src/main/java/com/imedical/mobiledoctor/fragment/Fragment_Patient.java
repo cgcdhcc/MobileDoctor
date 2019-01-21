@@ -323,7 +323,7 @@ public class Fragment_Patient extends Fragment implements View.OnClickListener {
     }
 
 
-    private void loadSecondLevelData() {
+    public void loadSecondLevelData() {
         String deptId = "";
         if(flag){
             deptId=  mLogin.defaultDeptId;
@@ -558,9 +558,30 @@ public class Fragment_Patient extends Fragment implements View.OnClickListener {
         }
     }
 
+    public void loadQrData( final String depCode,
+                            final String bracelet) {
+        ctx.showProgress();
+        new Thread() {
+
+            public void run() {
+                Message msg = myHandler.obtainMessage();
+                try {
+                    List<PatientInfo> tempList = BusyManager.listQrPatientInfo(mLogin.userCode, depCode, bracelet);
+                    msg.what = 1;
+                    msg.obj = tempList;
+                } catch (Exception e) {
+                    mInfo = e.getMessage();
+                    msg.what = -1;
+                    e.printStackTrace();
+                } finally {
+                    msg.sendToTarget();
+                }
+            };
+        }.start();
+    }
 
 
-    private void resetUI(){
+    public void resetUI(){
         tv_nodata.setVisibility(View.GONE);
         mConLoad = "";
         mLastConLoad=null;

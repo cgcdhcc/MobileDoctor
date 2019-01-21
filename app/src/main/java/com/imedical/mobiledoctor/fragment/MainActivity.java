@@ -24,6 +24,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -59,6 +60,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     ImageView btn_work,btn_patient,btn_mine;
     TextView tv_work,tv_patient,tv_mine;
     View ll_work,ll_patient,ll_mine;
+    Fragment_Patient frg_Patient=null;
     private CustomProgressDialog progressDialog = null;
     public static final String ARG_SECTION_NUMBER = "section_number";
     @Override
@@ -67,7 +69,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         StatusBarUtils.setWindowStatusBarColor(this, R.color.mobile_blue);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
-        checkPermission();
         InitViews();
 	}
 
@@ -140,6 +141,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		public SectionsPagerAdapter(FragmentManager fm) {
 			super(fm);
 		}
+		public Fragment currentFragment;
 		@Override
 		public Object instantiateItem(ViewGroup container, int position) {
 			return super.instantiateItem(container, position);
@@ -154,7 +156,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             Fragment fragment;
 			switch(position){
 			case 0:fragment = new Fragment_work();break;
-            case 1:fragment = new Fragment_Patient();break;
+            case 1:fragment = new Fragment_Patient();
+                    frg_Patient=(Fragment_Patient)fragment;
+                    break;
             case 2:fragment = new Fragment_mine();break;
 			default:
 				fragment = new Fragment_work();
@@ -162,6 +166,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 			Bundle args = new Bundle();
 			args.putInt(ARG_SECTION_NUMBER, position + 1);
 			fragment.setArguments(args);
+			this.currentFragment=fragment;
 			return fragment;
 
         }
@@ -198,38 +203,27 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     }
 
     public final static int REQ_PERMISSION_CODE = 0x1000;
-    private Context getContext(){
-        return this;
-    }
-    /** 动态权限申请 */
-    private boolean checkPermission() {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            List<String> permissions = new ArrayList<>();
-//            if (PackageManager.PERMISSION_GRANTED != ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-//                permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-//            }
-//            if (PackageManager.PERMISSION_GRANTED != ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA)) {
-//                permissions.add(Manifest.permission.CAMERA);
-//            }
-//            if (PackageManager.PERMISSION_GRANTED != ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.RECORD_AUDIO)) {
-//                permissions.add(Manifest.permission.RECORD_AUDIO);
-//            }
-//            if (PackageManager.PERMISSION_GRANTED != ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_PHONE_STATE)) {
-//                permissions.add(Manifest.permission.READ_PHONE_STATE);
-//            }
-//            if (PackageManager.PERMISSION_GRANTED != ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE)) {
-//                permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
-//            }
-//            if (PackageManager.PERMISSION_GRANTED != ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE)) {
-//                permissions.add(Manifest.permission.CALL_PHONE);
-//            }
-//            if (permissions.size() != 0) {
-//                ActivityCompat.requestPermissions(MainActivity.this,permissions.toArray(new String[0]), REQ_PERMISSION_CODE);
-//                return false;
-//            }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 100 && resultCode == RESULT_OK) {
+            Bundle bundle = data.getExtras();
+            String scanResult = bundle.getString("result");
+            Log.d("mark", "条形码扫描结果：" + scanResult);
+            btnSelect(2,true);
+              if(frg_Patient!=null){
+                  frg_Patient.loadQrData("", scanResult);// mLogin.userCode
+                  frg_Patient.resetUI();
+                  frg_Patient.loadSecondLevelData();
+              }
+        }
+//        else  {
+//            showCustom("nothing to do!");
 //        }
-        return true;
     }
+
+    /** 动态权限申请 */
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
