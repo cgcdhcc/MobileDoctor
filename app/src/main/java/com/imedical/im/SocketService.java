@@ -95,6 +95,7 @@ public class SocketService extends Service {
                                             jsonObject.put( "password", Const.loginInfo.docMarkId );
                                             jsonObject.put( "authType", ImConst.source );
                                             jsonObject.put( "appId", ImConst.appId );
+                                            jsonObject.put( "extend","D");
                                             ImConst.mSocket.emit("authentication",jsonObject);
                                         }catch (Exception e){
                                             Log.d("msg","认证异常");

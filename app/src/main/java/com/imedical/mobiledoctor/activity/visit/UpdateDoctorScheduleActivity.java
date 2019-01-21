@@ -33,7 +33,7 @@ public class UpdateDoctorScheduleActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.visit_activity_setdoctorschedule);
+        setContentView(R.layout.visit_activity_updatedoctorschedule);
         doctorSchedule = (DoctorSchedule)getIntent().getSerializableExtra("doctorSchedule");
         setTitle("修改图文咨询排班限额");
         intiView();
@@ -43,7 +43,7 @@ public class UpdateDoctorScheduleActivity extends BaseActivity {
         et_regLimit = findViewById(R.id.et_regLimit);
         et_regLimit.setText(doctorSchedule.regLimit);
         tv_timeRangeDesc = findViewById(R.id.tv_timeRangeDesc);
-        tv_timeRangeDesc.setText(doctorSchedule.timeRangeDesc);
+        tv_timeRangeDesc.setText(doctorSchedule.timeRangeDesc+"   "+doctorSchedule.startTime+"-"+doctorSchedule.endTime);
         tv_save = findViewById(R.id.tv_save);
         tv_save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,6 +91,8 @@ public class UpdateDoctorScheduleActivity extends BaseActivity {
                     public void run() {
                         dismissProgress();
                         showToast(msg);
+                        setResult(100,getIntent() );
+                        finish();
                     }
                 });
             }

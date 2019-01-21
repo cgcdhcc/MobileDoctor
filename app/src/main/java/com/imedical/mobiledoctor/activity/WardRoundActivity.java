@@ -175,7 +175,7 @@ public class WardRoundActivity extends BaseRoundActivity implements View.OnClick
         //==========initData============
         tv_name.setText(Const.curPat.patName);
         tv_title.setText(Const.curPat.patRegNo);
-        if(Const.curPat.patSex.equals("女")){
+        if(("女").equals(Const.curPat.patSex)){
             re_civ_photo.setImageDrawable(getDrawable(R.drawable.pat_famale));
         }else {
             re_civ_photo.setImageDrawable(getDrawable(R.drawable.pat_male));

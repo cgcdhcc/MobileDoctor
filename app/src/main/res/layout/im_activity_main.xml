@@ -36,7 +36,7 @@
                     android:orientation="vertical">
                     <TextView
                         android:id="@+id/tv_imgtxt"
-                        android:textSize="@dimen/font_18dp"
+                        android:textSize="@dimen/font_16dp"
                         android:text="图文咨询"
                         android:textColor="@color/text_base"
                         android:gravity="center"
@@ -65,7 +65,7 @@
                     android:orientation="vertical">
                     <TextView
                         android:id="@+id/tv_videodept"
-                        android:textSize="@dimen/font_18dp"
+                        android:textSize="@dimen/font_16dp"
                         android:text="远程门诊"
                         android:textColor="@color/text_grayblack"
                         android:gravity="center"
@@ -100,14 +100,14 @@
             android:layout_weight="1"
             android:text="2012-12-12"
             android:gravity="center"
-            android:textSize="@dimen/font_16dp"
+            android:textSize="@dimen/font_14dp"
             android:textColor="@color/text_grayblack"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="至"
             android:gravity="center"
-            android:textSize="@dimen/font_16dp"
+            android:textSize="@dimen/font_14dp"
             android:textColor="@color/text_gray"/>
         <TextView
             android:id="@+id/tv_endDate"
@@ -116,7 +116,7 @@
             android:layout_weight="1"
             android:text="2012-12-12"
             android:gravity="center"
-            android:textSize="@dimen/font_16dp"
+            android:textSize="@dimen/font_14dp"
             android:textColor="@color/text_grayblack"/>
     </LinearLayout>
 
@@ -134,7 +134,7 @@
             <TextView
                 android:padding="10dp"
                 android:id="@+id/tv_isgoing"
-                android:textSize="@dimen/font_16dp"
+                android:textSize="@dimen/font_14dp"
                 android:text="咨询中"
                 android:textColor="@color/text_grayblack"
                 android:gravity="center"
@@ -158,7 +158,7 @@
             <TextView
                 android:padding="10dp"
                 android:id="@+id/tv_hasfinish"
-                android:textSize="@dimen/font_16dp"
+                android:textSize="@dimen/font_14dp"
                 android:text="已完成"
                 android:textColor="@color/text_base"
                 android:gravity="center"

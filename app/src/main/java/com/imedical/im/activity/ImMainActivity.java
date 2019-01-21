@@ -34,6 +34,11 @@ public class ImMainActivity extends BaseActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.im_activity_main);
         intiView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         doCheck();
     }
 
@@ -75,8 +80,10 @@ public class ImMainActivity extends BaseActivity implements View.OnClickListener
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent=new Intent(ImMainActivity.this,TalkMsgActivity.class);
-                intent.putExtra("admInfo", list.get(position));
-                startActivity(intent);
+                if(list.size()>position){
+                    intent.putExtra("admInfo", list.get(position));
+                    startActivity(intent);
+                }
             }
         });
     }

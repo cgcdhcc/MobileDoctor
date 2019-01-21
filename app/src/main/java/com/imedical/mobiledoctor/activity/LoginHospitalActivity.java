@@ -143,7 +143,6 @@ public class LoginHospitalActivity extends BaseActivity implements
                                 terminalId);
                         userregister userregister=new userregister(mLoginInfo.docMarkId,mLoginInfo.docMarkId,mLoginInfo.docMarkId);
                         ImBaseResponse imBaseResponse =ImUserService.getInstance().userRegister(userregister);
-                        ImUserService.getInstance().qrcodegenerate(new QrCodeGenerateRequest(mLoginInfo.userCode, mLoginInfo.userName));
                         if(imBaseResponse!=null){
                             Log.d("msg",imBaseResponse.msg);
                         }

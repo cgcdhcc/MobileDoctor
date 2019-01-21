@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.imedical.im.entity.DoctorTemplate;
 import com.imedical.im.entity.MessageInfo;
 import com.imedical.im.entity.PatTemplate;
 import com.imedical.im.entity.UserFriend;
@@ -74,7 +75,7 @@ public class TalkMsgAdapter extends BaseAdapter {
 		if(data_list.get(p).timeStamp!=null){
 			talk_time.setText(DateUtil.ConvertDateTime(data_list.get(p).timeStamp));
 		}
-		if (!data_list.get(p).fromUser.equals(Const.loginInfo.userCode)) {// 自己发言
+		if (!data_list.get(p).fromUser.equals(Const.loginInfo.docMarkId)) {// 自己发言
 			left.setVisibility(View.VISIBLE);
 			right.setVisibility(View.GONE);
 			TextView left_content = (TextView) view
@@ -259,7 +260,20 @@ public class TalkMsgAdapter extends BaseAdapter {
 				right_ll_template.setVisibility(View.VISIBLE);
 				if(2==data_list.get(p).templateId){
 					View templateView=activity.getLayoutInflater().inflate(R.layout.im_item_diagnosis, null);
+					final DoctorTemplate doctorTemplate=new Gson().fromJson(data_list.get(p).content, DoctorTemplate.class);
+					TextView tv_doctorName=templateView.findViewById(R.id.tv_doctorName);
+					tv_doctorName.setText(doctorTemplate.doctorName);
+					TextView tv_doctorTitle=templateView.findViewById(R.id.tv_doctorTitle);
+					tv_doctorTitle.setText(doctorTemplate.doctorTitle);
 					right_ll_template.addView(templateView);
+					templateView.setOnClickListener(new OnClickListener() {
+						@Override
+						public void onClick(View view) {
+							Intent intent=new Intent(activity,AddDiagnosisActivity.class);
+							intent.putExtra("admId", doctorTemplate.admId);
+							activity.startActivity(intent);
+						}
+					});
 				}
 
 			}else {

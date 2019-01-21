@@ -276,7 +276,7 @@ public class ConsultActivity extends BaseActivity implements OnClickListener{
 			}else{
 				holder = (ViewHolder) convertView.getTag();
 			}
-			holder.tv_patBed.setText( c.patBed+"床");
+			holder.tv_patBed.setText( c.patBed);
 			holder.tv_mainDiag.setText( c.mainDiag);
 			holder.tv_patName.setText(c.patName);
 			holder.tv_type.setText("会诊类型："+c.type);

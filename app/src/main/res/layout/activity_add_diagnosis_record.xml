@@ -13,7 +13,7 @@
             android:id="@+id/tv_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/font_18dp"
+            android:textSize="@dimen/font_16dp"
             android:text="提交"
             android:layout_gravity="right|center_vertical"
             android:padding="10dp"
@@ -28,7 +28,7 @@
         android:layout_margin="10dp"
         android:background="@drawable/bg_shape_white_corner"
         android:orientation="vertical"
-        android:padding="15dp">
+        android:padding="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -42,14 +42,16 @@
                 android:src="@drawable/icon_user_small_head" />
 
             <TextView
-                android:layout_marginLeft="10dp"
+                android:id="@+id/tv_patientName"
+                android:layout_marginLeft="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/text_base"
-                android:textSize="@dimen/font_16dp"
+                android:textSize="@dimen/font_14dp"
                 android:text="张三"/>
             <TextView
-                android:layout_marginLeft="20dp"
+                android:id="@+id/tv_patientAge"
+                android:layout_marginLeft="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/text_gray"
@@ -64,7 +66,7 @@
             android:gravity="bottom">
 
            <LinearLayout
-               android:layout_marginLeft="30dp"
+               android:layout_marginLeft="25dp"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:layout_weight="1"
@@ -74,14 +76,16 @@
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:textColor="@color/text_gray"
-                   android:textSize="@dimen/font_16dp"
+                   android:textSize="@dimen/font_14dp"
                    android:text="就诊卡号："/>
                <TextView
-                   android:layout_marginLeft="10dp"
+                   android:id="@+id/tv_patientCard"
+                   android:layout_marginLeft="5dp"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:textColor="@color/text_base"
-                   android:textSize="@dimen/font_16dp"
+                   android:textSize="@dimen/font_14dp"
+                   android:singleLine="true"
                    android:text="12223123121"/>
 
            </LinearLayout>
@@ -95,29 +99,32 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/text_gray"
-                    android:textSize="@dimen/font_16dp"
+                    android:textSize="@dimen/font_14dp"
                     android:text="登记号："/>
                 <TextView
-                    android:layout_marginLeft="10dp"
+                    android:id="@+id/tv_patientId"
+                    android:layout_marginLeft="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/text_base"
-                    android:textSize="@dimen/font_16dp"
+                    android:textSize="@dimen/font_14dp"
+                    android:singleLine="true"
                     android:text="22212"/>
 
             </LinearLayout>
 
         </LinearLayout>
         <View
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="2dp"
+            android:layerType="software"
             android:background="@drawable/image_dot_line"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:gravity="bottom">
 
             <ImageView
@@ -126,21 +133,25 @@
                 android:src="@drawable/icon_doctor_small_head" />
 
             <TextView
-                android:layout_marginLeft="10dp"
+                android:id="@+id/tv_doctorName"
+                android:layout_marginLeft="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/text_base"
-                android:textSize="@dimen/font_16dp"
+                android:textSize="@dimen/font_14dp"
                 android:text="张三"/>
             <TextView
-                android:layout_marginLeft="20dp"
+                android:id="@+id/tv_departmentName"
+                android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/text_gray"
                 android:textSize="@dimen/font_14dp"
+                android:layout_marginRight="10dp"
                 android:text="内科 主治医师"/>
             <TextView
-                android:layout_marginRight="10dp"
+                android:singleLine="true"
+                android:id="@+id/tv_doctorTitle"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:gravity="right"
@@ -163,9 +174,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="医生建议"
-            android:textSize="@dimen/font_18dp"
+            android:textSize="@dimen/font_16dp"
             android:textColor="@color/text_base"/>
         <EditText
+            android:id="@+id/et_msgContent"
             android:layout_marginTop="10dp"
             android:hint="医者父母心，多写些建议给患者吧"
             android:gravity="top|left"

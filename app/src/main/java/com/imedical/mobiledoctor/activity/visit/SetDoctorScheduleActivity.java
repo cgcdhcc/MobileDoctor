@@ -126,7 +126,7 @@ public class SetDoctorScheduleActivity extends BaseActivity {
             et_regLimit.setEnabled(false);
             et_regLimit.setFocusable(false);
             TextView tv_timeRangeDesc = view.findViewById(R.id.tv_timeRangeDesc);
-            tv_timeRangeDesc.setText(data_list.get(position).timeRangeDesc);
+            tv_timeRangeDesc.setText(data_list.get(position).timeRangeDesc+"    "+data_list.get(position).startTime+"-"+data_list.get(position).endTime);
             ll_data.addView(view);
         }
     }
@@ -155,6 +155,8 @@ public class SetDoctorScheduleActivity extends BaseActivity {
                     public void run() {
                         dismissProgress();
                         showToast(msg);
+                        setResult(100,getIntent() );
+                        finish();
                     }
                 });
             }

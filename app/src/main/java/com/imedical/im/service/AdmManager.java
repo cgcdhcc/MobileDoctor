@@ -106,5 +106,56 @@ public class AdmManager {
         return list;
     }
 
+    /*
+    诊疗建议填写
+业务代码：RequestCode
+21023
+类：MHC.BI.OPRegister
+方法：UpdateDoctorContentByAdm
+请求参数：RequestXML
+<Request>
+	<terminalId>移动终端唯一序列号</terminalId>
+<admId>就诊Id不能为空</admId>
+<msgContent>医生建议</ msgContent >
+<opProcedure>医生随笔</ opProcedure>
+</Request>
 
+     */
+
+    public static BaseBean UpdateDoctorContentByAdm(String terminalId, String admId, String msgContent) throws Exception {
+        BaseBean bean = null;
+        Map<String, String> parm = new HashMap<String, String>();
+        parm.put("terminalId", terminalId);
+        parm.put("admId", admId);
+        parm.put("msgContent", msgContent);
+        parm.put("opProcedure", "");
+        String serviceUrl = SettingManager.getServerUrl();
+        String requestXml = PropertyUtil.buildRequestXml(parm);
+        String resultXml = WsApiUtil.loadSoapObject(serviceUrl, Const.BIZ_CODE_updatedoctorcontentbyadm, requestXml);
+        bean = PropertyUtil.parseToBaseInfo(resultXml);
+        return bean;
+    }
+
+    /*
+    <Request>
+	<terminalId>移动终端唯一序列号</terminalId>
+<userCode>医护人员Code</userCode>
+<admId>就诊Id不能为空</admId>
+<chatStatus>写死为2</chatStatus>
+</Request>
+     */
+
+    public static BaseBean updatechatstatus(String terminalId, String userCode,String admId, String chatStatus) throws Exception {
+        BaseBean bean = null;
+        Map<String, String> parm = new HashMap<String, String>();
+        parm.put("terminalId", terminalId);
+        parm.put("admId", admId);
+        parm.put("userCode", userCode);
+        parm.put("chatStatus", chatStatus);
+        String serviceUrl = SettingManager.getServerUrl();
+        String requestXml = PropertyUtil.buildRequestXml(parm);
+        String resultXml = WsApiUtil.loadSoapObject(serviceUrl, Const.BIZ_CODE_updatechatstatus, requestXml);
+        bean = PropertyUtil.parseToBaseInfo(resultXml);
+        return bean;
+    }
 }

@@ -3,12 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/white"
+    android:background="@color/background"
     android:gravity="center_horizontal">
     <include layout="@layout/dhcc_white_head"/>
 
 
-    <com.dhcc.calendar.CollapseCalendarView
+    <com.imedical.mobiledoctor.widget.OrderRegCalendarView
         android:id="@+id/calendar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
