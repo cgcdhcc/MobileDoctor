@@ -2,6 +2,7 @@ package com.imedical.im.service;
 import android.util.Log;
 import com.google.gson.Gson;
 import com.imedical.im.entity.ImBaseResponse;
+import com.imedical.im.entity.qrresponse;
 import com.imedical.im.entity.userregister;
 import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.XMLservice.SettingManager;
@@ -35,13 +36,16 @@ public class ImUserService {
 		return imBaseResponse;
 	}
 
-	public void qrcodegenerate(QrCodeGenerateRequest request){
+	public qrresponse qrcodegenerate(QrCodeGenerateRequest request){
+		qrresponse qrContent=null;
 		try {
 			String serviceUrl = SettingManager.getServerUrl();
 			String resultXml  = WsApiUtil.loadSoapObjectJson(serviceUrl,Const.BIZ_CODE_qrcodegenerate,null, new Gson().toJson(request));
+			qrContent=new Gson().fromJson(resultXml, qrresponse.class);
 			Log.d("msg",resultXml);
 		} catch (Exception e) {
+			qrContent= null;
 		}
-
+		return  qrContent;
 	}
 }
