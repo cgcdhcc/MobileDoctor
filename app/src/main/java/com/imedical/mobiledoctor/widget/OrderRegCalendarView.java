@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -16,6 +17,8 @@ import com.dhcc.calendar.manager.Week;
 import com.dhcc.calendar.widget.SquareLinearLayout;
 import com.dhcc.calendar.widget.WeekView;
 import com.imedical.mobiledoctor.entity.dateorder.OrderDate;
+import com.imedical.mobiledoctor.entity.dateorder.ScheduleState;
+import com.imedical.mobiledoctor.util.DateUtil;
 
 import org.joda.time.LocalDate;
 
@@ -45,11 +48,11 @@ public class OrderRegCalendarView extends CollapseCalendarView {
     }
 
     @NonNull
-    private List<OrderDate> mListData;
+    private List<ScheduleState> mListData;
     @NonNull
     private List<LocalDate> mDateList = new ArrayList<LocalDate>();
 
-
+    private String currentDay="";
     public void populateWeekLayout(@NonNull Week week, @NonNull WeekView weekView) {
         Log.d("","child populateWeekLayout" );
         List<Day> days = week.getDays();
@@ -67,19 +70,33 @@ public class OrderRegCalendarView extends CollapseCalendarView {
             }
 
             LinearLayout view_extend = (LinearLayout) dayView.findViewById(R.id.view_extend);
-            View view = activity.getLayoutInflater().inflate(com.imedical.mobiledoctor.R.layout.item_date_order_calendar, null);
             view_extend.removeAllViews();
             if (mListData != null && mListData.size() > 0
                     && mDateList != null && mDateList.size() > 0 &&
                     mDateList.indexOf(day.getDate()) != -1) {
-                view_extend.addView(view);
-            } else {
+                ScheduleState scheduleState = mListData.get(mDateList.indexOf(day.getDate()));
+                if("1".equals(scheduleState.scheduleState)){
+                    View view = activity.getLayoutInflater().inflate(com.imedical.mobiledoctor.R.layout.item_date_order_calendar, null);
+                    ImageView iv_status=view.findViewById(com.imedical.mobiledoctor.R.id.iv_status);
+                    if(day.getDate().toString().equals(currentDay)){
+                        iv_status.setImageResource(com.imedical.mobiledoctor.R.drawable.img_shape_white_dot);
+                    }else{
+                        if(DateUtil.isBeforeToday(day.getDate().toString())){
+                            iv_status.setImageResource(com.imedical.mobiledoctor.R.drawable.img_shape_gray_dot);
+                        }else{
+                            iv_status.setImageResource(com.imedical.mobiledoctor.R.drawable.img_shape_blue_dot);
+                        }
+                    }
+                    view_extend.addView(view);
+                }
+
             }
             dayView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     LocalDate date = day.getDate();
                     if (mManager.selectDay(date)) {
+                        currentDay=date.toString();
                         populateLayout();
                         if (mListener != null) {
                             mListener.onDateSelected(date, false);
@@ -93,12 +110,12 @@ public class OrderRegCalendarView extends CollapseCalendarView {
     public void refreshView() {
         getManager().setDisplayDay(mManager.getUnits().getTo());
         getManager().refreshView();
-        mListData = (List<OrderDate>) getManager().getExtraData().get("extraData");
+        mListData = (List<ScheduleState>) getManager().getExtraData().get("extraData");
         mDateList.clear();
         if (mListData != null && mListData.size() > 0) {
             Log.d("msg","mListData长度:"+mListData.size() );
-            for (OrderDate orderItem : mListData) {
-                LocalDate date = LocalDate.parse(orderItem.regDate);
+            for (ScheduleState orderItem : mListData) {
+                LocalDate date = LocalDate.parse(orderItem.scheduleDate);
                 mDateList.add(date);
             }
         }

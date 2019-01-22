@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.imedical.mobiledoctor">
 
     <application
@@ -45,7 +46,7 @@
         <activity android:name="com.imedical.mobiledoctor.activity.LoginHospitalActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.im.activity.ImMainActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.im.activity.TalkImageShowActivity" android:screenOrientation="portrait"/>
-        <activity android:name="com.imedical.im.activity.TalkMsgActivity" android:screenOrientation="portrait"/>
+        <activity android:name="com.imedical.im.activity.TalkMsgActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>
         <activity android:name="com.imedical.im.activity.AddDiagnosisActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.im.activity.AdmInfoActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.mobiledoctor.activity.visit.DateVisitMulitActivity" android:screenOrientation="portrait"/>
@@ -53,9 +54,20 @@
         <activity android:name="com.imedical.mobiledoctor.activity.visit.PatientAppScheduleActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.mobiledoctor.activity.visit.DoctorScheduleActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.mobiledoctor.activity.visit.UpdateDoctorScheduleActivity" android:screenOrientation="portrait"/>
-        <activity android:name="com.imedical.jpush.activity.MessageDetailActivity" />
-        <activity android:name="com.imedical.jpush.activity.MessageActivity" />
-        <activity android:name="com.imedical.jpush.activity.WebViewActivity" />
+        <activity android:name="com.imedical.jpush.activity.MessageDetailActivity" android:screenOrientation="portrait"/>
+        <activity android:name="com.imedical.jpush.activity.MessageActivity" android:screenOrientation="portrait"/>
+        <activity android:name="com.imedical.jpush.activity.WebViewActivity" android:screenOrientation="portrait"/>
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            tools:replace="android:authorities">
+            <meta-data
+                tools:replace="android:resource"
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
         <receiver
             android:name="com.imedical.jpush.MyReceiver"
             android:enabled="true">

@@ -6,6 +6,8 @@ import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
 import com.google.gson.Gson;
+import com.imedical.im.activity.TalkMsgActivity;
+import com.imedical.im.entity.AdmInfo;
 import com.imedical.jpush.bean.Message;
 import com.imedical.jpush.bean.MessageNoRead;
 import com.imedical.jpush.bean.extras;
@@ -62,8 +64,22 @@ public class MessageDetailActivity extends BaseActivity {
 
                 switch (sysMsg.actionCode){
 
-                    case "Lis":// : 检验
-
+                    case "PAT_REPLY":// : 消息回复
+                        intent=new Intent(MessageDetailActivity.this, TalkMsgActivity.class);
+                        intent.putExtra("admInfo",new AdmInfo(
+                                sysMsg.jumpData.get("patName").toString(),
+                                sysMsg.jumpData.get("admId").toString(),
+                                sysMsg.jumpData.get("patSex").toString(),
+                                sysMsg.jumpData.get("patAge").toString(),
+                                sysMsg.jumpData.get("patAvatarUrl").toString(),
+                                sysMsg.jumpData.get("docMarkId").toString(),
+                                sysMsg.jumpData.get("doctorName").toString(),
+                                sysMsg.jumpData.get("doctorTitle").toString(),
+                                sysMsg.jumpData.get("doctorCode").toString(),
+                                sysMsg.jumpData.get("doctorPicUrl").toString(),
+                                sysMsg.jumpData.get("chatStatus").toString()
+                        ));
+                        startActivity(intent);
                         break;
                     case "Ris":// : 检查
 

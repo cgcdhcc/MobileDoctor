@@ -60,6 +60,7 @@ public class DoctorScheduleActivity extends BaseActivity {
         viewpager=(WrapContentHeightViewPager) findViewById(R.id.viewpager);
         adapter=new PAdapter();
         viewpager.setAdapter(adapter);
+        sadapter=new ScheduleAdapter();
         viewpager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
@@ -68,6 +69,8 @@ public class DoctorScheduleActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int i) {
+                list_data.clear();
+                sadapter.notifyDataSetChanged();
                 List<WeekDate> list= DateUtil.getOneWeek(i-10);
                 loadDateData(list.get(0).date, list.get(6).date);
             }
@@ -79,7 +82,6 @@ public class DoctorScheduleActivity extends BaseActivity {
         });
         viewpager.setCurrentItem(10);
         lv_data=(ListView)findViewById(R.id.lv_data);
-        sadapter=new ScheduleAdapter();
         lv_data.setAdapter(sadapter);
         lv_data.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="10:09"
+        android:textSize="12sp"
         android:textColor="@color/text_gray" />
     <LinearLayout
         android:id="@+id/view_left"
@@ -25,6 +26,7 @@
             android:orientation="horizontal" >
 
             <ImageView
+                android:id="@+id/iv_pat_head"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:src="@drawable/pat_famale" />
@@ -45,7 +47,7 @@
                     android:padding="5dp"
                     android:text="我就是想测试下等我i奥金锭我i哦敬爱哦大华农多万吨哇哦的 "
                     android:textColor="@color/text_base"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
 
                 <ImageView
                     android:id="@+id/left_iv_content"
@@ -137,7 +139,7 @@
                     android:padding="5dp"
                     android:text="我就是想测试下等 "
                     android:textColor="@color/text_base"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
 
                 <ImageView
                     android:id="@+id/right_iv_content"
@@ -155,6 +157,7 @@
                     android:src="@drawable/im_iconfont_tupian" />
             </LinearLayout>
             <ImageView
+                android:id="@+id/iv_doctor_head"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:src="@drawable/pat_male" />

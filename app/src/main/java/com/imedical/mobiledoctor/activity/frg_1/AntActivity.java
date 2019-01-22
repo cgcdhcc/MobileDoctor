@@ -369,7 +369,7 @@ public class AntActivity extends BaseActivity implements OnClickListener {
             holder.tv_appDateTime.setText("申请时间：" + p.appDateTime);
             holder.tv_appDocName.setText(p.appDocName);
             holder.tv_arcimDesc.setText(p.arcimDesc);
-            holder.tv_patBed.setText(p.patBed + "床");
+            holder.tv_patBed.setText((p.patBed==null?"": p.patBed)+ "床");
             holder.tv_patName.setText("申请人：" + p.patName);
             holder.tv_appStatus.setText(p.appStatus);
             if ("拒绝".equals(p.appStatus)) {

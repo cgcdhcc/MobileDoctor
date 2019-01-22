@@ -18,7 +18,7 @@ import com.imedical.mobiledoctor.util.MyCallback;
 public class MsgOperateDlg extends Dialog {
     public MessageActivity activity;
     public MsgOperateDlg(MessageActivity activity) {
-        super(activity);
+        super(activity,R.style.VersionDlg);
         this.activity=activity;
     }
 

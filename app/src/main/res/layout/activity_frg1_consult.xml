@@ -11,13 +11,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
         android:background="@color/mobile_titlebar_blue">
         <TextView
             android:id="@+id/tv_startDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:padding="10dp"
             android:text="2012-12-12"
             android:gravity="center"
             android:textSize="@dimen/font_16dp"
@@ -27,9 +27,10 @@
             android:layout_height="wrap_content"
             android:text="至"
             android:gravity="center"
-            android:textSize="@dimen/font_16dp"
+            android:textSize="@dimen/font_14dp"
             android:textColor="@color/text_gray"/>
         <TextView
+            android:padding="10dp"
             android:id="@+id/tv_endDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -65,7 +66,7 @@
                 android:layout_marginTop="3dp"
                 android:background="@color/mobile_blue"
                 android:layout_width="match_parent"
-                android:layout_height="3dp" />
+                android:layout_height="2dp" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -89,7 +90,7 @@
                 android:layout_marginTop="3dp"
                 android:background="@color/mobile_blue"
                 android:layout_width="match_parent"
-                android:layout_height="3dp" />
+                android:layout_height="2dp" />
         </LinearLayout>
     </LinearLayout>
     <TextView

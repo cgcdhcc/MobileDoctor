@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -15,26 +14,31 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.imedical.im.ImConst;
 import com.imedical.im.SocketService;
+import com.imedical.im.dialog.ShowMemoDlg;
 import com.imedical.im.entity.AdmInfo;
+import com.imedical.im.entity.DoctorTemplate;
 import com.imedical.im.entity.MessageInfo;
 import com.imedical.im.entity.PatTemplate;
 import com.imedical.im.entity.UserFriend;
 import com.imedical.im.media.RecordButton;
+import com.imedical.im.service.AdmManager;
 import com.imedical.mobiledoctor.AppConfig;
 import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.XMLservice.BusyManager;
 import com.imedical.mobiledoctor.activity.WardRoundActivity;
+import com.imedical.mobiledoctor.entity.BaseBean;
 import com.imedical.mobiledoctor.entity.PatientInfo;
 import com.imedical.mobiledoctor.util.DateUtil;
+import com.imedical.mobiledoctor.util.DialogUtil;
 import com.imedical.mobiledoctor.util.FileDataUtil;
+import com.imedical.mobiledoctor.util.PreferManager;
 import com.imedical.mobiledoctor.util.Validator;
 
 import org.json.JSONObject;
@@ -59,18 +63,20 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
     public String action = "";
     public UserFriend userfriend;
     private Button btn_send;
-    private View btn_img_voice,btn_img_photo,btn_img_patientinfo,btn_img_add_diagonsis,keybord_button;
+    private View btn_img_voice, btn_img_photo, btn_img_patientinfo, btn_img_add_diagonsis, keybord_button;
     public RecordButton mRecordButton;
     public Intent IoService;
     public TextView chat_status;
     public boolean isonline = false;
     public AdmInfo admInfo;
+    public TextView tv_orderchatstatus;
+    public TextView tv_stopserver;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.im_activity_talklist);
-        admInfo = (AdmInfo)this.getIntent().getSerializableExtra("admInfo");
+        admInfo = (AdmInfo) this.getIntent().getSerializableExtra("admInfo");
         userfriend = new UserFriend();
         userfriend.friendUsername = admInfo.admId;
         userfriend.friendNickName = admInfo.patientName;
@@ -85,7 +91,7 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
         list_data = (ListView) findViewById(R.id.list_data);
         setTitle(userfriend.friendNickName);
         et_msg = (EditText) findViewById(R.id.et_msg);
-        ta = new TalkMsgAdapter(this, data_list, userfriend);
+        ta = new TalkMsgAdapter(this, data_list, admInfo);
         list_data.setAdapter(ta);
         String path = AppConfig.FILE_PATH + "/" + createVoiceName();
         File file = new File(AppConfig.FILE_PATH);
@@ -158,7 +164,7 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
                 mRecordButton.setVisibility(View.VISIBLE);
             }
         });
-        keybord_button= findViewById(R.id.keybord_button);
+        keybord_button = findViewById(R.id.keybord_button);
         keybord_button.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
@@ -167,7 +173,7 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
                 mRecordButton.setVisibility(View.GONE);
             }
         });
-        btn_img_photo= findViewById(R.id.btn_img_photo);
+        btn_img_photo = findViewById(R.id.btn_img_photo);
         btn_img_photo.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -176,7 +182,7 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
                 popup(TalkMsgActivity.this);
             }
         });
-        btn_img_patientinfo= findViewById(R.id.btn_img_patientinfo);
+        btn_img_patientinfo = findViewById(R.id.btn_img_patientinfo);
         btn_img_patientinfo.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -185,54 +191,102 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
                 loadPatinfo();
             }
         });
-        btn_img_add_diagonsis= findViewById(R.id.btn_img_add_diagonsis);
+        btn_img_add_diagonsis = findViewById(R.id.btn_img_add_diagonsis);
         btn_img_add_diagonsis.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
                 // TODO Auto-generated method stub
-                Intent intent=new Intent(TalkMsgActivity.this,AddDiagnosisActivity.class);
-               startActivity(intent);
+                Intent intent = new Intent(TalkMsgActivity.this, AddDiagnosisActivity.class);
+                intent.putExtra("admId", admInfo.admId);
+                startActivityForResult(intent, 101);
             }
         });
         ll_talk = findViewById(R.id.ll_talk);
         chat_status = (TextView) findViewById(R.id.chat_status);
-        IoService = new Intent(this, SocketService.class);
-        startService(IoService);
+        tv_stopserver = (TextView) findViewById(R.id.tv_stopserver);
+        tv_stopserver.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                  if("0".equals(admInfo.chatStatus)){
+                      updatechatstatus("1");
+                  }else if("1".equals(admInfo.chatStatus)){
+                      updatechatstatus("2");
+                  }
+            }
+        });
+        tv_orderchatstatus = (TextView) findViewById(R.id.tv_orderchatstatus);
         loadData();
+        intiChat();
     }
-
+    //初始化聊天信息
+    public void intiChat(){
+        if("0".equals(admInfo.chatStatus)){//等待咨询
+            if(IoService==null){
+                IoService = new Intent(this, SocketService.class);
+                startService(IoService);
+            }
+            tv_orderchatstatus.setVisibility(View.GONE);
+            tv_stopserver.setVisibility(View.VISIBLE);
+            ll_talk.setVisibility(View.VISIBLE);
+            tv_stopserver.setText("确认服务");
+            if(Validator.isBlank(PreferManager.getValue("sure_noshow"))){
+                ShowMemoDlg dlg=new ShowMemoDlg(this, new ShowMemoDlg.MyCallBack() {
+                    @Override
+                    public void callback(boolean noshow) {
+                        if(noshow){
+                            PreferManager.saveValue("sure_noshow","Y");
+                        }
+                    }
+                });
+                dlg.show();
+            }
+        }else if("1".equals(admInfo.chatStatus)){//咨询中
+            if(IoService==null){
+                IoService = new Intent(this, SocketService.class);
+                startService(IoService);
+            }
+            tv_stopserver.setText("结束服务");
+            tv_orderchatstatus.setVisibility(View.GONE);
+            tv_stopserver.setVisibility(View.VISIBLE);
+            ll_talk.setVisibility(View.VISIBLE);
+        }else{
+            if(IoService!=null){
+                stopService(IoService);
+                IoService=null;
+            }
+            tv_orderchatstatus.setVisibility(View.VISIBLE);
+            tv_stopserver.setVisibility(View.GONE);
+            ll_talk.setVisibility(View.GONE);
+            chat_status.setVisibility(View.GONE);
+        }
+    }
     public synchronized void loadData() {
         data_list.clear();
-        PatTemplate patTemplate=new PatTemplate(admInfo.admId, admInfo.patientAge, admInfo.patientSex, admInfo.patientName);
-        data_list.add(new MessageInfo("template", userfriend.friendUsername,userfriend.ownerUsername,DateUtil.getNowTimeMillis(),new Gson().toJson(patTemplate) ,1,1));
+        PatTemplate patTemplate = new PatTemplate(admInfo.admId, admInfo.patientAge, admInfo.patientSex, admInfo.patientName);
+        data_list.add(new MessageInfo("template", userfriend.friendUsername, userfriend.ownerUsername, DateUtil.getNowTimeMillis(), new Gson().toJson(patTemplate), 1, 1));
         data_list.addAll(LitePal.limit(50).where("(fromUser=? and toUser=?) or (fromUser=? and toUser=?)", userfriend.ownerUsername, userfriend.friendUsername, userfriend.friendUsername, userfriend.ownerUsername).order("timeStamp asc").find(MessageInfo.class));
         Log.d("msg", "获取消息记录：" + data_list.size());
+        Log.d("msg",new Gson().toJson(data_list) );
         ta.notifyDataSetChanged();
         list_data.setSelection(data_list.size() - 1);
     }
 
+    public void sendTemplateData(final String content, final int templateId) {
 
-    public void sendTxtData() {
-        final String content = et_msg.getText() == null ? "" : et_msg
-                .getText().toString();
-        if (Validator.isBlank(content)) {
-            showToast("请输入内容");
-            return;
-        }
-        et_msg.setText("");
 
         new Thread() {
             public void run() {
                 try {
                     JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("messageType", "txt");
+                    jsonObject.put("messageType", "template");
                     jsonObject.put("toUser", userfriend.friendUsername);
-                    jsonObject.put("fromUser", Const.loginInfo.userCode);
+                    jsonObject.put("fromUser",userfriend.ownerUsername);
                     jsonObject.put("appId", ImConst.appId);
                     jsonObject.put("content", content);
-                    //jsonObject.put( "contactId", userfriend.id);
-                    final MessageInfo messageInfo = new MessageInfo("txt", content, Const.loginInfo.userCode, userfriend.friendUsername, DateUtil.getNowTimeMillis(), "", "");
+                    jsonObject.put("templateId", templateId);
+                    jsonObject.put( "extend","D");
+                    final MessageInfo messageInfo = new MessageInfo("template", userfriend.ownerUsername, userfriend.friendUsername, DateUtil.getNowTimeMillis(), content, templateId, 0);
                     messageInfo.save();
                     data_list.add(messageInfo);
                     runOnUiThread(new Runnable() {
@@ -272,6 +326,102 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
         }.start();
     }
 
+    public void sendTxtData() {
+        final String content = et_msg.getText() == null ? "" : et_msg
+                .getText().toString();
+        if (Validator.isBlank(content)) {
+            showToast("请输入内容");
+            return;
+        }
+        et_msg.setText("");
+
+        new Thread() {
+            public void run() {
+                try {
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("messageType", "txt");
+                    jsonObject.put("toUser", userfriend.friendUsername);
+                    jsonObject.put("fromUser", userfriend.ownerUsername);
+                    jsonObject.put("appId", ImConst.appId);
+                    jsonObject.put("content", content);
+                    jsonObject.put( "extend","D");
+                    final MessageInfo messageInfo = new MessageInfo("txt", content, userfriend.ownerUsername, userfriend.friendUsername, DateUtil.getNowTimeMillis(), "", "");
+                    messageInfo.save();
+                    data_list.add(messageInfo);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ta.notifyDataSetChanged();
+                        }
+                    });
+                    ImConst.mSocket.emit("chat", jsonObject, new Ack() {
+                        @Override
+                        public void call(Object... args) {
+                            messageInfo.delete();
+                            Log.d("msg", "" + args.length);
+                            MessageInfo mi = new Gson().fromJson(args[0].toString(), MessageInfo.class);
+                            mi.setSended(1);
+                            mi.save();
+                            data_list.add(mi);
+                            data_list.remove(messageInfo);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    ta.notifyDataSetChanged();
+                                    list_data.setSelection(data_list.size() - 1);
+                                }
+                            });
+
+                        }
+                    });
+                } catch (Exception e) {
+                    Log.d("msg", "发送异常");
+                    e.printStackTrace();
+                    dismissProgress();
+                }
+            }
+
+            ;
+        }.start();
+    }
+
+
+    public void sendFinishText(){
+        new Thread() {
+            public void run() {
+                try {
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("toUser", userfriend.friendUsername);
+                    jsonObject.put("fromUser", userfriend.ownerUsername);
+                    jsonObject.put("appId", ImConst.appId);
+                    jsonObject.put( "extend","D");
+                    jsonObject.put("messageType", "system");
+                    jsonObject.put("content", "问诊已结束");
+                    ImConst.mSocket.emit("chatFinish", jsonObject, new Ack() {
+                        @Override
+                        public void call(Object... args) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    intiChat();
+                                }
+                            });
+
+                        }
+                    });
+                } catch (Exception e) {
+                    Log.d("msg", "发送异常");
+                    e.printStackTrace();
+                    dismissProgress();
+                }
+            }
+
+            ;
+        }.start();
+
+    }
+
+
     @Override
     protected void onCaptureComplete(File captureFile) {
         if (captureFile != null) {
@@ -289,16 +439,16 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("messageType", messageType);
                     jsonObject.put("toUser", userfriend.friendUsername);
-                    jsonObject.put("fromUser", Const.loginInfo.userCode);
+                    jsonObject.put("fromUser", userfriend.ownerUsername);
                     jsonObject.put("appId", ImConst.appId);
                     jsonObject.put("fileName", file.getName());
-                    //jsonObject.put( "contactId", userfriend.id);
+                    jsonObject.put( "extend","D");
                     jsonObject.put("fileData", FileDataUtil.getBytesFromFile(file));
                     if (messageType.equals("audio")) {
                         jsonObject.put("duration", "20");
                         jsonObject.put("size", "2048");
                     }
-                    final MessageInfo messageInfo = new MessageInfo(messageType, "", Const.loginInfo.userCode, userfriend.friendUsername, DateUtil.getNowTimeMillis(), path, path);
+                    final MessageInfo messageInfo = new MessageInfo(messageType, "", userfriend.ownerUsername, userfriend.friendUsername, DateUtil.getNowTimeMillis(), path, path);
                     messageInfo.save();
                     data_list.add(messageInfo);
                     runOnUiThread(new Runnable() {
@@ -353,7 +503,7 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
         public void onReceive(Context context, Intent intent) {
             // TODO Auto-generated method stub
             if (intent.getAction().equals(action)) {
-               loadData();
+                loadData();
             } else if (intent.getAction().equals(login_action)) {
                 final boolean login = intent.getBooleanExtra("login", false);
                 runOnUiThread(new Runnable() {
@@ -386,7 +536,11 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
                             chat_status.setText("连接建立成功");
                         } else {
                             isonline = false;
-                            chat_status.setText("连接失败，请检查网络");
+                            if("2".equals(admInfo.chatStatus)){
+                                chat_status.setText("服务已结束");
+                            }else{
+                                chat_status.setText("连接失败，请检查网络");
+                            }
                         }
                     }
                 });
@@ -402,10 +556,54 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
         for (int i = 0; i < offlist.size(); i++) {
             if (offlist.get(i).messageType.equals("txt")) {
                 sendTxtData(offlist.get(i));
+            } else if (offlist.get(i).messageType.equals("template")) {
+                sendTemplateData(offlist.get(i));
             } else {
                 savefile(offlist.get(i));
             }
         }
+    }
+
+
+    public void sendTemplateData(final MessageInfo messageInfo) {
+
+        new Thread() {
+            public void run() {
+                try {
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("messageType", messageInfo.messageType);
+                    jsonObject.put("toUser", messageInfo.toUser);
+                    jsonObject.put("fromUser", messageInfo.fromUser);
+                    jsonObject.put("appId", ImConst.appId);
+                    jsonObject.put("content", messageInfo.content);
+                    jsonObject.put("templateId", messageInfo.templateId);
+                    jsonObject.put( "extend","D");
+                    ImConst.mSocket.emit("chat", jsonObject, new Ack() {
+                        @Override
+                        public void call(Object... args) {
+                            messageInfo.delete();
+                            MessageInfo mi = new Gson().fromJson(args[0].toString(), MessageInfo.class);
+                            mi.setSended(1);
+                            mi.save();
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    loadData();
+                                    sendOffLineMsg();
+                                }
+                            });
+
+                        }
+                    });
+                } catch (Exception e) {
+                    Log.d("msg", "发送异常");
+                    e.printStackTrace();
+                    dismissProgress();
+                }
+            }
+
+            ;
+        }.start();
     }
 
     public void sendTxtData(final MessageInfo messageInfo) {
@@ -419,7 +617,7 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
                     jsonObject.put("fromUser", messageInfo.fromUser);
                     jsonObject.put("appId", ImConst.appId);
                     jsonObject.put("content", messageInfo.content);
-                    //jsonObject.put( "contactId", userfriend.id);
+                    jsonObject.put( "extend","D");
                     ImConst.mSocket.emit("chat", jsonObject, new Ack() {
                         @Override
                         public void call(Object... args) {
@@ -460,7 +658,7 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
                     jsonObject.put("fromUser", messageInfo.fromUser);
                     jsonObject.put("appId", ImConst.appId);
                     jsonObject.put("fileName", file.getName());
-                    //jsonObject.put( "contactId", userfriend.id);
+                    jsonObject.put( "extend","D");
                     jsonObject.put("fileData", FileDataUtil.getBytesFromFile(file));
                     if (messageInfo.messageType.equals("audio")) {
                         jsonObject.put("duration", "20");
@@ -516,37 +714,94 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        stopService(IoService);
+        if(IoService!=null){
+            Log.d("msg", "结束聊天服务");
+            stopService(IoService);
+        }
         unregisterReceiver(reciver);
     }
 
-    public void loadPatinfo(){
-            showProgress();
-            new Thread() {
-                PatientInfo patientInfo;
-                public void run() {
-                    try {
-                       patientInfo= BusyManager.loadPatientInfo(Const.loginInfo.userCode, admInfo.admId);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            dismissProgress();
-                            if(patientInfo!=null){
-                                Const.curPat=patientInfo;
-                                Const.curSRecorder=null;
-                                Const.SRecorderList=null;
-                                Intent intent=new Intent(TalkMsgActivity.this, WardRoundActivity.class);
-                                intent.putExtra("title", "患者资料");
-                                startActivity(intent);
-                            }else {
-                                showToast("获取患者信息失败");
+    public void updatechatstatus(final String chatStatus) {
+        showProgress();
+        new Thread() {
+            String msg = "";
+            BaseBean baseBean;
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    baseBean = AdmManager.updatechatstatus(Const.DeviceId, Const.loginInfo.userCode, admInfo.admId,chatStatus);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    msg = e.getMessage();
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        dismissProgress();
+                        if (baseBean!=null&&baseBean.getResultCode().equals("0")) {
+                            if("1".equals(chatStatus)){//结束服务，并
+                                msg = "服务已确认";
+                                admInfo.chatStatus=chatStatus;
+                                intiChat();
+                            }else{
+                                msg = "服务已结束";
+                                admInfo.chatStatus=chatStatus;
+                                sendFinishText();
+                            }
+                        } else {
+                            if(baseBean!=null){
+                                msg = baseBean.getResultDesc();
                             }
                         }
-                    });
-                };
-            }.start();
+                        showToast(msg);
+                    }
+                });
+            }
+        }.start();
+    }
+
+
+    public void loadPatinfo() {
+        showProgress();
+        new Thread() {
+            PatientInfo patientInfo;
+
+            public void run() {
+                try {
+                    patientInfo = BusyManager.loadPatientInfo(Const.loginInfo.userCode, admInfo.admId);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        dismissProgress();
+                        if (patientInfo != null) {
+                            Const.curPat = patientInfo;
+                            Const.curSRecorder = null;
+                            Const.SRecorderList = null;
+                            Intent intent = new Intent(TalkMsgActivity.this, WardRoundActivity.class);
+                            intent.putExtra("title", "患者资料");
+                            startActivity(intent);
+                        } else {
+                            showToast("获取患者信息失败");
+                        }
+                    }
+                });
+            }
+
+            ;
+        }.start();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("msg", requestCode + "   " + resultCode);
+        if (requestCode == 101 && resultCode == 100) {
+            DoctorTemplate patTemplate = new DoctorTemplate(admInfo.admId, admInfo.doctorName, admInfo.doctorTitle, admInfo.departmentName);
+            sendTemplateData(new Gson().toJson(patTemplate), 2);
+        }
     }
 }

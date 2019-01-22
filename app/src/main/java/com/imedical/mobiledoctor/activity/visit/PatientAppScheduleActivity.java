@@ -116,10 +116,10 @@ public class PatientAppScheduleActivity extends BaseActivity {
             tv_age.setText(list_data.get(i).age+"岁");
 
             TextView tv_admitTimeRange=(TextView)view.findViewById(R.id.tv_admitTimeRange);
-            tv_admitTimeRange.setText("就诊时间段："+list_data.get(i).admitTimeRange);
+            tv_admitTimeRange.setText(list_data.get(i).admitTimeRange);
 
             TextView tv_seqCode=(TextView)view.findViewById(R.id.tv_seqCode);
-            tv_seqCode.setText("排队号："+list_data.get(i).seqCode);
+            tv_seqCode.setText(list_data.get(i).seqCode);
 
             ImageView iv_sex=(ImageView)view.findViewById(R.id.iv_sex);
             if(list_data.get(i).sex.equals("女")){

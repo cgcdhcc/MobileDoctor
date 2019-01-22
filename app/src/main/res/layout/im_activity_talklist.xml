@@ -30,7 +30,18 @@
             android:singleLine="true"
             android:text="张三"
             android:textColor="@color/text_base"
-            android:textSize="@dimen/font_18dp"
+            android:textSize="@dimen/font_16dp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/tv_stopserver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:padding="5dp"
+            android:singleLine="true"
+            android:text="结束服务"
+            android:textColor="@color/basecolor"
+            android:textSize="@dimen/font_16dp"
             android:textStyle="bold" />
     </FrameLayout>
 
@@ -82,7 +93,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
                 android:padding="10dp"
-                android:textSize="@dimen/font_16dp"
+                android:textSize="@dimen/font_14dp"
                 android:textColor="@color/text_base"
                 android:background="@drawable/round_edittxt"
                 android:maxLength="250" />
@@ -122,9 +133,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="10dp">
+            android:layout_marginTop="10dp">
 
             <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/btn_img_voice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -134,7 +146,7 @@
 
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
+                    android:layout_height="25dp"
                     android:adjustViewBounds="true"
                     android:scaleType="fitXY"
                     android:src="@drawable/icon_im_voice" />
@@ -144,15 +156,12 @@
                     android:layout_height="wrap_content"
                     android:text="语音"
                     android:textColor="@color/text_grayblack"
-                    android:textSize="@dimen/font_16dp" />
+                    android:textSize="@dimen/font_14dp" />
             </LinearLayout>
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1" />
 
             <LinearLayout
+                android:layout_marginLeft="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -161,7 +170,7 @@
 
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
+                    android:layout_height="25dp"
                     android:adjustViewBounds="true"
                     android:scaleType="fitXY"
                     android:src="@drawable/icon_im_photo" />
@@ -171,7 +180,7 @@
                     android:layout_height="wrap_content"
                     android:text="图片"
                     android:textColor="@color/text_grayblack"
-                    android:textSize="@dimen/font_16dp" />
+                    android:textSize="@dimen/font_14dp" />
             </LinearLayout>
 
             <View
@@ -189,7 +198,7 @@
                 <ImageView
 
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
+                    android:layout_height="25dp"
                     android:adjustViewBounds="true"
                     android:scaleType="fitXY"
                     android:src="@drawable/icon_im_patientinfo" />
@@ -199,7 +208,7 @@
                     android:layout_height="wrap_content"
                     android:text="电子病历"
                     android:textColor="@color/text_grayblack"
-                    android:textSize="@dimen/font_16dp" />
+                    android:textSize="@dimen/font_14dp" />
             </LinearLayout>
 
             <View
@@ -218,7 +227,7 @@
                 <ImageView
 
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
+                    android:layout_height="25dp"
                     android:adjustViewBounds="true"
                     android:scaleType="fitXY"
                     android:src="@drawable/icon_add_diagonsis" />
@@ -228,11 +237,22 @@
                     android:layout_height="wrap_content"
                     android:text="治疗建议"
                     android:textColor="@color/text_grayblack"
-                    android:textSize="@dimen/font_16dp" />
+                    android:textSize="@dimen/font_14dp" />
             </LinearLayout>
 
         </LinearLayout>
 
     </LinearLayout>
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/tv_orderchatstatus"
+        android:background="@color/white"
+        android:gravity="center"
+        android:padding="20dp"
+        android:textSize="@dimen/font_16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/text_grayblack"
+        android:text="服务已结束，聊天已自动关闭"/>
 
 </LinearLayout>

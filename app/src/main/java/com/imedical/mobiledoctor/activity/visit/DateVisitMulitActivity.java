@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -21,8 +22,10 @@ import com.imedical.mobiledoctor.XMLservice.DateOrderManager;
 import com.imedical.mobiledoctor.base.BaseActivity;
 import com.imedical.mobiledoctor.entity.dateorder.DoctorSchedule;
 import com.imedical.mobiledoctor.entity.dateorder.OrderRegData;
+import com.imedical.mobiledoctor.entity.dateorder.ScheduleState;
 import com.imedical.mobiledoctor.entity.dateorder.TimeRange;
 import com.imedical.mobiledoctor.util.DateUtil;
+import com.imedical.mobiledoctor.widget.OrderRegCalendarView;
 
 import org.joda.time.LocalDate;
 
@@ -32,12 +35,13 @@ import java.util.List;
 
 public class DateVisitMulitActivity extends BaseActivity {
 	private String startDate, endDate;
-    private CollapseCalendarView mCalendarView;
+    private OrderRegCalendarView mCalendarView;
 	private LayoutInflater mInflater;
 	private String nowDate;
 	private TextView tv_newsche;
 	private CalendarManager manager;
     private List<DoctorSchedule> list_data=new ArrayList<>();
+	private List<ScheduleState> scheduleStates=new ArrayList<>();
     private ScheduleAdapter adapter;
     private ListView lv_data;
     @Override
@@ -53,28 +57,32 @@ public class DateVisitMulitActivity extends BaseActivity {
 
 			@Override
 			public void onClick(View v) {
-				Intent i=new Intent(DateVisitMulitActivity.this, SetDoctorScheduleActivity.class);
-				i.putExtra("scheduleDate", nowDate);
-				startActivity(i);
+				Intent intent=new Intent(DateVisitMulitActivity.this, SetDoctorScheduleActivity.class);
+				intent.putExtra("scheduleDate", nowDate);
+				startActivityForResult(intent,101);
 			}
 		});
         manager = new CalendarManager(LocalDate.now(), CalendarManager.State.MONTH, LocalDate.now().plusYears(-1), LocalDate.now().plusYears(1));
-        mCalendarView = (CollapseCalendarView) findViewById(R.id.calendar);
+        mCalendarView = (OrderRegCalendarView) findViewById(R.id.calendar);
+		mCalendarView.setActivity(this);
 		mCalendarView.setListener(new CollapseCalendarView.OnDateSelect() {
 
 			@Override
 			public void onMonthChange(LocalDate fromDate, LocalDate toDate) {
+				startDate = fromDate.toString();
+				endDate = toDate.toString();
+				BIZ_CODE_GetScheduleListState(startDate,endDate);
 			}
 
 			@Override
 			public void onDateSelected(LocalDate date, Boolean isToday) {
 				nowDate=date.toString();
-				if(nowDate.equals(DateUtil.getDateToday(null))){//今天
-					lv_data.setVisibility(View.VISIBLE);
-					GetDoctorSchedule();
+				if(DateUtil.isBeforeToday(nowDate)){
+                    tv_newsche.setVisibility(View.GONE);
 				}else{
-					lv_data.setVisibility(View.GONE);
+					tv_newsche.setVisibility(View.VISIBLE);
 				}
+				GetDoctorSchedule();
 			}
 		});
 		adapter=new ScheduleAdapter();
@@ -83,9 +91,11 @@ public class DateVisitMulitActivity extends BaseActivity {
 		lv_data.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-				Intent intent=new Intent(DateVisitMulitActivity.this,UpdateDoctorScheduleActivity.class);
-				intent.putExtra("doctorSchedule",list_data.get(i) );
-				startActivity(intent);
+				if(!DateUtil.isBeforeToday(nowDate)){
+					Intent intent=new Intent(DateVisitMulitActivity.this,UpdateDoctorScheduleActivity.class);
+					intent.putExtra("doctorSchedule",list_data.get(i) );
+					startActivityForResult(intent,101);
+				}
 			}
 		});
         if(Const.loginInfo!=null)
@@ -93,6 +103,42 @@ public class DateVisitMulitActivity extends BaseActivity {
         	mCalendarView.init(manager);
         }
     }
+
+	public void BIZ_CODE_GetScheduleListState(final String startDate,final String endDate) {
+		showProgress();
+		new Thread() {
+			List<ScheduleState> list;
+			String msg = "";
+
+			@Override
+			public void run() {
+				super.run();
+				try {
+					list = DateOrderManager.BIZ_CODE_GetScheduleListState( Const.DeviceId,Const.loginInfo.userCode,startDate,endDate,"T");
+				} catch (Exception e) {
+					e.printStackTrace();
+					msg = e.getMessage();
+				}
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						dismissProgress();
+						scheduleStates.clear();
+						if (list != null) {
+							scheduleStates.addAll(list);
+						} else {
+							showToast(msg);
+						}
+						HashMap<String, Object> extraData = new HashMap<String, Object>();
+						extraData.put("extraData", list);
+						mCalendarView.getManager().setExtraData(extraData);
+						mCalendarView.refreshView();
+					}
+				});
+			}
+		}.start();
+	}
+
 
 	public void GetDoctorSchedule() {
 		showProgress();
@@ -104,7 +150,7 @@ public class DateVisitMulitActivity extends BaseActivity {
 			public void run() {
 				super.run();
 				try {
-					list = DateOrderManager.GetDoctorSchedule( Const.DeviceId,Const.loginInfo.userCode);
+					list = DateOrderManager.GetDoctorSchedule( Const.DeviceId,Const.loginInfo.userCode,nowDate);
 				} catch (Exception e) {
 					e.printStackTrace();
 					msg = e.getMessage();
@@ -117,7 +163,7 @@ public class DateVisitMulitActivity extends BaseActivity {
 						if (list != null) {
 							list_data.addAll(list);
 						} else {
-							showToast(msg);
+							//showToast(msg);
 						}
 						adapter.notifyDataSetChanged();
 					}
@@ -163,6 +209,12 @@ public class DateVisitMulitActivity extends BaseActivity {
 				tv_status.setText("已挂号数/剩余可挂号数");
 				tv_status.setTextColor(getResources().getColor(R.color.text_grayblack));
 			}
+			ImageView iv_status=view.findViewById(R.id.iv_status);
+			if(DateUtil.isBeforeToday(nowDate)){
+				iv_status.setVisibility(View.GONE);
+			}else{
+				iv_status.setVisibility(View.VISIBLE);
+			}
 			return view;
 		}
 
@@ -176,4 +228,12 @@ public class DateVisitMulitActivity extends BaseActivity {
 		super.onResume();
 	}
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if(100==resultCode){
+			BIZ_CODE_GetScheduleListState(startDate,endDate);
+			GetDoctorSchedule();
+		}
+	}
 }

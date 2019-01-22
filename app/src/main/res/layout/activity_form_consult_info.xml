@@ -36,7 +36,7 @@
                         android:layout_height="wrap_content"
                         android:text="患者姓名："
                         android:textColor="@color/text_gray"
-                        android:textSize="@dimen/font_16dp" />
+                        android:textSize="@dimen/font_14dp" />
 
                     <TextView
                         android:id="@+id/tv_patName"
@@ -45,14 +45,14 @@
                         android:layout_weight="1"
                         android:background="@null"
                         android:textColor="@color/text_base"
-                        android:textSize="@dimen/font_16dp" />
+                        android:textSize="@dimen/font_14dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="病房床号："
                         android:textColor="@color/text_gray"
-                        android:textSize="@dimen/font_16dp" />
+                        android:textSize="@dimen/font_14dp" />
 
                     <TextView
                         android:id="@+id/tv_patBed"
@@ -80,7 +80,7 @@
                         android:layout_height="wrap_content"
                         android:text="会诊类型："
                         android:textColor="@color/text_gray"
-                        android:textSize="@dimen/font_16dp" />
+                        android:textSize="@dimen/font_14dp" />
 
                     <TextView
                         android:id="@+id/tv_type"
@@ -88,14 +88,14 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:textColor="@color/text_base"
-                        android:textSize="@dimen/font_16dp" />
+                        android:textSize="@dimen/font_14dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="院内院外："
                         android:textColor="@color/text_gray"
-                        android:textSize="@dimen/font_16dp" />
+                        android:textSize="@dimen/font_14dp" />
 
                     <TextView
                         android:id="@+id/tv_inOut"
@@ -103,7 +103,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:textColor="@color/text_base"
-                        android:textSize="@dimen/font_16dp" />
+                        android:textSize="@dimen/font_14dp" />
                 </LinearLayout>
 
                 <TextView
@@ -123,7 +123,7 @@
                         android:layout_height="wrap_content"
                         android:text="申请科室："
                         android:textColor="@color/text_gray"
-                        android:textSize="@dimen/font_16dp" />
+                        android:textSize="@dimen/font_14dp" />
 
                     <TextView
                         android:id="@+id/tv_appLoc"
@@ -132,14 +132,14 @@
                         android:layout_weight="1"
                         android:text="未知"
                         android:textColor="@color/text_base"
-                        android:textSize="@dimen/font_16dp" />
+                        android:textSize="@dimen/font_14dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="申请医生："
                         android:textColor="@color/text_gray"
-                        android:textSize="@dimen/font_16dp" />
+                        android:textSize="@dimen/font_14dp" />
 
                     <TextView
                         android:id="@+id/tv_appDoc"
@@ -147,7 +147,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:textColor="@color/text_base"
-                        android:textSize="@dimen/font_16dp" />
+                        android:textSize="@dimen/font_14dp" />
 
                 </LinearLayout>
 
@@ -168,7 +168,7 @@
                         android:layout_height="wrap_content"
                         android:text="申请时间："
                         android:textColor="@color/text_gray"
-                        android:textSize="@dimen/font_16dp" />
+                        android:textSize="@dimen/font_14dp" />
 
                     <TextView
                         android:id="@+id/tv_appDateTime"
@@ -177,7 +177,7 @@
                         android:layout_weight="1"
                         android:text="未知"
                         android:textColor="@color/text_base"
-                        android:textSize="@dimen/font_16dp" />
+                        android:textSize="@dimen/font_14dp" />
                 </LinearLayout>
                 <TextView
                     android:layout_width="match_parent"
@@ -186,7 +186,7 @@
                     android:paddingBottom="5dp"
                     android:text="简要病历、会诊目的："
                     android:textColor="@color/text_gray"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/font_14dp" />
 
                 <TextView
                     android:id="@+id/tv_intent"
@@ -195,7 +195,7 @@
                     android:paddingTop="5dp"
                     android:paddingBottom="10dp"
                     android:textColor="@color/text_base"
-                    android:textSize="@dimen/font_16dp" />
+                    android:textSize="@dimen/font_14dp" />
 
                 <TextView
                     android:layout_width="fill_parent"
@@ -215,7 +215,7 @@
                         android:layout_height="wrap_content"
                         android:text="主要诊断："
                         android:textColor="@color/text_gray"
-                        android:textSize="@dimen/font_16dp" />
+                        android:textSize="@dimen/font_14dp" />
 
                     <TextView
                         android:id="@+id/tv_mainDiag"
@@ -224,7 +224,7 @@
                         android:layout_weight="1"
                         android:singleLine="true"
                         android:textColor="@color/text_base"
-                        android:textSize="16sp" />
+                        android:textSize="@dimen/font_14dp" />
                 </LinearLayout>
                 <TextView
                     android:layout_width="wrap_content"
@@ -233,7 +233,7 @@
                     android:paddingBottom="5dp"
                     android:text="临床申请使用："
                     android:textColor="@color/text_gray"
-                    android:textSize="@dimen/font_16dp" />
+                    android:textSize="@dimen/font_14dp" />
                 <TextView
                     android:id="@+id/tv_appArcim"
                     android:layout_width="match_parent"
@@ -241,7 +241,7 @@
                     android:paddingTop="5dp"
                     android:paddingBottom="10dp"
                     android:textColor="@color/text_base"
-                    android:textSize="@dimen/font_16dp" />
+                    android:textSize="@dimen/font_14dp" />
             </LinearLayout>
 
             <View
@@ -259,7 +259,7 @@
                     android:layout_height="wrap_content"
                     android:text="会诊意见："
                     android:textColor="@color/text_gray"
-                    android:textSize="@dimen/font_16dp" />
+                    android:textSize="@dimen/font_14dp" />
 
                 <LinearLayout
                     android:layout_width="fill_parent"
@@ -277,7 +277,7 @@
                         android:minLines="3"
                         android:padding="5dp"
                         android:textColor="@color/text_base"
-                        android:textSize="@dimen/font_16dp" />
+                        android:textSize="@dimen/font_14dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -292,13 +292,13 @@
                         android:layout_height="wrap_content"
                         android:text="医生意见："
                         android:textColor="@color/text_gray"
-                        android:textSize="@dimen/font_16dp" />
+                        android:textSize="@dimen/font_14dp" />
 
                    <CheckBox
                        android:layout_marginLeft="10dp"
                        android:text="同意"
                        android:textColor="@color/text_base"
-                       android:textSize="@dimen/font_16dp"
+                       android:textSize="@dimen/font_14dp"
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:id="@+id/cb_agree"
@@ -307,7 +307,7 @@
                         android:layout_marginLeft="10dp"
                         android:text="拒绝"
                         android:textColor="@color/text_base"
-                        android:textSize="@dimen/font_16dp"
+                        android:textSize="@dimen/font_14dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/cb_refuse"/>
@@ -330,7 +330,7 @@
                         android:paddingTop="5dp"
                         android:text="更新会诊意见"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/font_16dp"
+                        android:textSize="@dimen/font_14dp"
                         android:visibility="gone"
                         />
 
@@ -344,7 +344,7 @@
                         android:paddingRight="12dp"
                         android:text="会诊记录计费"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/font_16dp"
+                        android:textSize="@dimen/font_14dp"
                         android:visibility="gone" />
                 </LinearLayout>
             </LinearLayout>

@@ -40,7 +40,7 @@
             android:minEms="8"
             android:text="医师信息"
             android:textColor="@color/text_grayblack"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tv_appDocName"
@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:text="未知"
             android:textColor="@color/text_base"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
     </LinearLayout>
 
@@ -74,7 +74,7 @@
                 android:gravity="center"
                 android:text="*"
                 android:textColor="@color/gms_red"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -82,7 +82,7 @@
                 android:minEms="8"
                 android:text="感染部位"
                 android:textColor="@color/text_grayblack"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/tv_bodyDesc"
@@ -90,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:text="未知"
                 android:textColor="@color/text_base"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
         </LinearLayout>
 
@@ -113,7 +113,7 @@
                 android:gravity="center"
                 android:text="*"
                 android:textColor="@color/gms_red"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -121,7 +121,7 @@
                 android:minEms="8"
                 android:text="病原学送检"
                 android:textColor="@color/text_grayblack"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/tv_submiteFlag"
@@ -129,7 +129,7 @@
                 android:layout_height="wrap_content"
                 android:text="未知"
                 android:textColor="@color/text_base"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
         </LinearLayout>
 
@@ -152,7 +152,7 @@
                 android:gravity="center"
                 android:text="*"
                 android:textColor="@color/gms_red"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/mudi"
@@ -161,7 +161,7 @@
                 android:minEms="8"
                 android:text="使用目的"
                 android:textColor="@color/text_grayblack"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
 
             <TextView
@@ -170,7 +170,7 @@
                 android:layout_height="wrap_content"
                 android:text="未知"
                 android:textColor="@color/text_base"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
         </LinearLayout>
 
@@ -192,7 +192,7 @@
                 android:text="*"
                 android:gravity="center"
                 android:textColor="@color/gms_red"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
             <TextView
                 android:id="@+id/tezheng"
                 android:layout_width="wrap_content"
@@ -200,14 +200,14 @@
                 android:text="特征"
                 android:minEms="8"
                 android:textColor="@color/text_grayblack"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
             <TextView
                 android:id="@+id/tv_indicateDesc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/text_base"
                 android:text="未知"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
         </LinearLayout>
 
@@ -232,7 +232,7 @@
                 android:minEms="8"
                 android:text="其它原因"
                 android:textColor="@color/text_grayblack"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/tv_otherCause"
@@ -240,7 +240,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/text_base"
                 android:text="未知"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
         </LinearLayout>
 
@@ -264,7 +264,7 @@
                 android:layout_height="wrap_content"
                 android:text="预防用药时间"
                 android:textColor="@color/text_grayblack"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/tv_opTimeDesc"
@@ -272,7 +272,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/text_base"
                 android:text="未知"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
         </LinearLayout>
     </LinearLayout>

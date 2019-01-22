@@ -12,13 +12,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="10dp"
+            android:padding="5dp"
+            android:gravity="center_vertical"
             android:background="@color/white">
 
             <ImageButton
                 android:id="@+id/prev"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="20dp"
                 style="?android:borderlessButtonStyle"
                 android:tint="@color/bg_commom"
                 android:src="@drawable/calendar_prev_arrow"
@@ -49,7 +50,7 @@
             <ImageButton
                 android:id="@+id/next"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="20dp"
                 android:tint="@color/bg_commom"
                 style="?android:borderlessButtonStyle"
                 android:src="@drawable/calendar_next_arrow"
@@ -65,7 +66,6 @@
             android:background="@color/blue_dark"
             android:textColor="@android:color/white"
             android:textSize="20sp"
-            android:minHeight="48dp"
             android:gravity="center"
             android:singleLine="true"
             android:visibility="gone"/>
@@ -76,7 +76,8 @@
         android:id="@+id/days"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal">
 
         <TextView

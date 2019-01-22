@@ -2,12 +2,14 @@ package com.imedical.im.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.imedical.im.entity.AdmInfo;
@@ -25,7 +27,7 @@ public class AdmInfoActivity extends BaseActivity {
     public TextView tv_patientName, tv_patientAge, tv_patientCard, tv_patientId, tv_doctorName, tv_departmentName, tv_doctorTitle, tv_patientContent;
     public TextView tv_complaintStr_Item1, tv_complaintStr_Item2, tv_complaintStr_Item3, tv_complaintStr_Item4, tv_complaintStr_Item5;
     public GridView gv_img;
-
+    public int mScreenWidth;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +39,8 @@ public class AdmInfoActivity extends BaseActivity {
     }
 
     public void intiView() {
+        Display display = getWindowManager().getDefaultDisplay();
+        mScreenWidth = display.getWidth();
         tv_patientName = findViewById(R.id.tv_patientName);
         tv_patientAge = findViewById(R.id.tv_patientAge);
         tv_patientCard = findViewById(R.id.tv_patientCard);
@@ -165,6 +169,9 @@ public class AdmInfoActivity extends BaseActivity {
         public View getView(int i, View view, ViewGroup viewGroup) {
             view = getLayoutInflater().inflate(R.layout.item_common_img, null);
             ImageView iv_img = view.findViewById(R.id.iv_img);
+            ViewGroup.LayoutParams para = iv_img.getLayoutParams();
+            para.height = (mScreenWidth-30)/3;
+            iv_img.setLayoutParams(para);
             DownloadUtil.loadImage(iv_img, Const.IMG_URL+ imgpaths[i], R.drawable.icon, R.drawable.icon, R.drawable.icon);
             return view;
         }

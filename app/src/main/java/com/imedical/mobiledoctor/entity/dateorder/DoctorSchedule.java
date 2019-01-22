@@ -14,5 +14,5 @@ public class DoctorSchedule implements Serializable {
     public String sessionTypeDesc;//>出诊类型</sessionTypeDesc>
     public String doctorAlias;//>出诊号别</doctorAlias>
     public String scheduleId;//>排班记录Id </scheduleId>
-
+    public String visitType;//出诊类型图文T/视频V
 }

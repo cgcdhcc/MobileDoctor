@@ -29,6 +29,15 @@ public class DateUtil {
             return false;
         }
     }
+    public static boolean isBeforeToday(String date) {
+        Calendar time1 = DateTimePickDialogUtil.getCalendarByInintData(date, "yyyy-MM-dd");
+        Calendar time2 = DateTimePickDialogUtil.getCalendarByInintData(getDateToday(null), "yyyy-MM-dd");
+        if (time1.compareTo(time2) < 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     public static int getDatediff(String dateStr1,String dateStr2) {
 //        String dateStr1 = tv_startDate.getText().toString();
 //        String dateStr2 = tv_endDate.getText().toString();
@@ -53,6 +62,12 @@ public class DateUtil {
         String dateString = formatter.format(currentTime);
         return dateString;
     }
+
+    public static long CountDistance(String startTime,String endTime) {
+        long count=Long.parseLong(endTime)-Long.parseLong(startTime);
+        return count;
+    }
+
 
     public static String getNowTimeMillis(){
         return System.currentTimeMillis()+"";

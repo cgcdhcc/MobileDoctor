@@ -8,8 +8,9 @@
     android:padding="10dp">
 
     <ImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:id="@+id/iv_head"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:scaleType="fitCenter"
         android:adjustViewBounds="true"
         android:src="@drawable/pat_famale"
@@ -30,7 +31,7 @@
                 android:layout_weight="1"
                 android:textColor="@color/text_base"
                 android:textStyle="bold"
-                android:textSize="@dimen/font_16dp"
+                android:textSize="@dimen/font_14dp"
                 android:layout_height="wrap_content"
                 android:text="张三"
                 />
@@ -47,7 +48,7 @@
             android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:textColor="@color/text_grayblack"
-            android:textSize="@dimen/font_16dp"
+            android:textSize="@dimen/font_14dp"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:text="头痛，每天精神都不好，十分疲劳，不知道如何是好"

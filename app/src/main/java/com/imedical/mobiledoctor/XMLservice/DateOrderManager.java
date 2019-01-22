@@ -14,6 +14,7 @@ import com.imedical.mobiledoctor.entity.dateorder.OrderRegData;
 import com.imedical.mobiledoctor.entity.dateorder.OrderRegDetail;
 import com.imedical.mobiledoctor.entity.dateorder.OrderSche;
 import com.imedical.mobiledoctor.entity.dateorder.OrderSureData;
+import com.imedical.mobiledoctor.entity.dateorder.ScheduleState;
 import com.imedical.mobiledoctor.entity.dateorder.TimeRange;
 import com.imedical.mobiledoctor.util.PropertyUtil;
 
@@ -344,6 +345,62 @@ public class DateOrderManager {
         return list;
     }
 
+    //51907    互联网医院排班-获取一段时间的排班状况及预约数
+    /*
+    方法：GetScheduleListInfo
+请求参数：RequestXML
+<Request>
+<terminalId>终端id</terminalId>
+<userCode>用户名</userCode>
+<startDate>开始日期</startDate>
+<endDate>结束日期</endDate>
+</Request>
+
+     */
+    public static  List<ScheduleState>  BIZ_CODE_GetScheduleListState(String terminalId,String userCode,String startDate,String endDate,String visitType)throws Exception{
+        List<ScheduleState> list = null;
+        Map<String, String> parm = new HashMap<String, String>();
+        parm.put("userCode", userCode);
+        parm.put("terminalId", terminalId);
+        parm.put("startDate", startDate);
+        parm.put("endDate", endDate);
+        parm.put("visitType", visitType);
+        String serviceUrl = SettingManager.getServerUrl();
+        String requestXml = PropertyUtil.buildRequestXml(parm);
+        String resultXml = WsApiUtil.loadSoapObject(serviceUrl, Const.BIZ_CODE_GetScheduleListState, requestXml);
+        Log.d("msg:resultXml",resultXml );
+        list = PropertyUtil.parseBeansToList(ScheduleState.class, resultXml);
+        return list;
+    }
+
+
+    /*
+    业务代码：RequestCode
+51906
+类：DWR.BL.InternetConsult
+方法：GetScheduleListInfo
+请求参数：RequestXML
+<Request>
+<terminalId>终端id</terminalId>
+<userCode>用户名</userCode>
+<scheduleDate>排班日期</scheduleDate>
+</Request>
+返回数据集ResultList
+
+     */
+    public static  List<DoctorSchedule> GetDoctorSchedule(String terminalId,String userCode,String scheduleDate) throws Exception {
+        List<DoctorSchedule> list = null;
+        Map<String, String> parm = new HashMap<String, String>();
+        parm.put("userCode", userCode);
+        parm.put("terminalId", terminalId);
+        parm.put("scheduleDate", scheduleDate);
+        String serviceUrl = SettingManager.getServerUrl();
+        String requestXml = PropertyUtil.buildRequestXml(parm);
+        String resultXml = WsApiUtil.loadSoapObject(serviceUrl, Const.BIZ_CODE_GetScheduleListInfo, requestXml);
+        Log.d("msg:resultXml",resultXml );
+        list = PropertyUtil.parseBeansToList(DoctorSchedule.class, resultXml);
+        return list;
+    }
     /*
     获取医生图文咨询出诊信息（图文咨询）
 业务代码：RequestCode
@@ -357,7 +414,7 @@ public class DateOrderManager {
 </Request>
 
      */
-    public static  List<DoctorSchedule> GetDoctorSchedule(String userCode, String terminalId) throws Exception {
+    public static  List<DoctorSchedule> GetDoctorSchedule(String terminalId,String userCode) throws Exception {
         List<DoctorSchedule> list = null;
         Map<String, String> parm = new HashMap<String, String>();
         parm.put("userCode", userCode);
@@ -426,6 +483,7 @@ public class DateOrderManager {
         parm.put("terminalId", terminalId);
         parm.put("userCode", userCode);
         parm.put("regLimit", regLimit);
+        parm.put("scheduleId", scheduleId);
         String serviceUrl = SettingManager.getServerUrl();
         String requestXml = PropertyUtil.buildRequestXml(parm);
         String resultXml = WsApiUtil.loadSoapObject(serviceUrl, Const.BIZ_CODE_UpdateOneSchedule, requestXml);

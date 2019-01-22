@@ -15,6 +15,7 @@ public class userregister {
     public String source=ImConst.source;//": "wx_client",
     public String nickname;//": "龙腾四海",
     public String profile;//": ""
+    public String extend="D";
     public userregister(String username, String password, String nickname){
             this.username=username;
             this.password=password;

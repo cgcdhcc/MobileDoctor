@@ -1,439 +1,481 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
             android:layout_width="match_parent"
-            android:background="@drawable/frg_bg_3"
-            android:layout_height="230dp">
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/headLayout"
-            android:layout_width="fill_parent"
-            android:layout_height="40.5dp"
-            >
-            <ImageView
-                android:id="@+id/iv_scan"
-                android:layout_marginLeft="15dp"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/frg_scan"
-                android:layout_gravity="center"
-                />
-            <TextView
-                android:id="@+id/tv_centerTitle"
-                android:textColor="@color/white"
-                android:textSize="18dp"
-                android:gravity="center"
-                android:text="我的"
-                android:layout_weight="1"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_centerInParent="true"
-                android:singleLine="true" />
-
-            <ImageView
-                android:layout_alignParentRight="true"
-                android:id="@+id/iv_word"
-                android:layout_marginRight="15dp"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/frg_word"
-                android:layout_gravity="center"
-                />
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:paddingTop="40.5dp"
-            android:orientation="horizontal"
-            android:layout_height="wrap_content">
-            <com.imedical.mobiledoctor.widget.CircleImageView
-                android:id="@+id/re_civ_photo"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_gravity="center"
-                android:scaleType="centerCrop"
-                android:src="@drawable/dhead1_icon" />
-            <RelativeLayout
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:id="@+id/tv_name"
-                    android:layout_marginTop="10dp"
-                    android:textSize="26dp"
-                    android:paddingTop="5dp"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:text="东华医生"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_toRightOf="@id/tv_name"
-                    android:layout_alignBottom="@id/tv_name"
-                    android:textSize="@dimen/font_18dp"
-                    android:layout_marginLeft="10dp"
-                    android:padding="5dp"
-                    android:textColor="@color/white"
-                    android:text="欢迎您"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:id="@+id/tv_department"
-                    android:layout_below="@id/tv_name"
-                    android:textSize="@dimen/font_18dp"
-                    android:padding="5dp"
-                    android:textColor="@color/white"
-                    android:text="心电内科"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:id="@+id/tv_title"
-                    android:layout_toRightOf="@id/tv_department"
-                    android:layout_marginLeft="10dp"
-                    android:layout_alignBottom="@id/tv_department"
-                    android:textSize="@dimen/font_18dp"
-                    android:padding="5dp"
-                    android:textColor="@color/white"
-                    android:text="主治医师"
-                    android:layout_height="wrap_content" />
-            </RelativeLayout>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_marginTop="120.5dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:orientation="vertical"
-            android:layout_height="110dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_height="match_parent">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="45"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/font_36dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="服务人次"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/font_14dp" />
-                </LinearLayout>
-                <TextView
-                    android:layout_width="1dp"
-                    android:layout_gravity="center"
-                    android:background="@color/gray"
-                    android:layout_height="30dp" />
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="5"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/font_36dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="关注人数"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/font_14dp" />
-                </LinearLayout>
-                <TextView
-                    android:layout_width="1dp"
-                    android:layout_gravity="center"
-                    android:background="@color/gray"
-                    android:layout_height="30dp" />
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/font_36dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="今日服务"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/font_14dp" />
-                </LinearLayout>
-
-            </LinearLayout>
-        </LinearLayout>
-    </FrameLayout>
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="wrap_content">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:padding="15dp"
                 android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitXY"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/frg_bg"></ImageView>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/headLayout"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/iv_scan"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_gravity="center"
+                            android:padding="15dp"
+                            android:src="@drawable/frg_scan" />
+
+                        <TextView
+                            android:id="@+id/tv_centerTitle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:text="我的"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/font_18dp" />
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <ImageView
+                                android:id="@+id/iv_word"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:layout_gravity="center"
+                                android:padding="15dp"
+                                android:src="@drawable/frg_word" />
+                            <ImageView
+                                android:visibility="gone"
+                                android:id="@+id/iv_read"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_width="7dp"
+                                android:layout_height="7dp"
+                                android:layout_gravity="right|top"
+                                android:background="@drawable/img_shape_red_dot" />
+                        </FrameLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <com.imedical.mobiledoctor.widget.CircleImageView
+                            android:id="@+id/re_civ_photo"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="20dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/dhead1_icon" />
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp">
+
+                            <TextView
+                                android:id="@+id/tv_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="东华医生"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/font_18dp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignBottom="@id/tv_name"
+                                android:layout_marginLeft="10dp"
+                                android:layout_toRightOf="@id/tv_name"
+                                android:text="欢迎您"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/font_14dp" />
+
+                            <TextView
+                                android:id="@+id/tv_department"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/tv_name"
+                                android:text="心电内科"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/font_16dp" />
+
+                            <TextView
+                                android:id="@+id/tv_title"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignBottom="@id/tv_department"
+                                android:layout_marginLeft="10dp"
+                                android:layout_toRightOf="@id/tv_department"
+                                android:text="主治医师"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/font_16dp" />
+                        </RelativeLayout>
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="20dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="45"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/font_24dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="服务人次"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/font_14dp" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@color/background" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="5"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/font_24dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="关注人数"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/font_14dp" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@color/background" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/font_24dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="今日服务"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/font_14dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </FrameLayout>
+
+            <LinearLayout
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="15dp">
 
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/frg_3_1" />
+
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:text="预约挂号"
-                    android:textSize="@dimen/font_18dp"
-                    />
+                    android:textSize="@dimen/font_18dp" />
+
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/font_18dp"
-                    />
+                    android:layout_weight="1"
+                    android:textSize="@dimen/font_18dp" />
+
                 <ImageView
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:src="@drawable/all_arrow" />
             </LinearLayout>
+
             <TextView
                 android:layout_width="match_parent"
-                android:background="@color/mobile_gray"
+                android:layout_height="0.5dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:layout_height="0.5dp" />
+                android:background="@color/mobile_gray" />
+
             <LinearLayout
+                android:id="@+id/view_menu_2"
                 android:layout_width="match_parent"
-                android:orientation="horizontal"
+                android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:padding="15dp"
-                android:layout_height="wrap_content">
+                android:orientation="horizontal"
+                android:padding="15dp">
 
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/frg_3_2" />
+
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:text="图文咨询"
-                    android:textSize="@dimen/font_18dp"
-                    />
+                    android:textSize="@dimen/font_18dp" />
+
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/font_18dp"
-                    />
+                    android:layout_weight="1"
+                    android:textSize="@dimen/font_18dp" />
+
                 <ImageView
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:src="@drawable/all_arrow" />
             </LinearLayout>
+
             <TextView
+                android:visibility="gone"
                 android:layout_width="match_parent"
-                android:background="@color/mobile_gray"
+                android:layout_height="0.5dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:layout_height="0.5dp" />
+                android:background="@color/mobile_gray" />
+
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
-                android:orientation="horizontal"
+                android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:padding="15dp"
-                android:layout_height="wrap_content">
+                android:orientation="horizontal"
+                android:padding="15dp">
 
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/frg_3_3" />
+
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:text="远程视频"
-                    android:textSize="@dimen/font_18dp"
-                    />
+                    android:textSize="@dimen/font_18dp" />
+
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/font_18dp"
-                    />
+                    android:layout_weight="1"
+                    android:textSize="@dimen/font_18dp" />
+
                 <ImageView
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:src="@drawable/all_arrow" />
             </LinearLayout>
+
             <TextView
                 android:layout_width="match_parent"
-                android:background="@color/mobile_gray"
+                android:layout_height="0.5dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:layout_height="0.5dp" />
+                android:background="@color/mobile_gray" />
+
             <LinearLayout
                 android:id="@+id/view_menu_4"
                 android:layout_width="match_parent"
-                android:orientation="horizontal"
+                android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:padding="15dp"
-                android:layout_height="wrap_content">
+                android:orientation="horizontal"
+                android:padding="15dp">
 
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/frg_3_4" />
+
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:text="图文排班"
-                    android:textSize="@dimen/font_18dp"
-                    />
+                    android:textSize="@dimen/font_18dp" />
+
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/font_18dp"
-                    />
+                    android:layout_weight="1"
+                    android:textSize="@dimen/font_18dp" />
+
                 <ImageView
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:src="@drawable/all_arrow" />
             </LinearLayout>
+
             <TextView
                 android:layout_width="match_parent"
-                android:background="@color/mobile_gray"
+                android:layout_height="0.5dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:layout_height="0.5dp" />
+                android:background="@color/mobile_gray" />
+
             <LinearLayout
                 android:id="@+id/view_menu_qr"
                 android:layout_width="match_parent"
-                android:orientation="horizontal"
+                android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:padding="15dp"
-                android:layout_height="wrap_content">
+                android:orientation="horizontal"
+                android:padding="15dp">
 
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/frg_3_4" />
+
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:text="我的二维码"
-                    android:textSize="@dimen/font_18dp"
-                    />
+                    android:textSize="@dimen/font_18dp" />
+
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/font_18dp"
-                    />
+                    android:layout_weight="1"
+                    android:textSize="@dimen/font_18dp" />
+
                 <ImageView
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:src="@drawable/all_arrow" />
             </LinearLayout>
+
             <TextView
+                android:visibility="gone"
                 android:layout_width="match_parent"
-                android:background="@color/mobile_gray"
+                android:layout_height="0.5dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:layout_height="0.5dp" />
+                android:background="@color/mobile_gray" />
+
             <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:padding="15dp"
+                android:visibility="gone"
                 android:id="@+id/ll_setting"
-                android:layout_height="wrap_content">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="15dp">
 
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/frg_3_5" />
+
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:text="设置"
-                    android:textSize="@dimen/font_18dp"
-                    />
+                    android:textSize="@dimen/font_18dp" />
+
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/font_18dp"
-                    />
+                    android:layout_weight="1"
+                    android:textSize="@dimen/font_18dp" />
+
                 <ImageView
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:src="@drawable/all_arrow" />
             </LinearLayout>
+
             <TextView
                 android:layout_width="match_parent"
-                android:background="@color/mobile_gray"
+                android:layout_height="0.5dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:layout_height="0.5dp" />
+                android:background="@color/mobile_gray" />
+
+
             <TextView
-                android:layout_width="match_parent"
-                android:gravity="center"
                 android:id="@+id/tv_exit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
+                android:layout_marginTop="40dp"
                 android:layout_marginRight="15dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="30dp"
+                android:background="@drawable/bg_shape_gray"
+                android:gravity="center"
                 android:text="退出登录"
                 android:textColor="@color/white"
-                android:background="@xml/ripple_bg_shape_blue"
-                android:textSize="@dimen/font_18dp"
-                android:layout_height="40dp" />
+                android:textSize="@dimen/font_18dp" />
         </LinearLayout>
-
     </ScrollView>
-
-
 </LinearLayout>

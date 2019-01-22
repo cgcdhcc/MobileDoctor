@@ -55,7 +55,7 @@ public class PatientInfoActivity  extends BaseRoundActivity {
         if (resultCode == SWITHC_CODE) {
             loadData();
         }
-        setInfos(Const.curPat.patName,Const.curPat.bedCode+"床("+Const.curPat.patRegNo+")");//更新姓名，床号
+        setInfos(Const.curPat.patName,(Const.curPat.bedCode==null?"":Const.curPat.bedCode)+"床("+(Const.curPat.patRegNo==null?"":Const.curPat.patRegNo)+")");//更新姓名，床号
         super.onActivityResult(requestCode, resultCode, data);
     }
     @Override

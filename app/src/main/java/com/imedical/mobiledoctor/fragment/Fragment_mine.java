@@ -11,7 +11,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.imedical.im.activity.ImMainActivity;
 import com.imedical.jpush.activity.MessageActivity;
+import com.imedical.jpush.bean.MessageNoRead;
+import com.imedical.jpush.service.MessageService;
 import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.activity.frg_3.QRActivity;
@@ -33,6 +36,7 @@ public class Fragment_mine extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        queryMsgNoRead();
     }
 
     @Override
@@ -84,6 +88,13 @@ public class Fragment_mine extends Fragment implements View.OnClickListener {
             }
         });
 
+        mView.findViewById(R.id.view_menu_2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ImMainActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 
@@ -98,5 +109,27 @@ public class Fragment_mine extends Fragment implements View.OnClickListener {
                     System.exit(0);
                     break;
             }
+    }
+    public void queryMsgNoRead() {
+        new Thread() {
+            MessageNoRead noRead;
+
+            @Override
+            public void run() {
+                super.run();
+                noRead = MessageService.getunreadcount();
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (noRead != null && noRead.count > 0) {
+                            mView.findViewById(R.id.iv_read).setVisibility(View.VISIBLE);
+                        } else {
+                            mView.findViewById(R.id.iv_read).setVisibility(View.GONE);
+                        }
+
+                    }
+                });
+            }
+        }.start();
     }
 }

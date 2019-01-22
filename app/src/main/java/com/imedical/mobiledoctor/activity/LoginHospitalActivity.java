@@ -27,7 +27,6 @@ import android.widget.Toast;
 
 
 import com.imedical.im.entity.ImBaseResponse;
-import com.imedical.im.entity.qrresponse;
 import com.imedical.im.entity.userregister;
 import com.imedical.im.service.ImUserService;
 import com.imedical.mobiledoctor.Const;
@@ -144,10 +143,6 @@ public class LoginHospitalActivity extends BaseActivity implements
                                 terminalId);
                         userregister userregister=new userregister(mLoginInfo.docMarkId,mLoginInfo.docMarkId,mLoginInfo.docMarkId);
                         ImBaseResponse imBaseResponse =ImUserService.getInstance().userRegister(userregister);
-                        qrresponse qrContent=ImUserService.getInstance().qrcodegenerate(new QrCodeGenerateRequest(mLoginInfo.userCode, mLoginInfo.userName));
-                        if(qrContent!=null){
-                            Const.qrContent=qrContent;
-                        }
                         if(imBaseResponse!=null){
                             Log.d("msg",imBaseResponse.msg);
                         }
