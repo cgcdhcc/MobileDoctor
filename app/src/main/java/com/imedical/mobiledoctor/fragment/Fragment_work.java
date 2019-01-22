@@ -181,7 +181,7 @@ public class Fragment_work extends Fragment implements View.OnClickListener {
         tv_title = (TextView) mView.findViewById(R.id.tv_title);
         //==========initData============
         tv_name.setText(Const.loginInfo.userName);
-        tv_title.setText(Const.loginInfo.userCode);
+        tv_title.setText(Const.loginInfo.defaultGroupName);
         tv_department.setText(Const.loginInfo.defaultDeptName);
         tv_department.setOnClickListener(this);
         mList_wait.clear();
