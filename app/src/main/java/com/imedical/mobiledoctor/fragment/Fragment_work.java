@@ -217,7 +217,9 @@ public class Fragment_work extends Fragment implements View.OnClickListener {
             public void onGlobalLayout() {
                 // TODO Auto-generated method stub
                 ll_width.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                int width=ll_width.getWidth();
+                WindowManager windowManager = (WindowManager) ctx.getSystemService(Context.WINDOW_SERVICE);
+                int left=ll_width.getLeft()*2;
+                int width =(windowManager.getDefaultDisplay().getWidth() - left);
                 dePatPopWin = new PopupWindow(view, width, LinearLayout.LayoutParams.WRAP_CONTENT);
                 dePatPopWin.setFocusable(true);
                 dePatPopWin.setOutsideTouchable(true);
