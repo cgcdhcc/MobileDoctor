@@ -88,7 +88,7 @@ public class Fragment_mine extends Fragment implements View.OnClickListener {
             }
         });
 
-        mView.findViewById(R.id.view_menu_2).setOnClickListener(new View.OnClickListener() {
+        mView.findViewById(R.id.view_menu_tphoto).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ImMainActivity.class);

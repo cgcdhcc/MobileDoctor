@@ -266,7 +266,7 @@
                 android:background="@color/mobile_gray" />
 
             <LinearLayout
-                android:id="@+id/view_menu_2"
+                android:id="@+id/view_menu_tphoto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
