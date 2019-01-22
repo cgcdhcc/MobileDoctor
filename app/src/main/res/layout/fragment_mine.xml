@@ -49,13 +49,26 @@
                             android:textColor="@color/white"
                             android:textSize="@dimen/font_18dp" />
 
-                        <ImageView
-                            android:id="@+id/iv_word"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_gravity="center"
-                            android:padding="15dp"
-                            android:src="@drawable/frg_word" />
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <ImageView
+                                android:id="@+id/iv_word"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:layout_gravity="center"
+                                android:padding="15dp"
+                                android:src="@drawable/frg_word" />
+                            <ImageView
+                                android:visibility="gone"
+                                android:id="@+id/iv_read"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_width="7dp"
+                                android:layout_height="7dp"
+                                android:layout_gravity="right|top"
+                                android:background="@drawable/img_shape_red_dot" />
+                        </FrameLayout>
 
                     </LinearLayout>
 

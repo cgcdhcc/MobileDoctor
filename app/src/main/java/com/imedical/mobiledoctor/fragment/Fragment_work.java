@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 import com.imedical.im.activity.ImMainActivity;
 import com.imedical.jpush.activity.MessageActivity;
+import com.imedical.jpush.bean.MessageNoRead;
+import com.imedical.jpush.service.MessageService;
 import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.XMLservice.PageGridManager;
@@ -80,6 +82,7 @@ public class Fragment_work extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        queryMsgNoRead();
     }
 
     @Override
@@ -250,5 +253,28 @@ public class Fragment_work extends Fragment implements View.OnClickListener {
             super.onCancelled();
         }
 
+    }
+
+    public void queryMsgNoRead() {
+        new Thread() {
+            MessageNoRead noRead;
+
+            @Override
+            public void run() {
+                super.run();
+                noRead = MessageService.getunreadcount();
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (noRead != null && noRead.count > 0) {
+                            mView.findViewById(R.id.iv_read).setVisibility(View.VISIBLE);
+                        } else {
+                            mView.findViewById(R.id.iv_read).setVisibility(View.GONE);
+                        }
+
+                    }
+                });
+            }
+        }.start();
     }
 }
