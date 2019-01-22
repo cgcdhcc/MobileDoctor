@@ -220,9 +220,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                   frg_Patient.loadSecondLevelData();
               }
         }
-//        else  {
-//            showCustom("nothing to do!");
-//        }
     }
 
     /** 动态权限申请 */

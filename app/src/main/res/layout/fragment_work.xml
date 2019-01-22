@@ -100,6 +100,7 @@
 
                         <RelativeLayout
                             android:layout_marginLeft="10dp"
+                            android:id="@+id/ll_width"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
 
@@ -129,17 +130,24 @@
                                 android:layout_height="wrap_content"
                                 android:layout_below="@id/tv_name"
                                 android:layout_marginTop="5dp"
-                                android:text="心电内科"
+                                android:text="当前科室:心电内科"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/font_16dp" />
-
+                            <ImageView
+                                android:layout_width="15dp"
+                                android:id="@+id/bottom_arrow"
+                                android:layout_alignBottom="@id/tv_department"
+                                android:layout_marginLeft="5dp"
+                                android:layout_toRightOf="@id/tv_department"
+                                android:src="@drawable/all_bottom_arrow"
+                                android:layout_height="15dp" />
                             <TextView
                                 android:id="@+id/tv_title"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_alignBottom="@id/tv_department"
+                                android:layout_alignBottom="@id/bottom_arrow"
                                 android:layout_marginLeft="10dp"
-                                android:layout_toRightOf="@id/tv_department"
+                                android:layout_toRightOf="@id/bottom_arrow"
                                 android:text="主治医师"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/font_16dp" />

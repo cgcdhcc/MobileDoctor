@@ -1,17 +1,26 @@
 package com.imedical.mobiledoctor.fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.imedical.im.activity.ImMainActivity;
@@ -20,16 +29,22 @@ import com.imedical.jpush.bean.MessageNoRead;
 import com.imedical.jpush.service.MessageService;
 import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
+import com.imedical.mobiledoctor.XMLservice.BusyManager;
 import com.imedical.mobiledoctor.XMLservice.PageGridManager;
+import com.imedical.mobiledoctor.XMLservice.SysManager;
 import com.imedical.mobiledoctor.activity.WardRoundActivity;
 import com.imedical.mobiledoctor.activity.frg_1.AntActivity;
 import com.imedical.mobiledoctor.activity.frg_1.ConsultActivity;
 import com.imedical.mobiledoctor.activity.frg_1.CriticalValueActivity;
 import com.imedical.mobiledoctor.activity.round.PatientListActivity;
 import com.imedical.mobiledoctor.activity.visit.DoctorScheduleActivity;
+import com.imedical.mobiledoctor.adapter.DepartmentAdapter;
+import com.imedical.mobiledoctor.adapter.HisRecordsAdapter;
 import com.imedical.mobiledoctor.adapter.WorkAdapter;
 import com.imedical.mobiledoctor.entity.BaseBeanMy;
+import com.imedical.mobiledoctor.entity.DepartmentInfo;
 import com.imedical.mobiledoctor.entity.Item;
+import com.imedical.mobiledoctor.entity.SeeDoctorRecord;
 import com.imedical.mobiledoctor.entity.homegrid.funcCode;
 import com.imedical.mobiledoctor.util.DateUtil;
 import com.imedical.mobiledoctor.zxing.activity.CaptureActivity;
@@ -37,15 +52,22 @@ import com.imedical.mobiledoctor.zxing.activity.CaptureActivity;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.imedical.mobiledoctor.util.DialogUtil.dismissProgress;
+
 public class Fragment_work extends Fragment implements View.OnClickListener {
     private MainActivity ctx;
     private String mInfo = null;
+    private DepartmentAdapter departAdapter;
     private RecyclerView mRecyView_wait;
     private WorkAdapter mAdapter_wait;
     private List<Item> mList_wait = new ArrayList<>();
+    private List<DepartmentInfo> RoomData = new ArrayList<DepartmentInfo>();
+
     private ImageView iv_scan, iv_word;
+    private PopupWindow dePatPopWin;
+    ListView mListViewDepart;
     View mView = null;
-    View ll_ward, ll_Onlineinquiry;
+    View ll_ward, ll_Onlineinquiry,ll_width;
     TextView tv_name, tv_department, tv_title, tv_date;
     private String code_wait[] = new String[]{
 //            "10001",//"我的病人",
@@ -101,7 +123,7 @@ public class Fragment_work extends Fragment implements View.OnClickListener {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ctx, CaptureActivity.class);
-                startActivityForResult(intent, 100);
+                ctx.startActivityForResult(intent, 100);
             }
         });
         iv_word = (ImageView) mView.findViewById(R.id.iv_word);
@@ -112,6 +134,7 @@ public class Fragment_work extends Fragment implements View.OnClickListener {
                 startActivity(intent);
             }
         });
+        ll_width=mView.findViewById(R.id.ll_width);
         mRecyView_wait = (RecyclerView) mView.findViewById(R.id.list_wait);
         mAdapter_wait = new WorkAdapter(mList_wait);
         mRecyView_wait.setAdapter(mAdapter_wait);
@@ -160,22 +183,47 @@ public class Fragment_work extends Fragment implements View.OnClickListener {
         tv_name.setText(Const.loginInfo.userName);
         tv_title.setText(Const.loginInfo.userCode);
         tv_department.setText(Const.loginInfo.defaultDeptName);
+        tv_department.setOnClickListener(this);
         mList_wait.clear();
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 100 && resultCode == ctx.RESULT_OK) {
-            Bundle bundle = data.getExtras();
-            String scanResult = bundle.getString("result");
-            Log.d("mark", "条形码扫描结果：" + scanResult);
-            //ctx.showCustom("条形码扫描结果：" + scanResult);
-        } else {
-            //ctx.showCustom("nothing to do!");
-        }
-
-
+        //================
+//        LayoutInflater layoutInflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View view = getActivity().getLayoutInflater().inflate(R.layout.his_record_list, null);
+        mListViewDepart = (ListView) view.findViewById(R.id.lv_data_list);
+        departAdapter = new DepartmentAdapter(ctx, RoomData);
+        mListViewDepart.setAdapter(departAdapter);
+        mListViewDepart.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+                DepartmentInfo nowInfo = RoomData.get(position);
+                if (dePatPopWin != null) {
+                    dePatPopWin.dismiss();
+                }
+                tv_department.setText("当前科室:"+nowInfo.departmentName);
+                Const.loginInfo.defaultDeptId=nowInfo.departmentId;
+                Const.loginInfo.defaultDeptName=nowInfo.departmentName;
+//                if (position == 0) {
+//                    tv_hisdept.setText(SysManager.getAdmTypeDesc(sr.admType) );
+//                    tv_hisrcd.setText(sr.admDate);
+//                } else {
+//                    tv_hisdept.setText(sr.admDept);
+//                    tv_hisrcd.setText(sr.admDate);
+//                }
+//                selectPos = position;
+                departAdapter.notifyDataSetChanged();
+            }
+        });
+        ll_width.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                // TODO Auto-generated method stub
+                ll_width.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                int width=ll_width.getWidth();
+                dePatPopWin = new PopupWindow(view, width, LinearLayout.LayoutParams.WRAP_CONTENT);
+                dePatPopWin.setFocusable(true);
+                dePatPopWin.setOutsideTouchable(true);
+                dePatPopWin.setBackgroundDrawable(new BitmapDrawable());
+            }
+        });
     }
 
 
@@ -199,9 +247,13 @@ public class Fragment_work extends Fragment implements View.OnClickListener {
                 Intent it = new Intent(ctx, ImMainActivity.class);
                 startActivity(it);
                 break;
-
+            case R.id.tv_department:
+                showWindow(v);
+                break;
         }
     }
+
+
 
     /**
      * 异步加载菜单
@@ -209,6 +261,7 @@ public class Fragment_work extends Fragment implements View.OnClickListener {
     public class LoadDataTask extends AsyncTask<Void, Void, Void> {
         BaseBeanMy bean = new BaseBeanMy();
         List<funcCode> tempList;
+        List<DepartmentInfo> departList;
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -217,6 +270,7 @@ public class Fragment_work extends Fragment implements View.OnClickListener {
             }
             try {
                 tempList = PageGridManager.dispalyList(ctx, Const.loginInfo.userCode);
+                departList = BusyManager.listDept(Const.loginInfo.userCode);
                 bean.success = true;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -229,6 +283,11 @@ public class Fragment_work extends Fragment implements View.OnClickListener {
         protected void onPostExecute(Void result) {
             int count = 0;
             if (bean.success) {
+                RoomData.clear();
+                RoomData.addAll(departList);
+                departAdapter = new DepartmentAdapter(ctx, RoomData);
+                mListViewDepart.setAdapter(departAdapter);
+                departAdapter.notifyDataSetChanged();
                 if (tempList.size() > 0) {
                     tempList.add(new funcCode("10018"));//出诊信息
                     for (funcCode item : tempList) {
@@ -253,6 +312,12 @@ public class Fragment_work extends Fragment implements View.OnClickListener {
             super.onCancelled();
         }
 
+    }
+
+    private void showWindow(View parent) {
+        if (dePatPopWin != null) {
+            dePatPopWin.showAsDropDown(parent, 0, 0);
+        }
     }
 
     public void queryMsgNoRead() {
