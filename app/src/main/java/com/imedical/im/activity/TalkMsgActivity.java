@@ -83,7 +83,8 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
         userfriend = new UserFriend();
         userfriend.friendUsername = admInfo.admId;
         userfriend.friendNickName = admInfo.patientName;
-        userfriend.ownerUsername = Const.loginInfo.docMarkId;
+        userfriend.ownerUsername = admInfo.docMarkId;
+        PreferManager.saveValue("docMarkId",  admInfo.docMarkId);
         action = userfriend.friendUsername + "_chat";
         reciver = new MyBroadcastReceiver();
         IntentFilter intentf = new IntentFilter();
@@ -764,7 +765,7 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
     public void updatechatstatus(final String chatStatus) {
         showProgress();
         new Thread() {
-            String msg = "";
+            String msg = "网络错误，请稍后再试";
             BaseBean baseBean;
             @Override
             public void run() {
@@ -794,6 +795,7 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
                             if(baseBean!=null){
                                 msg = baseBean.getResultDesc();
                             }
+                            showToast(msg);
                         }
                     }
                 });

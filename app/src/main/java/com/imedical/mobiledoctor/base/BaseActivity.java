@@ -41,6 +41,7 @@ import com.imedical.mobiledoctor.adapter.HisRecordsAdapter;
 import com.imedical.mobiledoctor.entity.SeeDoctorRecord;
 import com.imedical.mobiledoctor.util.StatusBarUtils;
 import com.imedical.mobiledoctor.widget.CustomProgressDialog;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -265,4 +266,15 @@ public abstract class BaseActivity extends Activity {
 //    }
 
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this); // 不能遗漏
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this); // 不能遗漏
+    }
 }

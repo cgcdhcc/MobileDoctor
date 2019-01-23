@@ -62,12 +62,13 @@ public class Fragment_work extends Fragment implements View.OnClickListener {
     private WorkAdapter mAdapter_wait;
     private List<Item> mList_wait = new ArrayList<>();
     private List<DepartmentInfo> RoomData = new ArrayList<DepartmentInfo>();
-
+    private ImageView iv_top_bg;
+    public LinearLayout ll_head;
     private ImageView iv_scan, iv_word;
     private PopupWindow dePatPopWin;
     ListView mListViewDepart;
     View mView = null;
-    View ll_ward, ll_Onlineinquiry,ll_width;
+    View ll_ward, ll_Onlineinquiry,ll_width,view_department;
     TextView tv_name, tv_department, tv_title, tv_date;
     private String code_wait[] = new String[]{
 //            "10001",//"我的病人",
@@ -178,12 +179,13 @@ public class Fragment_work extends Fragment implements View.OnClickListener {
         ll_Onlineinquiry.setOnClickListener(this);
         tv_name = (TextView) mView.findViewById(R.id.tv_name);
         tv_department = (TextView) mView.findViewById(R.id.tv_department);
+        view_department=mView.findViewById(R.id.view_department);
         tv_title = (TextView) mView.findViewById(R.id.tv_title);
         //==========initData============
         tv_name.setText(Const.loginInfo.userName);
         tv_title.setText(Const.loginInfo.defaultGroupName);
         tv_department.setText(Const.loginInfo.defaultDeptName);
-        tv_department.setOnClickListener(this);
+        view_department.setOnClickListener(this);
         mList_wait.clear();
         //================
 //        LayoutInflater layoutInflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -226,6 +228,16 @@ public class Fragment_work extends Fragment implements View.OnClickListener {
                 dePatPopWin.setBackgroundDrawable(new BitmapDrawable());
             }
         });
+        iv_top_bg=mView.findViewById(R.id.iv_top_bg);
+        ll_head=mView.findViewById(R.id.ll_head);
+        ll_head.post(new Runnable() {
+            @Override
+            public void run() {
+                ViewGroup.LayoutParams params = iv_top_bg.getLayoutParams();
+                params.height=ll_head.getHeight()-100;
+                iv_top_bg.setLayoutParams(params);
+            }
+        });
     }
 
 
@@ -249,7 +261,7 @@ public class Fragment_work extends Fragment implements View.OnClickListener {
                 Intent it = new Intent(ctx, ImMainActivity.class);
                 startActivity(it);
                 break;
-            case R.id.tv_department:
+            case R.id.view_department:
                 showWindow(v);
                 break;
         }

@@ -44,7 +44,7 @@ public class QRActivity extends BaseActivity {
             qrresponse qrresponse;
             public void run(){
                 try {
-                    qrresponse = ImUserService.getInstance().qrcodegenerate(new QrCodeGenerateRequest(Const.loginInfo.userCode,Const.loginInfo.userName));
+                    qrresponse = ImUserService.getInstance().qrcodegenerate(new QrCodeGenerateRequest(Const.loginInfo.doctorCode,Const.loginInfo.userName));
                 } catch (Exception e) {
                 }
                 runOnUiThread(new Runnable() {

@@ -12,6 +12,7 @@ import com.imedical.im.entity.MessageInfo;
 import com.imedical.im.entity.OnLineMsg;
 import com.imedical.im.entity.UserFriend;
 import com.imedical.mobiledoctor.Const;
+import com.imedical.mobiledoctor.util.PreferManager;
 
 import org.json.JSONObject;
 import org.litepal.LitePal;
@@ -91,8 +92,8 @@ public class SocketService extends Service {
                                     super.run();
                                         try{
                                             JSONObject jsonObject = new JSONObject();
-                                            jsonObject.put( "username", Const.loginInfo.docMarkId);
-                                            jsonObject.put( "password", Const.loginInfo.docMarkId );
+                                            jsonObject.put( "username",  PreferManager.getValue("docMarkId"));
+                                            jsonObject.put( "password", PreferManager.getValue("docMarkId"));
                                             jsonObject.put( "authType", ImConst.source );
                                             jsonObject.put( "appId", ImConst.appId );
                                             jsonObject.put( "extend","D");

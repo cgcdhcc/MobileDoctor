@@ -96,7 +96,7 @@ public class TalkMsgAdapter extends BaseAdapter {
 		if(Validator.isBlank(admInfo.doctorPicUrl)){
 			DownloadUtil.loadImage(iv_doctor_head, admInfo.doctorPicUrl, R.drawable.pat_male, R.drawable.pat_male, R.drawable.pat_male);
 		}
-		if (!data_list.get(p).fromUser.equals(Const.loginInfo.docMarkId)) {// 自己发言
+		if (!data_list.get(p).fromUser.equals(admInfo.docMarkId)) {// 自己发言
 			left.setVisibility(View.VISIBLE);
 			right.setVisibility(View.GONE);
 			TextView left_content = (TextView) view

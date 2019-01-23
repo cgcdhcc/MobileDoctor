@@ -14,12 +14,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <ImageView
+                    android:id="@+id/iv_top_bg"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scaleType="fitXY"
-                    android:adjustViewBounds="true"
+                    android:layout_height="5dp"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/frg_bg"></ImageView>
                 <LinearLayout
+                    android:id="@+id/ll_head"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -103,6 +104,7 @@
                                 android:textStyle="bold" />
 
                             <TextView
+                                android:id="@+id/tv_title"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignBottom="@id/tv_name"
@@ -118,17 +120,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_below="@id/tv_name"
                                 android:text="心电内科"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/font_16dp" />
-
-                            <TextView
-                                android:id="@+id/tv_title"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignBottom="@id/tv_department"
-                                android:layout_marginLeft="10dp"
-                                android:layout_toRightOf="@id/tv_department"
-                                android:text="主治医师"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/font_16dp" />
                         </RelativeLayout>
@@ -153,7 +144,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="45"
+                                android:text="0"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/font_24dp" />
 
@@ -182,7 +173,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="5"
+                                android:text="0"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/font_24dp" />
 
@@ -394,7 +385,7 @@
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/frg_3_4" />
+                    android:src="@drawable/icon_myqrcode" />
 
                 <TextView
                     android:layout_width="wrap_content"

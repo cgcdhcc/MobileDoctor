@@ -21,7 +21,12 @@ public class MyApplication extends Application {
 // TODO Auto-generated method stub
         super.onCreate();
         PreferManager.inti(this);
-        UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, "5c472b35b465f5aeb1000909");
+        UMConfigure.init(this, "5c472b35b465f5aeb1000909", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, null);
+        if( UMConfigure.getInitStatus()){
+            Log.d("msg","初始化成功" );
+        }else{
+            Log.d("msg","初始化失败"+UMConfigure.getInitStatus() );
+        }
         ImageLoaderConfiguration configuration = ImageLoaderConfiguration.createDefault(this);
         ImageLoader.getInstance().init(configuration);
         LitePal.initialize(this);
