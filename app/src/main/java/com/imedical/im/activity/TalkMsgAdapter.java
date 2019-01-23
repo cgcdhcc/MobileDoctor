@@ -27,7 +27,9 @@ import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.base.BaseActivity;
 import com.imedical.mobiledoctor.util.DateUtil;
+import com.imedical.mobiledoctor.util.DialogUtil;
 import com.imedical.mobiledoctor.util.DownloadUtil;
+import com.imedical.mobiledoctor.util.MyCallback;
 import com.imedical.mobiledoctor.util.Validator;
 
 import java.util.HashMap;
@@ -36,12 +38,12 @@ import java.util.Map;
 
 
 public class TalkMsgAdapter extends BaseAdapter {
-	public BaseActivity activity;
+	public TalkMsgActivity activity;
 	public List<MessageInfo> data_list;
 	VoicePlayItem vp = new VoicePlayItem();
 	public Map<String, MediaPlayer> mapPlay = new HashMap<String, MediaPlayer>();
     public AdmInfo admInfo;
-	public TalkMsgAdapter(BaseActivity activity, List<MessageInfo> data_list,AdmInfo admInfo) {
+	public TalkMsgAdapter(TalkMsgActivity activity, List<MessageInfo> data_list,AdmInfo admInfo) {
 		this.activity = activity;
 		this.data_list = data_list;
 		this.admInfo=admInfo;
@@ -85,8 +87,10 @@ public class TalkMsgAdapter extends BaseAdapter {
 		ImageView iv_pat_head=view.findViewById(R.id.iv_pat_head);
 		if("女".equals(admInfo.patientSex)){
 			iv_pat_head.setImageResource(R.drawable.pat_famale);
-		}else{
+		}else if("男".equals(admInfo.patientSex)){
 			iv_pat_head.setImageResource(R.drawable.pat_male);
+		}else{
+			iv_pat_head.setImageResource(R.drawable.icon_common_head);
 		}
 		ImageView iv_doctor_head=view.findViewById(R.id.iv_doctor_head);
 		if(Validator.isBlank(admInfo.doctorPicUrl)){
@@ -114,29 +118,17 @@ public class TalkMsgAdapter extends BaseAdapter {
 					DownloadUtil.loadImage(left_iv_content,"file:///"+data_list.get(p).thumbnailRemotePath,
 							R.drawable.im_iconfont_tupian, R.drawable.im_iconfont_tupian,
 							R.drawable.im_iconfont_tupian);
-					view.setOnClickListener(new OnClickListener() {
-						@Override
-						public void onClick(View view) {
-							Intent intent=new Intent(activity,TalkImageShowActivity.class);
-							intent.putExtra("imgurl","file:///"+data_list.get(n).fileRemotePath);
-							activity.startActivity(intent);
-						}
-					});
-
 				}else{
 					DownloadUtil.loadImage(left_iv_content,data_list.get(p).thumbnailRemotePath,
 							R.drawable.im_iconfont_tupian, R.drawable.im_iconfont_tupian,
 							R.drawable.im_iconfont_tupian);
-					view.setOnClickListener(new OnClickListener() {
-						@Override
-						public void onClick(View view) {
-							Intent intent=new Intent(activity,TalkImageShowActivity.class);
-							intent.putExtra("imgurl",data_list.get(n).fileRemotePath);
-							activity.startActivity(intent);
-						}
-					});
 				}
-
+				view.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						getImgs(n);
+					}
+				});
 			} else if (data_list.get(p).messageType.equals("audio")) {
 				left_content.setVisibility(View.GONE);
 				left_ll_template.setVisibility(View.GONE);
@@ -187,6 +179,24 @@ public class TalkMsgAdapter extends BaseAdapter {
 							activity.startActivity(intent);
 						}
 					});
+					View view_cancle=templateView.findViewById(R.id.view_cancle);
+					if("2".equals(activity.admInfo.chatStatus)){
+						view_cancle.setVisibility(View.GONE);
+					}
+					View tv_cancel=templateView.findViewById(R.id.tv_cancel);
+					tv_cancel.setOnClickListener(new OnClickListener() {
+						@Override
+						public void onClick(View view) {
+							DialogUtil.showAlertYesOrNo(activity, "操作确认", "确认进行退号操作吗？", new MyCallback<Boolean>() {
+								@Override
+								public void onCallback(Boolean value) {
+									if(value){
+										activity.cancleOrder();
+									}
+								}
+							});
+						}
+					});
 					left_ll_template.addView(templateView);
 				}
 
@@ -218,27 +228,17 @@ public class TalkMsgAdapter extends BaseAdapter {
 					DownloadUtil.loadImage(right_iv_content,  "file:///"+data_list.get(p).thumbnailRemotePath,
 							R.drawable.im_iconfont_tupian, R.drawable.im_iconfont_tupian,
 							R.drawable.im_iconfont_tupian);
-					view.setOnClickListener(new OnClickListener() {
-						@Override
-						public void onClick(View view) {
-							Intent intent=new Intent(activity,TalkImageShowActivity.class);
-							intent.putExtra("imgurl","file:///"+data_list.get(n).fileRemotePath);
-							activity.startActivity(intent);
-						}
-					});
 				}else {
 					DownloadUtil.loadImage(right_iv_content,  data_list.get(p).thumbnailRemotePath,
 							R.drawable.im_iconfont_tupian, R.drawable.im_iconfont_tupian,
 							R.drawable.im_iconfont_tupian);
-					view.setOnClickListener(new OnClickListener() {
-						@Override
-						public void onClick(View view) {
-							Intent intent=new Intent(activity,TalkImageShowActivity.class);
-							intent.putExtra("imgurl",data_list.get(n).fileRemotePath);
-							activity.startActivity(intent);
-						}
-					});
 				}
+				view.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						getImgs(n);
+					}
+				});
 			} else if (data_list.get(p).messageType.equals("audio")) {
 				right_content.setVisibility(View.GONE);
 				right_ll_template.setVisibility(View.GONE);
@@ -360,6 +360,33 @@ public class TalkMsgAdapter extends BaseAdapter {
 				}
 			}
 		};
+	}
+
+	public void getImgs(int n){
+		Intent intent=new Intent(activity,TalkImageShowActivity.class);
+		int imgnum=0;
+		for(int i=0;i<data_list.size();i++){
+              if("img".equals(data_list.get(i).messageType)){
+				  imgnum++;
+			  }
+		}
+		String[] imgs=new String[imgnum];
+		imgnum=0;
+		for(int i=0;i<data_list.size();i++){
+			if("img".equals(data_list.get(i).messageType)){
+				if(data_list.get(i).sended==0){
+					imgs[imgnum]="file:///"+data_list.get(i).thumbnailRemotePath;
+				}else {
+					imgs[imgnum]=data_list.get(i).fileRemotePath;
+				}
+				if(i==n){
+					intent.putExtra("position", imgnum);
+				}
+				imgnum++;
+			}
+		}
+		intent.putExtra("imgurl",imgs);
+		activity.startActivity(intent);
 	}
 	
 }

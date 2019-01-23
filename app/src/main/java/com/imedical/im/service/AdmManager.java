@@ -158,4 +158,24 @@ public class AdmManager {
         bean = PropertyUtil.parseToBaseInfo(resultXml);
         return bean;
     }
+
+     /*
+    <Request>his 代码20207  平台 代码 patient.opregister.cancel取消挂号
+	'terminalId'             'terminalType'              'hospitalId'             'patientCard'             'patientId'   registerId
+</Request>
+     */
+
+    public static BaseBean cancleOrder(String terminalId, String patientCard,String patientId, String registerId) throws Exception {
+        BaseBean bean = null;
+        Map<String, String> parm = new HashMap<String, String>();
+        parm.put("terminalId", terminalId);
+        parm.put("patientCard", patientCard);
+        parm.put("patientId", patientId);
+        parm.put("registerId", registerId);
+        String serviceUrl = SettingManager.getServerUrl();
+        String requestXml = PropertyUtil.buildRequestXml(parm);
+        String resultXml = WsApiUtil.loadSoapObject(serviceUrl, Const.BIZ_CODE_OPREGISTER_CANCEL, requestXml);
+        bean = PropertyUtil.parseToBaseInfo(resultXml);
+        return bean;
+    }
 }

@@ -70,7 +70,7 @@ public class QRActivity extends BaseActivity {
         iv_qr=(ImageView)findViewById(R.id.iv_qr);
         tv_department=this.findViewById(R.id.tv_department);
         tv_name.setText(mLoginInfo.userName);
-        tv_alias.setText(mLoginInfo.userCode);
+        //tv_alias.setText(mLoginInfo.userCode);
         tv_depat.setText(mLoginInfo.defaultDeptName);
     }
 

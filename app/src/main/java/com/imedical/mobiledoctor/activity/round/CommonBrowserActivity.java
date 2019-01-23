@@ -60,7 +60,7 @@ public class CommonBrowserActivity extends Activity {
 		mWebView.getSettings().setJavaScriptEnabled(true);
 		mWebView.getSettings().setDomStorageEnabled(true);
 		mWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-		mWebView.getSettings().setDefaultTextEncodingName("gbk");
+		mWebView.getSettings().setDefaultTextEncodingName("utf-8");
 		mWebView.requestFocus();
 		mWebView.setVerticalScrollbarOverlay(true); //指定的垂直滚动条有叠加样式
 

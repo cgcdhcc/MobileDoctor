@@ -288,6 +288,7 @@ public final class Const {
 	public static final String BIZ_CODE_GetAdmInfo="doctor.ihospital.getadminfo";//获取就诊信息
 	public static final String BIZ_CODE_updatedoctorcontentbyadm="doctor.ihospital.updatedoctorcontentbyadm";//修改或新增诊疗建议
 	public static final String BIZ_CODE_updatechatstatus="doctor.ihospital.updatechatstatus";// 21030修改订单状态
+	public static final String BIZ_CODE_OPREGISTER_CANCEL="doctor.dopregister.cancel";//取消挂号代码20207
 	public static final String BIZ_CODE_GetScheduleListState="doctor.ihospital.getschedulestate";//互联网医院排班-获取一段时间的排班状况及预约数
 	public static final String BIZ_CODE_GetScheduleListInfo="doctor.ihospital.getschedulelistinfo";//51906    互联网医院排班-获取医生某天互联网医院所有出诊信息
 	public static final String API_PHONEVALIDATE     ="mhealth/dhccApi/user/validUser/2/";

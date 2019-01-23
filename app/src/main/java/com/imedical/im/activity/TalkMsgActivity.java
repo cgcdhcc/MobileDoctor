@@ -38,6 +38,8 @@ import com.imedical.mobiledoctor.entity.PatientInfo;
 import com.imedical.mobiledoctor.util.DateUtil;
 import com.imedical.mobiledoctor.util.DialogUtil;
 import com.imedical.mobiledoctor.util.FileDataUtil;
+import com.imedical.mobiledoctor.util.ImageUtil;
+import com.imedical.mobiledoctor.util.MyCallback;
 import com.imedical.mobiledoctor.util.PreferManager;
 import com.imedical.mobiledoctor.util.Validator;
 
@@ -48,6 +50,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import id.zelory.compressor.Compressor;
 import io.socket.client.Ack;
 
 public class TalkMsgActivity extends ActivityPhtotoPop {
@@ -208,11 +211,15 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
         tv_stopserver.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                  if("0".equals(admInfo.chatStatus)){
-                      updatechatstatus("1");
-                  }else if("1".equals(admInfo.chatStatus)){
-                      updatechatstatus("2");
-                  }
+                DialogUtil.showAlertYesOrNo(TalkMsgActivity.this, "操作确认", "确定结束服务吗？服务结束后不能再发送聊天消息", new MyCallback<Boolean>() {
+                    @Override
+                    public void onCallback(Boolean value) {
+                        if(value){
+                            updatechatstatus("2");
+                        }
+                    }
+                });
+
             }
         });
         tv_orderchatstatus = (TextView) findViewById(R.id.tv_orderchatstatus);
@@ -221,27 +228,28 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
     }
     //初始化聊天信息
     public void intiChat(){
-        if("0".equals(admInfo.chatStatus)){//等待咨询
-            if(IoService==null){
-                IoService = new Intent(this, SocketService.class);
-                startService(IoService);
-            }
-            tv_orderchatstatus.setVisibility(View.GONE);
-            tv_stopserver.setVisibility(View.VISIBLE);
-            ll_talk.setVisibility(View.VISIBLE);
-            tv_stopserver.setText("确认服务");
-            if(Validator.isBlank(PreferManager.getValue("sure_noshow"))){
-                ShowMemoDlg dlg=new ShowMemoDlg(this, new ShowMemoDlg.MyCallBack() {
-                    @Override
-                    public void callback(boolean noshow) {
-                        if(noshow){
-                            PreferManager.saveValue("sure_noshow","Y");
-                        }
-                    }
-                });
-                dlg.show();
-            }
-        }else if("1".equals(admInfo.chatStatus)){//咨询中
+//        if("0".equals(admInfo.chatStatus)){//等待咨询
+//            if(IoService==null){
+//                IoService = new Intent(this, SocketService.class);
+//                startService(IoService);
+//            }
+//            tv_orderchatstatus.setVisibility(View.GONE);
+//            tv_stopserver.setVisibility(View.VISIBLE);
+//            ll_talk.setVisibility(View.VISIBLE);
+//            tv_stopserver.setText("确认服务");
+//            if(Validator.isBlank(PreferManager.getValue("sure_noshow"))){
+//                ShowMemoDlg dlg=new ShowMemoDlg(this, new ShowMemoDlg.MyCallBack() {
+//                    @Override
+//                    public void callback(boolean noshow) {
+//                        if(noshow){
+//                            PreferManager.saveValue("sure_noshow","Y");
+//                        }
+//                    }
+//                });
+//                dlg.show();
+//            }
+//        }else
+        if(!"2".equals(admInfo.chatStatus)){//咨询中
             if(IoService==null){
                 IoService = new Intent(this, SocketService.class);
                 startService(IoService);
@@ -272,6 +280,8 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
         list_data.setSelection(data_list.size() - 1);
     }
 
+
+
     public void sendTemplateData(final String content, final int templateId) {
 
 
@@ -293,6 +303,7 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
                         @Override
                         public void run() {
                             ta.notifyDataSetChanged();
+                            list_data.setSelection(data_list.size() - 1);
                         }
                     });
                     ImConst.mSocket.emit("chat", jsonObject, new Ack() {
@@ -310,6 +321,9 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
                                 public void run() {
                                     ta.notifyDataSetChanged();
                                     list_data.setSelection(data_list.size() - 1);
+                                    if("0".equals(admInfo.chatStatus)){
+                                        updatechatstatus("1");
+                                    }
                                 }
                             });
 
@@ -352,6 +366,7 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
                         @Override
                         public void run() {
                             ta.notifyDataSetChanged();
+                            list_data.setSelection(data_list.size() - 1);
                         }
                     });
                     ImConst.mSocket.emit("chat", jsonObject, new Ack() {
@@ -369,6 +384,9 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
                                 public void run() {
                                     ta.notifyDataSetChanged();
                                     list_data.setSelection(data_list.size() - 1);
+                                    if("0".equals(admInfo.chatStatus)){
+                                        updatechatstatus("1");
+                                    }
                                 }
                             });
 
@@ -432,10 +450,11 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
 
     // 发送图片音频信息
     public void savefile(final String path, final String messageType) {
-        final File file = new File(path);
+
         new Thread() {
             public void run() {
                 try {
+                    File file = new File(path);
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("messageType", messageType);
                     jsonObject.put("toUser", userfriend.friendUsername);
@@ -443,7 +462,12 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
                     jsonObject.put("appId", ImConst.appId);
                     jsonObject.put("fileName", file.getName());
                     jsonObject.put( "extend","D");
-                    jsonObject.put("fileData", FileDataUtil.getBytesFromFile(file));
+                    if(messageType.equals("img")){
+                        file = new Compressor(TalkMsgActivity.this).compressToFile(file);
+                    }
+                    byte[] bytes=FileDataUtil.getBytesFromFile(file);
+                    Log.d("msg", "长度："+bytes.length);
+                    jsonObject.put("fileData", bytes);
                     if (messageType.equals("audio")) {
                         jsonObject.put("duration", "20");
                         jsonObject.put("size", "2048");
@@ -455,6 +479,7 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
                         @Override
                         public void run() {
                             ta.notifyDataSetChanged();
+                            list_data.setSelection(data_list.size() - 1);
                         }
                     });
                     ImConst.mSocket.emit("chat", jsonObject, new Ack() {
@@ -472,6 +497,9 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
                                 public void run() {
                                     ta.notifyDataSetChanged();
                                     list_data.setSelection(data_list.size() - 1);
+                                    if("0".equals(admInfo.chatStatus)){
+                                        updatechatstatus("1");
+                                    }
                                 }
                             });
 
@@ -588,6 +616,9 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+                                    if("0".equals(admInfo.chatStatus)){
+                                        updatechatstatus("1");
+                                    }
                                     loadData();
                                     sendOffLineMsg();
                                 }
@@ -628,6 +659,9 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+                                    if("0".equals(admInfo.chatStatus)){
+                                        updatechatstatus("1");
+                                    }
                                     loadData();
                                     sendOffLineMsg();
                                 }
@@ -648,10 +682,10 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
 
     // 发送图片音频信息
     public void savefile(final MessageInfo messageInfo) {
-        final File file = new File(messageInfo.fileRemotePath);
         new Thread() {
             public void run() {
                 try {
+                    File file = new File(messageInfo.fileRemotePath);
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("messageType", messageInfo.messageType);
                     jsonObject.put("toUser", messageInfo.toUser);
@@ -659,6 +693,9 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
                     jsonObject.put("appId", ImConst.appId);
                     jsonObject.put("fileName", file.getName());
                     jsonObject.put( "extend","D");
+                    if(messageInfo.messageType.equals("img")){
+                        file = new Compressor(TalkMsgActivity.this).compressToFile(file);
+                    }
                     jsonObject.put("fileData", FileDataUtil.getBytesFromFile(file));
                     if (messageInfo.messageType.equals("audio")) {
                         jsonObject.put("duration", "20");
@@ -674,6 +711,9 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+                                    if("0".equals(admInfo.chatStatus)){
+                                        updatechatstatus("1");
+                                    }
                                     loadData();
                                     sendOffLineMsg();
                                 }
@@ -748,19 +788,53 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
                                 msg = "服务已结束";
                                 admInfo.chatStatus=chatStatus;
                                 sendFinishText();
+                                showToast(msg);
                             }
                         } else {
                             if(baseBean!=null){
                                 msg = baseBean.getResultDesc();
                             }
                         }
-                        showToast(msg);
                     }
                 });
             }
         }.start();
     }
-
+    public void cancleOrder() {
+        showProgress();
+        new Thread() {
+            String msg = "";
+            BaseBean baseBean;
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    baseBean = AdmManager.cancleOrder(Const.DeviceId,admInfo.patientCard, admInfo.patientId,admInfo.registerId);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    msg = e.getMessage();
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        dismissProgress();
+                        if (baseBean!=null&&baseBean.getResultCode().equals("0")) {
+                                msg = "已退号,服务已结束";
+                                admInfo.chatStatus="2";
+                                sendFinishText();
+                                ta.notifyDataSetChanged();
+                                showToast(msg);
+                        } else {
+                            if(baseBean!=null){
+                                msg = baseBean.getResultDesc();
+                            }
+                            showToast(msg);
+                        }
+                    }
+                });
+            }
+        }.start();
+    }
 
     public void loadPatinfo() {
         showProgress();

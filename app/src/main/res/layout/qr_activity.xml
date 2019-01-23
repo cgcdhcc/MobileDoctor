@@ -16,54 +16,50 @@
          android:layout_width="match_parent"
          android:background="@color/white"
          android:orientation="vertical"
-         android:layout_marginLeft="30dp"
-         android:layout_marginRight="30dp"
+         android:layout_margin="30dp"
          android:layout_height="wrap_content">
          <LinearLayout
+             android:layout_marginTop="20dp"
              android:layout_width="match_parent"
              android:orientation="horizontal"
+             android:gravity="center_vertical"
              android:layout_height="wrap_content">
              <com.imedical.mobiledoctor.widget.CircleImageView
                  android:id="@+id/re_civ_photo"
                  android:layout_marginLeft="20dp"
-                 android:layout_marginTop="20dp"
-                 android:layout_marginRight="10dp"
-                 android:layout_marginBottom="10dp"
-                 android:layout_width="70dp"
-                 android:layout_height="70dp"
+                 android:layout_width="40dp"
+                 android:layout_height="40dp"
                  android:layout_gravity="center"
                  android:scaleType="centerCrop"
                  android:src="@drawable/dhead1_icon" />
              <RelativeLayout
-                 android:layout_width="match_parent"
-                 android:layout_height="match_parent">
+                 android:layout_marginLeft="10dp"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content">
                  <TextView
                      android:layout_width="wrap_content"
                      android:id="@+id/tv_name"
-                     android:layout_marginTop="30dp"
                      android:textSize="@dimen/font_18dp"
-                     android:paddingTop="5dp"
                      android:textColor="@color/black"
                      android:textStyle="bold"
                      android:text="东华医生"
                      android:layout_height="wrap_content" />
                  <TextView
+                     android:visibility="gone"
                      android:layout_width="wrap_content"
                      android:layout_toRightOf="@id/tv_name"
                      android:layout_alignBottom="@id/tv_name"
                      android:id="@+id/tv_alias"
                      android:textSize="@dimen/font_16dp"
                      android:layout_marginLeft="10dp"
-                     android:layout_marginTop="10dp"
                      android:textColor="@color/gray"
-                     android:text="欢迎您"
+                     android:text="您好"
                      android:layout_height="wrap_content" />
                  <TextView
                      android:layout_width="wrap_content"
                      android:id="@+id/tv_department"
                      android:layout_below="@id/tv_name"
                      android:textSize="@dimen/font_16dp"
-                     android:paddingTop="5dp"
                      android:textColor="@color/gray"
                      android:text="青医附院"
                      android:layout_height="wrap_content" />
@@ -74,7 +70,6 @@
                      android:layout_marginLeft="10dp"
                      android:layout_alignBottom="@id/tv_department"
                      android:textSize="@dimen/font_16dp"
-                     android:paddingTop="5dp"
                      android:textColor="@color/gray"
                      android:text="主治医师"
                      android:layout_height="wrap_content" />

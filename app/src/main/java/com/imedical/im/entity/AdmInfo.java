@@ -44,7 +44,7 @@ public class AdmInfo implements Serializable {
     public String chatStatus;//>0</chatStatus>聊天状态
     public String patAvatarUrl;//患者头像
 
-    public AdmInfo(String patName,String admId,String patSex,String patAge,String patAvatarUrl,String docMarkId,String doctorName,String doctorTitle,String doctorCode,String doctorPicUrl,String chatStatus){
+    public AdmInfo(String patName,String admId,String patSex,String patAge,String patAvatarUrl,String docMarkId,String doctorName,String doctorTitle,String doctorCode,String doctorPicUrl,String chatStatus,String registerId){
        this.patientName=patName;
        this.admId=admId;
        this.patientSex=patSex;
@@ -55,6 +55,7 @@ public class AdmInfo implements Serializable {
        this.doctorId=doctorCode;
        this.doctorPicUrl=doctorPicUrl;
        this.chatStatus=chatStatus;
+       this.registerId=registerId;
     }
     public AdmInfo(){
 
