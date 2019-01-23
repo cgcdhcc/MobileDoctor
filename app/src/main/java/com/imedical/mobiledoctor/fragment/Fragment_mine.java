@@ -64,7 +64,7 @@ public class Fragment_mine extends Fragment implements View.OnClickListener {
         tv_title = (TextView) mView.findViewById(R.id.tv_title);
         //==========initData============
         tv_name.setText(Const.loginInfo.userName);
-        tv_title.setText(Const.loginInfo.userCode);
+        tv_title.setText(Const.loginInfo.defaultGroupName);
         tv_department.setText(Const.loginInfo.defaultDeptName);
         mView.findViewById(R.id.view_menu_4).setOnClickListener(new View.OnClickListener() {
             @Override

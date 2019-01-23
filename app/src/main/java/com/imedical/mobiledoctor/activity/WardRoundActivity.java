@@ -87,6 +87,7 @@ public class WardRoundActivity extends BaseRoundActivity implements View.OnClick
         if (hisRecordPopWin != null) {
             WindowManager windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
             hisRecordPopWin.showAsDropDown(parent, 0, -10);
+
         }
     }
     private void InitViews(){
