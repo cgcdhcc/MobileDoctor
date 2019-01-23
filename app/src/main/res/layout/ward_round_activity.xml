@@ -14,16 +14,17 @@
         <LinearLayout
             android:id="@+id/headLayout"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/iv_left"
-                android:layout_width="36dp"
+                android:layout_width="34dp"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:padding="10dp"
+                android:background="@xml/ripple_bg_shape_white"
                 android:scaleType="fitXY"
                 android:src="@drawable/all_left_arrow_white" />
 
@@ -163,6 +164,8 @@
             android:id="@+id/ll_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@xml/ripple_bg_shape_white"
+
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
@@ -182,6 +185,7 @@
 
         <LinearLayout
             android:id="@+id/ll_2"
+            android:background="@xml/ripple_bg_shape_white"
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -208,6 +212,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
+            android:background="@xml/ripple_bg_shape_white"
 
             android:orientation="vertical">
 
@@ -230,6 +235,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
+            android:background="@xml/ripple_bg_shape_white"
 
             android:orientation="vertical">
 
@@ -260,6 +266,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
+            android:background="@xml/ripple_bg_shape_white"
 
             android:orientation="vertical">
 
@@ -282,6 +289,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
+            android:background="@xml/ripple_bg_shape_white"
+
             android:orientation="vertical">
 
             <ImageView
@@ -301,6 +310,8 @@
             android:id="@+id/ll_7"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@xml/ripple_bg_shape_white"
+
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
@@ -324,6 +335,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
+            android:background="@xml/ripple_bg_shape_white"
+
             android:orientation="vertical">
 
             <ImageView
