@@ -18,10 +18,12 @@ import com.imedical.jpush.bean.MessageNoRead;
 import com.imedical.jpush.service.MessageService;
 import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
+import com.imedical.mobiledoctor.activity.LoginHospitalActivity;
 import com.imedical.mobiledoctor.activity.frg_3.QRActivity;
 import com.imedical.mobiledoctor.activity.frg_3.SettingActivity;
 import com.imedical.mobiledoctor.activity.visit.DateVisitMulitActivity;
 import com.imedical.mobiledoctor.util.LogMe;
+import com.imedical.mobiledoctor.util.PreferManager;
 import com.imedical.mobiledoctor.zxing.activity.CaptureActivity;
 
 import java.util.Set;
@@ -124,8 +126,12 @@ public class Fragment_mine extends Fragment implements View.OnClickListener {
                     startActivity(intent);
                     break;
                 case R.id.tv_exit:
+                    PreferManager.saveValue("phoneNo", "");
+                    PreferManager.saveValue("password", "");
                     JPushInterface.deleteAlias(getActivity(), 100);
-                    System.exit(0);
+                    Intent startintent=new Intent(getActivity(),LoginHospitalActivity.class);
+                    startActivity(startintent);
+                    getActivity().finish();
                     break;
             }
     }

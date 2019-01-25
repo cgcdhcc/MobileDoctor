@@ -76,7 +76,17 @@ public class UserManager {
         return list.get(0);
     }
 
+    public static LoginInfo login(String userCode) throws Exception {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("userCode", userCode);
+        String serviceUrl = SettingManager.getServerUrl();
+        Log.d("msg", serviceUrl);
+        String requestXml = PropertyUtil.buildRequestXml(map);
+        String resultXml = WsApiUtil.loadSoapObject(serviceUrl, Const.BIZ_CODE_FACE_LOGIN, requestXml);
+        List<LoginInfo> list = PropertyUtil.parseBeansToList(LoginInfo.class, resultXml);
 
+        return list.get(0);
+    }
 //			
 //			/**
 //			    * 获取患者基本信息

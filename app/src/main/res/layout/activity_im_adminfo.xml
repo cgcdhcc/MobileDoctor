@@ -89,31 +89,6 @@
                             android:textSize="@dimen/font_14dp" />
 
                     </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="登记号："
-                            android:textColor="@color/text_gray"
-                            android:textSize="@dimen/font_14dp" />
-
-                        <TextView
-                            android:id="@+id/tv_patientId"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:singleLine="true"
-                            android:text="22212"
-                            android:textColor="@color/text_base"
-                            android:textSize="@dimen/font_14dp" />
-
-                    </LinearLayout>
-
                 </LinearLayout>
 
                 <View

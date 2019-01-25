@@ -161,13 +161,6 @@ public class LoginHospitalActivity extends BaseActivity implements
                         mess.obj=e.getMessage();
                         myHandler.handleMessage(mess);
                     }
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            dismissProgress();
-                        }
-                    });
-
                 }
             }.start();
         } catch (Exception e) {
@@ -206,7 +199,7 @@ public class LoginHospitalActivity extends BaseActivity implements
 
     Handler myHandler = new Handler() {
         public void handleMessage(Message msg) {
-            Looper.prepare();
+            dismissProgress();
             switch (msg.what) {
                 case 0:
                     Const.loginInfo = mLoginInfo;
@@ -214,23 +207,21 @@ public class LoginHospitalActivity extends BaseActivity implements
                     intiJpush();
                     Intent intent=new Intent(LoginHospitalActivity.this,MainActivity.class);
                     startActivity(intent);
+                    finish();
                     break;
 
                 //密码错误
                 case -1:
-                  dismissProgress();
                     showCustom(msg.obj.toString());
                     break;
 
                 case -2:
-                    dismissProgress();
                     showCustom("网络出现问题");
                     break;
                 default:
                     break;
 
             }
-            Looper.loop();
             super.handleMessage(msg);
         }
     };

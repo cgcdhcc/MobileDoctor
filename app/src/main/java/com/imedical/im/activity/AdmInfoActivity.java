@@ -24,7 +24,7 @@ import java.util.List;
 
 public class AdmInfoActivity extends BaseActivity {
     public String admId;
-    public TextView tv_patientName, tv_patientAge, tv_patientCard, tv_patientId, tv_doctorName, tv_departmentName, tv_doctorTitle, tv_patientContent;
+    public TextView tv_patientName, tv_patientAge, tv_patientCard, tv_doctorName, tv_departmentName, tv_doctorTitle, tv_patientContent;
     public TextView tv_complaintStr_Item1, tv_complaintStr_Item2, tv_complaintStr_Item3, tv_complaintStr_Item4, tv_complaintStr_Item5;
     public GridView gv_img;
     public int mScreenWidth;
@@ -44,7 +44,6 @@ public class AdmInfoActivity extends BaseActivity {
         tv_patientName = findViewById(R.id.tv_patientName);
         tv_patientAge = findViewById(R.id.tv_patientAge);
         tv_patientCard = findViewById(R.id.tv_patientCard);
-        tv_patientId = findViewById(R.id.tv_patientId);
         tv_doctorName = findViewById(R.id.tv_doctorName);
         tv_departmentName = findViewById(R.id.tv_departmentName);
         tv_doctorTitle = findViewById(R.id.tv_doctorTitle);
@@ -62,7 +61,6 @@ public class AdmInfoActivity extends BaseActivity {
         tv_patientName.setText(admInfo.patientName);
         tv_patientAge.setText(admInfo.patientAge + " | " + admInfo.patientSex);
         tv_patientCard.setText(admInfo.patientCard);
-        tv_patientId.setText(admInfo.patientId);
         tv_doctorName.setText(admInfo.doctorName);
         tv_departmentName.setText(admInfo.departmentName);//
         tv_doctorTitle.setText(" | " + admInfo.doctorTitle);//

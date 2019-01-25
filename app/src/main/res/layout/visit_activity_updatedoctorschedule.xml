@@ -22,7 +22,7 @@
             android:layout_marginLeft="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/font_16dp"
+            android:textSize="@dimen/font_14dp"
             android:textColor="@color/text_grayblack"
             android:text="上午"/>
 
@@ -34,7 +34,7 @@
             android:layout_marginLeft="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/font_16dp"
+            android:textSize="@dimen/font_14dp"
             android:textColor="@color/text_grayblack"
             android:text="号源数："/>
         <EditText

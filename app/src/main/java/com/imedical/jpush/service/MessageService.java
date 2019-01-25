@@ -1,10 +1,17 @@
 package com.imedical.jpush.service;
 
 import com.google.gson.Gson;
+import com.imedical.jpush.bean.DeleteAllMsgRequest;
+import com.imedical.jpush.bean.DeleteMsgRequest;
+import com.imedical.jpush.bean.GetUnReadCountRequest;
 import com.imedical.jpush.bean.MessageNoRead;
 import com.imedical.jpush.bean.MsgResponse;
+import com.imedical.jpush.bean.QueryMsgRequest;
+import com.imedical.jpush.bean.UpdateMsgStatusRequest;
 import com.imedical.mobiledoctor.Const;
+import com.imedical.mobiledoctor.XMLservice.SettingManager;
 import com.imedical.mobiledoctor.api.RequestUtil;
+import com.imedical.mobiledoctor.api.WsApiUtil;
 import com.imedical.mobiledoctor.util.LogMe;
 
 import org.apache.http.NameValuePair;
@@ -17,93 +24,21 @@ import java.util.List;
  */
 
 public class MessageService {
-
+    public static Gson gson=new Gson();
     public static MsgResponse queryMsg(final String canload){
-        final List<NameValuePair> param=new ArrayList<NameValuePair>();
-        param.add(new NameValuePair() {
-            @Override
-            public String getName() {
-                return "userid";
-            }
-
-            @Override
-            public String getValue() {
-                return "reg_"+ Const.loginInfo.userCode;
-            }
-        });
-        param.add(new NameValuePair() {
-            @Override
-            public String getName() {
-                return "appkey";
-            }
-
-            @Override
-            public String getValue() {
-                return Const.jpushkey;
-            }
-        });
-        param.add(new NameValuePair() {
-            @Override
-            public String getName() {
-                return "pagesize";
-            }
-
-            @Override
-            public String getValue() {
-                return "10";
-            }
-        });
-        param.add(new NameValuePair() {
-            @Override
-            public String getName() {
-                return "canload";
-            }
-
-            @Override
-            public String getValue() {
-                return canload;
-            }
-        });
-        String result= RequestUtil.doPost(Const.jpushurl+"getappmsg",param);
-
-        //result=result.replaceAll("\\[\\]","\"\"");//容错，防止返回的jumpdata中返回[]导致解析失败
-        LogMe.d("msg",result);
-        Gson g=new Gson();
-        MsgResponse response=g.fromJson(result,MsgResponse.class);
-
+        QueryMsgRequest queryMsgRequest=new QueryMsgRequest("reg_"+ Const.loginInfo.userCode,Const.jpushkey, "10",canload);
+        String serviceUrl = SettingManager.getServerUrl();
+        String resultXml  = WsApiUtil.loadSoapObjectJson(serviceUrl,Const.BIZ_CODE_getappmsg,null, gson.toJson(queryMsgRequest));
+        MsgResponse response=gson.fromJson(resultXml,MsgResponse.class);
         return response;
 
     }
     //获取未读消息个数
     public static MessageNoRead getunreadcount(){
-        final List<NameValuePair> param=new ArrayList<NameValuePair>();
-        param.add(new NameValuePair() {
-            @Override
-            public String getName() {
-                return "userid";
-            }
-
-            @Override
-            public String getValue() {
-                return "reg_"+ Const.loginInfo.userCode;
-            }
-        });
-        param.add(new NameValuePair() {
-            @Override
-            public String getName() {
-                return "appkey";
-            }
-
-            @Override
-            public String getValue() {
-                return Const.jpushkey;
-            }
-        });
-
-        String result= RequestUtil.doPost(Const.jpushurl+"getunreadcount",param);
-        LogMe.d("msg",result);
-        Gson g=new Gson();
-        MessageNoRead response=g.fromJson(result,MessageNoRead.class);
+        GetUnReadCountRequest getUnReadCountRequest=new GetUnReadCountRequest("reg_"+ Const.loginInfo.userCode,Const.jpushkey);
+        String serviceUrl = SettingManager.getServerUrl();
+        String resultXml  = WsApiUtil.loadSoapObjectJson(serviceUrl,Const.BIZ_CODE_getunreadcount,null, gson.toJson(getUnReadCountRequest));
+        MessageNoRead response=gson.fromJson(resultXml,MessageNoRead.class);
         return response;
 
     }
@@ -111,135 +46,30 @@ public class MessageService {
     //全部置为已读
 
     public static MessageNoRead updateallmsgstatus(){
-        final List<NameValuePair> param=new ArrayList<NameValuePair>();
-        param.add(new NameValuePair() {
-            @Override
-            public String getName() {
-                return "userid";
-            }
-
-            @Override
-            public String getValue() {
-                return "reg_"+ Const.loginInfo.userCode;
-            }
-        });
-        param.add(new NameValuePair() {
-            @Override
-            public String getName() {
-                return "appkey";
-            }
-
-            @Override
-            public String getValue() {
-                return Const.jpushkey;
-            }
-        });
-
-        String result= RequestUtil.doPost(Const.jpushurl+"updateallmsgstatus",param);
-        LogMe.d("msg",result);
-        Gson g=new Gson();
-        MessageNoRead response=g.fromJson(result,MessageNoRead.class);
+        GetUnReadCountRequest getUnReadCountRequest=new GetUnReadCountRequest("reg_"+ Const.loginInfo.userCode,Const.jpushkey);
+        String serviceUrl = SettingManager.getServerUrl();
+        String resultXml  = WsApiUtil.loadSoapObjectJson(serviceUrl,Const.BIZ_CODE_updateallmsgstatus,null, gson.toJson(getUnReadCountRequest));
+        MessageNoRead response=gson.fromJson(resultXml,MessageNoRead.class);
         return response;
 
     }
 
     //一条信息置为已读
     public static MessageNoRead updatemsgstatus(final String msgid, final String markread){
-        final List<NameValuePair> param=new ArrayList<NameValuePair>();
-        param.add(new NameValuePair() {
-            @Override
-            public String getName() {
-                return "userid";
-            }
-
-            @Override
-            public String getValue() {
-                return "reg_"+ Const.loginInfo.userCode;
-            }
-        });
-        param.add(new NameValuePair() {
-            @Override
-            public String getName() {
-                return "appkey";
-            }
-
-            @Override
-            public String getValue() {
-                return Const.jpushkey;
-            }
-        });
-        param.add(new NameValuePair() {
-            @Override
-            public String getName() {
-                return "msglist";
-            }
-
-            @Override
-            public String getValue() {
-                return msgid;
-            }
-        });
-        param.add(new NameValuePair() {
-            @Override
-            public String getName() {
-                return "markread";
-            }
-
-            @Override
-            public String getValue() {
-                return markread;
-            }
-        });
-
-
-        String result= RequestUtil.doPost(Const.jpushurl+"updatemsgstatus",param);
-        LogMe.d("msg",result);
-        Gson g=new Gson();
-        MessageNoRead response=g.fromJson(result,MessageNoRead.class);
+        UpdateMsgStatusRequest updateMsgStatusRequest=new UpdateMsgStatusRequest("reg_"+ Const.loginInfo.userCode,Const.jpushkey,msgid,markread);
+        String serviceUrl = SettingManager.getServerUrl();
+        String resultXml  = WsApiUtil.loadSoapObjectJson(serviceUrl,Const.BIZ_CODE_updatemsgstatus,null, gson.toJson(updateMsgStatusRequest));
+        MessageNoRead response=gson.fromJson(resultXml,MessageNoRead.class);
         return response;
 
     }
     //删除全部消息
 
     public static MessageNoRead deleteallmsg(final String total){//是否删除全部(0=>已读,1=>全部),默认不传0,删除已读消息
-        final List<NameValuePair> param=new ArrayList<NameValuePair>();
-        param.add(new NameValuePair() {
-            @Override
-            public String getName() {
-                return "userid";
-            }
-
-            @Override
-            public String getValue() {
-                return "reg_"+ Const.loginInfo.userCode;
-            }
-        });
-        param.add(new NameValuePair() {
-            @Override
-            public String getName() {
-                return "appkey";
-            }
-
-            @Override
-            public String getValue() {
-                return Const.jpushkey;
-            }
-        });
-        param.add(new NameValuePair() {
-            @Override
-            public String getName() {
-                return "total";
-            }
-
-            @Override
-            public String getValue() {
-                return total;
-            }
-        });
-        String result= RequestUtil.doPost(Const.jpushurl+"deleteallmsg",param);
-        LogMe.d("msg",result);
-        Gson g=new Gson();
-        MessageNoRead response=g.fromJson(result,MessageNoRead.class);
+        DeleteAllMsgRequest deleteAllMsgRequest=new DeleteAllMsgRequest("reg_"+ Const.loginInfo.userCode,Const.jpushkey,total);
+        String serviceUrl = SettingManager.getServerUrl();
+        String resultXml  = WsApiUtil.loadSoapObjectJson(serviceUrl,Const.BIZ_CODE_deleteallmsg,null, gson.toJson(deleteAllMsgRequest));
+        MessageNoRead response=gson.fromJson(resultXml,MessageNoRead.class);
         return response;
 
     }
@@ -247,47 +77,14 @@ public class MessageService {
     //删除一条消息
 
     public static MessageNoRead deletemsg(final String msgid){
-        final List<NameValuePair> param=new ArrayList<NameValuePair>();
-        param.add(new NameValuePair() {
-            @Override
-            public String getName() {
-                return "userid";
-            }
-
-            @Override
-            public String getValue() {
-                return "reg_"+ Const.loginInfo.userCode;
-            }
-        });
-        param.add(new NameValuePair() {
-            @Override
-            public String getName() {
-                return "appkey";
-            }
-
-            @Override
-            public String getValue() {
-                return Const.jpushkey;
-            }
-        });
-        param.add(new NameValuePair() {
-            @Override
-            public String getName() {
-                return "msglist";
-            }
-
-            @Override
-            public String getValue() {
-                return msgid;
-            }
-        });
-
-        String result= RequestUtil.doPost(Const.jpushurl+"deletemsg",param);
-        LogMe.d("msg",result);
-        Gson g=new Gson();
-        MessageNoRead response=g.fromJson(result,MessageNoRead.class);
+        DeleteMsgRequest deleteMsgRequest=new DeleteMsgRequest("reg_"+ Const.loginInfo.userCode,Const.jpushkey,msgid);
+        String serviceUrl = SettingManager.getServerUrl();
+        String resultXml  = WsApiUtil.loadSoapObjectJson(serviceUrl,Const.BIZ_CODE_deletemsg,null, gson.toJson(deleteMsgRequest));
+        MessageNoRead response=gson.fromJson(resultXml,MessageNoRead.class);
         return response;
 
     }
 
 }
+
+

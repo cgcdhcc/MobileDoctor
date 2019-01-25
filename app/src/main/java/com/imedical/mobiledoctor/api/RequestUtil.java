@@ -41,13 +41,16 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -286,5 +289,59 @@ public class RequestUtil {
             return (new Gson()).toJson(response);
         }
         return result;
+    }
+
+    public static String uploadFile(String url, Map<String,String> headers, String filep, File file, Map<String,String> map) {
+        try {
+            OkHttpClient client ;
+            if(url.contains("https")){
+                client= new OkHttpClient().newBuilder().
+                        sslSocketFactory(SSLSocketClient.getSSLSocketFactory()).
+                        hostnameVerifier(SSLSocketClient.getHostnameVerifier()).build();
+            }else{
+                client= new OkHttpClient();
+            }
+            RequestBody requestBody;
+            if(file!=null){
+                RequestBody fileBody= RequestBody.create(MediaType.parse("image/jpeg"), file);
+                MultipartBody.Builder builder=new MultipartBody.Builder();
+                builder.setType(MultipartBody.FORM);
+                builder.addFormDataPart(filep, file.getName(), fileBody);
+                for (Map.Entry<String, String> entry : map.entrySet()) {
+                    builder.addFormDataPart(entry.getKey(), entry.getValue());
+                }
+
+                requestBody =builder.build();
+            }else{
+                MultipartBody.Builder builder=new MultipartBody.Builder();
+                builder.setType(MultipartBody.FORM);
+                for (Map.Entry<String, String> entry : map.entrySet()) {
+                    builder.addFormDataPart(entry.getKey(), entry.getValue());
+                }
+                requestBody =builder.build();
+            }
+
+
+            Request.Builder builder2 = new Request.Builder()
+                    .url(url)
+                    .post(requestBody);
+            if(headers!=null){
+                for (Map.Entry<String, String> entry : headers.entrySet()) {
+                    builder2.addHeader(entry.getKey(), entry.getValue());
+                }
+            }
+            Response response = client.newCall(builder2.build()).execute();
+            if (response.code() == 200) {
+                String retData = response.body().string();
+                return retData;
+
+            } else {
+                return "非正常请求状态"+response.code()+response.body().string();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 }

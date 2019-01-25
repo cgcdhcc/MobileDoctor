@@ -83,7 +83,7 @@ public class MessageActivity extends BaseActivity {
                             }
                         }
                     });
-                    return false;
+                    return true;
                 }
             });
             adapter = new MsgAdapter(this, msglist);

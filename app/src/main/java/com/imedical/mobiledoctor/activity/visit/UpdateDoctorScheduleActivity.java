@@ -43,7 +43,7 @@ public class UpdateDoctorScheduleActivity extends BaseActivity {
         et_regLimit = findViewById(R.id.et_regLimit);
         et_regLimit.setText(doctorSchedule.regLimit);
         tv_timeRangeDesc = findViewById(R.id.tv_timeRangeDesc);
-        tv_timeRangeDesc.setText(doctorSchedule.timeRangeDesc+"   "+doctorSchedule.startTime+"-"+doctorSchedule.endTime);
+        tv_timeRangeDesc.setText(doctorSchedule.timeRangeDesc+" "+doctorSchedule.startTime+"-"+doctorSchedule.endTime);
         tv_save = findViewById(R.id.tv_save);
         tv_save.setOnClickListener(new View.OnClickListener() {
             @Override
