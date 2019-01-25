@@ -10,6 +10,7 @@ import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -19,6 +20,7 @@ import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.XMLservice.BusyManager;
 import com.imedical.mobiledoctor.XMLservice.SysManager;
+import com.imedical.mobiledoctor.activity.round.MultimediaActivity;
 import com.imedical.mobiledoctor.base.BaseRoundActivity;
 import com.imedical.mobiledoctor.activity.round.CaseActivity;
 import com.imedical.mobiledoctor.activity.round.DiagnosisActivity;
@@ -45,8 +47,9 @@ public class WardRoundActivity extends BaseRoundActivity implements View.OnClick
     private List<SeeDoctorRecord> listtemp = null;
     private ListView mListViewRecord;
     private PopupWindow hisRecordPopWin;
-    private  View ll_switch,ll_1,ll_2,ll_3,ll_4,ll_5,ll_6,ll_7,ll_8;
+    private  View ll_switch,ll_1,ll_2,ll_3,ll_4,ll_5,ll_6,ll_7,ll_8,ll_dialog,ll_dialog_orders,ll_dialog_diagnosis,ll_dialog_reports;
     private String title;
+    private ImageView iv_dialog_close,iv_open;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,7 +101,17 @@ public class WardRoundActivity extends BaseRoundActivity implements View.OnClick
         }else {
             setTitle(title);
         }
-
+        ll_dialog=this.findViewById(R.id.ll_dialog);
+        ll_dialog_orders=this.findViewById(R.id.ll_dialog_orders);
+        ll_dialog_orders.setOnClickListener(this);
+        ll_dialog_diagnosis=this.findViewById(R.id.ll_dialog_diagnosis);
+        ll_dialog_diagnosis.setOnClickListener(this);
+        ll_dialog_reports=this.findViewById(R.id.ll_dialog_reports);
+        ll_dialog_reports.setOnClickListener(this);
+        iv_open=(ImageView) findViewById(R.id.iv_open);
+        iv_open.setOnClickListener(this);
+        iv_dialog_close=(ImageView) findViewById(R.id.iv_dialog_close);
+        iv_dialog_close.setOnClickListener(this);
         re_civ_photo=(CircleImageView)findViewById(R.id.re_civ_photo);
         tv_name=(TextView) findViewById(R.id.tv_name);
         tv_patSwitch=(TextView) findViewById(R.id.tv_patSwitch);
@@ -299,6 +312,16 @@ public class WardRoundActivity extends BaseRoundActivity implements View.OnClick
             case R.id.ll_7:
                 Intent ll_7 =new Intent(WardRoundActivity.this,CaseActivity.class);
                 this.startActivity(ll_7);
+                break;
+            case R.id.ll_8:
+//                Intent ll_8 =new Intent(WardRoundActivity.this, MultimediaActivity.class);
+//                this.startActivity(ll_8);
+                break;
+            case R.id.iv_open:
+                  ll_dialog.setVisibility(View.VISIBLE);
+                break;
+            case R.id.iv_dialog_close:
+                ll_dialog.setVisibility(View.GONE);
                 break;
             default:break;
         }

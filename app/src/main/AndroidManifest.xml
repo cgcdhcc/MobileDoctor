@@ -20,6 +20,7 @@
         </intent-filter>
 
     </activity>
+        <!--<activity android:name="com.imedical.mobiledoctor.activity.round.MultimediaActivity" android:screenOrientation="portrait"/> 未启用-->
         <activity android:name="com.imedical.mobiledoctor.activity.round.detail.Lis_CurvedLineActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.mobiledoctor.activity.frg_3.QRActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.mobiledoctor.activity.frg_3.SettingActivity" android:screenOrientation="portrait"/>

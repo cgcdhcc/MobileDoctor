@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+    <include layout="@layout/page_head"></include>
+
+    <ImageView
+        android:id="@+id/iv_no_re"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_centerInParent="true"
+        android:src="#F7F7F7"
+        android:visibility="gone" />
+    <include layout="@layout/inner_no_data" />
+    <ListView
+        android:id="@+id/lv_data_now"
+        android:layout_width="fill_parent"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:cacheColorHint="#00000000"
+        android:descendantFocusability="afterDescendants"
+        android:divider="@null"
+        android:fadingEdge="none"
+        android:listSelector="@android:color/transparent" />
+    <TextView
+        android:id="@+id/btn_add"
+        android:layout_gravity="center"
+        android:textSize="@dimen/font_16dp"
+        android:textColor="@color/white"
+        android:background="@drawable/button_shape_blue_gradient"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="50dp"
+        android:layout_margin="10dp"
+        android:paddingRight="50dp"
+        android:text="添   加"/>
+</LinearLayout>
