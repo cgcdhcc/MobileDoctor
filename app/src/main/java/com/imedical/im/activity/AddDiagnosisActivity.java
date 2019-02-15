@@ -20,7 +20,7 @@ import java.util.List;
 
 public class AddDiagnosisActivity extends BaseActivity {
     public String admId;
-    public TextView tv_patientName, tv_patientAge, tv_patientCard, tv_patientId, tv_doctorName, tv_departmentName, tv_doctorTitle,tv_save;
+    public TextView tv_patientName, tv_patientAge, tv_patientCard, tv_doctorName, tv_departmentName, tv_doctorTitle,tv_save;
     public EditText et_msgContent;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,7 +37,6 @@ public class AddDiagnosisActivity extends BaseActivity {
         tv_patientName = findViewById(R.id.tv_patientName);
         tv_patientAge = findViewById(R.id.tv_patientAge);
         tv_patientCard = findViewById(R.id.tv_patientCard);
-        tv_patientId = findViewById(R.id.tv_patientId);
         tv_doctorName = findViewById(R.id.tv_doctorName);
         tv_departmentName = findViewById(R.id.tv_departmentName);
         tv_doctorTitle = findViewById(R.id.tv_doctorTitle);
@@ -59,8 +58,7 @@ public class AddDiagnosisActivity extends BaseActivity {
         et_msgContent.setText(admInfo.doctorContent);
         tv_patientName.setText(admInfo.patientName);
         tv_patientAge.setText(admInfo.patientAge + " | " + admInfo.patientSex);
-        tv_patientCard.setText(admInfo.patientCard);
-        tv_patientId.setText(admInfo.patientId);
+        tv_patientCard.setText(admInfo.patientId);
         tv_doctorName.setText(admInfo.doctorName);
         tv_departmentName.setText(admInfo.departmentName);//
         tv_doctorTitle.setText(admInfo.doctorTitle);//

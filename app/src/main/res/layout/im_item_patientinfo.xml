@@ -76,4 +76,33 @@
             android:textColor="@color/text_gray"
             />
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/view_cancle"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="若患者挂错科室，您可以进行"
+            android:textColor="@color/text_gray"
+            android:textSize="12sp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            />
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" 退号"
+            android:textColor="@color/basecolor"
+            android:textSize="12sp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingRight="10dp"
+            />
+    </LinearLayout>
+
 </LinearLayout>

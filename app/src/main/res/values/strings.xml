@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MobileDoctor</string>
+    <string name="app_name">青大附院互联网医院</string>
     <string name="pull_to_refresh_tap_label">Tap to refresh...</string>
 
 </resources>

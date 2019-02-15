@@ -65,6 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="张杰涛"
+            android:singleLine="true"
             android:textSize="@dimen/font_16dp"
             android:textColor="@color/text_base"
             />
@@ -74,6 +75,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="主治医师"
+            android:singleLine="true"
             android:textSize="@dimen/font_14dp"
             android:textColor="@color/text_gray"
             />

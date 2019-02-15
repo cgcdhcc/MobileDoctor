@@ -39,6 +39,7 @@ import com.imedical.mobiledoctor.entity.QrCodeGenerateRequest;
 import com.imedical.mobiledoctor.fragment.MainActivity;
 import com.imedical.mobiledoctor.util.LogMe;
 import com.imedical.mobiledoctor.util.PhoneUtil;
+import com.imedical.mobiledoctor.util.PreferManager;
 import com.imedical.mobiledoctor.util.Validator;
 
 import java.util.Set;
@@ -102,11 +103,13 @@ public class LoginHospitalActivity extends BaseActivity implements
         et_username = (EditText) this.findViewById(R.id.et_username);
         et_username.setSingleLine();
         et_username.requestFocus();
+        et_username.setText(PreferManager.getValue("phoneNo"));
         et_pwd = (EditText) this.findViewById(R.id.et_pwd);
         et_pwd.setSingleLine();
         et_pwd.setInputType(InputType.TYPE_CLASS_TEXT
                 | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         et_pwd.setFilters(new InputFilter[]{new InputFilter.LengthFilter(20)});
+        et_pwd.setText(PreferManager.getValue("password"));
     }
 
     /**
@@ -141,14 +144,16 @@ public class LoginHospitalActivity extends BaseActivity implements
                         mLoginInfo = UserManager.login(
                                 LoginHospitalActivity.this, phoneNo, password,
                                 terminalId);
-                        userregister userregister=new userregister(mLoginInfo.docMarkId,mLoginInfo.docMarkId,mLoginInfo.docMarkId);
-                        ImBaseResponse imBaseResponse =ImUserService.getInstance().userRegister(userregister);
-                        if(imBaseResponse!=null){
-                            Log.d("msg",imBaseResponse.msg);
-                        }
+//                        userregister userregister=new userregister(mLoginInfo.docMarkId,mLoginInfo.docMarkId,mLoginInfo.docMarkId);
+//                        ImBaseResponse imBaseResponse =ImUserService.getInstance().userRegister(userregister);
+//                        if(imBaseResponse!=null){
+//                            Log.d("msg",imBaseResponse.msg);
+//                        }
                         Message mess = new Message();
                         mess.what = 0;
                         myHandler.handleMessage(mess);
+                        PreferManager.saveValue("phoneNo", phoneNo);
+                        PreferManager.saveValue("password", password);
                     } catch (Exception e) {
                         e.printStackTrace();
                         Message mess = new Message();
@@ -156,13 +161,6 @@ public class LoginHospitalActivity extends BaseActivity implements
                         mess.obj=e.getMessage();
                         myHandler.handleMessage(mess);
                     }
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            dismissProgress();
-                        }
-                    });
-
                 }
             }.start();
         } catch (Exception e) {
@@ -180,15 +178,9 @@ public class LoginHospitalActivity extends BaseActivity implements
 
     public void intiJpush(){
         if(Const.loginInfo!=null){
-            JPushInterface.setDebugMode(true);
+            //JPushInterface.setDebugMode(true);
             JPushInterface.init(this);
-            JPushInterface.setAlias(this,"reg_"+Const.loginInfo.userCode,new TagAliasCallback(){
-                @Override
-                public void gotResult(int i, String s, Set<String> set) {
-                    LogMe.d("msg","设置别名成功:"+s);
-                    LogMe.d("msg","初始化完成");
-                }
-            });
+            JPushInterface.setAlias(this,100,"reg_"+Const.loginInfo.userCode);
             CustomPushNotificationBuilder builder = new
                     CustomPushNotificationBuilder(this,
                     R.layout.jpush_customer_notitfication_layout,
@@ -207,7 +199,7 @@ public class LoginHospitalActivity extends BaseActivity implements
 
     Handler myHandler = new Handler() {
         public void handleMessage(Message msg) {
-            Looper.prepare();
+            dismissProgress();
             switch (msg.what) {
                 case 0:
                     Const.loginInfo = mLoginInfo;
@@ -215,23 +207,21 @@ public class LoginHospitalActivity extends BaseActivity implements
                     intiJpush();
                     Intent intent=new Intent(LoginHospitalActivity.this,MainActivity.class);
                     startActivity(intent);
+                    finish();
                     break;
 
                 //密码错误
                 case -1:
-                  dismissProgress();
                     showCustom(msg.obj.toString());
                     break;
 
                 case -2:
-                    dismissProgress();
                     showCustom("网络出现问题");
                     break;
                 default:
                     break;
 
             }
-            Looper.loop();
             super.handleMessage(msg);
         }
     };

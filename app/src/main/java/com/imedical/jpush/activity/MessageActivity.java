@@ -64,10 +64,11 @@ public class MessageActivity extends BaseActivity {
             lv_data.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Intent intent = new Intent(MessageActivity.this, MessageDetailActivity.class);
-                    intent.putExtra("message", msglist.get(position - 1));
-                    startActivity(intent);
-
+                    if(position - 1>=0&&position - 1<msglist.size()){
+                        Intent intent = new Intent(MessageActivity.this, MessageDetailActivity.class);
+                        intent.putExtra("message", msglist.get(position - 1));
+                        startActivity(intent);
+                    }
                 }
             });
             lv_data.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -82,7 +83,7 @@ public class MessageActivity extends BaseActivity {
                             }
                         }
                     });
-                    return false;
+                    return true;
                 }
             });
             adapter = new MsgAdapter(this, msglist);

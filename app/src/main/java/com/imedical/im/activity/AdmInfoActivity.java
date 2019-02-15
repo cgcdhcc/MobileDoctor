@@ -24,7 +24,7 @@ import java.util.List;
 
 public class AdmInfoActivity extends BaseActivity {
     public String admId;
-    public TextView tv_patientName, tv_patientAge, tv_patientCard, tv_patientId, tv_doctorName, tv_departmentName, tv_doctorTitle, tv_patientContent;
+    public TextView tv_patientName, tv_patientAge, tv_patientCard, tv_doctorName, tv_departmentName, tv_doctorTitle, tv_patientContent;
     public TextView tv_complaintStr_Item1, tv_complaintStr_Item2, tv_complaintStr_Item3, tv_complaintStr_Item4, tv_complaintStr_Item5;
     public GridView gv_img;
     public int mScreenWidth;
@@ -44,7 +44,6 @@ public class AdmInfoActivity extends BaseActivity {
         tv_patientName = findViewById(R.id.tv_patientName);
         tv_patientAge = findViewById(R.id.tv_patientAge);
         tv_patientCard = findViewById(R.id.tv_patientCard);
-        tv_patientId = findViewById(R.id.tv_patientId);
         tv_doctorName = findViewById(R.id.tv_doctorName);
         tv_departmentName = findViewById(R.id.tv_departmentName);
         tv_doctorTitle = findViewById(R.id.tv_doctorTitle);
@@ -58,11 +57,10 @@ public class AdmInfoActivity extends BaseActivity {
         tv_complaintStr_Item5 = findViewById(R.id.tv_complaintStr_Item5);
     }
 
-    public void intiData(AdmInfo admInfo) {
+    public void intiData(final AdmInfo admInfo) {
         tv_patientName.setText(admInfo.patientName);
         tv_patientAge.setText(admInfo.patientAge + " | " + admInfo.patientSex);
-        tv_patientCard.setText(admInfo.patientCard);
-        tv_patientId.setText(admInfo.patientId);
+        tv_patientCard.setText(admInfo.patientId);
         tv_doctorName.setText(admInfo.doctorName);
         tv_departmentName.setText(admInfo.departmentName);//
         tv_doctorTitle.setText(" | " + admInfo.doctorTitle);//
@@ -101,8 +99,13 @@ public class AdmInfoActivity extends BaseActivity {
             gv_img.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    String[] imgurl= admInfo.picUrl.split(",");
+                    for(int m = 0;m<imgurl.length;m++){
+                        imgurl[m]=Const.IMG_URL +imgurl[m];
+                    }
                     Intent intent = new Intent(AdmInfoActivity.this, TalkImageShowActivity.class);
-                    intent.putExtra("imgurl", Const.IMG_URL + gv_img.getAdapter().getItem(i).toString());
+                    intent.putExtra("imgurl", imgurl);
+                    intent.putExtra("position", i);
                     startActivity(intent);
                 }
             });
@@ -172,7 +175,7 @@ public class AdmInfoActivity extends BaseActivity {
             ViewGroup.LayoutParams para = iv_img.getLayoutParams();
             para.height = (mScreenWidth-30)/3;
             iv_img.setLayoutParams(para);
-            DownloadUtil.loadImage(iv_img, Const.IMG_URL+ imgpaths[i], R.drawable.icon, R.drawable.icon, R.drawable.icon);
+            DownloadUtil.loadImage(iv_img, Const.IMG_URL+ imgpaths[i], R.drawable.im_iconfont_tupian, R.drawable.im_iconfont_tupian, R.drawable.im_iconfont_tupian);
             return view;
         }
     }

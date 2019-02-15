@@ -104,7 +104,7 @@ public class Fragment_Patient extends Fragment implements View.OnClickListener {
         tv_noHandle_line=(TextView) mView.findViewById(R.id.tv_noHandle_line);
         tv_Handled_line=(TextView) mView.findViewById(R.id.tv_Handled_line);
         String e = DateUtil.getDateToday("yyyy-MM-dd");
-        String s = DateUtil.getDateTodayBefore("yyyy-MM-dd", -2);
+        String s = DateUtil.getDateToday("yyyy-MM-dd");
         tv_startDate.setText(s);
         tv_startDate.setOnClickListener(this);
         tv_endDate.setText(e);

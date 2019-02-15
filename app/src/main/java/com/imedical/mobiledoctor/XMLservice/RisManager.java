@@ -22,7 +22,6 @@ public class RisManager {
 		
 		String requestXml = PropertyUtil.buildRequestXml(params);
 		String resultXml = WsApiUtil.loadSoapObject(serviceUrl,Const.BIZ_CODE_LIST_Ris, requestXml);			
-		LogMe.d(requestXml+"\n\n"+resultXml);
 		list = PropertyUtil.parseBeansToList(RisReportList.class, resultXml);
 		return list;
 	 }

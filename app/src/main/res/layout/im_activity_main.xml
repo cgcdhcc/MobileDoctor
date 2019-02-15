@@ -37,7 +37,7 @@
                     <TextView
                         android:id="@+id/tv_imgtxt"
                         android:textSize="@dimen/font_16dp"
-                        android:text="图文咨询"
+                        android:text="图文问诊"
                         android:textColor="@color/text_base"
                         android:gravity="center"
                         android:textStyle="bold"
@@ -66,7 +66,7 @@
                     <TextView
                         android:id="@+id/tv_videodept"
                         android:textSize="@dimen/font_16dp"
-                        android:text="远程门诊"
+                        android:text="视频问诊"
                         android:textColor="@color/text_grayblack"
                         android:gravity="center"
                         android:layout_width="wrap_content"

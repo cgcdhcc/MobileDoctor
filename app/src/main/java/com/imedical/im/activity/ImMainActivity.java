@@ -58,10 +58,10 @@ public class ImMainActivity extends BaseActivity implements View.OnClickListener
 
         tv_startDate = (TextView) findViewById(R.id.tv_startDate);
         tv_startDate.setOnClickListener(this);
-        tv_startDate.setText(DateUtil.getDateToday(null));
+        tv_startDate.setText(DateUtil.getDateTodayBefore(null, -1));
         tv_endDate = (TextView) findViewById(R.id.tv_endDate);
         tv_endDate.setOnClickListener(this);
-        tv_endDate.setText(DateUtil.getDateTodayBefore(null, 7));
+        tv_endDate.setText(DateUtil.getDateToday(null));
 
         tv_hasfinish = (TextView) findViewById(R.id.tv_hasfinish);
         tv_hasfinish.setOnClickListener(this);
@@ -200,6 +200,7 @@ public class ImMainActivity extends BaseActivity implements View.OnClickListener
                             adapter.notifyDataSetChanged();
                             dismissProgress();
                         }else{
+                            adapter.notifyDataSetChanged();
                             dismissProgress();
                             showToast(msg);
                         }
@@ -237,8 +238,10 @@ public class ImMainActivity extends BaseActivity implements View.OnClickListener
             ImageView iv_head=convertView.findViewById(R.id.iv_head);
             if("女".equals(list.get(position).patientSex)){
                 iv_head.setImageResource(R.drawable.pat_famale);
-            }else{
+            }else if("男".equals(list.get(position).patientSex)){
                 iv_head.setImageResource(R.drawable.pat_male);
+            }else{
+                iv_head.setImageResource(R.drawable.icon_common_head);
             }
             return convertView;
         }

@@ -27,7 +27,7 @@ public class LoginInfo {
     public String hospitalName;
     public String loginNum;
     public String passWord;
-    public String docMarkId;
+    public String doctorCode;
     public LoginInfo() {
     }
 

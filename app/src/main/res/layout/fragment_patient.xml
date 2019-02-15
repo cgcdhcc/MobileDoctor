@@ -100,7 +100,7 @@
                 android:id="@+id/tv_patient"
                 android:paddingRight="10dp"
                 android:text="我的病人"
-                android:textSize="@dimen/font_16dp"
+                android:textSize="@dimen/font_14dp"
                 />
             <ImageView
                 android:layout_width="10dp"
@@ -161,12 +161,12 @@
                     android:id="@+id/tv_type"
                     android:paddingRight="10dp"
                     android:text="正常门诊"
-                    android:textSize="@dimen/font_16dp"
+                    android:textSize="@dimen/font_14dp"
                     />
                 <ImageView
                     android:layout_width="10dp"
                     android:src="@drawable/all_trg"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginRight="10dp"
                     android:layout_height="10dp" />
             </LinearLayout>
 
@@ -182,17 +182,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="left"
-                    android:padding="6dp"
+                    android:padding="5dp"
                     android:text="2010-10-10"
-                    android:textSize="@dimen/font_16dp" />
+                    android:textSize="@dimen/font_14dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:text=" 至 "
-                    android:textSize="@dimen/font_16dp"
+                    android:textSize="@dimen/font_14dp"
                     />
 
                 <TextView
@@ -200,9 +200,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="left"
-                    android:padding="6dp"
+                    android:padding="5dp"
                     android:text="2019-10-10"
-                    android:textSize="@dimen/font_16dp" />
+                    android:textSize="@dimen/font_14dp" />
             </LinearLayout>
 
         </LinearLayout>

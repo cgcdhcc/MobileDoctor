@@ -78,8 +78,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-
-
+        <TextView
+            android:id="@+id/tv_appDoc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="申请医生"
+            android:textColor="@color/text_gray"
+            android:textSize="@dimen/font_16dp" />
+    </LinearLayout>
+    <LinearLayout
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
         <TextView
             android:id="@+id/tv_appDateTime"
             android:layout_width="wrap_content"
@@ -87,17 +100,6 @@
             android:text="申请时间"
             android:textColor="@color/text_gray"
             android:textSize="@dimen/font_16dp" />
-
-        <TextView
-            android:gravity="right"
-            android:id="@+id/tv_appDoc"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="申请医生"
-            android:textColor="@color/text_gray"
-            android:textSize="@dimen/font_16dp" />
     </LinearLayout>
-
 
 </LinearLayout>

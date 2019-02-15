@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.imedical.im.activity.ImMainActivity;
@@ -17,17 +18,26 @@ import com.imedical.jpush.bean.MessageNoRead;
 import com.imedical.jpush.service.MessageService;
 import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
+import com.imedical.mobiledoctor.activity.LoginHospitalActivity;
 import com.imedical.mobiledoctor.activity.frg_3.QRActivity;
 import com.imedical.mobiledoctor.activity.frg_3.SettingActivity;
 import com.imedical.mobiledoctor.activity.visit.DateVisitMulitActivity;
+import com.imedical.mobiledoctor.util.LogMe;
+import com.imedical.mobiledoctor.util.PreferManager;
 import com.imedical.mobiledoctor.zxing.activity.CaptureActivity;
+
+import java.util.Set;
+
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 
 public class Fragment_mine extends Fragment implements View.OnClickListener {
     private MainActivity ctx;
     private String mInfo = null;
     View mView = null,ll_setting;
     TextView tv_name, tv_department, tv_title,tv_exit;
-    private ImageView iv_scan;
+    private ImageView iv_scan,iv_top_bg;
+    public LinearLayout ll_head;
     public void onAttach(Activity activity) {
         this.ctx =(MainActivity) activity;
         super.onAttach(activity);
@@ -95,6 +105,16 @@ public class Fragment_mine extends Fragment implements View.OnClickListener {
                 startActivity(intent);
             }
         });
+        iv_top_bg=mView.findViewById(R.id.iv_top_bg);
+        ll_head=mView.findViewById(R.id.ll_head);
+        ll_head.post(new Runnable() {
+            @Override
+            public void run() {
+                ViewGroup.LayoutParams params = iv_top_bg.getLayoutParams();
+                params.height=ll_head.getHeight();
+                iv_top_bg.setLayoutParams(params);
+            }
+        });
     }
 
 
@@ -106,7 +126,12 @@ public class Fragment_mine extends Fragment implements View.OnClickListener {
                     startActivity(intent);
                     break;
                 case R.id.tv_exit:
-                    System.exit(0);
+                    PreferManager.saveValue("phoneNo", "");
+                    PreferManager.saveValue("password", "");
+                    JPushInterface.deleteAlias(getActivity(), 100);
+                    Intent startintent=new Intent(getActivity(),LoginHospitalActivity.class);
+                    startActivity(startintent);
+                    getActivity().finish();
                     break;
             }
     }

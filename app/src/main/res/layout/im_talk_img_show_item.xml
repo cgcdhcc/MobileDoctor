@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <FrameLayout
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <include layout="@layout/dhcc_white_head"/>
+    <android.support.v4.view.ViewPager
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <com.imedical.im.ui.photoview.PhotoView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="fitCenter"
-            android:id="@+id/iv_img"
-            />
+        android:layout_height="wrap_content"
+        android:id="@+id/view_page">
 
-    </FrameLayout>
+    </android.support.v4.view.ViewPager>
 </LinearLayout>

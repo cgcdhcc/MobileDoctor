@@ -46,7 +46,7 @@ public class MsgAdapter extends BaseAdapter {
             iv_marked.setVisibility(View.VISIBLE);
         }
         ImageView iv_type=(ImageView)convertView.findViewById(R.id.iv_type);
-        iv_type.setImageResource(getImgIcon(msglist.get(position).extras.msgGroupCode));
+        //iv_type.setImageResource(getImgIcon(msglist.get(position).extras.msgGroupCode));
         return convertView;
     }
 

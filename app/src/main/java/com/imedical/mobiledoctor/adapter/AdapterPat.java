@@ -66,7 +66,7 @@ public class AdapterPat extends BaseAdapter {
 			holder.iv_head.setImageResource(R.drawable.all_male);
 		}
 		holder.tv_patName.setText(p.patName);
-		holder.tv_bedCode.setText((p.bedCode==null?"":p.bedCode)+"床");
+		holder.tv_bedCode.setText((p.bedCode==null?"":p.bedCode));
 		holder.tv_patMedNo.setText(p.patMedNo);
 		holder.tv_wardDesc.setText(p.wardDesc);
 		holder.tv_admId.setText(p.patRegNo);

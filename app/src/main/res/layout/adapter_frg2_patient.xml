@@ -5,7 +5,10 @@
     android:background="@color/white"
     android:gravity="center"
     android:orientation="vertical"
-    android:padding="15dp" >
+    android:paddingRight="5dp"
+    android:paddingLeft="5dp"
+    android:paddingBottom="15dp"
+    android:paddingTop="15dp">
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -106,7 +109,6 @@
             android:layout_marginLeft="5dp"
             android:textColor="@color/black"
             android:id="@+id/tv_inDate"
-
             android:textSize="@dimen/font_14dp"
             android:layout_height="wrap_content" />
     </LinearLayout>

@@ -11,6 +11,7 @@ import com.imedical.mobiledoctor.entity.SeeDoctorRecord;
 import java.util.List;
 
 public final class Const {
+	public static String face_groupid="qyfydoctor";
 	public static String jpushurl="https://pay.qduhospital.cn/message/api/messageapi/";
 	public static String jpushkey="04bf4651651d89ac88cda97c";
 	public static boolean AES_OR_NOT=true;
@@ -25,7 +26,6 @@ public final class Const {
 	public static final String IMG_URL="https://wxzfb.qduhospital.cn/mpupload";
 	public static final String SERVICEURL = "https://wxzfb.qduhospital.cn/dhccam/gateway/index";
 	public static final String URL_CREATE="https://wxzfb.qduhospital.cn/dhccam/token/generate?grant_type=api_credentials";
-	public static final String URL_REFRESH="https://pay.qduhospital.cn/apimanager/api/token/generate?grant_type=refresh_token&refresh_token=";
 	public static LoginInfo loginInfo=null;
 	public static PatientInfo curPat=null;
 	public static SeeDoctorRecord curSRecorder=null;
@@ -163,6 +163,7 @@ public final class Const {
 	public static final String BIZ_CODE_LIST_OperationData         =  "doctor.operation.operationlist";//"51505";//手术列表
 	public static final String BIZ_CODE_CHECK_VERSION              =  "doctor.login.systemparams";//50100//检测版本号
 	public static final String BIZ_CODE_LOGIN                      =  "doctor.login.login";//50101
+	public static final String BIZ_CODE_FACE_LOGIN                      =  "doctor.ihospital.face.login";//50101
 	public static final String BIZ_CODE_LIST_DEPT                  =  "doctor.login.logindepartment";//50102
 	public static final String BIZ_CODE_LIST_ALL_DEPT              =  "doctor.login.allhospitaldepartment";//50106
 	public static final String BIZ_CODE_LIST_PatientInfo           =  "doctor.patient.departmentpatints";//50201
@@ -288,9 +289,19 @@ public final class Const {
 	public static final String BIZ_CODE_GetAdmInfo="doctor.ihospital.getadminfo";//获取就诊信息
 	public static final String BIZ_CODE_updatedoctorcontentbyadm="doctor.ihospital.updatedoctorcontentbyadm";//修改或新增诊疗建议
 	public static final String BIZ_CODE_updatechatstatus="doctor.ihospital.updatechatstatus";// 21030修改订单状态
+	public static final String BIZ_CODE_OPREGISTER_CANCEL="doctor.dopregister.cancel";//取消挂号代码20207
 	public static final String BIZ_CODE_GetScheduleListState="doctor.ihospital.getschedulestate";//互联网医院排班-获取一段时间的排班状况及预约数
 	public static final String BIZ_CODE_GetScheduleListInfo="doctor.ihospital.getschedulelistinfo";//51906    互联网医院排班-获取医生某天互联网医院所有出诊信息
 	public static final String API_PHONEVALIDATE     ="mhealth/dhccApi/user/validUser/2/";
 	public static final String API_FINDPASS                 ="mhealth/dhccApi/user/updatePwdByVeriCode/";
 	public static final String VALUE_URL_JKB              = "http://www.jiankangbao.com/";
+
+
+	public static final String BIZ_CODE_getappmsg="message.app.getappmsg";//获取app消息列表
+	public static final String BIZ_CODE_getunreadcount="message.app.getunreadcount";//获取app未读消息
+	public static final String BIZ_CODE_updateallmsgstatus="message.app.updateallmsgstatus";//获取app未读消息
+	public static final String BIZ_CODE_updatemsgstatus="message.app.updatemsgstatus";//修改APP消息状态
+	public static final String BIZ_CODE_deletemsg="message.app.deletemsg";//删除APP消息
+	public static final String BIZ_CODE_deleteallmsg="message.app.deleteallmsg";//删除所有APP消息
+
 }
