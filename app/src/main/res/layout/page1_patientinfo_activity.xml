@@ -6,7 +6,9 @@
     android:background="@color/white"
     android:orientation="vertical" >
     <include layout="@layout/page_head"></include>
-
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
@@ -42,63 +44,63 @@
                 android:layout_marginRight="15dp"
                 android:layout_height="wrap_content">
                 <TableRow>
-                 <TextView
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:layout_margin="5dp"
-                     android:paddingLeft="10dp"
-                     android:text="姓名:"
-                     android:textSize="@dimen/sp_content"
-                     android:textColor="@color/gray"
-                     />
-                 <TextView
-                     android:layout_weight="1"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:layout_margin="5dp"
-                     android:text="AAA"
-                     android:id="@+id/tv_patName"
-                     android:textSize="@dimen/sp_content"
-                     android:textColor="@color/black"
-                     />
-                 <TextView
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_margin="5dp"
-                 android:text="性别:"
-                 android:textSize="@dimen/sp_content"
-                 android:textColor="@color/gray"
-                 />
-                 <TextView
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                     android:id="@+id/tv_patSex"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:paddingLeft="10dp"
+                        android:text="姓名:"
+                        android:textSize="@dimen/sp_content"
+                        android:textColor="@color/gray"
+                        />
+                    <TextView
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="AAA"
+                        android:id="@+id/tv_patName"
+                        android:textSize="@dimen/sp_content"
+                        android:textColor="@color/black"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="性别:"
+                        android:textSize="@dimen/sp_content"
+                        android:textColor="@color/gray"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tv_patSex"
 
-                     android:layout_margin="5dp"
-                 android:text="BBB"
-                   android:layout_weight="1"
+                        android:layout_margin="5dp"
+                        android:text="BBB"
+                        android:layout_weight="1"
                         android:textSize="@dimen/sp_content"
                         android:textColor="@color/black"              />
-                 <TextView
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_margin="5dp"
-                 android:text="年龄:"
-                 android:textSize="@dimen/sp_content"
-                 android:textColor="@color/gray"
-                 />
-                 <TextView
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_margin="5dp"
-                 android:layout_weight="1"
-                 android:text="CCC"
-                     android:id="@+id/tv_patAge"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="年龄:"
+                        android:textSize="@dimen/sp_content"
+                        android:textColor="@color/gray"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:text="CCC"
+                        android:id="@+id/tv_patAge"
 
-                     android:textSize="@dimen/sp_content"
-                 android:textColor="@color/black"
-                 />
-             </TableRow>
+                        android:textSize="@dimen/sp_content"
+                        android:textColor="@color/black"
+                        />
+                </TableRow>
                 <TableRow>
                     <TextView
                         android:layout_width="wrap_content"
@@ -309,56 +311,56 @@
 
 
             <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:visibility="gone"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
-                    <TextView
+                android:layout_width="fill_parent"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-	                android:layout_margin="5dp"
-                	android:paddingLeft="20dp"
-                	                    android:text="婚姻"
-                    android:textSize="@dimen/sp_content" 
+                    android:layout_margin="5dp"
+                    android:paddingLeft="20dp"
+                    android:text="婚姻"
+                    android:textSize="@dimen/sp_content"
                     android:textColor="@color/new_font_blue"
-                        />
-                     <TextView 
+                    />
+                <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-					android:layout_margin="5dp"
-                	 android:id="@+id/tv_marital"
-                	                    android:text="未知"
+                    android:layout_margin="5dp"
+                    android:id="@+id/tv_marital"
+                    android:text="未知"
                     android:textSize="@dimen/sp_content"
                     android:textColor="@color/black"
-                        />
-                </LinearLayout>
+                    />
+            </LinearLayout>
 
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical" >
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:paddingLeft="25dp"
-                        android:paddingRight="25dp"
-                        android:text="无"
-                        android:id="@+id/tv_allergies"
-                        android:textSize="@dimen/sp_content"
-                        android:textColor="@color/black"
-                        />
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="2dp"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginRight="20dp"
-                        android:background="@color/gray"
-                        android:layout_height="0.5dp" />
+                    android:layout_margin="5dp"
+                    android:paddingLeft="25dp"
+                    android:paddingRight="25dp"
+                    android:text="无"
+                    android:id="@+id/tv_allergies"
+                    android:textSize="@dimen/sp_content"
+                    android:textColor="@color/black"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/gray"
+                    android:layout_height="0.5dp" />
 
-                </LinearLayout>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -595,12 +597,12 @@
             </LinearLayout>
 
 
-、
+            、
 
-			
+
             <LinearLayout
                 android:id="@+id/layout_content"
-                 android:paddingLeft="8dp"
+                android:paddingLeft="8dp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left"
@@ -660,5 +662,17 @@
             </TableLayout>
         </LinearLayout>
     </ScrollView>
+    <LinearLayout
+        android:id="@+id/ll_dialog"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:background="#efffffff"
+        android:layout_height="match_parent">
+
+    </LinearLayout>
+
+</FrameLayout>
+
 
 </LinearLayout>

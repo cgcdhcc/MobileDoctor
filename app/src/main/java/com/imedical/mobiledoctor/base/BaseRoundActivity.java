@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
@@ -70,6 +71,8 @@ public abstract class BaseRoundActivity extends BaseActivity {
         mListViewRecord.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+                View ll_dialog=findViewById(R.id.ll_dialog);
+                if(ll_dialog!=null){ll_dialog.setVisibility(View.GONE);}
                 SeeDoctorRecord sr = list.get(position);
                 if (hisRecordPopWin != null) {
                     hisRecordPopWin.dismiss();
@@ -89,6 +92,8 @@ public abstract class BaseRoundActivity extends BaseActivity {
         tv_record.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                View ll_dialog=findViewById(R.id.ll_dialog);
+                if(ll_dialog!=null){ll_dialog.setVisibility(View.VISIBLE);}
                 showWindow(ll_top);
             }
         });
@@ -102,55 +107,19 @@ public abstract class BaseRoundActivity extends BaseActivity {
                 hisRecordPopWin.setFocusable(true);
                 hisRecordPopWin.setOutsideTouchable(true);
                 hisRecordPopWin.setBackgroundDrawable(new BitmapDrawable());
+                hisRecordPopWin.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                    @Override
+                    public void onDismiss() {
+                        View ll_dialog=findViewById(R.id.ll_dialog);
+                        if(ll_dialog!=null){ll_dialog.setVisibility(View.GONE);}
+                    }
+                });
             }
         });
     }
-    private void LoadHisRecord() {
-        showProgress();
-        new Thread() {
-            @Override
-            public void run() {
-                try {
-                    listtemp = BusyManager.listSeeDoctorRecord(Const.curPat.admId);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    if (listtemp == null) {
-                        listtemp = new ArrayList<SeeDoctorRecord>();
-                    } else {
-                        list.addAll(listtemp);
-                        Const.SRecorderList=new ArrayList<SeeDoctorRecord>();
-                        Const.SRecorderList.addAll(list);//每个患者全局加载一次
-                    }
-                    runOnUiThread(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            dismissProgress();
-                            mHisRecordsAdapter = new HisRecordsAdapter(BaseRoundActivity.this, list);
-                            mListViewRecord.setAdapter(mHisRecordsAdapter);
-                            mHisRecordsAdapter.notifyDataSetChanged();
-                            //默认就诊记录，之后会随着患者选择同步
-                            tv_record.setText(SysManager.getAdmTypeDesc(list.get(0).admType) +list.get(0).admDate);
-                        }
-
-                    });
-                }
-            }
-        }.start();
-    }
-
 
     private void InitHisRecord(){
-//        if(Const.SRecorderList==null){//每个患者全局只执行一次查询
-//             SeeDoctorRecord newRcd = new SeeDoctorRecord();
-//            newRcd.admDate =  Const.curPat.inDate;
-//            newRcd.admDept =  Const.curPat.departmentName;
-//            newRcd.admId =  Const.curPat.admId;
-//            newRcd.admType =  Const.curPat.admType;
-//            list.add(newRcd);
-//            LoadHisRecord();
-//        }else {
+
         if(Const.SRecorderList!=null){//加载WordRoundActivit读取的数据。
             if(list.size()>0){
                 tv_record.setText(SysManager.getAdmTypeDesc(list.get(0).admType) +list.get(0).admDate);
@@ -177,39 +146,7 @@ public abstract class BaseRoundActivity extends BaseActivity {
 
         }
     }
-    //用不上
-//    private void LoadHisRecord() {
-//        new Thread() {
-//            @Override
-//            public void run() {
-//                try {
-//                    listtemp = BusyManager.listSeeDoctorRecord(Const.curPat.admId);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                } finally {
-//                    if (listtemp == null) {
-//                        listtemp = new ArrayList<SeeDoctorRecord>();
-//                    } else {
-//                        list.addAll(listtemp);
-//                    }
-//                    runOnUiThread(new Runnable() {
-//
-//                        @Override
-//                        public void run() {
-//                            //		mListData.clear();
-//                            mHisRecordsAdapter = new HisRecordsAdapter(BaseRoundActivity.this, list);
-//                            mListViewRecord.setAdapter(mHisRecordsAdapter);
-//                            mHisRecordsAdapter.notifyDataSetChanged();
-//                            if(list.size()>0){
-//                                tv_record.setText(SysManager.getAdmTypeDesc(list.get(0).admType) +list.get(0).admDate);
-//                            }
-//                        }
-//
-//                    });
-//                }
-//            }
-//        }.start();
-//    }
+
 
     public abstract void OnPatientSelected(PatientInfo p);
     public abstract void OnRecordSelected(SeeDoctorRecord sr);
