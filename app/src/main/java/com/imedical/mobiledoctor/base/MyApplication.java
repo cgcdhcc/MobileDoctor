@@ -2,6 +2,7 @@ package com.imedical.mobiledoctor.base;
 
 import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
 
@@ -13,7 +14,7 @@ import com.umeng.commonsdk.UMConfigure;
 import org.litepal.LitePal;
 
 
-public class MyApplication extends Application {
+public class MyApplication extends MultiDexApplication {
 
 
     @Override

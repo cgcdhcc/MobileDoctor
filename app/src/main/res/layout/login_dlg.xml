@@ -181,6 +181,20 @@
                 android:text="登       录"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/btn_test"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="15dp"
+                android:background="@xml/ripple_bg_shape_blue_gradient"
+                android:gravity="center"
+                android:text="云视频测试"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
         </LinearLayout>
     </ScrollView>
 

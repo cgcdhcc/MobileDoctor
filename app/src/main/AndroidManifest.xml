@@ -8,6 +8,7 @@
         android:icon="@drawable/icon"
         android:label="@string/app_name"
         android:roundIcon="@drawable/icon"
+        android:supportsRtl="true"
         android:theme="@style/AppTheme" >
     <activity
         android:name="com.imedical.mobiledoctor.activity.SplashActivity"
@@ -20,6 +21,8 @@
         </intent-filter>
 
     </activity>
+        <activity android:name="com.imedical.trtcsdk.TRTCNewActivity" android:configChanges="keyboardHidden|orientation|screenSize" android:launchMode="singleTop" android:screenOrientation="portrait"/>
+        <activity android:name="com.imedical.trtcsdk.TRTCMainActivity" android:launchMode="singleTask" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait" />
         <!--<activity android:name="com.imedical.mobiledoctor.activity.round.MultimediaActivity" android:screenOrientation="portrait"/> 未启用-->
         <activity android:name="com.imedical.mobiledoctor.activity.round.detail.Lis_CurvedLineActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.mobiledoctor.activity.frg_3.QRActivity" android:screenOrientation="portrait"/>
@@ -88,8 +91,16 @@
 
 
     </application>
+
+
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.CAMERA"/>

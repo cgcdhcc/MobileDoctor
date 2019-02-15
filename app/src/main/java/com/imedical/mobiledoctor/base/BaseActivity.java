@@ -183,6 +183,7 @@ public abstract class BaseActivity extends Activity {
         TextView text = (TextView) layout.findViewById(R.id.tvTextToast);
         text.setText(content==null?"网络错误！":content);
         Toast toast= new Toast(this.getApplicationContext());
+
         toast.setGravity(Gravity.CENTER , 0, 0);
         toast.setDuration(Toast.LENGTH_SHORT);
         toast.setView(layout);

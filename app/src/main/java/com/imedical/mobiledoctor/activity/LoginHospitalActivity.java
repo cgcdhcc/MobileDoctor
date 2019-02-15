@@ -41,6 +41,7 @@ import com.imedical.mobiledoctor.util.LogMe;
 import com.imedical.mobiledoctor.util.PhoneUtil;
 import com.imedical.mobiledoctor.util.PreferManager;
 import com.imedical.mobiledoctor.util.Validator;
+import com.imedical.trtcsdk.TRTCNewActivity;
 
 import java.util.Set;
 
@@ -51,7 +52,7 @@ import cn.jpush.android.api.TagAliasCallback;
 
 public class LoginHospitalActivity extends BaseActivity implements
         OnClickListener, OnCheckedChangeListener {
-    private TextView loginIV;
+    private TextView loginIV,btn_test;
     private EditText et_username;
     private EditText et_pwd = null;
     private String terminalId = null;
@@ -72,6 +73,8 @@ public class LoginHospitalActivity extends BaseActivity implements
 
     @SuppressLint("NewApi")
     private void initView() {
+        btn_test= (TextView) this.findViewById(R.id.btn_test);
+        btn_test.setOnClickListener(this);
         loginIV = (TextView) this.findViewById(R.id.btn_login);
         loginIV.setOnClickListener(this);
         iv_eyes = (CheckBox) findViewById(R.id.iv_eyes);
@@ -131,6 +134,9 @@ public class LoginHospitalActivity extends BaseActivity implements
                 return;
             }
             login(username, pwd, terminalId, "");
+        }else if(view == btn_test){
+                Intent it=new Intent(LoginHospitalActivity.this, TRTCNewActivity.class);
+                startActivity(it);
         }
     }
 
@@ -140,6 +146,7 @@ public class LoginHospitalActivity extends BaseActivity implements
         try {
             new Thread() {
                 public void run() {
+                    Looper.prepare();
                     try {
                         mLoginInfo = UserManager.login(
                                 LoginHospitalActivity.this, phoneNo, password,
@@ -161,6 +168,7 @@ public class LoginHospitalActivity extends BaseActivity implements
                         mess.obj=e.getMessage();
                         myHandler.handleMessage(mess);
                     }
+                    Looper.loop();
                 }
             }.start();
         } catch (Exception e) {
