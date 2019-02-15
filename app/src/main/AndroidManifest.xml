@@ -58,6 +58,7 @@
         <activity android:name="com.imedical.jpush.activity.MessageActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.jpush.activity.WebViewActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.mobiledoctor.activity.FaceHospitalActivity" android:screenOrientation="portrait"/>
+        <activity android:name="com.imedical.mobiledoctor.activity.round.detail.OrderDetailActivity" android:screenOrientation="portrait"/>
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.provider"

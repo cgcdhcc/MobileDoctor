@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v4.app.INotificationSideChannel;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,11 +19,14 @@ import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.XMLservice.OrderItemManager;
 import com.imedical.mobiledoctor.activity.round.OrdersActivity;
+import com.imedical.mobiledoctor.activity.round.detail.OrderDetailActivity;
 import com.imedical.mobiledoctor.entity.LabelValue;
 import com.imedical.mobiledoctor.entity.LoginInfo;
 import com.imedical.mobiledoctor.entity.OrderItem;
 import com.imedical.mobiledoctor.entity.PatientInfo;
+import com.imedical.mobiledoctor.util.DialogUtil;
 import com.imedical.mobiledoctor.util.LogMe;
+import com.imedical.mobiledoctor.util.MyCallback;
 import com.imedical.mobiledoctor.util.Validator;
 
 import java.io.Serializable;
@@ -51,9 +55,7 @@ public class OrderItemAdapter extends BaseExpandableListAdapter {
 			if (convertView == null) {
 				convertView = LayoutInflater.from(context).inflate(R.layout.children_adapter_orders, null);
 			}
-			ImageView iv = (ImageView) convertView.findViewById(R.id.groupIcon);
 			TextView groupto = (TextView) convertView.findViewById(R.id.groupto);
-
 			LabelValue d = groupArray.get(groupPosition);
 			groupto.setText(d.label);
 		} catch (Exception e) {
@@ -75,40 +77,9 @@ public class OrderItemAdapter extends BaseExpandableListAdapter {
 						null);
 				holder.tv_itemDesc = (TextView) convertView
 						.findViewById(R.id.tv_itemDesc);
-				holder.tv_orderDoctor = (TextView) convertView
-						.findViewById(R.id.tv_orderDoctor);
-				holder.tv_stopOrderDoctor = (TextView) convertView
-						.findViewById(R.id.tv_stopOrderDoctor);
-				holder.tv_stopOrderDate = (TextView) convertView
-						.findViewById(R.id.tv_stopOrderDate);
-				holder.tv_stopOrderTime = (TextView) convertView
-						.findViewById(R.id.tv_stopOrderTime);
-
-				holder.tv_orderStatus = (TextView) convertView
-						.findViewById(R.id.tv_orderStatus);
-				holder.tv_ordStartDate = (TextView) convertView
-						.findViewById(R.id.tv_ordStartDate);
-				holder.tv_ordStartTime = (TextView) convertView
-						.findViewById(R.id.tv_ordStartTime);
-				holder.tv_priority = (TextView) convertView
-						.findViewById(R.id.tv_priority);
-				holder.tv_doseQty = (TextView) convertView
-						.findViewById(R.id.tv_doseQty);
-				holder.tv_frequency = (TextView) convertView
-						.findViewById(R.id.tv_frequency);
-				holder.tv_instruction = (TextView) convertView
-						.findViewById(R.id.tv_instruction);
-				holder.tv_qty = (TextView) convertView
-						.findViewById(R.id.tv_qty);
-
-				holder.tv_info = (TextView) convertView
-						.findViewById(R.id.tv_info);
-				holder.ll_detail = convertView.findViewById(R.id.ll_detail);
-				holder.tl_content = convertView.findViewById(R.id.tl_content);
-				holder.btn_stop_or_cancel = (Button)convertView
-						.findViewById(R.id.btn_stop_or_cancel);
-				holder.iv_icon = (ImageView) convertView
-						.findViewById(R.id.iv_icon);
+				holder.tv_doseinfo = convertView.findViewById(R.id.tv_doseinfo);
+				holder.tv_orderinfo = convertView.findViewById(R.id.tv_orderinfo);
+				holder.btn_stop_or_cancel = convertView.findViewById(R.id.btn_stop_or_cancel);
 				convertView.setTag(holder);
 			} else {
 				holder = (ViewHolder) convertView.getTag();
@@ -119,45 +90,30 @@ public class OrderItemAdapter extends BaseExpandableListAdapter {
 				//FIXME
 				holder.btn_stop_or_cancel.setVisibility(View.VISIBLE);
 			}
-			holder.ll_detail.setVisibility(View.GONE);
-			final View ll_detail = holder.ll_detail;
-//			if ("drug.png".equals(b.icoFile)) {
-//				holder.iv_icon.setImageResource(R.drawable.lis_drug);
-//			} else {
-//				holder.iv_icon.setImageResource(R.drawable.lis_other);
-//			}
-//			OnClickListener cls = new OnClickListener() {
-//				@Override
-//				public void onClick(View v) {
-//					if(v.getId() == R.id.tl_content || v.getId() == R.id.tv_info){
-//						Intent i =new Intent(context,FormOrderItemActivity.class);
-//						i.putExtra("Item", b);
-//						i.putExtra("children",(Serializable)children);
-//						i.putExtra("childPosition", childPosition);
-//						context.startActivity(i);
-////						ll_detail.setVisibility((ll_detail.getVisibility()==View.VISIBLE)?(View.GONE):(View.VISIBLE));
-//					}
-//				}
-//			};
-
-			String text = null;
-			//TODO 修改图片
-			final String info = text;
-
-			holder.tv_itemDesc.setText("("+b.seqNo +")" +b.itemDesc);
-			holder.tv_orderDoctor.setText(b.orderDoctor);
-			holder.tv_stopOrderDoctor.setText(b.stopOrderDoctor);
-			holder.tv_stopOrderDate.setText(b.stopOrderDate);
-			holder.tv_orderStatus.setText(b.orderStatus);
-			holder.tv_ordStartDate.setText(b.ordStartDate);
-			holder.tv_ordStartTime.setText(b.ordStartTime);
-			holder.tv_priority.setText(b.priority);
-			holder.tv_doseQty.setText(b.doseQty+b.doseUom);
-			holder.tv_frequency.setText(b.frequency);
-			holder.tv_instruction.setText(b.instruction);
-			holder.tv_qty.setText(b.qty+b.uom);
-			holder.tv_info.setText(getInfo(b));
-			holder.tv_stopOrderTime.setText(b.stopOrderTime);
+			holder.tv_itemDesc.setText("("+b.seqNo +") " +b.itemDesc);
+			holder.tv_doseinfo.setText(getDoseInfo(b));
+			holder.tv_orderinfo.setText(getOrderInfo(b));
+			holder.btn_stop_or_cancel.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					DialogUtil.showAlertYesOrNo(context, "操作确认", "确定停止该遗嘱吗？", new MyCallback<Boolean>() {
+						@Override
+						public void onCallback(Boolean value) {
+							if(value){
+								stopOrderItem(b, children, childPosition);
+							}
+						}
+					});
+				}
+			});
+			convertView.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					Intent intent=new Intent(context, OrderDetailActivity.class);
+					intent.putExtra("orderItem", children.get(childPosition));
+					context.startActivity(intent);
+				}
+			});
 		} catch (Exception e) {
 			Log.e("EEEEEEEEEEEEEE", "********childPosition" + childPosition);
 			e.printStackTrace();
@@ -166,25 +122,20 @@ public class OrderItemAdapter extends BaseExpandableListAdapter {
 
 	}
 
-	private String getInfo(final OrderItem b) {
+	private String getOrderInfo(final OrderItem b){
 		StringBuilder sb = new StringBuilder();
-		if (!Validator.isBlank(b.doseQty)) {
-			sb.append(b.doseQty + b.doseUom + ",");
-		}
-		if (!Validator.isBlank(b.frequency)) {
-			sb.append(b.frequency).append(",");
-		}
-		if (!Validator.isBlank(b.instruction)) {
-			sb.append(b.instruction).append(",");
-		}
-		sb.append(b.ordStartDate);
-		if (!Validator.isBlank(b.stopOrderDate)) {
-			sb.append("~").append(b.stopOrderDate);
-		}
-		sb.append(",");
-		if (!Validator.isBlank(b.orderStatus)) {
-			sb.append(b.orderStatus);
-		}
+		sb.append(Validator.isBlank(b.orderDate)?"":b.orderDate+" ");
+		sb.append(Validator.isBlank(b.orderStatus)?"":b.orderStatus+" ");
+		return sb.toString();
+	}
+	private String getDoseInfo(final OrderItem b) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(Validator.isBlank(b.doseQty)?"":b.doseQty+" ");
+		sb.append(Validator.isBlank(b.doseUom)?"":b.doseUom+" ");
+		sb.append(Validator.isBlank(b.frequency)?"":b.frequency+" ");
+		sb.append(Validator.isBlank(b.instruction)?"":b.instruction+" ");
+		sb.append(Validator.isBlank(b.ordStartDate)?"":b.ordStartDate+" ");
+		sb.append(Validator.isBlank(b.stopOrderDate)?"":"~"+b.stopOrderDate+" ");
 		return sb.toString();
 	}
 
@@ -235,25 +186,10 @@ public class OrderItemAdapter extends BaseExpandableListAdapter {
 	}
 
 	public class ViewHolder {
-		public ImageView iv_icon;
-		public Button btn_stop_or_cancel;
-		public View ll_detail;
-		public View tl_content;
 		public TextView tv_itemDesc;
-		public TextView tv_orderDoctor;
-		public TextView tv_stopOrderDoctor;
-		public TextView tv_stopOrderDate;
-		public TextView tv_stopOrderTime;
-		public TextView tv_orderStatus;
-		public TextView tv_ordStartDate;
-		public TextView tv_ordStartTime;
-		public TextView tv_priority;
-		public TextView tv_doseQty;
-		public TextView tv_frequency;
-		public TextView tv_instruction;
-		public TextView tv_qty;
-
-		public TextView tv_info;
+		public TextView tv_doseinfo;
+		public TextView tv_orderinfo;
+		public Button btn_stop_or_cancel;
 	}
 
 	@Override

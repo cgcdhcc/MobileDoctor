@@ -52,7 +52,7 @@ public abstract class BaseRoundActivity extends BaseActivity {
 
     protected void InitRecordListAndPatientList(BaseRoundActivity activity){
         this.Instance=activity;
-        setInfos(Const.curPat.patName,(Const.curPat.bedCode==null?"":Const.curPat.bedCode)+"床("+(Const.curPat.patRegNo==null?"":Const.curPat.patRegNo)+")");
+        setInfos(Const.curPat.patName,(Const.curPat.bedCode==null?"":Const.curPat.bedCode)+"("+(Const.curPat.patRegNo==null?"":Const.curPat.patRegNo)+")");
         tv_record=(TextView) findViewById(R.id.tv_record);
         tv_patSwitch=(TextView) findViewById(R.id.tv_patSwitch);
         tv_patSwitch.setOnClickListener(new View.OnClickListener() {

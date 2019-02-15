@@ -166,6 +166,7 @@ public class FaceHospitalActivity extends BaseActivity implements SurfaceHolder.
                                     } else {
                                         if (isfront) {
                                             showToast("未识别到您的个人信息，请联系信息科");
+                                            handler.postDelayed(runnable, 500);
                                         }
                                     }
 

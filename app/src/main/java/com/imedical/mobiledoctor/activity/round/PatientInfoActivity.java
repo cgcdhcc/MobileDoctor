@@ -26,7 +26,6 @@ public class PatientInfoActivity  extends BaseRoundActivity {
     private TextView tv_departmentName;
     private TextView tv_allergies;
     private TextView tv_mainDoctor;
-    private TextView tv_marital;
     private TextView tv_bloodType;
     private TextView tv_patName;
     private TextView tv_bedCode;
@@ -55,7 +54,7 @@ public class PatientInfoActivity  extends BaseRoundActivity {
         if (resultCode == SWITHC_CODE) {
             loadData();
         }
-        setInfos(Const.curPat.patName,(Const.curPat.bedCode==null?"":Const.curPat.bedCode)+"床("+(Const.curPat.patRegNo==null?"":Const.curPat.patRegNo)+")");//更新姓名，床号
+        setInfos(Const.curPat.patName,(Const.curPat.bedCode==null?"":Const.curPat.bedCode)+"("+(Const.curPat.patRegNo==null?"":Const.curPat.patRegNo)+")");//更新姓名，床号
         super.onActivityResult(requestCode, resultCode, data);
     }
     @Override
@@ -80,7 +79,6 @@ public class PatientInfoActivity  extends BaseRoundActivity {
         tv_patAge = (TextView) findViewById(R.id.tv_patAge);
         tv_bloodType = (TextView) findViewById(R.id.tv_bloodType);
         tv_occupation = (TextView) findViewById(R.id.tv_occupation);
-        tv_marital = (TextView) findViewById(R.id.tv_marital);
         tv_allergies = (TextView) findViewById(R.id.tv_allergies);
         tv_departmentName = (TextView) findViewById(R.id.tv_departmentName);
         tv_mainDoctor = (TextView) findViewById(R.id.tv_mainDoctor);
@@ -109,7 +107,6 @@ public class PatientInfoActivity  extends BaseRoundActivity {
         tv_patAge.setText(bean.patAge);
         tv_bloodType.setText(bean.bloodType);
         tv_occupation.setText(bean.occupation);
-        tv_marital.setText(bean.marital);
         tv_allergies.setText(bean.allergies);
         tv_departmentName.setText(bean.departmentName);
         tv_mainDoctor.setText(bean.mainDoctor);

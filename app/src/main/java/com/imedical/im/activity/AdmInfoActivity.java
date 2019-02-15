@@ -60,7 +60,7 @@ public class AdmInfoActivity extends BaseActivity {
     public void intiData(final AdmInfo admInfo) {
         tv_patientName.setText(admInfo.patientName);
         tv_patientAge.setText(admInfo.patientAge + " | " + admInfo.patientSex);
-        tv_patientCard.setText(admInfo.patientCard);
+        tv_patientCard.setText(admInfo.patientId);
         tv_doctorName.setText(admInfo.doctorName);
         tv_departmentName.setText(admInfo.departmentName);//
         tv_doctorTitle.setText(" | " + admInfo.doctorTitle);//

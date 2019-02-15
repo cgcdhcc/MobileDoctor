@@ -8,8 +8,8 @@ android {
         applicationId "com.imedical.mobiledoctor"
         minSdkVersion 21
         targetSdkVersion 26
-        versionCode 3
-        versionName "V1.0.3"
+        versionCode 5
+        versionName "V1.0.5"
         ndk {
             //选择要添加的对应 cpu 类型的 .so 库。
             abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a','x86', 'x86_64', 'mips', 'mips64'
@@ -31,23 +31,24 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     //noinspection GradleCompatible
-    compile 'com.android.support:recyclerview-v7:25.3.1'
-    compile 'com.android.support:support-v4:25.4.0'
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.google.code.gson:gson:2.2.4'
-    compile 'com.github.barteksc:android-pdf-viewer:2.7.0'
-    compile 'com.squareup.okhttp3:okhttp:3.9.0'
-    compile('io.socket:socket.io-client:1.0.0') {
+    implementation 'com.android.support:recyclerview-v7:25.3.1'
+    implementation 'com.android.support:support-v4:25.4.0'
+    implementation 'com.android.support:appcompat-v7:25.3.1'
+    implementation 'com.google.code.gson:gson:2.2.4'
+    implementation 'com.github.barteksc:android-pdf-viewer:2.7.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.9.0'
+    implementation('io.socket:socket.io-client:1.0.0') {
         // excluding org.json which is provided by Android
         exclude group: 'org.json', module: 'json'
     }
-    compile 'cn.jiguang.sdk:jpush:3.1.8'
-    compile 'cn.jiguang.sdk:jcore:1.2.6'
-    compile files('libs/litepal-2.0.0.jar')
-    compile project(path: ':CollapseCalendarView')
+    implementation 'cn.jiguang.sdk:jpush:3.1.8'
+    implementation 'cn.jiguang.sdk:jcore:1.2.6'
+    implementation files('libs/litepal-2.0.0.jar')
+    implementation project(path: ':CollapseCalendarView')
     implementation 'id.zelory:compressor:2.1.0'
-    compile  'com.umeng.umsdk:analytics:8.0.0'
-    compile  'com.umeng.umsdk:common:2.0.1'
+    implementation  'com.umeng.umsdk:analytics:8.0.0'
+    implementation  'com.umeng.umsdk:common:2.0.1'
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
 }

@@ -58,10 +58,10 @@ public class ImMainActivity extends BaseActivity implements View.OnClickListener
 
         tv_startDate = (TextView) findViewById(R.id.tv_startDate);
         tv_startDate.setOnClickListener(this);
-        tv_startDate.setText(DateUtil.getDateToday(null));
+        tv_startDate.setText(DateUtil.getDateTodayBefore(null, -1));
         tv_endDate = (TextView) findViewById(R.id.tv_endDate);
         tv_endDate.setOnClickListener(this);
-        tv_endDate.setText(DateUtil.getDateTodayBefore(null, 7));
+        tv_endDate.setText(DateUtil.getDateToday(null));
 
         tv_hasfinish = (TextView) findViewById(R.id.tv_hasfinish);
         tv_hasfinish.setOnClickListener(this);

@@ -55,7 +55,7 @@ public abstract class BaseActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        StatusBarUtils.setWindowStatusBarColor(this, R.color.mobile_blue);
+        StatusBarUtils.setWindowStatusBarColor(this, R.color.bg_commom);
         checkAndSetNetwork();
     }
 
