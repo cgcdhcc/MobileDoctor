@@ -284,8 +284,6 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
 
 
     public void sendTemplateData(final String content, final int templateId) {
-
-
         new Thread() {
             public void run() {
                 try {

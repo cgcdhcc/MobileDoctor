@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.imedical.mobiledoctor.R;
+import com.imedical.mobiledoctor.base.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,21 +34,26 @@ import java.util.List;
  *  （2）在真实的使用场景中，房间号大多不是用户手动输入的，而是系统分配的，
  *       比如视频会议中的会议号是会控系统提前预定好的，客服系统中的房间号也是根据客服员工的工号决定的。
  */
-public class TRTCNewActivity extends Activity {
+public class TRTCNewActivity extends BaseActivity {
     private final static int REQ_PERMISSION_CODE = 0x1000;
 
     private TRTCGetUserIDAndUserSig mUserInfoLoader;
     @Override
-    protected void onCreate( Bundle savedInstanceState) {
+    public void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_activity);
-
+        setTitle("网络诊间");
+        TextView tv_date=findViewById(R.id.tv_date);
+        TextView tv_patname=findViewById(R.id.tv_patname);
+        String patDate=getIntent().getStringExtra("patDate");
+        String patName=getIntent().getStringExtra("patName");
+        String roomNum=getIntent().getStringExtra("roomNum");
+        String docName=getIntent().getStringExtra("docName");
+        tv_patname.setText(patName);tv_date.setText(patDate);
         final EditText etRoomId = (EditText)findViewById(R.id.et_room_name);
-        etRoomId.setText("999");
-
+        etRoomId.setText(roomNum);
         final EditText etUserId = (EditText)findViewById(R.id.et_user_name);
-        etUserId.setText(String.valueOf(System.currentTimeMillis() % 1000000));
-
+        etUserId.setText(docName);
         TextView tvEnterRoom = (TextView)findViewById(R.id.tv_enter);
         tvEnterRoom.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,6 +130,7 @@ public class TRTCNewActivity extends Activity {
             ArrayList<String> userIdList = mUserInfoLoader.getUserIdFromConfig();
             ArrayList<String> userSigList = mUserInfoLoader.getUserSigFromConfig();
             int position = userIdList.indexOf(userId);
+//            int position=0;//医生默认用1号ID
             String userSig = "";
             if (userSigList != null && userSigList.size() > position) {
                 userSig = userSigList.get(position);
@@ -133,11 +140,12 @@ public class TRTCNewActivity extends Activity {
             startActivity(intent);
         } else {
             //（2） 通过 http 协议向一台服务器获取 userid 对应的 usersig
-            mUserInfoLoader.getUserSigFromServer(1400037025, roomId, userId, "12345678", new TRTCGetUserIDAndUserSig.IGetUserSigListener() {
+            mUserInfoLoader.getUserSigFromServer(1400185867, roomId, userId, "12345678", new TRTCGetUserIDAndUserSig.IGetUserSigListener() {
                 @Override
                 public void onComplete(String userSig, String errMsg) {
                     if (!TextUtils.isEmpty(userSig)) {
-                        intent.putExtra("sdkAppId", 1400037025);
+//                        intent.putExtra("sdkAppId", 1400037025);
+                        intent.putExtra("sdkAppId", 1400185867);
                         intent.putExtra("userSig", userSig);
                         startActivity(intent);
                     } else {

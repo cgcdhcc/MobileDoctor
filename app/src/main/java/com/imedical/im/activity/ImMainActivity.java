@@ -13,11 +13,16 @@ import com.imedical.im.entity.AdmInfo;
 import com.imedical.im.service.AdmManager;
 import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
+import com.imedical.mobiledoctor.XMLservice.BusyManager;
+import com.imedical.mobiledoctor.activity.LoginHospitalActivity;
+import com.imedical.mobiledoctor.activity.WardRoundActivity;
 import com.imedical.mobiledoctor.base.BaseActivity;
+import com.imedical.mobiledoctor.entity.PatientInfo;
 import com.imedical.mobiledoctor.util.DateTimePickDialogUtil;
 import com.imedical.mobiledoctor.util.DateUtil;
 import com.imedical.mobiledoctor.util.MyCallback;
 import com.imedical.mobiledoctor.widget.ListViewPull;
+import com.imedical.trtcsdk.TRTCNewActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,9 +85,15 @@ public class ImMainActivity extends BaseActivity implements View.OnClickListener
         lv_data.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent=new Intent(ImMainActivity.this,TalkMsgActivity.class);
-                if(list.size()>position){
-                    intent.putExtra("admInfo", list.get(position));
+                if(currentType==0){
+                    Intent intent=new Intent(ImMainActivity.this,TalkMsgActivity.class);
+                    if(list.size()>position){
+                        intent.putExtra("admInfo", list.get(position));
+                        startActivity(intent);
+                    }
+                }else{
+                    Intent intent=new Intent(ImMainActivity.this,AdmInfoActivity.class);
+                    intent.putExtra("admId", list.get(position).admId);
                     startActivity(intent);
                 }
             }
@@ -197,6 +208,16 @@ public class ImMainActivity extends BaseActivity implements View.OnClickListener
                         list.clear();
                         if(templist!=null){
                             list.addAll(templist);
+                            if(currentType==1){
+                                AdmInfo testAI=new AdmInfo();
+                                testAI.patientName="视频测试患者";
+                                testAI.registerDate="2019";
+                                testAI.admId="10086";//房间号唯一
+                                testAI.patientContent="测试数据";
+                                testAI.patientSex="男";
+                                testAI.admitTimeRange="2019-03-01 10:00";
+                                list.add(testAI);
+                            }
                             adapter.notifyDataSetChanged();
                             dismissProgress();
                         }else{
@@ -209,7 +230,38 @@ public class ImMainActivity extends BaseActivity implements View.OnClickListener
             }
         }.start();
     }
+    public void loadPatinfo(final String admId) {
+        showProgress();
+        new Thread() {
+            PatientInfo patientInfo;
 
+            public void run() {
+                try {
+                    patientInfo = BusyManager.loadPatientInfo(Const.loginInfo.userCode, admId);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        dismissProgress();
+                        if (patientInfo != null) {
+                            Const.curPat = patientInfo;
+                            Const.curSRecorder = null;
+                            Const.SRecorderList = null;
+                            Intent intent = new Intent(ImMainActivity.this, WardRoundActivity.class);
+                            intent.putExtra("title", "患者资料");
+                            startActivity(intent);
+                        } else {
+                            showToast("获取患者信息失败");
+                        }
+                    }
+                });
+            }
+
+            ;
+        }.start();
+    }
     public class MyAdapter extends BaseAdapter {
         @Override
         public int getCount() {
@@ -227,9 +279,14 @@ public class ImMainActivity extends BaseActivity implements View.OnClickListener
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
+
             convertView = getLayoutInflater().inflate(R.layout.im_item_activity_main, null);
             TextView tv_patientName=convertView.findViewById(R.id.tv_patientName);
+            TextView tv_video=convertView.findViewById(R.id.tv_video);
+            TextView tv_Diagnosis=convertView.findViewById(R.id.tv_Diagnosis);
+            TextView tv_dzbl=convertView.findViewById(R.id.tv_dzbl);
+
             tv_patientName.setText(list.get(position).patientName);
             TextView tv_registerDate=convertView.findViewById(R.id.tv_registerDate);
             tv_registerDate.setText(list.get(position).registerDate+"   "+(list.get(position).sessionName==null?"":list.get(position).sessionName));
@@ -242,6 +299,37 @@ public class ImMainActivity extends BaseActivity implements View.OnClickListener
                 iv_head.setImageResource(R.drawable.pat_male);
             }else{
                 iv_head.setImageResource(R.drawable.icon_common_head);
+            }
+           View  ll_video=convertView.findViewById(R.id.ll_video);
+            if(currentType==0){
+                ll_video.setVisibility(View.GONE);
+            }else {
+                ll_video.setVisibility(View.VISIBLE);
+                tv_video.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent it=new Intent(ImMainActivity.this, TRTCNewActivity.class);
+                        it.putExtra("roomNum",list.get(position).admId);
+                        it.putExtra("patName",list.get(position).patientName);
+                        it.putExtra("patDate",list.get(position).admitTimeRange);
+                        it.putExtra("docName",Const.loginInfo.userName);
+                        startActivity(it);
+                    }
+                });
+                tv_dzbl.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                     loadPatinfo(list.get(position).admId);
+                    }
+                });
+                tv_Diagnosis.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent it=new Intent(ImMainActivity.this, AddDiagnosisActivity.class);
+                        it.putExtra("admId", list.get(position).admId);
+                        startActivity(it);
+                    }
+                });
             }
             return convertView;
         }

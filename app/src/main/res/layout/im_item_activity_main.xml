@@ -53,5 +53,53 @@
             android:singleLine="true"
             android:text="头痛，每天精神都不好，十分疲劳，不知道如何是好"
             />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:id="@+id/ll_video"
+            android:gravity="center_vertical"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:src="@drawable/vedio_1"
+                android:layout_height="20dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:textSize="@dimen/font_14dp"
+                android:id="@+id/tv_Diagnosis"
+
+                android:text="诊疗方案"
+                android:layout_margin="5dp"
+                android:textColor="@color/black"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:layout_width="20dp"
+                android:src="@drawable/video_2"
+                android:layout_height="20dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/tv_dzbl"
+                android:textSize="@dimen/font_14dp"
+                android:text="电子病历"
+                android:layout_margin="5dp"
+                android:textColor="@color/black"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:layout_width="20dp"
+                android:src="@drawable/video_3"
+                android:layout_height="20dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:id="@+id/tv_video"
+                android:layout_weight="1"
+                android:textSize="@dimen/font_14dp"
+                android:text="进入诊间"
+                android:layout_margin="5dp"
+                android:textColor="@color/black"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
