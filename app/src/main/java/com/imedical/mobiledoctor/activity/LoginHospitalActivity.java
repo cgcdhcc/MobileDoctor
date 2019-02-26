@@ -135,7 +135,7 @@ public class LoginHospitalActivity extends BaseActivity implements
             }
             login(username, pwd, terminalId, "");
         }
-        
+
     }
 
 

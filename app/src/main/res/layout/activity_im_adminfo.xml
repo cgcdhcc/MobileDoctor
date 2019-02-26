@@ -318,5 +318,37 @@
             </com.imedical.mobiledoctor.widget.GridViewForScrollView>
         </LinearLayout>
     </ScrollView>
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:id="@+id/ll_operation"
+        android:padding="5dp"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/btn_dzbl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@xml/ripple_bg_shape_blue_gradient"
+            android:gravity="center"
+            android:text="电子病历"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+        <TextView
+            android:id="@+id/btn_diagnosis"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@xml/ripple_bg_shape_blue_gradient"
+            android:gravity="center"
+            android:text="诊疗建议"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+    </LinearLayout>
 </LinearLayout>

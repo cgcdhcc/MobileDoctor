@@ -94,6 +94,7 @@ public class ImMainActivity extends BaseActivity implements View.OnClickListener
                 }else{
                     Intent intent=new Intent(ImMainActivity.this,AdmInfoActivity.class);
                     intent.putExtra("admId", list.get(position).admId);
+                    intent.putExtra("Type", "VIDEO");
                     startActivity(intent);
                 }
             }
@@ -283,9 +284,9 @@ public class ImMainActivity extends BaseActivity implements View.OnClickListener
 
             convertView = getLayoutInflater().inflate(R.layout.im_item_activity_main, null);
             TextView tv_patientName=convertView.findViewById(R.id.tv_patientName);
-            TextView tv_video=convertView.findViewById(R.id.tv_video);
-            TextView tv_Diagnosis=convertView.findViewById(R.id.tv_Diagnosis);
-            TextView tv_dzbl=convertView.findViewById(R.id.tv_dzbl);
+            View ll_enter=convertView.findViewById(R.id.ll_enter);
+            View ll_end=convertView.findViewById(R.id.ll_end);
+            View ll_dzbl=convertView.findViewById(R.id.ll_dzbl);
 
             tv_patientName.setText(list.get(position).patientName);
             TextView tv_registerDate=convertView.findViewById(R.id.tv_registerDate);
@@ -305,7 +306,7 @@ public class ImMainActivity extends BaseActivity implements View.OnClickListener
                 ll_video.setVisibility(View.GONE);
             }else {
                 ll_video.setVisibility(View.VISIBLE);
-                tv_video.setOnClickListener(new View.OnClickListener() {
+                ll_enter.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent it=new Intent(ImMainActivity.this, TRTCNewActivity.class);
@@ -316,18 +317,19 @@ public class ImMainActivity extends BaseActivity implements View.OnClickListener
                         startActivity(it);
                     }
                 });
-                tv_dzbl.setOnClickListener(new View.OnClickListener() {
+                ll_dzbl.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                      loadPatinfo(list.get(position).admId);
                     }
                 });
-                tv_Diagnosis.setOnClickListener(new View.OnClickListener() {
+                ll_end.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent it=new Intent(ImMainActivity.this, AddDiagnosisActivity.class);
-                        it.putExtra("admId", list.get(position).admId);
-                        startActivity(it);
+
+//                        Intent it=new Intent(ImMainActivity.this, AddDiagnosisActivity.class);
+//                        it.putExtra("admId", list.get(position).admId);
+//                        startActivity(it);
                     }
                 });
             }

@@ -16,16 +16,20 @@ import com.imedical.im.entity.AdmInfo;
 import com.imedical.im.service.AdmManager;
 import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
+import com.imedical.mobiledoctor.XMLservice.BusyManager;
+import com.imedical.mobiledoctor.activity.WardRoundActivity;
 import com.imedical.mobiledoctor.base.BaseActivity;
+import com.imedical.mobiledoctor.entity.PatientInfo;
 import com.imedical.mobiledoctor.util.DownloadUtil;
 import com.imedical.mobiledoctor.util.Validator;
 
 import java.util.List;
 
 public class AdmInfoActivity extends BaseActivity {
-    public String admId;
+    public String admId,Type=null;
     public TextView tv_patientName, tv_patientAge, tv_patientCard, tv_doctorName, tv_departmentName, tv_doctorTitle, tv_patientContent;
-    public TextView tv_complaintStr_Item1, tv_complaintStr_Item2, tv_complaintStr_Item3, tv_complaintStr_Item4, tv_complaintStr_Item5;
+    public TextView tv_complaintStr_Item1, tv_complaintStr_Item2, tv_complaintStr_Item3, tv_complaintStr_Item4, tv_complaintStr_Item5,btn_dzbl,btn_diagnosis;
+    public View ll_operation;
     public GridView gv_img;
     public int mScreenWidth;
     @Override
@@ -33,6 +37,7 @@ public class AdmInfoActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         admId = this.getIntent().getStringExtra("admId");
         setContentView(R.layout.activity_im_adminfo);
+        Type=this.getIntent().getStringExtra("Type");//默认是不带操作界面的，
         setTitle("患者自述");
         intiView();
         loadData();
@@ -41,6 +46,28 @@ public class AdmInfoActivity extends BaseActivity {
     public void intiView() {
         Display display = getWindowManager().getDefaultDisplay();
         mScreenWidth = display.getWidth();
+        ll_operation=findViewById(R.id.ll_operation);
+        if(Type==null){
+            ll_operation.setVisibility(View.GONE);
+        }else {
+            ll_operation.setVisibility(View.VISIBLE);
+        }
+        btn_dzbl=findViewById(R.id.btn_dzbl);
+        btn_dzbl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadPatinfo(admId);
+            }
+        });
+        btn_diagnosis=findViewById(R.id.btn_diagnosis);
+        btn_diagnosis.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent it=new Intent(AdmInfoActivity.this, AddDiagnosisActivity.class);
+                        it.putExtra("admId", admId);
+                        startActivity(it);
+            }
+        });
         tv_patientName = findViewById(R.id.tv_patientName);
         tv_patientAge = findViewById(R.id.tv_patientAge);
         tv_patientCard = findViewById(R.id.tv_patientCard);
@@ -55,6 +82,39 @@ public class AdmInfoActivity extends BaseActivity {
         tv_complaintStr_Item3 = findViewById(R.id.tv_complaintStr_Item3);
         tv_complaintStr_Item4 = findViewById(R.id.tv_complaintStr_Item4);
         tv_complaintStr_Item5 = findViewById(R.id.tv_complaintStr_Item5);
+    }
+
+    public void loadPatinfo(final String admId) {
+        showProgress();
+        new Thread() {
+            PatientInfo patientInfo;
+
+            public void run() {
+                try {
+                    patientInfo = BusyManager.loadPatientInfo(Const.loginInfo.userCode, admId);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        dismissProgress();
+                        if (patientInfo != null) {
+                            Const.curPat = patientInfo;
+                            Const.curSRecorder = null;
+                            Const.SRecorderList = null;
+                            Intent intent = new Intent(AdmInfoActivity.this, WardRoundActivity.class);
+                            intent.putExtra("title", "患者资料");
+                            startActivity(intent);
+                        } else {
+                            showToast("获取患者信息失败");
+                        }
+                    }
+                });
+            }
+
+            ;
+        }.start();
     }
 
     public void intiData(final AdmInfo admInfo) {
@@ -179,6 +239,7 @@ public class AdmInfoActivity extends BaseActivity {
             return view;
         }
     }
+
 
 
 }

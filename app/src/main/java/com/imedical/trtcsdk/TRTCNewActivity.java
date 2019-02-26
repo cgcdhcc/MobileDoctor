@@ -15,6 +15,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.imedical.im.activity.AddDiagnosisActivity;
+import com.imedical.im.activity.AdmInfoActivity;
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.base.BaseActivity;
 import com.imedical.trtcsdk.bean.userSigResponse;
@@ -62,6 +64,16 @@ public class TRTCNewActivity extends BaseActivity {
                     return;
                 }
                 onJoinRoom(roomId, userId,userSig);
+            }
+        });
+        TextView btn_diagnosis = (TextView)findViewById(R.id.btn_diagnosis);
+        btn_diagnosis.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent it=new Intent(TRTCNewActivity.this, AddDiagnosisActivity.class);
+                String admId= getIntent().getStringExtra("roomNum");
+                it.putExtra("admId", admId);
+                startActivity(it);
             }
         });
         checkPermission();

@@ -3,18 +3,15 @@ package com.imedical.trtcsdk.service;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.imedical.im.entity.ImBaseResponse;
 import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.XMLservice.SettingManager;
 import com.imedical.mobiledoctor.api.WsApiUtil;
 import com.imedical.trtcsdk.bean.userSigResponse;
 import com.imedical.trtcsdk.bean.userSignRequest;
 
-import java.io.File;
-
 public class VideoService {
     public static Gson gson = new Gson();
-    public static userSigResponse GetUserSign( String useId) {//tencentcloud.face.detect
+    public static userSigResponse GetUserSign( String useId) {
         userSigResponse USR;
         userSignRequest request=new userSignRequest();
         request.userId=useId;
