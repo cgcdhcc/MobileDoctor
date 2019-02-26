@@ -196,7 +196,7 @@ public class ImMainActivity extends BaseActivity implements View.OnClickListener
             public void run() {
                 super.run();
                 try{
-                    templist= AdmManager.GetPatientList(Const.DeviceId, Const.loginInfo.userCode, Const.loginInfo.defaultDeptId, currentType==0?"T":"V",currentStatus==0?"N":"Y" ,tv_startDate.getText().toString() ,tv_endDate.getText().toString() );
+                    templist= AdmManager.GetPatientList(Const.DeviceId, Const.loginInfo.userCode, Const.loginInfo.defaultDeptId, currentType==0?"T":"R",currentStatus==0?"N":"Y" ,tv_startDate.getText().toString() ,tv_endDate.getText().toString() );
                 }catch (Exception e){
                     e.printStackTrace();
                     msg=e.getMessage();
@@ -208,16 +208,16 @@ public class ImMainActivity extends BaseActivity implements View.OnClickListener
                         list.clear();
                         if(templist!=null){
                             list.addAll(templist);
-                            if(currentType==1){
-                                AdmInfo testAI=new AdmInfo();
-                                testAI.patientName="视频测试患者";
-                                testAI.registerDate="2019";
-                                testAI.admId="10086";//房间号唯一
-                                testAI.patientContent="测试数据";
-                                testAI.patientSex="男";
-                                testAI.admitTimeRange="2019-03-01 10:00";
-                                list.add(testAI);
-                            }
+//                            if(currentType==1){
+//                                AdmInfo testAI=new AdmInfo();
+//                                testAI.patientName="视频测试患者";
+//                                testAI.registerDate="2019";
+//                                testAI.admId="10086";//房间号唯一
+//                                testAI.patientContent="测试数据";
+//                                testAI.patientSex="男";
+//                                testAI.admitTimeRange="2019-03-01 10:00";
+//                                list.add(testAI);
+//                            }
                             adapter.notifyDataSetChanged();
                             dismissProgress();
                         }else{
@@ -312,7 +312,7 @@ public class ImMainActivity extends BaseActivity implements View.OnClickListener
                         it.putExtra("roomNum",list.get(position).admId);
                         it.putExtra("patName",list.get(position).patientName);
                         it.putExtra("patDate",list.get(position).admitTimeRange);
-                        it.putExtra("docName",Const.loginInfo.userName);
+                        it.putExtra("docName",Const.loginInfo.userCode);
                         startActivity(it);
                     }
                 });

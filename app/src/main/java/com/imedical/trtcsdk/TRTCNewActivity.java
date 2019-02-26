@@ -17,23 +17,12 @@ import android.widget.Toast;
 
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.base.BaseActivity;
+import com.imedical.trtcsdk.bean.userSigResponse;
+import com.imedical.trtcsdk.service.VideoService;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
-/**
- * Module:   TRTCNewActivity
- *
- * Function: 该界面可以让用户输入一个【房间号】和一个【用户名】
- *
- * Notice:
- *
- *  （1）房间号为数字类型，用户名为字符串类型
- *
- *  （2）在真实的使用场景中，房间号大多不是用户手动输入的，而是系统分配的，
- *       比如视频会议中的会议号是会控系统提前预定好的，客服系统中的房间号也是根据客服员工的工号决定的。
- */
 public class TRTCNewActivity extends BaseActivity {
     private final static int REQ_PERMISSION_CODE = 0x1000;
 
@@ -66,38 +55,22 @@ public class TRTCNewActivity extends BaseActivity {
                     return;
                 }
                 final String userId = etUserId.getText().toString();
+                final String userSig= etUserId.getTag().toString();
+
                 if(TextUtils.isEmpty(userId)) {
                     Toast.makeText(getContext(), "请输入有效的用户名", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
-                onJoinRoom(roomId, userId);
+                onJoinRoom(roomId, userId,userSig);
             }
         });
-
-        // 如果配置有config文件，则从config文件中选择userId
-        mUserInfoLoader = new TRTCGetUserIDAndUserSig(this);
-        final ArrayList<String> userIds = mUserInfoLoader.getUserIdFromConfig();
-        if (userIds != null && userIds.size() > 0) {
-            TRTCUserSelectDialog dialog = new TRTCUserSelectDialog(getContext(), mUserInfoLoader.getUserIdFromConfig());
-            dialog.setTitle("请选择登录的用户:");
-            dialog.setCanceledOnTouchOutside(false);
-            dialog.setOnItemClickListener(new TRTCUserSelectDialog.onItemClickListener() {
-                @Override
-                public void onItemClick(int position) {
-                    final EditText etUserId = (EditText)findViewById(R.id.et_user_name);
-                    etUserId.setText(userIds.get(position));
-                    etUserId.setEnabled(false);
-                }
-            });
-            dialog.show();
-        }
-        else {
-            showAlertDialog();
-        }
-
-        // 申请动态权限
         checkPermission();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LoadUserRig();
     }
 
     @Override
@@ -120,26 +93,16 @@ public class TRTCNewActivity extends BaseActivity {
      *
      *  参考文档：https://cloud.tencent.com/document/product/647/17275
      */
-    private void onJoinRoom(int roomId, final String userId) {
+    private void onJoinRoom(int roomId, final String userId,final String userSig) {
         final Intent intent = new Intent(getContext(), TRTCMainActivity.class);
         intent.putExtra("roomId", roomId);
         intent.putExtra("userId", userId);
-        final int sdkAppId = mUserInfoLoader.getSdkAppIdFromConfig();
+        final int sdkAppId = 1400185867;
         if (sdkAppId > 0) {
-            //（1） 从控制台获取的 json 文件中，简单获取几组已经提前计算好的 userid 和 usersig
-            ArrayList<String> userIdList = mUserInfoLoader.getUserIdFromConfig();
-            ArrayList<String> userSigList = mUserInfoLoader.getUserSigFromConfig();
-            int position = userIdList.indexOf(userId);
-//            int position=0;//医生默认用1号ID
-            String userSig = "";
-            if (userSigList != null && userSigList.size() > position) {
-                userSig = userSigList.get(position);
-            }
             intent.putExtra("sdkAppId", sdkAppId);
             intent.putExtra("userSig", userSig);
             startActivity(intent);
         } else {
-            //（2） 通过 http 协议向一台服务器获取 userid 对应的 usersig
             mUserInfoLoader.getUserSigFromServer(1400185867, roomId, userId, "12345678", new TRTCGetUserIDAndUserSig.IGetUserSigListener() {
                 @Override
                 public void onComplete(String userSig, String errMsg) {
@@ -161,18 +124,46 @@ public class TRTCNewActivity extends BaseActivity {
         }
     }
 
+    private  void LoadUserRig(){
+            showProgress();
+       final String docName=getIntent().getStringExtra("docName");
+
+        new Thread() {
+                String msg="加载失败了";
+                userSigResponse response=null;
+                @Override
+                public void run() {
+                    super.run();
+                    try{
+                         response = VideoService.GetUserSign(docName);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                        msg=e.getMessage();
+                    }
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            dismissProgress();
+                            if(response.code==20000){
+                                final EditText etUserId = (EditText)findViewById(R.id.et_user_name);
+                                etUserId.setText(docName);
+                                etUserId.setTag(response.data.userSig);
+                                etUserId.setEnabled(false);
+                            }else {
+                                showCustom("配置文件获取失败："+response.message);
+                            }
+
+                        }
+                    });
+                }
+            }.start();
+    }
+
     private Context getContext(){
         return this;
     }
 
-    private void showAlertDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("注意")
-                .setMessage("读取配置文件失败，请在【控制台】->【快速上手】中生成配置内容复制到config.json文件");
-        AlertDialog alertDialog = builder.create();
-        alertDialog.setCanceledOnTouchOutside(true);
-        alertDialog.show();
-    }
+
     //////////////////////////////////    动态权限申请   ////////////////////////////////////////
 
     private boolean checkPermission() {

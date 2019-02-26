@@ -134,10 +134,8 @@ public class LoginHospitalActivity extends BaseActivity implements
                 return;
             }
             login(username, pwd, terminalId, "");
-        }else if(view == btn_test){
-                Intent it=new Intent(LoginHospitalActivity.this, TRTCNewActivity.class);
-                startActivity(it);
         }
+        
     }
 
 
