@@ -1,5 +1,7 @@
 package com.imedical.im.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Display;
@@ -19,18 +21,21 @@ import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.XMLservice.BusyManager;
 import com.imedical.mobiledoctor.activity.WardRoundActivity;
 import com.imedical.mobiledoctor.base.BaseActivity;
+import com.imedical.mobiledoctor.entity.BaseBean;
 import com.imedical.mobiledoctor.entity.PatientInfo;
 import com.imedical.mobiledoctor.util.DownloadUtil;
 import com.imedical.mobiledoctor.util.Validator;
+import com.imedical.trtcsdk.TRTCNewActivity;
 
 import java.util.List;
 
 public class AdmInfoActivity extends BaseActivity {
     public String admId,Type=null;
-    public TextView tv_patientName, tv_patientAge, tv_patientCard, tv_doctorName, tv_departmentName, tv_doctorTitle, tv_patientContent;
+    public TextView tv_patientName, tv_patientAge, tv_patientCard, tv_doctorName, tv_departmentName, tv_doctorTitle, tv_patientContent,tv_cancel;
     public TextView tv_complaintStr_Item1, tv_complaintStr_Item2, tv_complaintStr_Item3, tv_complaintStr_Item4, tv_complaintStr_Item5,btn_dzbl,btn_diagnosis;
     public View ll_operation;
     public GridView gv_img;
+    public AdmInfo tempAI;
     public int mScreenWidth;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,11 +52,37 @@ public class AdmInfoActivity extends BaseActivity {
         Display display = getWindowManager().getDefaultDisplay();
         mScreenWidth = display.getWidth();
         ll_operation=findViewById(R.id.ll_operation);
+        tv_cancel=findViewById(R.id.tv_cancel);
         if(Type==null){
             ll_operation.setVisibility(View.GONE);
+            tv_cancel.setVisibility(View.GONE);
         }else {
             ll_operation.setVisibility(View.VISIBLE);
-        }
+            tv_cancel.setVisibility(View.VISIBLE);
+            tv_cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new  AlertDialog.Builder(AdmInfoActivity.this)
+                            .setTitle("退号操作")
+                            .setMessage("您确定要退号吗？")
+                            .setPositiveButton("确定",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            cancleOrder();
+                                        }
+                                    })
+                            .setNegativeButton("取消",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                            dialog.dismiss();
+                                        }
+                                    }).show();
+
+                }
+            });
+                }
+
         btn_dzbl=findViewById(R.id.btn_dzbl);
         btn_dzbl.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,7 +119,6 @@ public class AdmInfoActivity extends BaseActivity {
         showProgress();
         new Thread() {
             PatientInfo patientInfo;
-
             public void run() {
                 try {
                     patientInfo = BusyManager.loadPatientInfo(Const.loginInfo.userCode, admId);
@@ -118,6 +148,7 @@ public class AdmInfoActivity extends BaseActivity {
     }
 
     public void intiData(final AdmInfo admInfo) {
+        this.tempAI=admInfo;
         tv_patientName.setText(admInfo.patientName);
         tv_patientAge.setText(admInfo.patientAge + " | " + admInfo.patientSex);
         tv_patientCard.setText(admInfo.patientId);
@@ -172,6 +203,39 @@ public class AdmInfoActivity extends BaseActivity {
         }
 
     }
+
+    public void cancleOrder() {
+        showProgress();
+        new Thread() {
+            String msg = "";
+            BaseBean baseBean;
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    baseBean = AdmManager.cancleOrder(Const.DeviceId,tempAI.patientCard, tempAI.patientId,tempAI.registerId);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    msg = e.getMessage();
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        dismissProgress();
+                        if (baseBean!=null&&baseBean.getResultCode().equals("0")) {
+                            showCustom(msg);
+                        } else {
+                            if(baseBean!=null){
+                                msg = baseBean.getResultDesc();
+                            }
+                            showCustom(msg);
+                        }
+                    }
+                });
+            }
+        }.start();
+    }
+
 
     public void loadData() {
         showProgress();

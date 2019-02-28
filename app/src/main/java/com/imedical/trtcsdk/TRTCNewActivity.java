@@ -87,7 +87,6 @@ public class TRTCNewActivity extends BaseActivity {
 
             }
         });
-
         checkPermission();
     }
 
