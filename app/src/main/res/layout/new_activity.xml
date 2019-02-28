@@ -4,7 +4,54 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <include layout="@layout/dhcc_white_head"></include>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:orientation="vertical"
+        >
+        <FrameLayout
+            android:background="@color/white"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            >
+            <TextView
+                android:padding="10dp"
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/font_16dp"
+                android:text="标题"
+                android:layout_gravity="center"
+                android:textColor="@color/text_base"
+                />
+
+            <ImageView
+                android:id="@+id/iv_left"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:padding="5dp"
+                android:background="@xml/ripple_bg_shape_white"
+                android:src="@drawable/all_left_arrow"
+                android:layout_gravity="center_vertical"
+                />
+
+            <TextView
+                android:padding="10dp"
+                android:id="@+id/tv_end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/font_16dp"
+                android:text="结束服务"
+                android:layout_gravity="right|center_vertical"
+                android:textColor="@color/mobile_blue"
+                />
+        </FrameLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/mobile_gray"
+            />
+    </LinearLayout>
    <LinearLayout
        android:layout_width="match_parent"
        android:orientation="horizontal"
@@ -29,6 +76,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="horizontal"
+
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_height="wrap_content">
@@ -46,52 +94,58 @@
             android:layout_marginLeft="10dp"
             android:layout_height="wrap_content" />
     </LinearLayout>
-    <TextView
-        android:id="@+id/main_title"
+    <LinearLayout
         android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="20dp"
-        android:gravity="center"
+        android:layout_width="fill_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/main_title"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
 
-        android:text="@string/app_name"
-        android:textColor="#ffffff"
-        android:textSize="26dp" />
+            android:text="@string/app_name"
+            android:textColor="#ffffff"
+            android:textSize="26dp" />
+        <TextView
+            android:text="房间号"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/et_room_name"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="@color/hlfTransparent"
+            android:textColor="@color/colorWhite"
+            android:singleLine="true"
+            android:inputType="number"
+            android:hint="@string/str_room_id_tips"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="用户名"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/et_user_name"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="@color/hlfTransparent"
+            android:textColor="@color/colorWhite"
+            android:singleLine="true"
+            android:hint="@string/str_user_id_tips"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
-    <TextView
-        android:text="房间号"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="30dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <EditText
-        android:id="@+id/et_room_name"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:background="@color/hlfTransparent"
-        android:textColor="@color/colorWhite"
-        android:singleLine="true"
-        android:inputType="number"
-        android:hint="@string/str_room_id_tips"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:text="用户名"
-        android:layout_marginTop="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <EditText
-        android:id="@+id/et_user_name"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:background="@color/hlfTransparent"
-        android:textColor="@color/colorWhite"
-        android:singleLine="true"
-        android:hint="@string/str_user_id_tips"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
     <TextView
         android:layout_width="match_parent"

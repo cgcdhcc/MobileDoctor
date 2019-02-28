@@ -35,7 +35,7 @@ public class TRTCVideoViewLayout extends RelativeLayout {
     private RelativeLayout mLayout;
     private int mCount = 0;
     private int mMode;
-
+    public int UserCount=0;//与会者人数，自己不算
     private String mSelfUserId;
 
     public TRTCVideoViewLayout(Context context) {
@@ -208,7 +208,7 @@ public class TRTCVideoViewLayout extends RelativeLayout {
 
         for (int i = 0; i < 3; i++) {
             LayoutParams layoutParams = new LayoutParams(subWidth, subHeight);
-            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
             layoutParams.rightMargin = lrMargin;
             layoutParams.bottomMargin = bottomMargin + midMargin * (i + 1) + subHeight * i;
@@ -218,7 +218,7 @@ public class TRTCVideoViewLayout extends RelativeLayout {
 
         for (int i = 0; i < 3; i++) {
             LayoutParams layoutParams = new LayoutParams(subWidth, subHeight);
-            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
             layoutParams.leftMargin = lrMargin;
             layoutParams.bottomMargin = bottomMargin + midMargin * (i + 1) + subHeight * i;
@@ -268,6 +268,8 @@ public class TRTCVideoViewLayout extends RelativeLayout {
                 mLayout.bringChildToFront(cloudVideoView);
             }
         }
+
+
     }
 
     public void updateLayoutGrid() {

@@ -29,8 +29,8 @@
                 android:layout_height="match_parent">
                 <TextView
                     android:id="@+id/tv_mydep"
-                    android:textSize="18dp"
-                    android:text="住院患者"
+                    android:textSize="@dimen/font_18dp"
+                                        android:text="住院患者"
                     android:textColor="@color/mobile_blue"
                     android:gravity="center"
                     android:layout_width="fill_parent"
@@ -50,7 +50,7 @@
                 android:gravity="center"
                 android:layout_height="match_parent">
                 <TextView
-                    android:textSize="18dp"
+                    android:textSize="@dimen/font_18dp"
                     android:text="门诊患者"
                     android:id="@+id/tv_my"
                     android:gravity="center"
@@ -215,7 +215,7 @@
                 android:layout_weight="1"
                 android:orientation="vertical"
                 android:id="@+id/ll_noHandle"
-                android:layout_height="56dp">
+                android:layout_height="48dp">
                 <TextView
                     android:layout_width="match_parent"
                     android:gravity="center"
@@ -223,7 +223,7 @@
                     android:id="@+id/tv_noHandle"
                     android:textSize="@dimen/font_16dp"
                     android:textColor="@color/mobile_blue"
-                    android:layout_height="54dp" />
+                    android:layout_height="46dp" />
                 <TextView
                     android:id="@+id/tv_noHandle_line"
                     android:layout_width="match_parent"
@@ -235,7 +235,7 @@
                 android:layout_width="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:layout_height="56dp">
+                android:layout_height="48dp">
                 <TextView
                     android:layout_width="match_parent"
                     android:gravity="center"
@@ -243,7 +243,7 @@
                     android:text="已就诊"
                     android:textSize="@dimen/font_16dp"
                     android:textColor="@color/gray"
-                    android:layout_height="54dp" />
+                    android:layout_height="46dp" />
                 <TextView
                     android:id="@+id/tv_Handled_line"
                     android:layout_width="match_parent"

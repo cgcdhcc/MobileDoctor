@@ -28,7 +28,7 @@
                 android:layout_height="match_parent">
                 <TextView
                     android:id="@+id/tv_mydep"
-                    android:textSize="18dp"
+                    android:textSize="@dimen/font_18dp"
                     android:text="患者"
                     android:textColor="@color/black"
                     android:gravity="center"

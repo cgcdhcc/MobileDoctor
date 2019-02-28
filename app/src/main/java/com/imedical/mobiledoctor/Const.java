@@ -305,6 +305,8 @@ public final class Const {
 	public static final String BIZ_CODE_deleteallmsg="message.app.deleteallmsg";//删除所有APP消息
 
 
-	public static final String BIZ_CODE_VIDEO_USERID="tencentcloud.trtc.user-sign";//医生聊天注册
+	public static final String BIZ_CODE_VIDEO_USERID="tencentcloud.trtc.meet-info";//医生聊天注册
+	public static final String BIZ_CODE_VIDEO_STOP="tencentcloud.trtc.meet-finish";//视频结束
+
 
 }

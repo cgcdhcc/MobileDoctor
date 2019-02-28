@@ -3,6 +3,8 @@ package com.imedical.trtcsdk;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -20,6 +22,9 @@ import com.tencent.trtc.TRTCCloudDef;
 import com.tencent.trtc.TRTCCloudListener;
 
 import java.lang.ref.WeakReference;
+import java.util.Set;
+
+import cn.jpush.android.api.JPushInterface;
 
 
 /**
@@ -38,32 +43,30 @@ public class TRTCMainActivity extends Activity implements View.OnClickListener, 
 
     private boolean bFrontCamera = true, bBeautyEnable = true, bMicEnable = true;
     private int iDebugLevel = 0;
-
+    public int Second=30;
     private TextView tvRoomId;
     private ImageView ivShowMode, ivSwitch, ivBeauty, ivMic, ivLog;
     private TRTCSettingDialog settingDlg;
     private TRTCVideoViewLayout mVideoViewLayout;
-
+    private String patName="";
     private TRTCCloudDef.TRTCParams trtcParams;     /// TRTC SDK 视频通话房间进入所必须的参数
     private TRTCCloud trtcCloud;              /// TRTC SDK 实例对象
     private TRTCCloudListener trtcListener;    /// TRTC SDK 回调监听
-
+    private int UserCount=0;////与会者人数，自己不算
     @Override
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         //应用运行时，保持屏幕高亮，不锁屏
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN , WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
         //获取前一个页面得到的进房参数
         Intent intent       = getIntent();
         int sdkAppId        = intent.getIntExtra("sdkAppId", 0);
         int roomId          = intent.getIntExtra("roomId", 0);
         String selfUserId   = intent.getStringExtra("userId");
         String userSig      = intent.getStringExtra("userSig");
-
+        patName=intent.getStringExtra("patName");
         trtcParams = new TRTCCloudDef.TRTCParams(sdkAppId, selfUserId, userSig, roomId, "", "");
 
         //初始化 UI 控件
@@ -178,7 +181,7 @@ public class TRTCMainActivity extends Activity implements View.OnClickListener, 
         //进房
         trtcCloud.enterRoom(trtcParams, TRTCCloudDef.TRTC_APP_SCENE_VIDEOCALL);
 
-        Toast.makeText(this, "开始进房", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "开始进房", Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -210,9 +213,7 @@ public class TRTCMainActivity extends Activity implements View.OnClickListener, 
         ivBeauty = (ImageView) findViewById(R.id.iv_beauty);
         ivMic = (ImageView) findViewById(R.id.iv_mic);
         ivLog = (ImageView) findViewById(R.id.iv_log);
-
-        tvRoomId.setText("" + trtcParams.roomId);
-
+        tvRoomId.setText("正在与" +patName+"视频");
         settingDlg = new TRTCSettingDialog(this, this);
         findViewById(R.id.rtc_double_room_back_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -304,6 +305,9 @@ public class TRTCMainActivity extends Activity implements View.OnClickListener, 
             if (activity != null) {
                 Toast.makeText(activity, "加入房间成功", Toast.LENGTH_SHORT).show();
                 activity.mVideoViewLayout.onRoomEnter();
+                Message msg =new Message();
+                msg.what=activity.UserCount;
+                activity.UserHandler.sendMessage(msg);
             }
         }
 
@@ -354,13 +358,22 @@ public class TRTCMainActivity extends Activity implements View.OnClickListener, 
          */
         @Override
         public void onUserExit(String userId, int reason) {
-            TRTCMainActivity activity = mContext.get();
+          final   TRTCMainActivity activity = mContext.get();
             if (activity != null) {
+                activity.UserCount=0;
                 activity.trtcCloud.stopRemoteView(userId);
                 activity.mVideoViewLayout.onMemberLeave(userId+TRTCCloudDef.TRTC_VIDEO_STREAM_TYPE_BIG);
-
                 activity.trtcCloud.stopRemoteSubStreamView(userId);
                 activity.mVideoViewLayout.onMemberLeave(userId+TRTCCloudDef.TRTC_VIDEO_STREAM_TYPE_SUB);
+                Message msg =new Message();
+                msg.what=activity.UserCount;
+                activity.UserHandler.sendMessage(msg);
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(activity, "事件onUserExit"+ activity.UserCount, Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
 
         }
@@ -369,7 +382,7 @@ public class TRTCMainActivity extends Activity implements View.OnClickListener, 
          */
         @Override
         public void onUserVideoAvailable(final String userId, boolean available){
-            TRTCMainActivity activity = mContext.get();
+           final TRTCMainActivity activity = mContext.get();
             if (activity != null) {
                 if (available) {
                     final TXCloudVideoView renderView = activity.mVideoViewLayout.onMemberEnter(userId+TRTCCloudDef.TRTC_VIDEO_STREAM_TYPE_BIG);
@@ -379,16 +392,31 @@ public class TRTCMainActivity extends Activity implements View.OnClickListener, 
                         activity.trtcCloud.showDebugView(activity.iDebugLevel);
                         activity.trtcCloud.setDebugViewMargin(userId, new TRTCCloud.TRTCViewMargin(0.0f, 0.0f, 0.1f, 0.0f));
                         activity.trtcCloud.startRemoteView(userId, renderView);
+                        activity.UserCount=1;
+                        Message msg =new Message();
+                        msg.what=activity.UserCount;
+                        activity.UserHandler.sendMessage(msg);
                         activity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 renderView.setUserId(userId+TRTCCloudDef.TRTC_VIDEO_STREAM_TYPE_BIG);
+//                                    Toast.makeText(activity, userId+"当前患者人数"+ activity.UserCount, Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
                 } else {
+                    activity.UserCount=0;
                     activity.trtcCloud.stopRemoteView(userId);
                     activity.mVideoViewLayout.onMemberLeave(userId+TRTCCloudDef.TRTC_VIDEO_STREAM_TYPE_BIG);
+                    Message msg =new Message();
+                    msg.what=activity.UserCount;
+                    activity.UserHandler.sendMessage(msg);
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(activity, "事件onUserVideoAvailable"+ activity.UserCount, Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
         }
@@ -424,4 +452,40 @@ public class TRTCMainActivity extends Activity implements View.OnClickListener, 
             }
         }
     }
-}
+
+    public Runnable timeRunnable=new Runnable() {
+        @Override
+        public void run() {
+            Second--;
+            if(Second>0)
+            {
+                tvRoomId.setTextColor(getResources().getColor(R.color.red));
+                tvRoomId.setText("等待患者加入"+Second+"秒后自动退出");
+                tvRoomId.postDelayed(this, 1000);
+            }else{
+                tvRoomId.removeCallbacks(this);
+                finish();
+            }
+        }
+    };
+
+    public final Handler UserHandler = new Handler() {
+        @Override
+        public void handleMessage(android.os.Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 0:
+                    tvRoomId.removeCallbacks(timeRunnable);//停止倒计时
+                    tvRoomId.post(timeRunnable);//开始倒计时
+                    break;
+                case 1:
+                    tvRoomId.removeCallbacks(timeRunnable);//停止倒计时
+                    tvRoomId.setTextColor(getResources().getColor(R.color.white));
+                    Second=30;
+                    tvRoomId.setText("正在与" +patName+"视频");
+                    break;
+                default:
+//	                Log.i(TAG, "Unhandled msg - " + msg.what);
+            }
+        }
+    };}

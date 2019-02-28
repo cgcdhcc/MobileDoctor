@@ -54,6 +54,7 @@
             android:gravity="center_horizontal">
 
             <ImageView
+                android:visibility="gone"
                 android:id="@+id/iv_show_mode"
                 android:layout_width="@dimen/icon_width"
                 android:layout_height="@dimen/icon_height"
@@ -83,6 +84,8 @@
                 android:layout_marginLeft="@dimen/icon_margin"
                 android:clickable="true"
                 android:gravity="center"
+                android:visibility="gone"
+
                 android:orientation="vertical">
 
                 <ImageView
@@ -117,6 +120,7 @@
                 android:layout_marginLeft="@dimen/icon_margin"
                 android:clickable="true"
                 android:gravity="center"
+                android:visibility="gone"
                 android:orientation="vertical">
 
                 <ImageView

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -27,7 +28,8 @@ import java.util.List;
 
 public class TRTCNewActivity extends BaseActivity {
     private final static int REQ_PERMISSION_CODE = 0x1000;
-
+//    private int sdkAppId= 1400185867;//青医
+    private int sdkAppId= 1400189737;//测试
     private TRTCGetUserIDAndUserSig mUserInfoLoader;
     @Override
     public void onCreate( Bundle savedInstanceState) {
@@ -45,25 +47,11 @@ public class TRTCNewActivity extends BaseActivity {
         etRoomId.setText(roomNum);
         final EditText etUserId = (EditText)findViewById(R.id.et_user_name);
         etUserId.setText(docName);
-        TextView tvEnterRoom = (TextView)findViewById(R.id.tv_enter);
+       final   TextView tvEnterRoom = (TextView)findViewById(R.id.tv_enter);
         tvEnterRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int roomId = 123;
-                try{
-                    roomId = Integer.valueOf(etRoomId.getText().toString());
-                }catch (Exception e){
-                    Toast.makeText(getContext(), "请输入有效的房间号", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                final String userId = etUserId.getText().toString();
-                final String userSig= etUserId.getTag().toString();
-
-                if(TextUtils.isEmpty(userId)) {
-                    Toast.makeText(getContext(), "请输入有效的用户名", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                onJoinRoom(roomId, userId,userSig);
+                LoadUserRig();
             }
         });
         TextView btn_diagnosis = (TextView)findViewById(R.id.btn_diagnosis);
@@ -76,13 +64,37 @@ public class TRTCNewActivity extends BaseActivity {
                 startActivity(it);
             }
         });
+        TextView tv_end = (TextView)findViewById(R.id.tv_end);
+        tv_end.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              new  AlertDialog.Builder(TRTCNewActivity.this)
+                        .setTitle("结束视频服务")
+                        .setMessage("您确定要结束吗？")
+                        .setPositiveButton("确定",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        StopService();
+                                    }
+                                })
+                        .setNegativeButton("取消",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        dialog.dismiss();
+                                    }
+                                }).show();
+
+            }
+        });
+
         checkPermission();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        LoadUserRig();
+
     }
 
     @Override
@@ -109,18 +121,19 @@ public class TRTCNewActivity extends BaseActivity {
         final Intent intent = new Intent(getContext(), TRTCMainActivity.class);
         intent.putExtra("roomId", roomId);
         intent.putExtra("userId", userId);
-        final int sdkAppId = 1400185867;
         if (sdkAppId > 0) {
+            String patName=getIntent().getStringExtra("patName");
             intent.putExtra("sdkAppId", sdkAppId);
             intent.putExtra("userSig", userSig);
+            intent.putExtra("patName", patName);
             startActivity(intent);
         } else {
-            mUserInfoLoader.getUserSigFromServer(1400185867, roomId, userId, "12345678", new TRTCGetUserIDAndUserSig.IGetUserSigListener() {
+            mUserInfoLoader.getUserSigFromServer(sdkAppId, roomId, userId, "12345678", new TRTCGetUserIDAndUserSig.IGetUserSigListener() {
                 @Override
                 public void onComplete(String userSig, String errMsg) {
                     if (!TextUtils.isEmpty(userSig)) {
 //                        intent.putExtra("sdkAppId", 1400037025);
-                        intent.putExtra("sdkAppId", 1400185867);
+                        intent.putExtra("sdkAppId", sdkAppId);
                         intent.putExtra("userSig", userSig);
                         startActivity(intent);
                     } else {
@@ -137,9 +150,10 @@ public class TRTCNewActivity extends BaseActivity {
     }
 
     private  void LoadUserRig(){
-            showProgress();
-       final String docName=getIntent().getStringExtra("docName");
-
+        showProgress();
+        final String docName=getIntent().getStringExtra("docName");
+        final String roomNum=getIntent().getStringExtra("roomNum");
+        final  String patName=getIntent().getStringExtra("patName");
         new Thread() {
                 String msg="加载失败了";
                 userSigResponse response=null;
@@ -147,7 +161,7 @@ public class TRTCNewActivity extends BaseActivity {
                 public void run() {
                     super.run();
                     try{
-                         response = VideoService.GetUserSign(docName);
+                         response = VideoService.GetUserSign(roomNum,docName,patName);
                     }catch (Exception e){
                         e.printStackTrace();
                         msg=e.getMessage();
@@ -156,19 +170,56 @@ public class TRTCNewActivity extends BaseActivity {
                         @Override
                         public void run() {
                             dismissProgress();
+                            TextView tvEnterRoom = (TextView)findViewById(R.id.tv_enter);
                             if(response.code==20000){
-                                final EditText etUserId = (EditText)findViewById(R.id.et_user_name);
-                                etUserId.setText(docName);
-                                etUserId.setTag(response.data.userSig);
-                                etUserId.setEnabled(false);
-                            }else {
-                                showCustom("配置文件获取失败："+response.message);
+                                if(response.data.userSig.length()>0){
+                                    final int roomId = Integer.parseInt(response.data.roomId);
+                                    final String userId = response.data.userId;
+                                    final String userSig= response.data.userSig;
+                                    onJoinRoom(roomId, userId,userSig);
+                                }else {
+                                    showCustom("视频已经结束，无法加入");
+                                }
+                            }else  {
+                                showCustom("无法进入视频："+response.message);
                             }
 
                         }
                     });
                 }
             }.start();
+    }
+
+    private  void StopService(){
+        showProgress();
+        final String admId= getIntent().getStringExtra("roomNum");
+        final String userId =getIntent().getStringExtra("docName");
+        new Thread() {
+            String msg="加载失败了";
+            userSigResponse response=null;
+            @Override
+            public void run() {
+                super.run();
+                try{
+                    response = VideoService.StopVideo(admId,userId);
+                }catch (Exception e){
+                    e.printStackTrace();
+                    msg=e.getMessage();
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        dismissProgress();
+                        if(response.code==20000){
+                                showCustom("结束视频成功");
+                        }else  {
+                            showCustom("执行失败："+response.message);
+                        }
+
+                    }
+                });
+            }
+        }.start();
     }
 
     private Context getContext(){

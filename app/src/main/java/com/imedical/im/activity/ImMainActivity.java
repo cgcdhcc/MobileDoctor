@@ -312,7 +312,7 @@ public class ImMainActivity extends BaseActivity implements View.OnClickListener
                         Intent it=new Intent(ImMainActivity.this, TRTCNewActivity.class);
                         it.putExtra("roomNum",list.get(position).admId);
                         it.putExtra("patName",list.get(position).patientName);
-                        it.putExtra("patDate",list.get(position).admitTimeRange);
+                        it.putExtra("patDate",list.get(position).registerDate+" "+list.get(position).admitTimeRange);
                         it.putExtra("docName",Const.loginInfo.userCode);
                         startActivity(it);
                     }
