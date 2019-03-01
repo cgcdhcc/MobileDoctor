@@ -97,7 +97,8 @@ public class AdmInfoActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent it=new Intent(AdmInfoActivity.this, AddDiagnosisActivity.class);
-                        it.putExtra("admId", admId);
+                it.putExtra("callCode",callCode);
+                it.putExtra("admId", admId);
                         startActivity(it);
             }
         });

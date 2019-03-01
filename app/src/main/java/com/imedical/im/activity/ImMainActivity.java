@@ -361,6 +361,7 @@ public class ImMainActivity extends BaseActivity implements View.OnClickListener
                     @Override
                     public void onClick(View v) {
                         Intent it=new Intent(ImMainActivity.this, AddDiagnosisActivity.class);
+                        it.putExtra("callCode",list.get(position).callCode);
                         it.putExtra("admId", list.get(position).admId);
                         startActivity(it);
                     }

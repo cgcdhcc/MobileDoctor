@@ -63,8 +63,10 @@ public class TRTCNewActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent it=new Intent(TRTCNewActivity.this, AddDiagnosisActivity.class);
+                AdmInfo AI=(AdmInfo)getIntent().getSerializableExtra("AdmInfo");
                 String admId= getIntent().getStringExtra("roomNum");
                 it.putExtra("admId", admId);
+                it.putExtra("callCode",AI.callCode);
                 startActivity(it);
             }
         });

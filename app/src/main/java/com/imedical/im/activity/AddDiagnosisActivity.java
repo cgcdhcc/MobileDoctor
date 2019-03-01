@@ -19,13 +19,14 @@ import com.imedical.mobiledoctor.util.Validator;
 import java.util.List;
 
 public class AddDiagnosisActivity extends BaseActivity {
-    public String admId;
+    public String admId,callCode="0";
     public TextView tv_patientName, tv_patientAge, tv_patientCard, tv_doctorName, tv_departmentName, tv_doctorTitle,tv_save;
     public EditText et_msgContent;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         admId=this.getIntent().getStringExtra("admId");
+        callCode=this.getIntent().getStringExtra("callCode");
         this.setContentView(R.layout.activity_add_diagnosis_record);
         setTitle("诊疗方案");
         intiView();
@@ -41,6 +42,11 @@ public class AddDiagnosisActivity extends BaseActivity {
         tv_departmentName = findViewById(R.id.tv_departmentName);
         tv_doctorTitle = findViewById(R.id.tv_doctorTitle);
         tv_save= findViewById(R.id.tv_save);
+        if(callCode.equals("3")){
+            tv_save.setVisibility(View.GONE);
+        }else {
+            tv_save.setVisibility(View.VISIBLE);
+        }
         tv_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
