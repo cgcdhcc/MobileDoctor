@@ -267,6 +267,8 @@
         android:id="@+id/ll_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
+        <include layout="@layout/inner_no_data" />
+
         <com.imedical.mobiledoctor.widget.ListViewPull
             android:id="@+id/lv_pat"
             android:layout_width="fill_parent"

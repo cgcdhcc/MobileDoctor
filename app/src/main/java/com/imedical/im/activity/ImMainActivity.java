@@ -38,6 +38,7 @@ public class ImMainActivity extends BaseActivity implements View.OnClickListener
     public int currentStatus = 0;//0咨询中  1已完成
     public List<AdmInfo> list = new ArrayList<>();
     public MyAdapter adapter;
+    private View ll_nodata;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,7 +53,13 @@ public class ImMainActivity extends BaseActivity implements View.OnClickListener
         doCheck();
     }
 
+    private void resetData() {
+        ll_nodata.setVisibility(View.VISIBLE);
+        lv_data.setVisibility(View.GONE);
+    }
+
     public void intiView() {
+        ll_nodata=findViewById(R.id.ll_nodata);
         findViewById(R.id.iv_left).setOnClickListener(this);
         tv_imgtxt = (TextView) findViewById(R.id.tv_imgtxt);
         tv_imgtxt.setOnClickListener(this);
@@ -110,6 +117,7 @@ public class ImMainActivity extends BaseActivity implements View.OnClickListener
                     Intent intent=new Intent(ImMainActivity.this,AdmInfoActivity.class);
                     intent.putExtra("admId", list.get(position).admId);
                     intent.putExtra("Type", "VIDEO");
+                    intent.putExtra("callCode",list.get(position).callCode);
                     startActivity(intent);
                 }
             }
@@ -148,6 +156,7 @@ public class ImMainActivity extends BaseActivity implements View.OnClickListener
             tv_hasfinish.setTextColor(getResources().getColor(R.color.text_grayblack));
             tv_hasfinish_line.setVisibility(View.INVISIBLE);
         }
+        resetData();
         loadData();
     }
 
@@ -224,6 +233,10 @@ public class ImMainActivity extends BaseActivity implements View.OnClickListener
                             adapter.notifyDataSetChanged();
                             if(templist!=null){
                                 list.addAll(templist);
+                                if(list.size()>0){
+                                    ll_nodata.setVisibility(View.GONE);
+                                    lv_data.setVisibility(View.VISIBLE);
+                                }
                                 adapter.notifyDataSetChanged();
                                 dismissProgress();
                             }else{
@@ -314,15 +327,22 @@ public class ImMainActivity extends BaseActivity implements View.OnClickListener
             }else {
                 ll_video.setVisibility(View.VISIBLE);
                 String code=list.get(position).callCode==null?"0":list.get(position).callCode;
-                if(code.equals("2")){
-                    ll_end.setVisibility(View.VISIBLE);
-                }else{
-                    ll_end.setVisibility(View.INVISIBLE);
-                }
-                if(code.equals("3")){
-                    ll_enter.setVisibility(View.INVISIBLE);
+                if(currentStatus==1){
+                    if(code.equals("3")){
+                        ll_suggest.setVisibility(View.VISIBLE);
+                        ll_enter.setVisibility(View.GONE);
+                        ll_end.setVisibility(View.INVISIBLE);
+                    }else {
+                        ll_suggest.setVisibility(View.GONE);
+                        ll_enter.setVisibility(View.VISIBLE);
+                        ll_end.setVisibility(View.VISIBLE);
+                    }
                 }else {
-                    ll_enter.setVisibility(View.VISIBLE);
+                    if(code.equals("2")){
+                        ll_end.setVisibility(View.VISIBLE);
+                    }else{
+                        ll_end.setVisibility(View.INVISIBLE);
+                    }
                 }
                 ll_enter.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -340,7 +360,9 @@ public class ImMainActivity extends BaseActivity implements View.OnClickListener
                 ll_suggest.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        Intent it=new Intent(ImMainActivity.this, AddDiagnosisActivity.class);
+                        it.putExtra("admId", list.get(position).admId);
+                        startActivity(it);
                     }
                 });
                 ll_dzbl.setOnClickListener(new View.OnClickListener() {

@@ -30,7 +30,7 @@ import com.imedical.trtcsdk.TRTCNewActivity;
 import java.util.List;
 
 public class AdmInfoActivity extends BaseActivity {
-    public String admId,Type=null;
+    public String admId,Type=null,callCode="0";
     public TextView tv_patientName, tv_patientAge, tv_patientCard, tv_doctorName, tv_departmentName, tv_doctorTitle, tv_patientContent,tv_cancel;
     public TextView tv_complaintStr_Item1, tv_complaintStr_Item2, tv_complaintStr_Item3, tv_complaintStr_Item4, tv_complaintStr_Item5,btn_dzbl,btn_diagnosis;
     public View ll_operation;
@@ -43,6 +43,7 @@ public class AdmInfoActivity extends BaseActivity {
         admId = this.getIntent().getStringExtra("admId");
         setContentView(R.layout.activity_im_adminfo);
         Type=this.getIntent().getStringExtra("Type");//默认是不带操作界面的，
+        callCode=this.getIntent().getStringExtra("callCode");
         setTitle("患者自述");
         intiView();
         loadData();
@@ -59,6 +60,7 @@ public class AdmInfoActivity extends BaseActivity {
         }else {
             ll_operation.setVisibility(View.VISIBLE);
             tv_cancel.setVisibility(View.VISIBLE);
+            if(callCode.equals("3"))tv_cancel.setVisibility(View.GONE);
             tv_cancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
