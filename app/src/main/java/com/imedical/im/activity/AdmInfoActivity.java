@@ -223,7 +223,8 @@ public class AdmInfoActivity extends BaseActivity {
                     public void run() {
                         dismissProgress();
                         if (baseBean!=null&&baseBean.getResultCode().equals("0")) {
-                            showCustom(msg);
+                            showCustom("退号成功!");
+                            finish();
                         } else {
                             if(baseBean!=null){
                                 msg = baseBean.getResultDesc();

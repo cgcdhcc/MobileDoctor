@@ -232,8 +232,8 @@
 
     <dimen name="icon_text_size">12dp</dimen>
     <dimen name="icon_margin">18dp</dimen>
-    <dimen name="icon_width">40dp</dimen>
-    <dimen name="icon_height">40dp</dimen>
+    <dimen name="icon_width">60dp</dimen>
+    <dimen name="icon_height">60dp</dimen>
 
     <dimen name="rtc_show_mode_grid_w">173dp</dimen>
     <dimen name="rtc_show_mode_grid_h">260dp</dimen>

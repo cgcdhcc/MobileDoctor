@@ -1,5 +1,7 @@
 package com.imedical.im.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -23,6 +25,8 @@ import com.imedical.mobiledoctor.util.DateUtil;
 import com.imedical.mobiledoctor.util.MyCallback;
 import com.imedical.mobiledoctor.widget.ListViewPull;
 import com.imedical.trtcsdk.TRTCNewActivity;
+import com.imedical.trtcsdk.bean.userSigResponse;
+import com.imedical.trtcsdk.service.VideoService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +70,7 @@ public class ImMainActivity extends BaseActivity implements View.OnClickListener
         tv_startDate.setText(DateUtil.getDateTodayBefore(null, -1));
         tv_endDate = (TextView) findViewById(R.id.tv_endDate);
         tv_endDate.setOnClickListener(this);
-        tv_endDate.setText(DateUtil.getDateToday(null));
+        tv_endDate.setText(DateUtil.getDateTodayBefore(null,7));
 
         tv_hasfinish = (TextView) findViewById(R.id.tv_hasfinish);
         tv_hasfinish.setOnClickListener(this);
@@ -79,7 +83,18 @@ public class ImMainActivity extends BaseActivity implements View.OnClickListener
         tv_isgoing_line = (TextView) findViewById(R.id.tv_isgoing_line);
 
         lv_data = (ListViewPull) findViewById(R.id.lv_data);
+        lv_data.endLoad(false);
+        lv_data.setXListViewListener(new ListViewPull.IXListViewListener() {
+            @Override
+            public void onRefresh() {
+            }
 
+            @Override
+            public void onClickLoadMore() {
+                loadData();
+            }
+
+        });
         adapter = new MyAdapter();
         lv_data.setAdapter(adapter);
         lv_data.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -201,33 +216,25 @@ public class ImMainActivity extends BaseActivity implements View.OnClickListener
                 }catch (Exception e){
                     e.printStackTrace();
                     msg=e.getMessage();
+                }finally {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            list.clear();
+                            adapter.notifyDataSetChanged();
+                            if(templist!=null){
+                                list.addAll(templist);
+                                adapter.notifyDataSetChanged();
+                                dismissProgress();
+                            }else{
+                                adapter.notifyDataSetChanged();
+                                dismissProgress();
+                                showToast(msg);
+                            }
+                        }
+                    });
                 }
 
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        list.clear();
-                        if(templist!=null){
-                            list.addAll(templist);
-//                            if(currentType==1){
-//                                AdmInfo testAI=new AdmInfo();
-//                                testAI.patientName="视频测试患者";
-//                                testAI.registerDate="2019";
-//                                testAI.admId="10086";//房间号唯一
-//                                testAI.patientContent="测试数据";
-//                                testAI.patientSex="男";
-//                                testAI.admitTimeRange="2019-03-01 10:00";
-//                                list.add(testAI);
-//                            }
-                            adapter.notifyDataSetChanged();
-                            dismissProgress();
-                        }else{
-                            adapter.notifyDataSetChanged();
-                            dismissProgress();
-                            showToast(msg);
-                        }
-                    }
-                });
             }
         }.start();
     }
@@ -287,10 +294,10 @@ public class ImMainActivity extends BaseActivity implements View.OnClickListener
             View ll_enter=convertView.findViewById(R.id.ll_enter);
             View ll_end=convertView.findViewById(R.id.ll_end);
             View ll_dzbl=convertView.findViewById(R.id.ll_dzbl);
-
+            View ll_suggest=convertView.findViewById(R.id.ll_suggest);
             tv_patientName.setText(list.get(position).patientName);
             TextView tv_registerDate=convertView.findViewById(R.id.tv_registerDate);
-            tv_registerDate.setText(list.get(position).registerDate+"   "+(list.get(position).sessionName==null?"":list.get(position).sessionName));
+            tv_registerDate.setText(list.get(position).admitDate+" "+(list.get(position).admitTimeRange==null?"":list.get(position).admitTimeRange));
             TextView tv_patientContent=convertView.findViewById(R.id.tv_patientContent);
             tv_patientContent.setText(list.get(position).patientContent);
             ImageView iv_head=convertView.findViewById(R.id.iv_head);
@@ -306,15 +313,34 @@ public class ImMainActivity extends BaseActivity implements View.OnClickListener
                 ll_video.setVisibility(View.GONE);
             }else {
                 ll_video.setVisibility(View.VISIBLE);
+                String code=list.get(position).callCode==null?"0":list.get(position).callCode;
+                if(code.equals("2")){
+                    ll_end.setVisibility(View.VISIBLE);
+                }else{
+                    ll_end.setVisibility(View.INVISIBLE);
+                }
+                if(code.equals("3")){
+                    ll_enter.setVisibility(View.INVISIBLE);
+                }else {
+                    ll_enter.setVisibility(View.VISIBLE);
+                }
                 ll_enter.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent it=new Intent(ImMainActivity.this, TRTCNewActivity.class);
                         it.putExtra("roomNum",list.get(position).admId);
                         it.putExtra("patName",list.get(position).patientName);
-                        it.putExtra("patDate",list.get(position).registerDate+" "+list.get(position).admitTimeRange);
+                        it.putExtra("patDate",list.get(position).admitDate+" "+list.get(position).admitTimeRange);
                         it.putExtra("docName",Const.loginInfo.userCode);
+                        it.putExtra("docRealName",Const.loginInfo.userName);
+                        it.putExtra("AdmInfo",list.get(position));
                         startActivity(it);
+                    }
+                });
+                ll_suggest.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
                     }
                 });
                 ll_dzbl.setOnClickListener(new View.OnClickListener() {
@@ -326,16 +352,69 @@ public class ImMainActivity extends BaseActivity implements View.OnClickListener
                 ll_end.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
-//                        Intent it=new Intent(ImMainActivity.this, AddDiagnosisActivity.class);
-//                        it.putExtra("admId", list.get(position).admId);
-//                        startActivity(it);
+                        new  AlertDialog.Builder(ImMainActivity.this)
+                                .setTitle("结束视频服务")
+                                .setMessage("您确定要结束吗？")
+                                .setPositiveButton("确定",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                String admId= list.get(position).admId;
+                                                String userId =Const.loginInfo.userCode;
+                                                StopService(admId,userId);
+                                            }
+                                        })
+                                .setNegativeButton("取消",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int whichButton) {
+                                                dialog.dismiss();
+                                            }
+                                        }).show();
                     }
                 });
             }
+
             return convertView;
         }
 
-
+        private  void StopService(final String admId,final String userId){
+            showProgress();
+            new Thread() {
+                String msg="加载失败了";
+                userSigResponse response=new userSigResponse();
+                @Override
+                public void run() {
+                    super.run();
+                    try{
+                        List<AdmInfo> templist= AdmManager.GetAdmInfo(Const.DeviceId, Const.loginInfo.userCode, admId);
+                        if(templist.size()>0){
+                            String content =templist.get(0).doctorContent==null?"":templist.get(0).doctorContent;
+                            if(content.length()>0){
+                                response = VideoService.StopVideo(admId,userId);
+                            }else {
+                                response.code=-1;
+                                response.message="请先填写诊疗建议，再结束服务！";
+                            }
+                        }
+                    }catch (Exception e){
+                        e.printStackTrace();
+                        msg=e.getMessage();
+                    }finally {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                dismissProgress();
+                                if(response.code==20000){
+                                    showCustom("结束视频成功");
+                                    onResume();
+                                }else  {
+                                    showCustom("执行失败："+response.message);
+                                }
+                            }
+                        });
+                    }
+                }
+            }.start();
+        }
     }
 }

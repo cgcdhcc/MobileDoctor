@@ -43,7 +43,7 @@
                 android:gravity="center"
                 android:singleLine="false"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/font_18dp" />
+                android:textSize="@dimen/font_16dp" />
 
         </RelativeLayout>
 

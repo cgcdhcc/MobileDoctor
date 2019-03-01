@@ -18,9 +18,13 @@ import android.widget.Toast;
 
 import com.imedical.im.activity.AddDiagnosisActivity;
 import com.imedical.im.activity.AdmInfoActivity;
+import com.imedical.im.entity.AdmInfo;
+import com.imedical.im.service.AdmManager;
+import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.base.BaseActivity;
 import com.imedical.trtcsdk.bean.userSigResponse;
+import com.imedical.trtcsdk.bean.userSignRequest;
 import com.imedical.trtcsdk.service.VideoService;
 
 import java.util.ArrayList;
@@ -39,9 +43,9 @@ public class TRTCNewActivity extends BaseActivity {
         TextView tv_date=findViewById(R.id.tv_date);
         TextView tv_patname=findViewById(R.id.tv_patname);
         String patDate=getIntent().getStringExtra("patDate");
-        String patName=getIntent().getStringExtra("patName");
+        String patName=getIntent().getStringExtra("patName");//患者姓名
         String roomNum=getIntent().getStringExtra("roomNum");
-        String docName=getIntent().getStringExtra("docName");
+        String docName=getIntent().getStringExtra("docName");//医生工号
         tv_patname.setText(patName);tv_date.setText(patDate);
         final EditText etRoomId = (EditText)findViewById(R.id.et_room_name);
         etRoomId.setText(roomNum);
@@ -150,9 +154,9 @@ public class TRTCNewActivity extends BaseActivity {
 
     private  void LoadUserRig(){
         showProgress();
-        final String docName=getIntent().getStringExtra("docName");
+        final String docName=getIntent().getStringExtra("docName");//医生工号
         final String roomNum=getIntent().getStringExtra("roomNum");
-        final  String patName=getIntent().getStringExtra("patName");
+        final  String docRealName=getIntent().getStringExtra("docRealName");//医生姓名
         new Thread() {
                 String msg="加载失败了";
                 userSigResponse response=null;
@@ -160,31 +164,47 @@ public class TRTCNewActivity extends BaseActivity {
                 public void run() {
                     super.run();
                     try{
-                         response = VideoService.GetUserSign(roomNum,docName,patName);
+                        AdmInfo AI=(AdmInfo)getIntent().getSerializableExtra("AdmInfo");
+                        userSignRequest request=new userSignRequest();
+                        request.bizRoomId=roomNum;
+                        request.role="doctor";
+                        request.userName=docRealName;
+                        request.userId=docName;
+                        request.terminal="android";
+                        request.source="qyfy";
+                        request.admitDate=AI.admitDate;
+                        request.admitTimeRange=AI.admitTimeRange;
+                        request.admType=AI.admType;
+                        request.sessionName=AI.sessionName;
+                        request.departmentName =AI.departmentName;
+                        request.toOpenId =AI.toOpenId ;
+                        request.toPhone =AI.toPhone;
+                                response = VideoService.GetUserSign(request);
                     }catch (Exception e){
                         e.printStackTrace();
                         msg=e.getMessage();
-                    }
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            dismissProgress();
-                            TextView tvEnterRoom = (TextView)findViewById(R.id.tv_enter);
-                            if(response.code==20000){
-                                if(response.data.userSig.length()>0){
-                                    final int roomId = Integer.parseInt(response.data.roomId);
-                                    final String userId = response.data.userId;
-                                    final String userSig= response.data.userSig;
-                                    onJoinRoom(roomId, userId,userSig);
-                                }else {
-                                    showCustom("视频已经结束，无法加入");
+                    }finally {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                dismissProgress();
+                                TextView tvEnterRoom = (TextView)findViewById(R.id.tv_enter);
+                                if(response.code==20000){
+                                    if(response.data.userSig.length()>0){
+                                        final int roomId = Integer.parseInt(response.data.roomId);
+                                        final String userId = response.data.userId;
+                                        final String userSig= response.data.userSig;
+                                        onJoinRoom(roomId, userId,userSig);
+                                    }else {
+                                        showCustom("视频已经结束，无法加入");
+                                    }
+                                }else  {
+                                    showCustom("无法进入视频："+response.message);
                                 }
-                            }else  {
-                                showCustom("无法进入视频："+response.message);
                             }
+                        });
+                    }
 
-                        }
-                    });
                 }
             }.start();
     }
@@ -195,28 +215,40 @@ public class TRTCNewActivity extends BaseActivity {
         final String userId =getIntent().getStringExtra("docName");
         new Thread() {
             String msg="加载失败了";
-            userSigResponse response=null;
+            userSigResponse  response =new userSigResponse();
             @Override
             public void run() {
                 super.run();
                 try{
-                    response = VideoService.StopVideo(admId,userId);
+                    List<AdmInfo> templist= AdmManager.GetAdmInfo(Const.DeviceId, Const.loginInfo.userCode, admId);
+                    if(templist.size()>0){
+                        String content =templist.get(0).doctorContent==null?"":templist.get(0).doctorContent;
+                        if(content.length()>0){
+                            response = VideoService.StopVideo(admId,userId);
+                        }else {
+                            response.code=-1;
+                            response.message="请先填写诊疗建议，再结束服务！";
+                        }
+                    }
                 }catch (Exception e){
                     e.printStackTrace();
                     msg=e.getMessage();
-                }
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        dismissProgress();
-                        if(response.code==20000){
+                }finally {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            dismissProgress();
+                            if(response.code==20000){
                                 showCustom("结束视频成功");
-                        }else  {
-                            showCustom("执行失败："+response.message);
-                        }
+                                finish();
+                            }else  {
+                                showCustom("执行失败："+response.message);
+                            }
 
-                    }
-                });
+                        }
+                    });
+                }
+
             }
         }.start();
     }

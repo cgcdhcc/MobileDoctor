@@ -68,7 +68,6 @@ public class AddDiagnosisActivity extends BaseActivity {
         new Thread() {
             List<AdmInfo> templist;
             String msg = "加载失败了";
-
             @Override
             public void run() {
                 super.run();
@@ -78,7 +77,6 @@ public class AddDiagnosisActivity extends BaseActivity {
                     e.printStackTrace();
                     msg = e.getMessage();
                 }
-
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

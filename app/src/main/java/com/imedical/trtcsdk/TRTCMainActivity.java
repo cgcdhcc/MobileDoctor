@@ -460,8 +460,11 @@ public class TRTCMainActivity extends Activity implements View.OnClickListener, 
             Second--;
             if(Second>0)
             {
-                tvRoomId.setTextColor(getResources().getColor(R.color.red));
-                tvRoomId.setText("已通知患者，请您耐心等待患者加入"+Second+"秒后自动退出");
+                if(Isjoined==1) {
+                    tvRoomId.setText("");
+                }else {
+                    tvRoomId.setText("已通知患者，请您耐心等待患者加入"+Second+"秒后自动退出");
+                }
                 tvRoomId.postDelayed(this, 1000);
             }else{
                 tvRoomId.removeCallbacks(this);
@@ -477,8 +480,8 @@ public class TRTCMainActivity extends Activity implements View.OnClickListener, 
             if(Isjoined==1)back_button.setVisibility(View.VISIBLE);
             switch (msg.what) {
                 case 0:
-                    tvRoomId.removeCallbacks(timeRunnable);//停止倒计时
-                    tvRoomId.post(timeRunnable);//开始倒计时
+                        tvRoomId.removeCallbacks(timeRunnable);//停止倒计时
+                        tvRoomId.post(timeRunnable);//开始倒计时
                     break;
                 case 1:
                     tvRoomId.removeCallbacks(timeRunnable);//停止倒计时
