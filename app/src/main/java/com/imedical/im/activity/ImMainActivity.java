@@ -271,6 +271,7 @@ public class ImMainActivity extends BaseActivity implements View.OnClickListener
                             Const.curSRecorder = null;
                             Const.SRecorderList = null;
                             Intent intent = new Intent(ImMainActivity.this, WardRoundActivity.class);
+                            intent.putExtra("Type",1);
                             intent.putExtra("title", "患者资料");
                             startActivity(intent);
                         } else {

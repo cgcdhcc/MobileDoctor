@@ -32,8 +32,7 @@ import java.util.List;
 
 public class TRTCNewActivity extends BaseActivity {
     private final static int REQ_PERMISSION_CODE = 0x1000;
-//    private int sdkAppId= 1400185867;//青医
-    private int sdkAppId= 1400189737;//测试
+//    private int sdkAppId= 1400189737;//测试
     private TRTCGetUserIDAndUserSig mUserInfoLoader;
     @Override
     public void onCreate( Bundle savedInstanceState) {
@@ -122,7 +121,7 @@ public class TRTCNewActivity extends BaseActivity {
      *
      *  参考文档：https://cloud.tencent.com/document/product/647/17275
      */
-    private void onJoinRoom(int roomId, final String userId,final String userSig) {
+    private void onJoinRoom(int roomId, final String userId,final String userSig,final int sdkAppId) {
         final Intent intent = new Intent(getContext(), TRTCMainActivity.class);
         intent.putExtra("roomId", roomId);
         intent.putExtra("userId", userId);
@@ -161,7 +160,7 @@ public class TRTCNewActivity extends BaseActivity {
         final  String docRealName=getIntent().getStringExtra("docRealName");//医生姓名
         new Thread() {
                 String msg="加载失败了";
-                userSigResponse response=null;
+                userSigResponse response=new userSigResponse();
                 @Override
                 public void run() {
                     super.run();
@@ -196,7 +195,8 @@ public class TRTCNewActivity extends BaseActivity {
                                         final int roomId = Integer.parseInt(response.data.roomId);
                                         final String userId = response.data.userId;
                                         final String userSig= response.data.userSig;
-                                        onJoinRoom(roomId, userId,userSig);
+                                        final int sdkAppId=response.data.sdkAppId;
+                                        onJoinRoom(roomId, userId,userSig,sdkAppId);
                                     }else {
                                         showCustom("视频已经结束，无法加入");
                                     }

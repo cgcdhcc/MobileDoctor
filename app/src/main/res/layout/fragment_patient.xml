@@ -215,7 +215,7 @@
                 android:layout_weight="1"
                 android:orientation="vertical"
                 android:id="@+id/ll_noHandle"
-                android:layout_height="48dp">
+                android:layout_height="40dp">
                 <TextView
                     android:layout_width="match_parent"
                     android:gravity="center"
@@ -223,7 +223,7 @@
                     android:id="@+id/tv_noHandle"
                     android:textSize="@dimen/font_16dp"
                     android:textColor="@color/mobile_blue"
-                    android:layout_height="46dp" />
+                    android:layout_height="38dp" />
                 <TextView
                     android:id="@+id/tv_noHandle_line"
                     android:layout_width="match_parent"
@@ -235,7 +235,7 @@
                 android:layout_width="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:layout_height="48dp">
+                android:layout_height="40dp">
                 <TextView
                     android:layout_width="match_parent"
                     android:gravity="center"
@@ -243,7 +243,7 @@
                     android:text="已就诊"
                     android:textSize="@dimen/font_16dp"
                     android:textColor="@color/gray"
-                    android:layout_height="46dp" />
+                    android:layout_height="38dp" />
                 <TextView
                     android:id="@+id/tv_Handled_line"
                     android:layout_width="match_parent"

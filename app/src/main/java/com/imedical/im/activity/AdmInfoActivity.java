@@ -138,6 +138,7 @@ public class AdmInfoActivity extends BaseActivity {
                             Const.SRecorderList = null;
                             Intent intent = new Intent(AdmInfoActivity.this, WardRoundActivity.class);
                             intent.putExtra("title", "患者资料");
+                            intent.putExtra("Type",1);
                             startActivity(intent);
                         } else {
                             showToast("获取患者信息失败");

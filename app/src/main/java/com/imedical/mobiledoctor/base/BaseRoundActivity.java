@@ -37,9 +37,11 @@ public abstract class BaseRoundActivity extends BaseActivity {
     public int selectPos = 0;//WardRoundActivity和基类专用
     public TextView tv_record,tv_patSwitch;
     public int SWITHC_CODE = 101;
+    public int Type=0;//默认是住院查房，1是视频门诊跳转
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Type = this.getIntent().getIntExtra("Type",0);
     }
 
     private void showWindow(View parent) {
@@ -62,6 +64,7 @@ public abstract class BaseRoundActivity extends BaseActivity {
                 Instance.OnPatientSelected(null);
             }
         });
+        if(Type==1)tv_patSwitch.setVisibility(View.GONE);
         ll_top= findViewById(R.id.ll_top);
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View view = layoutInflater.inflate(R.layout.his_record_list_2, null);

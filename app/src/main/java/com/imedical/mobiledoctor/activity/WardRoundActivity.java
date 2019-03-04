@@ -56,6 +56,7 @@ public class WardRoundActivity extends BaseRoundActivity implements View.OnClick
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.ward_round_activity);
         title = this.getIntent().getStringExtra("title");
+        Type = this.getIntent().getIntExtra("Type",0);
         InitViews();
     }
 
@@ -194,6 +195,11 @@ public class WardRoundActivity extends BaseRoundActivity implements View.OnClick
         }else {
             re_civ_photo.setImageDrawable(getDrawable(R.drawable.pat_male));
         }
+        if(super.Type==0){
+            tv_patSwitch.setVisibility(View.VISIBLE);
+        }else{
+            tv_patSwitch.setVisibility(View.GONE);
+        }
     }
 
     private void InitHisRecord(){
@@ -283,34 +289,42 @@ public class WardRoundActivity extends BaseRoundActivity implements View.OnClick
         switch (vid){
             case R.id.tv_patSwitch:
                 Intent it0 =new Intent(WardRoundActivity.this,PatientListActivity.class);
+                it0.putExtra("Type",Type);
                 startActivityForResult(it0, SWITHC_CODE);
                 break;
             case R.id.ll_1:
                 Intent it =new Intent(WardRoundActivity.this,PatientInfoActivity.class);
+                it.putExtra("Type",Type);
                 this.startActivity(it);
                 break;
             case R.id.ll_2:
                 Intent it2 =new Intent(WardRoundActivity.this,DiagnosisActivity.class);
+                it2.putExtra("Type",Type);
                 this.startActivity(it2);
                 break;
             case R.id.ll_3:
                 Intent it3 =new Intent(WardRoundActivity.this,OrdersActivity.class);
+                it3.putExtra("Type",Type);
                 this.startActivity(it3);
                 break;
             case R.id.ll_4:
                 Intent it4 =new Intent(WardRoundActivity.this,LisActivity.class);
+                it4.putExtra("Type",Type);
                 this.startActivity(it4);
                 break;
             case R.id.ll_5:
                 Intent it5 =new Intent(WardRoundActivity.this,RisActivity.class);
+                it5.putExtra("Type",Type);
                 this.startActivity(it5);
                 break;
             case R.id.ll_6:
                 Intent it6 =new Intent(WardRoundActivity.this,TempratureActivity.class);
+                it6.putExtra("Type",Type);
                 this.startActivity(it6);
                 break;
             case R.id.ll_7:
                 Intent ll_7 =new Intent(WardRoundActivity.this,CaseActivity.class);
+                ll_7.putExtra("Type",Type);
                 this.startActivity(ll_7);
                 break;
             case R.id.ll_8:

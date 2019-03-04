@@ -44,8 +44,10 @@ public class AddDiagnosisActivity extends BaseActivity {
         tv_save= findViewById(R.id.tv_save);
         if(callCode.equals("3")){
             tv_save.setVisibility(View.GONE);
+            et_msgContent.setEnabled(false);
         }else {
             tv_save.setVisibility(View.VISIBLE);
+            et_msgContent.setEnabled(true);
         }
         tv_save.setOnClickListener(new View.OnClickListener() {
             @Override

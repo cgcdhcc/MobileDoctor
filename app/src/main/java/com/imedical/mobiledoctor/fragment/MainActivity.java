@@ -68,7 +68,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-        StatusBarUtils.setWindowStatusBarColor(this, R.color.mobile_blue);
+        StatusBarUtils.setWindowStatusBarColor(this, R.color.mobile_blue_top);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
         InitViews();
