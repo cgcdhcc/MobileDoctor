@@ -6,7 +6,7 @@ import java.io.Serializable;
  * <DeptInfo>
  * <locId>科室Id</locId>
  * <locDesc>科室名称</locDesc>
- * <defaultFlag>默认标识Y／N</defaultFlag>
+ * <defaultFla g>默认标识Y／N</defaultFlag>
  * </DeptInfo>
  *
  * @author sszvip

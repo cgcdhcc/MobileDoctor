@@ -339,7 +339,6 @@ public class DocOrderActivity extends BaseActivity {
             showToast("请先选择医嘱");
             return null;
         }
-
         final FormArcimItem f = new FormArcimItem();
         try {
             f.admId = tempAI.admId;
@@ -352,12 +351,10 @@ public class DocOrderActivity extends BaseActivity {
             f.antAppId = arcimItem.antAppId;//抗生素申请id
             f.arcItemId = arcimItem.arcimId;
             f.userReasonId = arcimItem.userReasonId;
-
             f.recLocId = tv_locDesc.getHint().toString();//接收科室
             f.departmentId = Const.loginInfo.defaultDeptId;//登陆科室
             //检验标本
-            f.labSpecCode=tv_labSpec.getHint().toString();
-
+            f.labSpecCode=tv_labSpec.getHint()==null?"":tv_labSpec.getHint().toString();
             String packQty = tv_packQty.getText().toString();//数量
             if (!Validator.isBlank(packQty)) {
                 f.packQty = packQty;
@@ -371,7 +368,7 @@ public class DocOrderActivity extends BaseActivity {
                 f.ordStartTime = DateUtil.getTime(dateTime, "yyyy-MM-dd HH:mm");
             }
 
-            String labSpec = tv_labSpec.getText().toString();//样本
+//            String labSpec = tv_labSpec.getText().toString();//样本
 
 
             f.skinActId = "";//皮试
