@@ -20,8 +20,9 @@ import java.util.List;
 
 public class AddDiagnosisActivity extends BaseActivity {
     public String admId,callCode="0";
-    public TextView tv_patientName, tv_patientAge, tv_patientCard, tv_doctorName, tv_departmentName, tv_doctorTitle,tv_save;
+    public TextView tv_patientName, tv_patientAge, tv_patientCard, tv_doctorName, tv_departmentName, tv_doctorTitle,tv_save,tv_input;
     public EditText et_msgContent;
+    private AdmInfo temAI;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +35,7 @@ public class AddDiagnosisActivity extends BaseActivity {
     }
 
     public void intiView() {
+        tv_input=findViewById(R.id.tv_input);
         et_msgContent=findViewById(R.id.et_msgContent);
         tv_patientName = findViewById(R.id.tv_patientName);
         tv_patientAge = findViewById(R.id.tv_patientAge);
@@ -58,6 +60,14 @@ public class AddDiagnosisActivity extends BaseActivity {
                 }else{
                     showToast("请填写诊疗建议");
                 }
+            }
+        });
+        tv_input.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent it =new Intent(AddDiagnosisActivity.this,OETabsActivity.class);
+                it.putExtra("tempAI",temAI);
+                startActivity(it);
             }
         });
     }
@@ -89,7 +99,8 @@ public class AddDiagnosisActivity extends BaseActivity {
                     @Override
                     public void run() {
                         if (templist != null && templist.size() > 0) {
-                            intiData(templist.get(0));
+                            temAI=templist.get(0);
+                            intiData(temAI);
                             dismissProgress();
                         } else {
                             dismissProgress();

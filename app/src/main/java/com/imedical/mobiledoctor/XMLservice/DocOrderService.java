@@ -113,8 +113,6 @@ public class DocOrderService {
         params.put("admId", admId);
         params.put("arcItemId", arcItemId);
         params.put("departmentId", departmentId);
-
-
         String requestXml = PropertyUtil.buildRequestXml(params);
         String resultXml  = WsApiUtil.loadSoapObject(serviceUrl,Const.BIZ_CODE_DETAIL_ArcimItem, requestXml);
 

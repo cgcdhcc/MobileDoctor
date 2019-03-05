@@ -52,6 +52,7 @@ import java.io.Serializable;
 public class FormArcimItem implements Serializable {
     @Desc(label = "医嘱项Id", type = "")
     public String arcItemId;//主键
+    public String labSpecCode;
 
     public String userCode;
     public String admId;
