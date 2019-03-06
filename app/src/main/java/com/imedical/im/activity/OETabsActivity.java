@@ -116,14 +116,14 @@ public class OETabsActivity extends BaseActivity {
         public View getView(int i, View view, ViewGroup viewGroup) {
             view = getLayoutInflater().inflate(R.layout.docorder_item_otetab2, null);
             View view_ote=view.findViewById(R.id.view_ote);
+            TextView tv_desc=(TextView)view.findViewById(R.id.tv_desc);
             if(currentOETabs==i){
-//                view_checked.setVisibility(View.VISIBLE);
+                tv_desc.setTextColor(getResources().getColor(R.color.basecolor));
                 view_ote.setBackgroundColor(getResources().getColor(R.color.white));
             }else{
-//                view_checked.setVisibility(View.GONE);
+                tv_desc.setTextColor(getResources().getColor(R.color.black));
                 view_ote.setBackgroundColor(getResources().getColor(R.color.background));
             }
-            TextView tv_desc = (TextView) view.findViewById(R.id.tv_desc);
             tv_desc.setText(list2.get(i).subTabName);
             return view;
         }

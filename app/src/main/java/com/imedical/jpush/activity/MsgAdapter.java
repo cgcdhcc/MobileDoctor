@@ -34,6 +34,7 @@ public class MsgAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         convertView=activity.getLayoutInflater().inflate(R.layout.jpush_item_msg,null);
         TextView tv_title=(TextView)convertView.findViewById(R.id.tv_title);
+        Message msg=msglist.get(position);
         tv_title.setText(msglist.get(position).title);
         TextView tv_content=(TextView)convertView.findViewById(R.id.tv_content);
         tv_content.setText(Html.fromHtml(msglist.get(position).content));
@@ -46,7 +47,12 @@ public class MsgAdapter extends BaseAdapter {
             iv_marked.setVisibility(View.VISIBLE);
         }
         ImageView iv_type=(ImageView)convertView.findViewById(R.id.iv_type);
-        //iv_type.setImageResource(getImgIcon(msglist.get(position).extras.msgGroupCode));
+        String ActionCode=msg.extras.actionCode==null?"":msg.extras.actionCode;
+        if(ActionCode.equals("DOC_VIDEO_REGIST")||ActionCode.equals("DOC_VIDEO_REGIST")||ActionCode.equals("DOC_VIDEO_REGIST")){
+            iv_type.setImageResource(R.drawable.msg_video);
+        }else {
+            iv_type.setImageResource(R.drawable.icon_common_head);
+        }
         return convertView;
     }
 

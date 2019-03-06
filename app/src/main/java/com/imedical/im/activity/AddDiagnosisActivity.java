@@ -37,7 +37,7 @@ public class AddDiagnosisActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         admId=this.getIntent().getStringExtra("admId");
-        callCode=this.getIntent().getStringExtra("callCode");
+        callCode=this.getIntent().getStringExtra("callCode")==null?"0":this.getIntent().getStringExtra("callCode");
         this.setContentView(R.layout.activity_add_diagnosis_record);
         setTitle("诊疗方案");
         intiView();
@@ -123,6 +123,7 @@ public class AddDiagnosisActivity extends BaseActivity {
                             temAI=templist.get(0);
                             intiData(temAI);
                             dismissProgress();
+                            loadArcimItemData();
                         } else {
                             dismissProgress();
                             showToast(msg);
@@ -156,9 +157,10 @@ public class AddDiagnosisActivity extends BaseActivity {
                             msg = "保存成功";
                             if(list_data.size()>0){
                                 veryfy();
+                            }else{
+                                setResult(100,getIntent());
+                                finish();
                             }
-//                            setResult(100,getIntent());
-//                            finish();
                         } else {
                             if(baseBean!=null){
                                 msg = baseBean.getResultDesc();
@@ -286,6 +288,7 @@ public class AddDiagnosisActivity extends BaseActivity {
 
     //审核医嘱
     private void veryfy() {
+        showProgress();
         new Thread() {
             String mInfo="";
             BaseBean b;
@@ -303,11 +306,12 @@ public class AddDiagnosisActivity extends BaseActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-
+                        dismissProgress();
                         if(b!=null&&b.getResultCode().equals("0")){
-                            showToast("医嘱审核成功");
+                            showCustom("医嘱审核成功");
+                            finish();
                         }else {
-                            showToast(mInfo);
+                            showCustom(mInfo);
                         }
                     }
                 });

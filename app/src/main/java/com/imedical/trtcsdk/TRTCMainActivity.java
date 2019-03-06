@@ -44,7 +44,7 @@ public class TRTCMainActivity extends Activity implements View.OnClickListener, 
 
     private boolean bFrontCamera = true, bBeautyEnable = true, bMicEnable = true;
     private int iDebugLevel = 0;
-    public int Second=30;
+    public int Second=180;
     private TextView tvRoomId;
     private ImageView ivShowMode, ivSwitch, ivBeauty, ivMic, ivLog;
     private TRTCSettingDialog settingDlg;
@@ -486,7 +486,7 @@ public class TRTCMainActivity extends Activity implements View.OnClickListener, 
                 case 1:
                     tvRoomId.removeCallbacks(timeRunnable);//停止倒计时
                     tvRoomId.setTextColor(getResources().getColor(R.color.white));
-                    Second=30;
+                    Second=180;
                     tvRoomId.setText("正在与" +patName+"视频");
                     break;
                 default:

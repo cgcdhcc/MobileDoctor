@@ -13,7 +13,7 @@
        <ImageView
            android:id="@+id/iv_type"
            android:layout_width="45dp"
-           android:layout_height="wrap_content"
+           android:layout_height="45dp"
            android:adjustViewBounds="true"
            android:scaleType="fitXY"
            android:src="@drawable/icon_common_head"/>
