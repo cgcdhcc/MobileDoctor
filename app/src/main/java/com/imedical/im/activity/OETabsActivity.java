@@ -61,7 +61,6 @@ public class OETabsActivity extends BaseActivity {
                 intent.putExtra("arcItemId", arcItemId);
                 intent.putExtra("tempAI",tempAI);
                 startActivity(intent);
-                finish();
             }
         });
         loadOETab1();

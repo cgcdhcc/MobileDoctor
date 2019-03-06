@@ -123,7 +123,6 @@ public class AddDiagnosisActivity extends BaseActivity {
                             temAI=templist.get(0);
                             intiData(temAI);
                             dismissProgress();
-                            GetAdmIdForLis();
                         } else {
                             dismissProgress();
                             showToast(msg);
@@ -168,43 +167,6 @@ public class AddDiagnosisActivity extends BaseActivity {
                         showToast(msg);
                     }
                 });
-            }
-        }.start();
-    }
-
-    public void GetAdmIdForLis() {
-        showProgress();
-        new Thread() {
-            String msg;
-            BaseBean baseBean;
-
-            @Override
-            public void run() {
-                super.run();
-                try {
-                    baseBean = DocOrderService.GetAdmIdForLis(temAI.patientId, Const.loginInfo.userCode, Const.loginInfo.userCode, "", "");
-                } catch (Exception e) {
-                    msg = e.getMessage();
-                }
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        dismissProgress();
-                        if (baseBean != null) {
-                            if (baseBean.getResultCode().equals("0")) {
-                                temAI.admId = baseBean.getResultDesc();
-                                loadArcimItemData();
-                            } else {
-                                showToast(baseBean.getResultDesc());
-                            }
-
-                        } else {
-                            showToast(msg);
-
-                        }
-                    }
-                });
-
             }
         }.start();
     }
@@ -258,6 +220,7 @@ public class AddDiagnosisActivity extends BaseActivity {
                 public void onClick(View v) {
                     Intent intent = new Intent(AddDiagnosisActivity.this, DocOrderActivity.class);
                     intent.putExtra("showIndex", list_data.get(num).showIndex);
+                    intent.putExtra("tempAI",temAI);
                     startActivity(intent);
                 }
             });
