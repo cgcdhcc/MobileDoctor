@@ -93,7 +93,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
                 android:padding="10dp"
-                android:textSize="@dimen/font_14dp"
+                android:textSize="@dimen/font_16dp"
                 android:textColor="@color/text_base"
                 android:background="@drawable/round_edittxt"
                 android:maxLength="250" />

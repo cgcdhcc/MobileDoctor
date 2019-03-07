@@ -3,19 +3,34 @@ package com.imedical.im.activity;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
+import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import com.imedical.im.util.FileUtil;
 import com.imedical.im.util.PhotoPicker;
 import com.imedical.im.util.PopupUtil;
+import com.imedical.jpush.activity.MessageDetailActivity;
+import com.imedical.jpush.bean.Message;
+import com.imedical.jpush.bean.extras;
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.base.BaseActivity;
+import com.imedical.mobiledoctor.util.DateUtil;
 
 import java.io.File;
+
+import cn.jpush.android.api.JPushInterface;
+
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 /**
  * @author jarrah
@@ -120,5 +135,21 @@ public class ActivityPhtotoPop extends BaseActivity {
 
 	protected void onCaptureComplete(File captureFile) {
 
+	}
+	public void showNotification(String title, String body){
+		NotificationCompat.BigTextStyle style = new NotificationCompat.BigTextStyle();
+		style.bigText(Html.fromHtml(body));
+		style.setBigContentTitle(title);
+		NotificationManager mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		NotificationCompat.Builder mNotifyBuilder = new NotificationCompat.Builder(this);
+		mNotifyBuilder.setContentTitle(title)//设置通知栏标题
+				.setContentText(Html.fromHtml(body)) //设置通知栏显示内容
+				.setAutoCancel(true)
+				.setWhen(System.currentTimeMillis())//通知产生的时间，会在通知信息里显示，一般是系统获取到的时间
+				.setDefaults(Notification.DEFAULT_SOUND)//向通知添加声音、闪灯和振动效果的最简单、最一致的方式是使用当前的用户默认设置，使用defaults属性，可以组合
+				.setStyle(style)
+				.setPriority(Notification.PRIORITY_HIGH)
+				.setSmallIcon(R.drawable.icon);//设置通知小ICON
+		mNotifyManager.notify((int) System.currentTimeMillis(), mNotifyBuilder.getNotification());
 	}
 }

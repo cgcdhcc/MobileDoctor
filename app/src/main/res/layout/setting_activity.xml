@@ -115,7 +115,7 @@
         android:visibility="gone"
         android:text="退出登录"
         android:textColor="@color/white"
-        android:background="@drawable/bg_shape_gray"
+        android:background="@drawable/bg_shape_mobile_blue"
         android:textSize="@dimen/font_18dp"
         android:layout_height="wrap_content" />
     <TextView

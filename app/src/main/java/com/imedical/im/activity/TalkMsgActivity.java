@@ -530,6 +530,9 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
         public void onReceive(Context context, Intent intent) {
             // TODO Auto-generated method stub
             if (intent.getAction().equals(action)) {
+                if(!isfront){
+                    showNotification("您有新的咨询消息","收到新的咨询消息，请打开app查看");
+                }
                 loadData();
             } else if (intent.getAction().equals(login_action)) {
                 final boolean login = intent.getBooleanExtra("login", false);

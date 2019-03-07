@@ -3,49 +3,91 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <TextView
-        android:padding="10dp"
-        android:id="@+id/tv_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/font_16dp"
-        android:text="人脸识别"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:background="@color/black"
-        />
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <SurfaceView
             android:id="@+id/view_camera"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <ImageView
+            <TextView
+                android:padding="10dp"
+                android:id="@+id/tv_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:scaleType="fitXY"
-                android:src="@drawable/icon_take_face"/>
+                android:textSize="@dimen/font_16dp"
+                android:text="人脸识别"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:background="@color/black"
+                />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/icon_take_face"/>
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/tv_status"
+                    android:layout_gravity="bottom|center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/font_14dp"
+                    android:layout_marginBottom="20dp"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:text="识别中..."/>
+            </FrameLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/black"
                 android:layout_weight="1"
+                android:orientation="vertical"
                 android:gravity="center_horizontal">
                 <TextView
                     android:layout_marginTop="20dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/font_24dp"
+                    android:textSize="@dimen/font_20dp"
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     android:text="请保持面部在识别框内"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/font_14dp"
+                    android:textColor="@color/white"
+                    android:text="无法使用人脸登录？"/>
+                <TextView
+                    android:id="@+id/tv_login"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/font_16dp"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:background="@drawable/bg_shape_white_line_corner"
+                    android:layout_marginBottom="30dp"
+                    android:text="账号密码登录"/>
             </LinearLayout>
         </LinearLayout>
 

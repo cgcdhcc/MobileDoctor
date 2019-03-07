@@ -59,6 +59,7 @@ public class DownloadUtil {
                 .cacheInMemory(true)
                 .cacheOnDisc(true)
                 .bitmapConfig(Bitmap.Config.RGB_565)
+                .considerExifParams(true)
                 .build();
         ImageLoader.getInstance().displayImage(url, imageView, options);
     }

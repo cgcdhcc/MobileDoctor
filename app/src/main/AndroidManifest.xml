@@ -48,6 +48,8 @@
         <activity android:name="com.imedical.mobiledoctor.activity.frg_1.detail.FormAntiDrugDetailActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.mobiledoctor.fragment.MainActivity" android:launchMode="singleTask" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.mobiledoctor.activity.LoginHospitalActivity" android:screenOrientation="portrait"/>
+        <activity android:name="com.imedical.mobiledoctor.activity.FaceLoadActivity" android:screenOrientation="portrait"/>
+        <activity android:name="com.imedical.mobiledoctor.activity.FaceLoadSuccessActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.im.activity.ImMainActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.im.activity.TalkImageShowActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.im.activity.TalkMsgActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>

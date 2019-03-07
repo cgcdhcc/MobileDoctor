@@ -18,6 +18,7 @@ import com.imedical.jpush.bean.MessageNoRead;
 import com.imedical.jpush.service.MessageService;
 import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
+import com.imedical.mobiledoctor.activity.FaceHospitalActivity;
 import com.imedical.mobiledoctor.activity.LoginHospitalActivity;
 import com.imedical.mobiledoctor.activity.frg_3.QRActivity;
 import com.imedical.mobiledoctor.activity.frg_3.SettingActivity;
@@ -130,7 +131,15 @@ public class Fragment_mine extends Fragment implements View.OnClickListener {
                     PreferManager.saveValue("phoneNo", "");
                     PreferManager.saveValue("password", "");
                     JPushInterface.deleteAlias(getActivity(), 100);
-                    Intent startintent=new Intent(getActivity(),LoginHospitalActivity.class);
+                    boolean hasface = PreferManager.getBooleanValue("hasface");
+                    Intent startintent=null;
+                    if (hasface) {
+                        startintent = new Intent(getActivity(),
+                                FaceHospitalActivity.class);
+                    } else {
+                        startintent = new Intent(getActivity(),
+                                LoginHospitalActivity.class);
+                    }
                     startActivity(startintent);
                     getActivity().finish();
                     break;

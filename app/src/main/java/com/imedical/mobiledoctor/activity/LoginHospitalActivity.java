@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.imedical.face.service.HttpFaceService;
 import com.imedical.im.entity.ImBaseResponse;
 import com.imedical.im.entity.userregister;
 import com.imedical.im.service.ImUserService;
@@ -35,13 +36,13 @@ import com.imedical.mobiledoctor.XMLservice.SettingManager;
 import com.imedical.mobiledoctor.XMLservice.UserManager;
 import com.imedical.mobiledoctor.base.BaseActivity;
 import com.imedical.mobiledoctor.entity.LoginInfo;
+import com.imedical.mobiledoctor.entity.MainReturn;
 import com.imedical.mobiledoctor.entity.QrCodeGenerateRequest;
 import com.imedical.mobiledoctor.fragment.MainActivity;
 import com.imedical.mobiledoctor.util.LogMe;
 import com.imedical.mobiledoctor.util.PhoneUtil;
 import com.imedical.mobiledoctor.util.PreferManager;
 import com.imedical.mobiledoctor.util.Validator;
-import com.imedical.trtcsdk.TRTCNewActivity;
 
 import java.util.Set;
 
@@ -52,7 +53,7 @@ import cn.jpush.android.api.TagAliasCallback;
 
 public class LoginHospitalActivity extends BaseActivity implements
         OnClickListener, OnCheckedChangeListener {
-    private TextView loginIV,btn_test;
+    private TextView loginIV,tv_face_login;
     private EditText et_username;
     private EditText et_pwd = null;
     private String terminalId = null;
@@ -60,8 +61,6 @@ public class LoginHospitalActivity extends BaseActivity implements
     private CheckBox iv_eyes;
     private Editable etable;
     private boolean isExit = false;
-    private LinearLayout ll_switch;
-
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -73,10 +72,10 @@ public class LoginHospitalActivity extends BaseActivity implements
 
     @SuppressLint("NewApi")
     private void initView() {
-        btn_test= (TextView) this.findViewById(R.id.btn_test);
-        btn_test.setOnClickListener(this);
         loginIV = (TextView) this.findViewById(R.id.btn_login);
         loginIV.setOnClickListener(this);
+        tv_face_login = (TextView) this.findViewById(R.id.tv_face_login);
+        tv_face_login.setOnClickListener(this);
         iv_eyes = (CheckBox) findViewById(R.id.iv_eyes);
         SettingManager.setIsIntranet(LoginHospitalActivity.this, false);
         iv_eyes.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -101,7 +100,6 @@ public class LoginHospitalActivity extends BaseActivity implements
             }
         });
 
-        ll_switch = (LinearLayout) findViewById(R.id.ll_switch);
 
         et_username = (EditText) this.findViewById(R.id.et_username);
         et_username.setSingleLine();
@@ -134,8 +132,11 @@ public class LoginHospitalActivity extends BaseActivity implements
                 return;
             }
             login(username, pwd, terminalId, "");
+        }else if(view==tv_face_login){
+            Intent intent=new Intent(LoginHospitalActivity.this,FaceHospitalActivity.class);
+            startActivity(intent);
+            finish();
         }
-
     }
 
 
@@ -144,16 +145,10 @@ public class LoginHospitalActivity extends BaseActivity implements
         try {
             new Thread() {
                 public void run() {
-                    Looper.prepare();
                     try {
                         mLoginInfo = UserManager.login(
                                 LoginHospitalActivity.this, phoneNo, password,
                                 terminalId);
-//                        userregister userregister=new userregister(mLoginInfo.docMarkId,mLoginInfo.docMarkId,mLoginInfo.docMarkId);
-//                        ImBaseResponse imBaseResponse =ImUserService.getInstance().userRegister(userregister);
-//                        if(imBaseResponse!=null){
-//                            Log.d("msg",imBaseResponse.msg);
-//                        }
                         Message mess = new Message();
                         mess.what = 0;
                         myHandler.handleMessage(mess);
@@ -166,7 +161,6 @@ public class LoginHospitalActivity extends BaseActivity implements
                         mess.obj=e.getMessage();
                         myHandler.handleMessage(mess);
                     }
-                    Looper.loop();
                 }
             }.start();
         } catch (Exception e) {
@@ -202,33 +196,72 @@ public class LoginHospitalActivity extends BaseActivity implements
         }
     }
 
+    public void checkNeedFace(){
+        showProgress();
+        new Thread(){
+            boolean hasface=false;
+            @Override
+            public void run() {
+                super.run();
+                HttpFaceService.face_delperson(Const.loginInfo.userCode);//删除人脸个体，测试用
+                hasface= HttpFaceService.face_getfaceids(Const.loginInfo.userCode);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        dismissProgress();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                PreferManager.saveBooleanValue("hasface", hasface);
+                                if(hasface){
+                                    Intent intent=new Intent(LoginHospitalActivity.this, MainActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }else{
+                                    Intent intent=new Intent(LoginHospitalActivity.this, FaceLoadActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+        }.start();
+    }
+
 
     Handler myHandler = new Handler() {
-        public void handleMessage(Message msg) {
-            dismissProgress();
-            switch (msg.what) {
-                case 0:
-                    Const.loginInfo = mLoginInfo;
-                    Const.curPat = null;
-                    intiJpush();
-                    Intent intent=new Intent(LoginHospitalActivity.this,MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                    break;
-
-                //密码错误
-                case -1:
-                    showCustom(msg.obj.toString());
-                    break;
-
-                case -2:
-                    showCustom("网络出现问题");
-                    break;
-                default:
-                    break;
-
-            }
+        public void handleMessage(final Message msg) {
             super.handleMessage(msg);
+            dismissProgress();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    switch (msg.what) {
+                        case 0:
+                            Const.loginInfo = mLoginInfo;
+                            Const.curPat = null;
+                            intiJpush();
+                            checkNeedFace();
+                            break;
+
+                        //密码错误
+                        case -1:
+                            Log.d("msg", msg.obj.toString());
+                            showCustom(msg.obj.toString());
+                            break;
+
+                        case -2:
+                            showCustom("网络出现问题");
+                            break;
+                        default:
+                            break;
+
+                    }
+                }
+            });
+
         }
     };
 

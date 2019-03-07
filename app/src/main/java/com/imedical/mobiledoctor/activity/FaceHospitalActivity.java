@@ -1,6 +1,7 @@
 package com.imedical.mobiledoctor.activity;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
@@ -14,10 +15,14 @@ import android.os.Message;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.imedical.face.bean.IdentifyResponse;
 import com.imedical.face.service.HttpFaceService;
+import com.imedical.im.activity.TalkMsgActivity;
 import com.imedical.mobiledoctor.AppConfig;
 import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
@@ -26,6 +31,7 @@ import com.imedical.mobiledoctor.base.BaseActivity;
 import com.imedical.mobiledoctor.entity.LoginInfo;
 import com.imedical.mobiledoctor.fragment.MainActivity;
 import com.imedical.mobiledoctor.util.PreferManager;
+import com.imedical.mobiledoctor.util.StatusBarUtils;
 import com.imedical.mobiledoctor.util.Validator;
 
 import java.io.ByteArrayOutputStream;
@@ -35,6 +41,7 @@ import java.io.IOException;
 
 import cn.jpush.android.api.CustomPushNotificationBuilder;
 import cn.jpush.android.api.JPushInterface;
+import id.zelory.compressor.Compressor;
 
 
 public class FaceHospitalActivity extends BaseActivity implements SurfaceHolder.Callback {
@@ -55,10 +62,12 @@ public class FaceHospitalActivity extends BaseActivity implements SurfaceHolder.
         }
     };
     public boolean isfront = false;
-
+    public TextView tv_login;
+    private TextView tv_status;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams. FLAG_FULLSCREEN , WindowManager.LayoutParams. FLAG_FULLSCREEN);
         setContentView(R.layout.face_login);
         initViews();
     }
@@ -75,7 +84,15 @@ public class FaceHospitalActivity extends BaseActivity implements SurfaceHolder.
         mHolder = view_camera.getHolder();
         //实现SurfaceHolder.Callback接口
         mHolder.addCallback(this);
-
+        tv_login=findViewById(R.id.tv_login);
+        tv_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(FaceHospitalActivity.this,LoginHospitalActivity.class));
+                finish();
+            }
+        });
+        tv_status=findViewById(R.id.tv_status);
     }
 
     private void startTakephoto() {
@@ -114,7 +131,7 @@ public class FaceHospitalActivity extends BaseActivity implements SurfaceHolder.
                     bitmap = Bitmap.createBitmap(bitmap, 0, 0, w, h, matrix,
                             true);
                     int wh = w > h ? h : w;// 裁切后所取的正方形区域边长
-                    bitmap = Bitmap.createBitmap(bitmap, 0, 0, wh, wh, null,
+                    bitmap = Bitmap.createBitmap(bitmap, 0, (int)(wh*0.2), wh, wh, null,
                             false);
                     final File filePic = new File(AppConfig.FILE_PATH + "/temp.jpg");
                     if (!filePic.exists()) {
@@ -122,8 +139,7 @@ public class FaceHospitalActivity extends BaseActivity implements SurfaceHolder.
                         filePic.createNewFile();
                     }
                     FileOutputStream fos = new FileOutputStream(filePic);
-                    int options = 100;
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, options, fos);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
                     bitmap.recycle();
                     fos.flush();
                     fos.close();
@@ -131,7 +147,14 @@ public class FaceHospitalActivity extends BaseActivity implements SurfaceHolder.
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            search(filePic);
+                            try{
+                                File sfile=new Compressor(FaceHospitalActivity.this).setDestinationDirectoryPath(AppConfig.FILE_PATH  + File.separator + "images").compressToFile(filePic);
+                                search(sfile);
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
+
+
                         }
                     });
                 } catch (IOException e) {
@@ -143,6 +166,7 @@ public class FaceHospitalActivity extends BaseActivity implements SurfaceHolder.
     }
 
     public void search(final File file) {
+        tv_status.setVisibility(View.VISIBLE);
         new Thread() {
             IdentifyResponse iresponse;
             String result;
@@ -155,8 +179,9 @@ public class FaceHospitalActivity extends BaseActivity implements SurfaceHolder.
                     @Override
                     public void run() {
                         dismissProgress();
+                        tv_status.setVisibility(View.GONE);
                         if (Validator.isBlank(result)) {
-                            handler.postDelayed(runnable, 500);
+                            handler.postDelayed(runnable, 200);
                         } else {
                             if (result.contains("candidates")) {
                                 iresponse = new Gson().fromJson(result, IdentifyResponse.class);
@@ -165,16 +190,16 @@ public class FaceHospitalActivity extends BaseActivity implements SurfaceHolder.
                                         intiPatientData(iresponse.data.candidates.get(0).person_id);
                                     } else {
                                         if (isfront) {
-                                            showToast("未识别到您的个人信息，请联系信息科");
-                                            handler.postDelayed(runnable, 500);
+                                            showToast("未识别到您的个人信息，请使用账号密码登陆后上传人脸照片");
+                                            handler.postDelayed(runnable, 200);
                                         }
                                     }
 
                                 } else {
-                                    handler.postDelayed(runnable, 500);
+                                    handler.postDelayed(runnable, 200);
                                 }
                             } else {
-                                handler.postDelayed(runnable, 500);
+                                handler.postDelayed(runnable, 200);
                             }
                         }
                     }
@@ -204,7 +229,7 @@ public class FaceHospitalActivity extends BaseActivity implements SurfaceHolder.
         try {
             //设置显示
             mCamera.setPreviewDisplay(holder);
-            handler.postDelayed(runnable, 1000);
+            handler.postDelayed(runnable, 500);
         } catch (IOException exception) {
             mCamera.release();
             mCamera = null;
@@ -218,27 +243,51 @@ public class FaceHospitalActivity extends BaseActivity implements SurfaceHolder.
         if (mCamera != null) {
             Camera.Parameters parameters = mCamera.getParameters();
             //设置对焦
+            parameters.setPreviewFormat(mFormat);//设置数据格式
+            WindowManager wm1 = this.getWindowManager();
+            float pwidth =(float) wm1.getDefaultDisplay().getWidth();
+            float pheight =(float)  wm1.getDefaultDisplay().getHeight();
+            previewWidth = parameters.getSupportedPreviewSizes().get(0).width;
+            previewHeight = parameters.getSupportedPreviewSizes().get(0).height;
             for (int i = 0; i < parameters.getSupportedPreviewSizes().size(); i++) {
                 Camera.Size s = parameters.getSupportedPreviewSizes().get(i);
-                if (s.width > previewWidth) {
-                    previewWidth = s.width;
-                    previewHeight = s.height;
+                Log.d("msg", "SIZE:width" + s.width + "  height" + s.height);
+                float dis;
+                if (this.getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
+                    dis=Math.abs((pwidth/s.height)-(pheight/s.width));
+                    //Log.d("msg", "竖屏dis:"+dis);
+                } else {
+                    //如果是横屏
+                    dis=Math.abs((pwidth/s.width)-(pheight/s.height));
+                    //Log.d("msg", "横屏dis:"+dis);
+                }
+
+                if(dis<0.25){
+                    if(dis==0){
+                        previewWidth=s.width;
+                        previewHeight=s.height;
+                        break;
+                    }else{
+                        if(previewWidth<s.width){
+                            previewWidth=s.width;
+                            previewHeight=s.height;
+                        }
+                    }
                 }
             }
+            Log.d("msg", "pwidth:"+pwidth+" pheight:"+pheight+" previewWidth:"+previewWidth+" previewHeight:"+previewHeight);
             parameters.setPreviewSize(previewWidth, previewHeight);//设置预览宽和高
-            parameters.setPreviewFormat(mFormat);//设置数据格式
-            // 查看摄像头支持的预览方案样式
-            for (Camera.Size size : parameters.getSupportedPreviewSizes()) {
-                Log.d("msg", "SIZE:" + size.width + "x" + size.height);
-            }
-            for (Integer formatn : parameters.getSupportedPreviewFormats()) {
-                Log.d("msg", "FORMAT:" + formatn);
+
+            if (this.getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
+                mCamera.setDisplayOrientation(90);
+            } else {
+                //如果是横屏
+                mCamera.setDisplayOrientation(0);
             }
             mCamera.setParameters(parameters);
             mCamera.setPreviewCallback(previewCallback);
             //开始预览
             mCamera.startPreview();
-            mCamera.setDisplayOrientation(90);
         }
     }
 
@@ -298,6 +347,7 @@ public class FaceHospitalActivity extends BaseActivity implements SurfaceHolder.
     }
 
     public void intiPatientData(final String usercode){
+        PreferManager.saveBooleanValue("hasface", true);
         showProgress();
             new Thread() {
                 LoginInfo mLoginInfo;
