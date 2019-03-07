@@ -48,7 +48,7 @@ public class MsgAdapter extends BaseAdapter {
         }
         ImageView iv_type=(ImageView)convertView.findViewById(R.id.iv_type);
         String ActionCode=msg.extras.actionCode==null?"":msg.extras.actionCode;
-        if(ActionCode.equals("DOC_VIDEO_REGIST")||ActionCode.equals("DOC_VIDEO_REGIST")||ActionCode.equals("DOC_VIDEO_REGIST")){
+        if(ActionCode.equals("DOC_VIDEO_REGIST")||ActionCode.equals("DOC_VIDEO_START")||ActionCode.equals("DOC_VIDEO_FINISH")){
             iv_type.setImageResource(R.drawable.msg_video);
         }else {
             iv_type.setImageResource(R.drawable.icon_common_head);
