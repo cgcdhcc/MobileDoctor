@@ -20,6 +20,14 @@
             android:text="医嘱项"
             android:id="@+id/tv_arcimDesc"/>
         <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:text=""
+            android:id="@+id/tv_ordState"/>
+        <TextView
             android:padding="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

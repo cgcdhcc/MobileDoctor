@@ -55,9 +55,14 @@ public class AddDiagnosisActivity extends BaseActivity {
         tv_departmentName = findViewById(R.id.tv_departmentName);
         tv_doctorTitle = findViewById(R.id.tv_doctorTitle);
         tv_save= findViewById(R.id.tv_save);
-        if(callCode.equals("3")){
+        if(callCode.equals("3")){  //视频结束后啥都不能干
             tv_save.setVisibility(View.GONE);
             et_msgContent.setEnabled(false);
+            tv_input.setEnabled(false);
+            tv_input.setClickable(false);
+        }else if(callCode.equals("0")) { //视频未开始
+            showCustom("请先与患者视频后，再下诊疗建议!");
+            finish();
         }else {
             tv_save.setVisibility(View.VISIBLE);
             et_msgContent.setEnabled(true);
@@ -65,12 +70,34 @@ public class AddDiagnosisActivity extends BaseActivity {
         tv_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String msgContent=et_msgContent.getText()==null?"":et_msgContent.getText().toString();
-                if(!Validator.isBlank(msgContent)){
-                    saveData(msgContent);
-                }else{
-                    showToast("请填写诊疗建议");
-                }
+                AlertDialog.Builder builder = new AlertDialog.Builder(AddDiagnosisActivity.this);
+                builder.setMessage("提交后，你将不能修改【诊疗建议】内容，是否提交？")
+                        .setTitle("确认提交")
+                        .setCancelable(false)
+                        .setPositiveButton("确定",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,
+                                                        int id) {
+//                                        saveAdvice();
+                                        if(list_data.size()>0){
+                                            String msgContent=et_msgContent.getText()==null?"":et_msgContent.getText().toString();
+                                            if(!Validator.isBlank(msgContent)){
+                                                veryfy();//先审核医嘱
+                                            }else{
+                                                showCustom("请填写诊疗建议");
+                                            }
+                                        }else{
+                                            saveAdvice();//直接完成建议
+                                        }
+                                    }
+                                })
+                        .setNegativeButton("取消",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,
+                                                        int id) {
+                                        dialog.cancel();
+                                    }
+                                }).show();
             }
         });
         tv_input.setOnClickListener(new View.OnClickListener() {
@@ -81,6 +108,15 @@ public class AddDiagnosisActivity extends BaseActivity {
                 startActivity(it);
             }
         });
+    }
+
+    private void saveAdvice(){
+        String msgContent=et_msgContent.getText()==null?"":et_msgContent.getText().toString();
+        if(!Validator.isBlank(msgContent)){
+            saveData(msgContent);
+        }else{
+            showCustom("请填写诊疗建议");
+        }
     }
 
     @Override
@@ -101,6 +137,14 @@ public class AddDiagnosisActivity extends BaseActivity {
         tv_doctorName.setText(admInfo.doctorName);
         tv_departmentName.setText(admInfo.departmentName);//
         tv_doctorTitle.setText(admInfo.doctorTitle);//
+        String Content=admInfo.doctorContent==null?"":admInfo.doctorContent;
+        if(Content.length()>0){
+            tv_save.setVisibility(View.GONE);
+            et_msgContent.setEnabled(false);
+            tv_input.setTextColor(getResources().getColor(R.color.gray));
+            tv_input.setEnabled(false);
+            tv_input.setClickable(false);
+        }
     }
     public void loadData() {
         showProgress();
@@ -155,18 +199,14 @@ public class AddDiagnosisActivity extends BaseActivity {
                         dismissProgress();
                         if (baseBean!=null&&baseBean.getResultCode().equals("0")) {
                             msg = "保存成功";
-                            if(list_data.size()>0){
-                                veryfy();
-                            }else{
-                                setResult(100,getIntent());
-                                finish();
-                            }
+                            setResult(100,getIntent());
+                            finish();
                         } else {
                             if(baseBean!=null){
                                 msg = baseBean.getResultDesc();
                             }
                         }
-                        showToast(msg);
+                        showCustom(msg);
                     }
                 });
             }
@@ -308,8 +348,10 @@ public class AddDiagnosisActivity extends BaseActivity {
                     public void run() {
                         dismissProgress();
                         if(b!=null&&b.getResultCode().equals("0")){
-                            showCustom("医嘱审核成功");
-                            finish();
+                            showToast("医嘱审核成功");
+                            list_data.clear();
+                            ll_content.removeAllViews();
+                            saveAdvice();//再提交建议
                         }else {
                             showCustom(mInfo);
                         }
