@@ -1,5 +1,7 @@
 package com.imedical.im.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Display;
@@ -16,23 +18,32 @@ import com.imedical.im.entity.AdmInfo;
 import com.imedical.im.service.AdmManager;
 import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
+import com.imedical.mobiledoctor.XMLservice.BusyManager;
+import com.imedical.mobiledoctor.activity.WardRoundActivity;
 import com.imedical.mobiledoctor.base.BaseActivity;
+import com.imedical.mobiledoctor.entity.BaseBean;
+import com.imedical.mobiledoctor.entity.PatientInfo;
 import com.imedical.mobiledoctor.util.DownloadUtil;
 import com.imedical.mobiledoctor.util.Validator;
+import com.imedical.trtcsdk.TRTCNewActivity;
 
 import java.util.List;
 
 public class AdmInfoActivity extends BaseActivity {
-    public String admId;
-    public TextView tv_patientName, tv_patientAge, tv_patientCard, tv_doctorName, tv_departmentName, tv_doctorTitle, tv_patientContent;
-    public TextView tv_complaintStr_Item1, tv_complaintStr_Item2, tv_complaintStr_Item3, tv_complaintStr_Item4, tv_complaintStr_Item5;
+    public String admId,Type=null,callCode="0";
+    public TextView tv_patientName, tv_patientAge, tv_patientCard, tv_doctorName, tv_departmentName, tv_doctorTitle, tv_patientContent,tv_cancel;
+    public TextView tv_complaintStr_Item1, tv_complaintStr_Item2, tv_complaintStr_Item3, tv_complaintStr_Item4, tv_complaintStr_Item5,btn_dzbl,btn_diagnosis;
+    public View ll_operation;
     public GridView gv_img;
+    public AdmInfo tempAI;
     public int mScreenWidth;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         admId = this.getIntent().getStringExtra("admId");
         setContentView(R.layout.activity_im_adminfo);
+        Type=this.getIntent().getStringExtra("Type");//默认是不带操作界面的，
+        callCode=this.getIntent().getStringExtra("callCode");
         setTitle("患者自述");
         intiView();
         loadData();
@@ -41,6 +52,56 @@ public class AdmInfoActivity extends BaseActivity {
     public void intiView() {
         Display display = getWindowManager().getDefaultDisplay();
         mScreenWidth = display.getWidth();
+        ll_operation=findViewById(R.id.ll_operation);
+        tv_cancel=findViewById(R.id.tv_cancel);
+        if(Type==null){
+            ll_operation.setVisibility(View.GONE);
+            tv_cancel.setVisibility(View.GONE);
+        }else {
+            ll_operation.setVisibility(View.VISIBLE);
+            tv_cancel.setVisibility(View.VISIBLE);
+            if(callCode.equals("3"))tv_cancel.setVisibility(View.GONE);
+            tv_cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new  AlertDialog.Builder(AdmInfoActivity.this)
+                            .setTitle("退号操作")
+                            .setMessage("您确定要退号吗？")
+                            .setPositiveButton("确定",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            cancleOrder();
+                                        }
+                                    })
+                            .setNegativeButton("取消",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                            dialog.dismiss();
+                                        }
+                                    }).show();
+
+                }
+            });
+                }
+
+        btn_dzbl=findViewById(R.id.btn_dzbl);
+        btn_dzbl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadPatinfo(admId);
+            }
+        });
+        btn_diagnosis=findViewById(R.id.btn_diagnosis);
+        btn_diagnosis.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent it=new Intent(AdmInfoActivity.this, AddDiagnosisActivity.class);
+                it.putExtra("callCode",callCode);
+                it.putExtra("admId", admId);
+                        startActivity(it);
+            }
+        });
         tv_patientName = findViewById(R.id.tv_patientName);
         tv_patientAge = findViewById(R.id.tv_patientAge);
         tv_patientCard = findViewById(R.id.tv_patientCard);
@@ -57,7 +118,41 @@ public class AdmInfoActivity extends BaseActivity {
         tv_complaintStr_Item5 = findViewById(R.id.tv_complaintStr_Item5);
     }
 
+    public void loadPatinfo(final String admId) {
+        showProgress();
+        new Thread() {
+            PatientInfo patientInfo;
+            public void run() {
+                try {
+                    patientInfo = BusyManager.loadPatientInfo(Const.loginInfo.userCode, admId);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        dismissProgress();
+                        if (patientInfo != null) {
+                            Const.curPat = patientInfo;
+                            Const.curSRecorder = null;
+                            Const.SRecorderList = null;
+                            Intent intent = new Intent(AdmInfoActivity.this, WardRoundActivity.class);
+                            intent.putExtra("title", "患者资料");
+                            intent.putExtra("Type",1);
+                            startActivity(intent);
+                        } else {
+                            showToast("获取患者信息失败");
+                        }
+                    }
+                });
+            }
+
+            ;
+        }.start();
+    }
+
     public void intiData(final AdmInfo admInfo) {
+        this.tempAI=admInfo;
         tv_patientName.setText(admInfo.patientName);
         tv_patientAge.setText(admInfo.patientAge + " | " + admInfo.patientSex);
         tv_patientCard.setText(admInfo.patientId);
@@ -112,6 +207,40 @@ public class AdmInfoActivity extends BaseActivity {
         }
 
     }
+
+    public void cancleOrder() {
+        showProgress();
+        new Thread() {
+            String msg = "";
+            BaseBean baseBean;
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    baseBean = AdmManager.cancleOrder(Const.DeviceId,tempAI.patientCard, tempAI.patientId,tempAI.registerId);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    msg = e.getMessage();
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        dismissProgress();
+                        if (baseBean!=null&&baseBean.getResultCode().equals("0")) {
+                            showCustom("退号成功!");
+                            finish();
+                        } else {
+                            if(baseBean!=null){
+                                msg = baseBean.getResultDesc();
+                            }
+                            showCustom(msg);
+                        }
+                    }
+                });
+            }
+        }.start();
+    }
+
 
     public void loadData() {
         showProgress();
@@ -179,6 +308,7 @@ public class AdmInfoActivity extends BaseActivity {
             return view;
         }
     }
+
 
 
 }

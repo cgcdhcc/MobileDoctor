@@ -68,7 +68,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-        StatusBarUtils.setWindowStatusBarColor(this, R.color.mobile_blue);
+        StatusBarUtils.setWindowStatusBarColor(this, R.color.mobile_blue_top);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
         InitViews();
@@ -105,15 +105,12 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         btn_mine.setSelected(false);tv_mine.setTextColor(getResources().getColor(R.color.mobile_gray));
         switch (position){
             case 1:btn_work.setSelected(true);tv_work.setTextColor(getResources().getColor(R.color.mobile_blue));
-//                StatusBarUtils.setWindowStatusBarColor(this, R.color.mobile_blue);
 
                 break;
             case 2:btn_patient.setSelected(true);tv_patient.setTextColor(getResources().getColor(R.color.mobile_blue));
-//                StatusBarUtils.setWindowStatusBarColor(this, R.color.white);
 
                 break;
             case 3:btn_mine.setSelected(true);tv_mine.setTextColor(getResources().getColor(R.color.mobile_blue));
-//                StatusBarUtils.setWindowStatusBarColor(this, R.color.mobile_blue);
 
                 break;
 

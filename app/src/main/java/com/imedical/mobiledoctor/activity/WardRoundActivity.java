@@ -10,6 +10,7 @@ import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -19,6 +20,7 @@ import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.XMLservice.BusyManager;
 import com.imedical.mobiledoctor.XMLservice.SysManager;
+import com.imedical.mobiledoctor.activity.round.MultimediaActivity;
 import com.imedical.mobiledoctor.base.BaseRoundActivity;
 import com.imedical.mobiledoctor.activity.round.CaseActivity;
 import com.imedical.mobiledoctor.activity.round.DiagnosisActivity;
@@ -45,14 +47,16 @@ public class WardRoundActivity extends BaseRoundActivity implements View.OnClick
     private List<SeeDoctorRecord> listtemp = null;
     private ListView mListViewRecord;
     private PopupWindow hisRecordPopWin;
-    private  View ll_switch,ll_1,ll_2,ll_3,ll_4,ll_5,ll_6,ll_7,ll_8;
+    private  View ll_switch,ll_1,ll_2,ll_3,ll_4,ll_5,ll_6,ll_7,ll_8,ll_dialog,ll_dialog_orders,ll_dialog_diagnosis,ll_dialog_reports;
     private String title;
+    private ImageView iv_dialog_close,iv_open;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.ward_round_activity);
         title = this.getIntent().getStringExtra("title");
+        Type = this.getIntent().getIntExtra("Type",0);
         InitViews();
     }
 
@@ -98,7 +102,17 @@ public class WardRoundActivity extends BaseRoundActivity implements View.OnClick
         }else {
             setTitle(title);
         }
-
+        ll_dialog=this.findViewById(R.id.ll_dialog);
+        ll_dialog_orders=this.findViewById(R.id.ll_dialog_orders);
+        ll_dialog_orders.setOnClickListener(this);
+        ll_dialog_diagnosis=this.findViewById(R.id.ll_dialog_diagnosis);
+        ll_dialog_diagnosis.setOnClickListener(this);
+        ll_dialog_reports=this.findViewById(R.id.ll_dialog_reports);
+        ll_dialog_reports.setOnClickListener(this);
+        iv_open=(ImageView) findViewById(R.id.iv_open);
+        iv_open.setOnClickListener(this);
+        iv_dialog_close=(ImageView) findViewById(R.id.iv_dialog_close);
+        iv_dialog_close.setOnClickListener(this);
         re_civ_photo=(CircleImageView)findViewById(R.id.re_civ_photo);
         tv_name=(TextView) findViewById(R.id.tv_name);
         tv_patSwitch=(TextView) findViewById(R.id.tv_patSwitch);
@@ -180,6 +194,11 @@ public class WardRoundActivity extends BaseRoundActivity implements View.OnClick
             re_civ_photo.setImageDrawable(getDrawable(R.drawable.pat_famale));
         }else {
             re_civ_photo.setImageDrawable(getDrawable(R.drawable.pat_male));
+        }
+        if(super.Type==0){
+            tv_patSwitch.setVisibility(View.VISIBLE);
+        }else{
+            tv_patSwitch.setVisibility(View.GONE);
         }
     }
 
@@ -270,35 +289,53 @@ public class WardRoundActivity extends BaseRoundActivity implements View.OnClick
         switch (vid){
             case R.id.tv_patSwitch:
                 Intent it0 =new Intent(WardRoundActivity.this,PatientListActivity.class);
+                it0.putExtra("Type",Type);
                 startActivityForResult(it0, SWITHC_CODE);
                 break;
             case R.id.ll_1:
                 Intent it =new Intent(WardRoundActivity.this,PatientInfoActivity.class);
+                it.putExtra("Type",Type);
                 this.startActivity(it);
                 break;
             case R.id.ll_2:
                 Intent it2 =new Intent(WardRoundActivity.this,DiagnosisActivity.class);
+                it2.putExtra("Type",Type);
                 this.startActivity(it2);
                 break;
             case R.id.ll_3:
                 Intent it3 =new Intent(WardRoundActivity.this,OrdersActivity.class);
+                it3.putExtra("Type",Type);
                 this.startActivity(it3);
                 break;
             case R.id.ll_4:
                 Intent it4 =new Intent(WardRoundActivity.this,LisActivity.class);
+                it4.putExtra("Type",Type);
                 this.startActivity(it4);
                 break;
             case R.id.ll_5:
                 Intent it5 =new Intent(WardRoundActivity.this,RisActivity.class);
+                it5.putExtra("Type",Type);
                 this.startActivity(it5);
                 break;
             case R.id.ll_6:
                 Intent it6 =new Intent(WardRoundActivity.this,TempratureActivity.class);
+                it6.putExtra("Type",Type);
                 this.startActivity(it6);
                 break;
             case R.id.ll_7:
                 Intent ll_7 =new Intent(WardRoundActivity.this,CaseActivity.class);
+                ll_7.putExtra("Type",Type);
                 this.startActivity(ll_7);
+                break;
+            case R.id.ll_8:
+//                Intent ll_8 =new Intent(WardRoundActivity.this, MultimediaActivity.class);
+//                this.startActivity(ll_8);
+                break;
+            case R.id.iv_open:
+                  ll_dialog.setVisibility(View.VISIBLE);
+                break;
+            case R.id.iv_dialog_close:
+                ll_dialog.setVisibility(View.GONE);
                 break;
             default:break;
         }

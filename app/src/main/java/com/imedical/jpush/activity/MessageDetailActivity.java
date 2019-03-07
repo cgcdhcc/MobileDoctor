@@ -6,6 +6,7 @@ import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
 import com.google.gson.Gson;
+import com.imedical.im.activity.ImMainActivity;
 import com.imedical.im.activity.TalkMsgActivity;
 import com.imedical.im.entity.AdmInfo;
 import com.imedical.im.service.AdmManager;
@@ -18,6 +19,7 @@ import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.activity.LoginHospitalActivity;
 import com.imedical.mobiledoctor.base.BaseActivity;
 import com.imedical.mobiledoctor.util.LogMe;
+import com.imedical.trtcsdk.TRTCNewActivity;
 
 import java.util.List;
 
@@ -28,6 +30,7 @@ import java.util.List;
 public class MessageDetailActivity extends BaseActivity {
     public Message message;
     public TextView tv_time,tv_content,tv_action;
+    private AdmInfo tempAI=null;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,7 +105,18 @@ public class MessageDetailActivity extends BaseActivity {
                         break;
                     case "Paid"://缴费成功
                        break;
+                    case "DOC_VIDEO_REGIST":
+                        intent=new Intent(MessageDetailActivity.this, ImMainActivity.class);
+                        startActivity(intent);
+                        break;
+                    case "DOC_VIDEO_START":
+                        String AdmId=sysMsg.jumpData.get("admId").toString();
+                        LoadAdmInfo(AdmId);
+                        break;
+                    case "DOC_VIDEO_FINISH":
+                        break;
                     default:
+//                        showCustom(sysMsg.actionCode);
                         break;
                 }
                 break;
@@ -112,6 +126,48 @@ public class MessageDetailActivity extends BaseActivity {
         }
 
     }
+
+    private void LoadAdmInfo(final String admId){
+        showProgress();
+        new Thread(){
+            List<AdmInfo> templist =null;
+            String msg = "加载失败了";
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    templist = AdmManager.GetAdmInfo(Const.DeviceId, Const.loginInfo.userCode, admId);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }finally {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            dismissProgress();
+                            if (templist != null && templist.size() > 0) {
+                                tempAI=templist.get(0);
+                                if(tempAI!=null){
+                                    Intent it=new Intent(MessageDetailActivity.this, TRTCNewActivity.class);
+                                    it.putExtra("roomNum",tempAI.admId);
+                                    it.putExtra("patName",tempAI.patientName);
+                                    it.putExtra("patDate",tempAI.admitDate+" "+tempAI.admitTimeRange);
+                                    it.putExtra("docName",Const.loginInfo.userCode);
+                                    it.putExtra("docRealName",Const.loginInfo.userName);
+                                    it.putExtra("AdmInfo",tempAI);
+                                    startActivity(it);
+                                }else {
+                                    showCustom("无法获取数据");
+                                }
+                            } else {
+                                showToast(msg);
+                            }
+                        }
+                    });
+                }
+            }
+        }.start();
+    }
+
     public void setIsRead(final String msgid){
 
         new Thread(){

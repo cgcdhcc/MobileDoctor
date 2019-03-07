@@ -295,6 +295,7 @@ public final class Const {
 	public static final String API_PHONEVALIDATE     ="mhealth/dhccApi/user/validUser/2/";
 	public static final String API_FINDPASS                 ="mhealth/dhccApi/user/updatePwdByVeriCode/";
 	public static final String VALUE_URL_JKB              = "http://www.jiankangbao.com/";
+	public static final String BIZ_CODE_GetAdmIdForLis 	           =  "patient.region.AdmIdForLis";//"51610";//区域检验-获取有效的就诊记录或者自动插入有效的就诊记录或者引导完成预约挂号缴费
 
 
 	public static final String BIZ_CODE_getappmsg="message.app.getappmsg";//获取app消息列表
@@ -303,5 +304,10 @@ public final class Const {
 	public static final String BIZ_CODE_updatemsgstatus="message.app.updatemsgstatus";//修改APP消息状态
 	public static final String BIZ_CODE_deletemsg="message.app.deletemsg";//删除APP消息
 	public static final String BIZ_CODE_deleteallmsg="message.app.deleteallmsg";//删除所有APP消息
+
+
+	public static final String BIZ_CODE_VIDEO_USERID="tencentcloud.trtc.meet-info";//医生聊天注册
+	public static final String BIZ_CODE_VIDEO_STOP="tencentcloud.trtc.meet-finish";//视频结束
+
 
 }

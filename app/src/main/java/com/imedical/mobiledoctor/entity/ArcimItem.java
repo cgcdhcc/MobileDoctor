@@ -1,5 +1,6 @@
 package com.imedical.mobiledoctor.entity;
 
+import com.imedical.im.entity.LabSpec;
 import com.imedical.mobiledoctor.util.Desc;
 
 import java.io.Serializable;
@@ -163,6 +164,7 @@ public class ArcimItem implements Serializable {
     //public String billUom;下方有
     public String stockQty = "";
     public String recLoc = "";
+    public List<LabSpec> labSpecList;
 
     //第二个接口里返回的参数
     public String arcType = "";

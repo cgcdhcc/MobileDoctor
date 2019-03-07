@@ -137,32 +137,78 @@
                 android:text="内科 主治医师"/>
         </LinearLayout>
     </LinearLayout>
+  <ScrollView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+      <LinearLayout
+          android:layout_marginTop="10dp"
+          android:padding="10dp"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:background="@color/white"
+          android:orientation="vertical">
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="医生建议"
+              android:textSize="@dimen/font_16dp"
+              android:textColor="@color/text_base"/>
+          <EditText
+              android:id="@+id/et_msgContent"
+              android:layout_marginTop="10dp"
+              android:hint="医者父母心，多写些建议给患者吧"
+              android:gravity="top|left"
+              android:textColorHint="@color/text_gray"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:textColor="@color/black"
+              android:textSize="@dimen/font_14dp"
+              android:minLines="5"
+              android:background="@drawable/bg_shape_input_black"/>
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:orientation="horizontal"
+              android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:layout_marginTop="10dp"
-        android:padding="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        android:orientation="vertical">
+          </LinearLayout>
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:orientation="horizontal"
+              android:gravity="center_vertical"
+              android:layout_height="40dp">
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="检验检查"
+                  android:textSize="@dimen/font_16dp"
+                  android:textColor="@color/text_base"/>
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:id="@+id/tv_input"
+                  android:layout_weight="1"
+                  android:gravity="right"
+                  android:layout_height="wrap_content"
+                  android:text="录入检验检查  "
+                  android:textSize="@dimen/font_16dp"
+                  android:textColor="@color/basecolor"/>
+              <ImageView
+                  android:layout_width="18dp"
+                  android:layout_height="18dp"
+                  android:src="@drawable/all_arrow" />
+          </LinearLayout>
+          <TextView
+              android:layout_width="match_parent"
+              android:background="@color/gray"
+              android:layout_height="0.5dp" />
+          <LinearLayout
+              android:layout_marginTop="1dp"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:id="@+id/ll_content">
+          </LinearLayout>
+      </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="医生建议"
-            android:textSize="@dimen/font_16dp"
-            android:textColor="@color/text_base"/>
-        <EditText
-            android:id="@+id/et_msgContent"
-            android:layout_marginTop="10dp"
-            android:hint="医者父母心，多写些建议给患者吧"
-            android:gravity="top|left"
-            android:textColorHint="@color/text_gray"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/font_14dp"
-            android:minLines="5"
-            android:background="@drawable/bg_shape_input_black"/>
-    </LinearLayout>
+  </ScrollView>
 
 </LinearLayout>

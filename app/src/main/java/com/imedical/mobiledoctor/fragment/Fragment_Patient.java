@@ -53,7 +53,7 @@ public class Fragment_Patient extends Fragment implements View.OnClickListener {
     private AdapterOutPat outPat_AdapterPat = null;
     private SearchAdapter inPat_SearchAPT=null;
     private SearchAdapter outPat_SearchAPT=null;
-
+    private View ll_nodata;
     public String isMy = "0";
     private String mConLoad = "";
     private String mLastConLoad;
@@ -64,14 +64,16 @@ public class Fragment_Patient extends Fragment implements View.OnClickListener {
     private boolean flag =false;
     private String outPat_type ="N";//医生接诊类型:N正常门诊 T图文咨询 V视频咨询 默认为空是所有
     private String outPat_handle ="N";//接诊标识，已接诊/未接诊Y/N
-    private TextView tv_nodata;
     private EditText et_search;
     private DropDownMenu dropDownMenu,dropDownMenu_outPat;
     public void onAttach(Activity activity) {
         this.ctx = (MainActivity) activity;
         super.onAttach(activity);
     }
-
+    private void resetData(View listView) {
+        ll_nodata.setVisibility(View.VISIBLE);
+        listView.setVisibility(View.GONE);
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -191,6 +193,7 @@ public class Fragment_Patient extends Fragment implements View.OnClickListener {
 
     private void InitViews(){
         mLogin = Const.loginInfo;
+        ll_nodata=mView.findViewById(R.id.ll_nodata);
         ll_inPatient=mView.findViewById(R.id.ll_inPatient);
         ll_patient=mView.findViewById(R.id.ll_patient);
         ll_patient.setOnClickListener(this);
@@ -235,7 +238,7 @@ public class Fragment_Patient extends Fragment implements View.OnClickListener {
         inPat_SearchAPT.setItems(sexResult);
         tv_patient=(TextView)mView.findViewById(R.id.tv_patient);
         tv_mydep=(TextView)mView.findViewById(R.id.tv_mydep);
-        tv_nodata=(TextView) mView.findViewById(R.id.tv_nodata);
+//        tv_nodata=(TextView) mView.findViewById(R.id.tv_nodata);
         tv_mydep_line=(TextView)mView.findViewById(R.id.tv_mydep_line);
         tv_my=(TextView)mView.findViewById(R.id.tv_my);
         tv_my_line=(TextView)mView.findViewById(R.id.tv_my_line);
@@ -365,11 +368,11 @@ public class Fragment_Patient extends Fragment implements View.OnClickListener {
             mListDataPatient.clear();
             if (mListDataSave != null && mListDataSave.size() > 0) {
                 mListDataPatient.addAll(mListDataSave);
-                tv_nodata.setVisibility(View.GONE);
+//                tv_nodata.setVisibility(View.GONE);
                 inpat_ListViewPat.setVisibility(View.VISIBLE);
                 inPat_AdapterPat.notifyDataSetChanged();
             } else {
-                tv_nodata.setVisibility(View.VISIBLE);
+//                tv_nodata.setVisibility(View.VISIBLE);
                 inpat_ListViewPat.setVisibility(View.GONE);
             }
             inPat_AdapterPat.notifyDataSetChanged();
@@ -386,12 +389,12 @@ public class Fragment_Patient extends Fragment implements View.OnClickListener {
             mListDataPatient.clear();
             if (list != null && list.size() > 0) {
                 mListDataPatient.addAll(list);
-                tv_nodata.setVisibility(View.GONE);
+//                tv_nodata.setVisibility(View.GONE);
                 inpat_ListViewPat.setVisibility(View.VISIBLE);
                 inPat_AdapterPat.notifyDataSetChanged();
                 inpat_ListViewPat.endLoad(false);
             } else {
-                tv_nodata.setVisibility(View.VISIBLE);
+//                tv_nodata.setVisibility(View.VISIBLE);
                 inpat_ListViewPat.setVisibility(View.GONE);
             }
             // getSearch();
@@ -432,6 +435,7 @@ public class Fragment_Patient extends Fragment implements View.OnClickListener {
             inPat_AdapterPat.notifyDataSetChanged();
             List<PatientInfo> tempList = (List) msg.obj;
             if (tempList != null && tempList.size() > 0) {
+                ll_nodata.setVisibility(View.GONE);
                 inpat_ListViewPat.setVisibility(View.VISIBLE);
                 mConLoad = tempList.get(tempList.size() - 1).conLoad;
                 inPat_ListDataPatient.addAll(tempList);// 追加内容
@@ -439,7 +443,8 @@ public class Fragment_Patient extends Fragment implements View.OnClickListener {
                 inPat_AdapterPat.notifyDataSetChanged();
             }else{
                 inpat_ListViewPat.setVisibility(View.GONE);
-               tv_nodata.setVisibility(View.VISIBLE);
+//               tv_nodata.setVisibility(View.VISIBLE);
+                ll_nodata.setVisibility(View.VISIBLE);
             }
             if ("".equals(mLastConLoad)) {
                 //  默认选中第一个,不知道有什么作用
@@ -457,12 +462,14 @@ public class Fragment_Patient extends Fragment implements View.OnClickListener {
             outPat_AdapterPat.notifyDataSetChanged();
             List<AdmInfo> tempList = (List) msg.obj;
             if (tempList != null && tempList.size() > 0) {
+                ll_nodata.setVisibility(View.GONE);
                 outPat_ListViewPat.setVisibility(View.VISIBLE);
                 outPat_ListDataPatient.addAll(tempList);// 追加内容
                 outPat_AdapterPat.notifyDataSetChanged();
             }else{
+                ll_nodata.setVisibility(View.VISIBLE);
                 outPat_ListViewPat.setVisibility(View.GONE);
-                tv_nodata.setVisibility(View.VISIBLE);
+//                tv_nodata.setVisibility(View.VISIBLE);
             }
             outPat_ListViewPat.endLoad(false);// 加载完毕
         }
@@ -582,7 +589,7 @@ public class Fragment_Patient extends Fragment implements View.OnClickListener {
 
 
     public void resetUI(){
-        tv_nodata.setVisibility(View.GONE);
+//        tv_nodata.setVisibility(View.GONE);
         mConLoad = "";
         mLastConLoad=null;
         inpat_ListViewPat.resetStatu();
@@ -593,7 +600,7 @@ public class Fragment_Patient extends Fragment implements View.OnClickListener {
     }
 
     private void resetOutPateintUI(){
-        tv_nodata.setVisibility(View.GONE);
+//        tv_nodata.setVisibility(View.GONE);
         outPat_ListViewPat.resetStatu();
         outPat_ListViewPat.startLoading();
         outPat_ListDataPatient.clear();

@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fitsSystemWindows="true"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:orientation="vertical"
+        >
+        <FrameLayout
+            android:background="@color/white"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            >
+            <TextView
+                android:padding="10dp"
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/font_16dp"
+                android:text="标题"
+                android:layout_gravity="center"
+                android:textColor="@color/text_base"
+                />
+
+            <ImageView
+                android:id="@+id/iv_left"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:padding="5dp"
+                android:background="@xml/ripple_bg_shape_white"
+                android:src="@drawable/all_left_arrow"
+                android:layout_gravity="center_vertical"
+                />
+
+            <TextView
+                android:padding="10dp"
+                android:id="@+id/tv_end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/font_16dp"
+                android:text="结束服务"
+                android:layout_gravity="right|center_vertical"
+                android:textColor="@color/mobile_blue"
+                />
+        </FrameLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/mobile_gray"
+            />
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:background="#FFEFEF"
+        android:textColor="#FF8367"
+        android:gravity="center"
+        android:text="请你在预约的时间发起视频邀请"
+        android:padding="5dp"
+        android:layout_height="wrap_content" />
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:orientation="horizontal"
+       android:layout_margin="10dp"
+       android:layout_height="wrap_content">
+       <TextView
+           android:layout_width="wrap_content"
+           android:text="就  诊  人"
+           android:textSize="@dimen/font_14dp"
+           android:layout_height="wrap_content" />
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_weight="1"
+           android:layout_height="wrap_content" />
+       <TextView
+           android:layout_width="wrap_content"
+           android:text="xxx"
+           android:id="@+id/tv_patname"
+           android:textSize="@dimen/font_14dp"
+           android:textColor="@color/black"
+           android:layout_height="wrap_content" />
+   </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:background="@color/gray"
+        android:layout_height="0.5dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_margin="10dp"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="预约时间"
+            android:textSize="@dimen/font_14dp"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:text="xxxx-xx-xx xx:xx"
+            android:textSize="@dimen/font_14dp"
+            android:textColor="@color/black"
+
+            android:layout_marginLeft="10dp"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:background="@color/gray"
+        android:layout_height="0.5dp" />
+    <LinearLayout
+        android:visibility="gone"
+        android:layout_width="fill_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/main_title"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+
+            android:text="@string/app_name"
+            android:textColor="#ffffff"
+            android:textSize="26dp" />
+        <TextView
+            android:text="房间号"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/et_room_name"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="@color/hlfTransparent"
+            android:textColor="@color/colorWhite"
+            android:singleLine="true"
+            android:inputType="number"
+            android:hint="@string/str_room_id_tips"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="用户名"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/et_user_name"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="@color/hlfTransparent"
+            android:textColor="@color/colorWhite"
+            android:singleLine="true"
+            android:hint="@string/str_user_id_tips"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+
+ <LinearLayout
+     android:layout_width="match_parent"
+     android:layout_weight="1"
+     android:gravity="center"
+     android:layout_height="match_parent">
+    <ImageView
+        android:layout_width="100dp"
+        android:src="@drawable/video_room"
+        android:layout_height="100dp" />
+
+ </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:id="@+id/ll_operation"
+        android:padding="10dp"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/btn_diagnosis"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@xml/ripple_bg_shape_blue_gradient"
+            android:gravity="center"
+            android:text="诊疗建议"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@xml/ripple_bg_shape_blue_gradient"
+            android:gravity="center"
+            android:id="@+id/tv_enter"
+            android:text="邀请视频"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+    </LinearLayout>
+</LinearLayout>

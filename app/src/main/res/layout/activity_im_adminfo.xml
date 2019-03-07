@@ -4,11 +4,59 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:orientation="vertical"
+        >
+        <FrameLayout
+            android:background="@color/white"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            >
+            <TextView
+                android:padding="10dp"
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/font_16dp"
+                android:text="标题"
+                android:layout_gravity="center"
+                android:textColor="@color/text_base"
+                />
 
-    <include layout="@layout/dhcc_white_head" />
+            <ImageView
+                android:id="@+id/iv_left"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:padding="5dp"
+                android:background="@xml/ripple_bg_shape_white"
+                android:src="@drawable/all_left_arrow"
+                android:layout_gravity="center_vertical"
+                />
+            <TextView
+                android:padding="10dp"
+                android:id="@+id/tv_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/font_16dp"
+                android:text="退号"
+                android:layout_gravity="right"
+                android:textColor="@color/mobile_blue"
+                />
+
+        </FrameLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/mobile_gray"
+            />
+    </LinearLayout>
+
 
     <ScrollView
         android:layout_width="match_parent"
+        android:layout_weight="1"
         android:layout_height="wrap_content">
 
 
@@ -318,5 +366,37 @@
             </com.imedical.mobiledoctor.widget.GridViewForScrollView>
         </LinearLayout>
     </ScrollView>
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:id="@+id/ll_operation"
+        android:padding="5dp"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/btn_dzbl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@xml/ripple_bg_shape_blue_gradient"
+            android:gravity="center"
+            android:text="电子病历"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+        <TextView
+            android:id="@+id/btn_diagnosis"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@xml/ripple_bg_shape_blue_gradient"
+            android:gravity="center"
+            android:text="诊疗建议"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+    </LinearLayout>
 </LinearLayout>

@@ -29,10 +29,9 @@
                 android:layout_height="match_parent">
                 <TextView
                     android:id="@+id/tv_centerTitle"
-                    android:textSize="18dp"
+                    android:textSize="@dimen/font_18dp"
                     android:text="危急值管理"
                     android:gravity="center"
-                    android:textStyle="bold"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:singleLine="true" />
@@ -74,7 +73,7 @@
             android:layout_marginRight="20dp"
             android:text=" 至 "
             android:textSize="@dimen/font_18dp"
-            android:textStyle="bold" />
+             />
 
         <TextView
             android:id="@+id/btn_endDate"
@@ -96,11 +95,10 @@
             android:gravity="center"
             android:layout_height="match_parent">
             <TextView
-                android:textSize="18dp"
+                android:textSize="@dimen/font_18dp"
                 android:text="需处理"
                 android:id="@+id/radio_V"
                 android:gravity="center"
-                android:textStyle="bold"
                 android:textColor="@color/mobile_blue"
                 android:layout_width="fill_parent"
                 android:layout_height="38dp"
@@ -119,12 +117,11 @@
             android:gravity="center"
             android:layout_height="match_parent">
             <TextView
-                android:textSize="18dp"
+                android:textSize="@dimen/font_18dp"
                 android:text="已处理"
                 android:gravity="center"
                 android:textColor="@color/gray"
                 android:id="@+id/radio_D"
-                android:textStyle="bold"
                 android:layout_width="fill_parent"
                 android:layout_height="38dp"
                 android:singleLine="true" />

@@ -16,7 +16,7 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:id="@+id/ll_isDoc"
-            android:layout_height="56dp">
+            android:layout_height="40dp">
             <TextView
                 android:layout_width="match_parent"
                 android:gravity="center"
@@ -24,7 +24,7 @@
                 android:id="@+id/tv_isDoc"
                 android:textSize="@dimen/font_16dp"
                 android:textColor="@color/mobile_blue"
-                android:layout_height="54dp" />
+                android:layout_height="38dp" />
             <TextView
                 android:id="@+id/tv_isDoc_line"
                 android:layout_width="match_parent"
@@ -36,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:layout_height="56dp">
+            android:layout_height="40dp">
             <TextView
                 android:layout_width="match_parent"
                 android:gravity="center"
@@ -44,7 +44,7 @@
                 android:text="护嘱"
                 android:textSize="@dimen/font_16dp"
                 android:textColor="@color/gray"
-                android:layout_height="54dp" />
+                android:layout_height="38dp" />
             <TextView
                 android:id="@+id/tv_noDoc_line"
                 android:layout_width="match_parent"

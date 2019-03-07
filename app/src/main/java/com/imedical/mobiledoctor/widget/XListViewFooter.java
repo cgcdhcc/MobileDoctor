@@ -49,16 +49,16 @@ public class XListViewFooter extends LinearLayout {
 		mHintView.setVisibility(View.VISIBLE);
 		if(haveMore ==null){
 			mHintView.setText("暂无数据！");
-			mHintView.setEnabled(false);
+			mHintView.setClickable(false);
 			return ;
 		}
 	  
 		if(haveMore ==true){
 			mHintView.setText("点击加载更多");
-			mHintView.setEnabled(true);
+			mHintView.setClickable(true);
 		}else if(haveMore ==false){
 			mHintView.setText("数据加载完毕！");
-			mHintView.setEnabled(false);
+			mHintView.setClickable(false);
 		}
 		
 	}

@@ -5,6 +5,7 @@ package com.imedical.mobiledoctor.XMLservice;
 import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.api.WsApiUtil;
 import com.imedical.mobiledoctor.entity.ArcimItem;
+import com.imedical.mobiledoctor.entity.BaseBean;
 import com.imedical.mobiledoctor.entity.DiagItem;
 import com.imedical.mobiledoctor.entity.DiagStatus;
 import com.imedical.mobiledoctor.entity.Diagnosis;
@@ -113,8 +114,6 @@ public class DocOrderService {
         params.put("admId", admId);
         params.put("arcItemId", arcItemId);
         params.put("departmentId", departmentId);
-
-
         String requestXml = PropertyUtil.buildRequestXml(params);
         String resultXml  = WsApiUtil.loadSoapObject(serviceUrl,Const.BIZ_CODE_DETAIL_ArcimItem, requestXml);
 
@@ -138,5 +137,44 @@ public class DocOrderService {
         List<PopMessage> list = PropertyUtil.parseBeansToList(PopMessage.class, resultXml);
 
         return list ;
+    }
+
+
+    /**
+     * <Request>
+     <userCode>用户名</userCode>
+     <admId>就诊Id</admId>
+     <showIndex>临时数据中的Id/当为空时删除所有临时数据,当为空时删除提交前要提醒是否清除列表中的医嘱项目</showIndex>
+     </Request>
+     * @throws Exception
+     */
+    public static BaseBean delete(String userCode, String admId, String showIndex) throws Exception {
+        Map params = new HashMap();
+        params.put("userCode", userCode);
+        params.put("admId", admId);
+        params.put("showIndex", showIndex);
+
+
+        String requestXml = PropertyUtil.buildRequestXml(params);
+        String resultXml = WsApiUtil.loadSoapObject(serviceUrl,Const.BIZ_CODE_DEL_ArcimItem, requestXml);
+
+        LogMe.d(requestXml+"\n\n"+resultXml);
+        BaseBean b = PropertyUtil.parseToBaseInfo(resultXml);
+
+        return b;
+    }
+
+    public static BaseBean GetAdmIdForLis(String patientId,
+                                          String userCode, String extendCode, String admReason, String sepcMode) throws Exception {
+
+        Map<String, String> m = new HashMap<String, String>();
+        m.put("patientId", patientId);
+        m.put("userCode", userCode);
+        m.put("extendCode", extendCode);
+        m.put("admReason", admReason);
+        m.put("specMode", sepcMode);
+        String requestXml = PropertyUtil.buildRequestXml(m);
+        String resultXml = WsApiUtil.loadSoapObject(serviceUrl, Const.BIZ_CODE_GetAdmIdForLis, requestXml);
+        return PropertyUtil.parseToBaseInfo(resultXml);
     }
 }

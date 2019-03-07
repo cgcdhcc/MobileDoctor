@@ -284,8 +284,6 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
 
 
     public void sendTemplateData(final String content, final int templateId) {
-
-
         new Thread() {
             public void run() {
                 try {
@@ -862,6 +860,7 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
                             Const.SRecorderList = null;
                             Intent intent = new Intent(TalkMsgActivity.this, WardRoundActivity.class);
                             intent.putExtra("title", "患者资料");
+                            intent.putExtra("Type",1);
                             startActivity(intent);
                         } else {
                             showToast("获取患者信息失败");

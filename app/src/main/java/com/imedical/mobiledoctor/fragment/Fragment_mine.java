@@ -47,13 +47,14 @@ public class Fragment_mine extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        queryMsgNoRead();
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_mine, null);
         InitViews();
+        queryMsgNoRead();
         return mView;
     }
 
@@ -147,7 +148,6 @@ public class Fragment_mine extends Fragment implements View.OnClickListener {
     public void queryMsgNoRead() {
         new Thread() {
             MessageNoRead noRead;
-
             @Override
             public void run() {
                 super.run();

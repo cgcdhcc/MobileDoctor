@@ -416,5 +416,7 @@
     <color name="mobile_titlebar_blue">#c0d6f4</color>
     <color name="mobile_index_green">#2B85A3</color>
     <color name="mobile_blue">#87B3F5</color>
+    <color name="mobile_blue_top">#5E9FFF</color>
+
 
 </resources>
