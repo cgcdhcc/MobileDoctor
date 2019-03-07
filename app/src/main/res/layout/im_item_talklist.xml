@@ -47,7 +47,7 @@
                     android:padding="5dp"
                     android:text="我就是想测试下等我i奥金锭我i哦敬爱哦大华农多万吨哇哦的 "
                     android:textColor="@color/text_base"
-                    android:textSize="14sp" />
+                    android:textSize="16sp" />
 
                 <ImageView
                     android:id="@+id/left_iv_content"
@@ -139,7 +139,7 @@
                     android:padding="5dp"
                     android:text="我就是想测试下等 "
                     android:textColor="@color/text_base"
-                    android:textSize="14sp" />
+                    android:textSize="16sp" />
 
                 <ImageView
                     android:id="@+id/right_iv_content"

@@ -17,6 +17,7 @@ import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.XMLservice.PrefManager;
 import com.imedical.mobiledoctor.util.PhoneUtil;
+import com.imedical.mobiledoctor.util.PreferManager;
 
 import java.io.File;
 
@@ -73,8 +74,15 @@ public class SplashActivity extends Activity{
 		Const.DeviceId = PhoneUtil.getMyStaticUUID(this);
 		new Handler().postDelayed(new Runnable() {
 			public void run() {
-				Intent mainIntent = new Intent(SplashActivity.this,
-						LoginHospitalActivity.class);
+				boolean hasface= PreferManager.getBooleanValue("hasface");
+				Intent mainIntent =null;
+				if(hasface){
+					mainIntent=new Intent(SplashActivity.this,
+							FaceHospitalActivity.class);
+				}else{
+					mainIntent=new Intent(SplashActivity.this,
+							LoginHospitalActivity.class);
+				}
 				startActivity(mainIntent);
 				finish();
 			}

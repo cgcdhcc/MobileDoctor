@@ -462,7 +462,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="40dp"
                 android:layout_marginRight="15dp"
-                android:background="@drawable/bg_shape_gray"
+                android:background="@drawable/bg_shape_mobile_blue"
                 android:gravity="center"
                 android:text="退出登录"
                 android:textColor="@color/white"

@@ -18,7 +18,17 @@ public class PreferManager {
         SharedPreferences sp = context.getSharedPreferences(preName, 0);
         return sp.getString(key, "");
     }
+    public static boolean getBooleanValue(String key) {
+        SharedPreferences sp = context.getSharedPreferences(preName, 0);
+        return sp.getBoolean(key, false);
+    }
 
+    public static void saveBooleanValue(String key, boolean value) {
+        SharedPreferences sp = context.getSharedPreferences(preName, 0);
+        Editor edit = sp.edit();
+        edit.putBoolean(key, value);
+        edit.commit();
+    }
 
     public static void saveValue(String key, String value) {
         SharedPreferences sp = context.getSharedPreferences(preName, 0);

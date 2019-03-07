@@ -7,8 +7,6 @@ buildscript {
         maven { url 'http://maven.aliyun.com/nexus/content/repositories/google' }
         maven { url 'http://maven.aliyun.com/nexus/content/repositories/gradle-plugin' }
         maven { url 'https://dl.bintray.com/umsdk/release' }
-        jcenter()
-        google()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.3.0'
@@ -22,6 +20,5 @@ allprojects {
         maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
         maven { url 'http://maven.aliyun.com/nexus/content/repositories/google' }
         maven { url 'http://maven.aliyun.com/nexus/content/repositories/gradle-plugin' }
-        jcenter()
     }
 }

@@ -1,5 +1,8 @@
 package com.imedical.im.activity;
 
+import android.app.Activity;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.AudioManager;
@@ -94,13 +97,24 @@ public class TalkMsgAdapter extends BaseAdapter {
 		}
 		ImageView iv_doctor_head=view.findViewById(R.id.iv_doctor_head);
 		if(Validator.isBlank(admInfo.doctorPicUrl)){
-			DownloadUtil.loadImage(iv_doctor_head, admInfo.doctorPicUrl, R.drawable.pat_male, R.drawable.pat_male, R.drawable.pat_male);
+			DownloadUtil.loadImage(iv_doctor_head, admInfo.doctorPicUrl, R.drawable.dhead1_icon, R.drawable.dhead1_icon, R.drawable.dhead1_icon);
 		}
 		if (!data_list.get(p).fromUser.equals(admInfo.docMarkId)) {// 自己发言
 			left.setVisibility(View.VISIBLE);
 			right.setVisibility(View.GONE);
-			TextView left_content = (TextView) view
+			final TextView left_content = (TextView) view
 					.findViewById(R.id.left_content);
+			left_content.setOnLongClickListener(new View.OnLongClickListener() {
+				@Override
+				public boolean onLongClick(View view) {
+					ClipboardManager cm = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
+					// 将文本内容放到系统剪贴板里。
+					cm.setText(left_content.getText());
+					activity.showToast("复制成功");
+					return true;
+				}
+			});
+
 			final ImageView left_iv_content = (ImageView) view
 					.findViewById(R.id.left_iv_content);
 			LinearLayout left_ll_template=view.findViewById(R.id.left_ll_template);
@@ -209,8 +223,18 @@ public class TalkMsgAdapter extends BaseAdapter {
 		} else {
 			left.setVisibility(View.GONE);
 			right.setVisibility(View.VISIBLE);
-			TextView right_content = (TextView) view
+			final TextView right_content = (TextView) view
 					.findViewById(R.id.right_content);
+			right_content.setOnLongClickListener(new View.OnLongClickListener() {
+				@Override
+				public boolean onLongClick(View view) {
+					ClipboardManager cm = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
+					// 将文本内容放到系统剪贴板里。
+					cm.setText(right_content.getText());
+					activity.showToast("复制成功");
+					return true;
+				}
+			});
 			right_content.setText(data_list.get(p).content);
 			final ImageView right_iv_content = (ImageView) view
 					.findViewById(R.id.right_iv_content);

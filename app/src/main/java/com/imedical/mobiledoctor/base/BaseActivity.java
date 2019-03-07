@@ -51,6 +51,7 @@ public abstract class BaseActivity extends Activity {
     private CustomProgressDialog progressDialog = null;
     private TextView tv_my,tv_bedNo,tv_infos;
     private ImageView iv_left;
+    public boolean isfront=false;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -182,11 +183,12 @@ public abstract class BaseActivity extends Activity {
         TextView title = (TextView) layout.findViewById(R.id.tvTitleToast);
         TextView text = (TextView) layout.findViewById(R.id.tvTextToast);
         text.setText(content==null?"网络错误！":content);
-        Toast toast= new Toast(this.getApplicationContext());
+        Toast toast= new Toast(this);
         toast.setGravity(Gravity.CENTER , 0, 0);
         toast.setDuration(Toast.LENGTH_SHORT);
         toast.setView(layout);
         toast.show();
+        Log.d("msg", "弹出提示框");
     }
     public void showProgress() {
         if ((progressDialog != null) && progressDialog.isShowing()) {
@@ -203,7 +205,10 @@ public abstract class BaseActivity extends Activity {
                     return false;
                 }
             });
-            progressDialog.show();
+            if(isfront){
+                progressDialog.show();
+            }
+
         }
     }
 
@@ -270,11 +275,14 @@ public abstract class BaseActivity extends Activity {
     protected void onResume() {
         super.onResume();
         MobclickAgent.onResume(this); // 不能遗漏
+        isfront=true;
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         MobclickAgent.onPause(this); // 不能遗漏
+        Log.d("msg", "onPause");
+        isfront=false;
     }
 }
