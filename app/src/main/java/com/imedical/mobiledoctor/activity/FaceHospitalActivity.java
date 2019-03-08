@@ -1,5 +1,7 @@
 package com.imedical.mobiledoctor.activity;
 
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -245,13 +247,17 @@ public class FaceHospitalActivity extends BaseActivity implements SurfaceHolder.
             //设置对焦
             parameters.setPreviewFormat(mFormat);//设置数据格式
             WindowManager wm1 = this.getWindowManager();
+            StringBuffer stringBuffer=new StringBuffer();
             float pwidth =(float) wm1.getDefaultDisplay().getWidth();
             float pheight =(float)  wm1.getDefaultDisplay().getHeight();
+            stringBuffer.append("屏幕宽高"+pwidth+"-"+pheight);
             previewWidth = parameters.getSupportedPreviewSizes().get(0).width;
             previewHeight = parameters.getSupportedPreviewSizes().get(0).height;
+            float mindis=(float) 0.25;
             for (int i = 0; i < parameters.getSupportedPreviewSizes().size(); i++) {
                 Camera.Size s = parameters.getSupportedPreviewSizes().get(i);
                 Log.d("msg", "SIZE:width" + s.width + "  height" + s.height);
+                stringBuffer.append("相机宽高"+s.width+"-"+s.height);
                 float dis;
                 if (this.getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
                     dis=Math.abs((pwidth/s.height)-(pheight/s.width));
@@ -262,22 +268,25 @@ public class FaceHospitalActivity extends BaseActivity implements SurfaceHolder.
                     //Log.d("msg", "横屏dis:"+dis);
                 }
 
-                if(dis<0.25){
+                if(dis<mindis){
                     if(dis==0){
                         previewWidth=s.width;
                         previewHeight=s.height;
                         break;
                     }else{
-                        if(previewWidth<s.width){
-                            previewWidth=s.width;
-                            previewHeight=s.height;
-                        }
+                        mindis=dis;
+                        previewWidth=s.width;
+                        previewHeight=s.height;
                     }
                 }
             }
-            Log.d("msg", "pwidth:"+pwidth+" pheight:"+pheight+" previewWidth:"+previewWidth+" previewHeight:"+previewHeight);
+            stringBuffer.append("previewWidth:"+previewWidth+" previewHeight:"+previewHeight);
+            Log.d("msg",  stringBuffer.toString());
             parameters.setPreviewSize(previewWidth, previewHeight);//设置预览宽和高
-
+            //ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            // 将文本内容放到系统剪贴板里。
+            //cm.setText(stringBuffer.toString());
+            //showToast("参数捕捉成功，去微信粘贴发送给张伟");
             if (this.getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
                 mCamera.setDisplayOrientation(90);
             } else {
