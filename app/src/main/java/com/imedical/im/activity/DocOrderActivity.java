@@ -72,13 +72,13 @@ public class DocOrderActivity extends BaseActivity {
         if (!Validator.isBlank(showIndex)) {
             loadSelectedArcimItem(showIndex);
             isNewAdd = false;
-            tv_addorupdate.setText("确定");
+            tv_addorupdate.setText("修改");
         }
         String arcItemId = getIntent().getStringExtra("arcItemId");
         if (!Validator.isBlank(arcItemId)) {//新增
             loadData(arcItemId);
             isNewAdd = true;
-            tv_addorupdate.setText("确定");
+            tv_addorupdate.setText("保存");
         }
 
     }
