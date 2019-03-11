@@ -203,7 +203,7 @@ public class LoginHospitalActivity extends BaseActivity implements
             @Override
             public void run() {
                 super.run();
-//                HttpFaceService.face_delperson(Const.loginInfo.userCode);//删除人脸个体，测试用
+                //HttpFaceService.face_delperson(Const.loginInfo.userCode);//删除人脸个体，测试用
                 hasface= HttpFaceService.face_getfaceids(Const.loginInfo.userCode);
                 runOnUiThread(new Runnable() {
                     @Override
