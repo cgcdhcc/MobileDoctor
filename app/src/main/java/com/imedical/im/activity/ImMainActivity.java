@@ -74,10 +74,10 @@ public class ImMainActivity extends BaseActivity implements View.OnClickListener
 
         tv_startDate = (TextView) findViewById(R.id.tv_startDate);
         tv_startDate.setOnClickListener(this);
-        tv_startDate.setText(DateUtil.getDateTodayBefore(null, -1));
+
         tv_endDate = (TextView) findViewById(R.id.tv_endDate);
         tv_endDate.setOnClickListener(this);
-        tv_endDate.setText(DateUtil.getDateTodayBefore(null,7));
+
 
         tv_hasfinish = (TextView) findViewById(R.id.tv_hasfinish);
         tv_hasfinish.setOnClickListener(this);
@@ -133,6 +133,8 @@ public class ImMainActivity extends BaseActivity implements View.OnClickListener
             tv_videodept.setTextColor(getResources().getColor(R.color.text_grayblack));
             tv_videodept.getPaint().setFakeBoldText(false);
             tv_videodept_line.setVisibility(View.INVISIBLE);
+            tv_startDate.setText(DateUtil.getDateTodayBefore(null, -3));
+            tv_endDate.setText(DateUtil.getDateToday(null));
         } else {
             tv_videodept.setTextColor(getResources().getColor(R.color.text_base));
             tv_videodept.getPaint().setFakeBoldText(true);
@@ -141,6 +143,8 @@ public class ImMainActivity extends BaseActivity implements View.OnClickListener
             tv_imgtxt.setTextColor(getResources().getColor(R.color.text_grayblack));
             tv_imgtxt.getPaint().setFakeBoldText(false);
             tv_imgtxt_line.setVisibility(View.INVISIBLE);
+            tv_startDate.setText(DateUtil.getDateToday(null));
+            tv_endDate.setText(DateUtil.getDateTodayBefore(null,7));
         }
 
         if (currentStatus == 1) {
