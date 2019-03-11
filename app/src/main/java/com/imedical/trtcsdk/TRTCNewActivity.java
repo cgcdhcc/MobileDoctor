@@ -32,6 +32,7 @@ import java.util.List;
 
 public class TRTCNewActivity extends BaseActivity {
     private final static int REQ_PERMISSION_CODE = 0x1000;
+    private String mAdmId="",mCallCode="0";
 //    private int sdkAppId= 1400189737;//测试
     private TRTCGetUserIDAndUserSig mUserInfoLoader;
     @Override
@@ -45,6 +46,9 @@ public class TRTCNewActivity extends BaseActivity {
         String patName=getIntent().getStringExtra("patName");//患者姓名
         String roomNum=getIntent().getStringExtra("roomNum");
         String docName=getIntent().getStringExtra("docName");//医生工号
+        AdmInfo AI=(AdmInfo)getIntent().getSerializableExtra("AdmInfo");
+        mAdmId= roomNum;
+        mCallCode=AI.callCode;
         tv_patname.setText(patName);tv_date.setText(patDate);
         final EditText etRoomId = (EditText)findViewById(R.id.et_room_name);
         etRoomId.setText(roomNum);
@@ -62,10 +66,8 @@ public class TRTCNewActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent it=new Intent(TRTCNewActivity.this, AddDiagnosisActivity.class);
-                AdmInfo AI=(AdmInfo)getIntent().getSerializableExtra("AdmInfo");
-                String admId= getIntent().getStringExtra("roomNum");
-                it.putExtra("admId", admId);
-                it.putExtra("callCode",AI.callCode);
+                it.putExtra("admId", mAdmId);
+                it.putExtra("callCode",mCallCode);
                 startActivity(it);
             }
         });
@@ -130,7 +132,7 @@ public class TRTCNewActivity extends BaseActivity {
             intent.putExtra("sdkAppId", sdkAppId);
             intent.putExtra("userSig", userSig);
             intent.putExtra("patName", patName);
-            startActivity(intent);
+            startActivityForResult(intent,100);
         } else {
             mUserInfoLoader.getUserSigFromServer(sdkAppId, roomId, userId, "12345678", new TRTCGetUserIDAndUserSig.IGetUserSigListener() {
                 @Override
@@ -303,5 +305,43 @@ public class TRTCNewActivity extends BaseActivity {
                 break;
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==100){
+            loadAdmId();
+        }
+    }
+
+    public void loadAdmId() {
+        showProgress();
+        new Thread() {
+            List<AdmInfo> templist;
+            String msg = "加载失败了";
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    templist = AdmManager.GetAdmInfo(Const.DeviceId, Const.loginInfo.userCode, mAdmId);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    msg = e.getMessage();
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        dismissProgress();
+                        if (templist != null && templist.size() > 0) {
+                            mCallCode=templist.get(0).callCode;
+                        }else {
+                            showCustom(msg);
+                        }
+                    }
+                });
+            }
+        }.start();
+    }
+
 
 }
