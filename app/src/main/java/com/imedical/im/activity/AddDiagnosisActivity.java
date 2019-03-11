@@ -60,7 +60,7 @@ public class AddDiagnosisActivity extends BaseActivity {
             et_msgContent.setEnabled(false);
             tv_input.setEnabled(false);
             tv_input.setClickable(false);
-        }else if(callCode.equals("0")) { //视频未开始
+        }else if(callCode.equals("0")||callCode.equals("1")) { //视频未开始
             showCustom("请先与患者视频后，再下诊疗建议!");
             finish();
         }else {

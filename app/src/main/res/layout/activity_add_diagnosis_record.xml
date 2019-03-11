@@ -204,7 +204,7 @@
                       android:layout_weight="1"
                       android:gravity="right"
                       android:layout_height="wrap_content"
-                      android:text="录入检验检查  "
+                      android:text="医嘱录入  "
                       android:textSize="@dimen/font_16dp"
                       android:textColor="@color/basecolor"/>
                   <ImageView

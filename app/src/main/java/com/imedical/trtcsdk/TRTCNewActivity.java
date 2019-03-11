@@ -310,8 +310,38 @@ public class TRTCNewActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==100){
-
+            loadAdmId();
         }
     }
+
+    public void loadAdmId() {
+        showProgress();
+        new Thread() {
+            List<AdmInfo> templist;
+            String msg = "加载失败了";
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    templist = AdmManager.GetAdmInfo(Const.DeviceId, Const.loginInfo.userCode, mAdmId);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    msg = e.getMessage();
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        dismissProgress();
+                        if (templist != null && templist.size() > 0) {
+                            mCallCode=templist.get(0).callCode;
+                        }else {
+                            showCustom(msg);
+                        }
+                    }
+                });
+            }
+        }.start();
+    }
+
 
 }
