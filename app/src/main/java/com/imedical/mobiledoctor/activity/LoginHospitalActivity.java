@@ -1,7 +1,10 @@
 package com.imedical.mobiledoctor.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -53,7 +56,7 @@ import cn.jpush.android.api.TagAliasCallback;
 
 public class LoginHospitalActivity extends BaseActivity implements
         OnClickListener, OnCheckedChangeListener {
-    private TextView loginIV,tv_face_login;
+    private TextView loginIV,tv_face_login,tv_num;
     private EditText et_username;
     private EditText et_pwd = null;
     private String terminalId = null;
@@ -73,6 +76,9 @@ public class LoginHospitalActivity extends BaseActivity implements
     @SuppressLint("NewApi")
     private void initView() {
         loginIV = (TextView) this.findViewById(R.id.btn_login);
+        tv_num=(TextView) this.findViewById(R.id.tv_num);
+        String v=String.valueOf(getVersionName(LoginHospitalActivity.this));
+        tv_num.setText(v);
         loginIV.setOnClickListener(this);
         tv_face_login = (TextView) this.findViewById(R.id.tv_face_login);
         tv_face_login.setOnClickListener(this);
@@ -266,7 +272,16 @@ public class LoginHospitalActivity extends BaseActivity implements
     };
 
 
-
+    public  String getVersionName(Context context)//获取版本号
+    {
+        try {
+            PackageInfo pi=context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            return pi.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return "V-1.0";
+        }
+    }
 
     @Override
     public void onCheckedChanged(CompoundButton arg0, boolean checked) {

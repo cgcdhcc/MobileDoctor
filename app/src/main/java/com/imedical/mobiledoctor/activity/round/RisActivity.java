@@ -39,7 +39,7 @@ public class RisActivity extends BaseRoundActivity implements View.OnClickListen
         if (resultCode == SWITHC_CODE) {
             loadDataThread();
         }
-        setInfos(Const.curPat.patName, (Const.curPat.bedCode == null ? "" : Const.curPat.bedCode) + "(" + (Const.curPat.patRegNo == null ? "" : Const.curPat.patRegNo) + ")");//更新姓名，床号
+        setInfos(Const.curPat.patName==null?"无数据请退出":Const.curPat.patName, (Const.curPat.bedCode == null ? "" : Const.curPat.bedCode) + "(" + (Const.curPat.patRegNo == null ? "" : Const.curPat.patRegNo) + ")");//更新姓名，床号
         super.onActivityResult(requestCode, resultCode, data);
     }
 

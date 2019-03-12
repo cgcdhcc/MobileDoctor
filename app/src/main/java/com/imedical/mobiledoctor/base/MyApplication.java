@@ -6,6 +6,7 @@ import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
 
+import com.imedical.mobiledoctor.util.CrashHandler;
 import com.imedical.mobiledoctor.util.PreferManager;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -22,6 +23,7 @@ public class MyApplication extends MultiDexApplication {
 // TODO Auto-generated method stub
         super.onCreate();
         PreferManager.inti(this);
+        CrashHandler.getInstance().init(this);//初始化全局异常管理
         UMConfigure.init(this, "5c472b35b465f5aeb1000909", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, null);
         if( UMConfigure.getInitStatus()){
             Log.d("msg","初始化成功" );

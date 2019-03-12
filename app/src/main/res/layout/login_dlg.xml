@@ -169,6 +169,13 @@
                 android:textColor="@color/basecolor"
                 android:textSize="@dimen/font_14dp" />
         </LinearLayout>
+         <TextView
+             android:layout_width="match_parent"
+             android:padding="10dp"
+                 android:text="V1.0"
+             android:id="@+id/tv_num"
+             android:gravity="right"
+             android:layout_height="wrap_content" />
     </LinearLayout>
 
 </LinearLayout>
