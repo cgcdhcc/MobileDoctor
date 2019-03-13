@@ -462,6 +462,27 @@ public class DateOrderManager {
         return bean;
     }
 
+    public static BaseBean DoctorScheduleMuiltSelect(String terminalId, String userCode, String timeRangeId, String regLimit, String visitType, String scheduleDateList) throws Exception {
+        BaseBean bean = null;
+        Map<String, String> parm = new HashMap<String, String>();
+        parm.put("terminalId", terminalId);
+        parm.put("userCode", userCode);
+        parm.put("timeRangeId", timeRangeId);
+        parm.put("regLimit", regLimit);
+        parm.put("visitType", visitType);
+        parm.put("endDate", "");
+        parm.put("startDate", "");
+        parm.put("scheduleDate", "");
+
+        parm.put("scheduleDateList", scheduleDateList);
+
+        String serviceUrl = SettingManager.getServerUrl();
+        String requestXml = PropertyUtil.buildRequestXml(parm);
+        String resultXml = WsApiUtil.loadSoapObject(serviceUrl, Const.BIZ_CODE_SETSCHEDULE, requestXml);
+        bean = PropertyUtil.parseToBaseInfo(resultXml);
+        return bean;
+    }
+
     /*
     调整挂号限额（图文咨询）
 业务代码：RequestCode

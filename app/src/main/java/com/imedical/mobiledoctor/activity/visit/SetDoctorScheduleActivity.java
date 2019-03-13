@@ -5,13 +5,11 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.imedical.mobiledoctor.Const;
@@ -21,7 +19,10 @@ import com.imedical.mobiledoctor.base.BaseActivity;
 import com.imedical.mobiledoctor.entity.BaseBean;
 import com.imedical.mobiledoctor.entity.dateorder.TimeRange;
 import com.imedical.mobiledoctor.util.Validator;
+import com.imedical.mobiledoctor.widget.LCalendarView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,18 +32,28 @@ public class SetDoctorScheduleActivity extends BaseActivity {
     public List<TimeRange> data_list = new ArrayList<>();
     public String scheduleDate;
     public int currentChecked = -1;
-
+    private LCalendarView calendar;
+    private ImageButton calendarLeft;
+    private TextView calendarCenter;
+    private ImageButton calendarRight;
+    private SimpleDateFormat format;
+    private boolean isMuiltSeleced=false;//是多选日期吗
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.visit_activity_setdoctorschedule);
         scheduleDate = getIntent().getStringExtra("scheduleDate");
+        isMuiltSeleced=getIntent().getBooleanExtra("isMuiltSeleced",false);
         setTitle("图文咨询排班");
         intiView();
         loadTimeRange();
     }
 
+
     public void intiView() {
+        calendar = (LCalendarView)findViewById(R.id.calendar);
+        calendar.setSelectMore(false); //单选
+
         ll_data = findViewById(R.id.ll_data);
         tv_save = findViewById(R.id.tv_save);
         tv_save.setOnClickListener(new View.OnClickListener() {
@@ -139,8 +150,13 @@ public class SetDoctorScheduleActivity extends BaseActivity {
             @Override
             public void run() {
                 super.run();
+                BaseBean baseBean=null;
                 try {
-                    BaseBean baseBean = DateOrderManager.DoctorSchedule(Const.DeviceId, Const.loginInfo.userCode, data_list.get(currentChecked).timeRangeId, data_list.get(currentChecked).regLimit, "T", scheduleDate);
+                    if(!isMuiltSeleced){//单选
+                         baseBean = DateOrderManager.DoctorSchedule(Const.DeviceId, Const.loginInfo.userCode, data_list.get(currentChecked).timeRangeId, data_list.get(currentChecked).regLimit, "T", scheduleDate);
+                    }else {
+                         baseBean = DateOrderManager.DoctorScheduleMuiltSelect(Const.DeviceId, Const.loginInfo.userCode, data_list.get(currentChecked).timeRangeId, data_list.get(currentChecked).regLimit, "T", scheduleDate);
+                    }
                     if (baseBean.getResultCode().equals("0")) {
                         msg = "设置成功";
                     } else {

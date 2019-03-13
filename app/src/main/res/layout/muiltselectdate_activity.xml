@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    >
+    <include layout="@layout/dhcc_white_head"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_margin="10dp"
+        android:layout_height="wrap_content"
+        >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:onClick="last"
+            android:tint="@color/bg_commom"
+
+            android:src="@drawable/calendar_prev_arrow"
+            />
+        <TextView
+            android:id="@+id/txt_date"
+            style="@style/Base.TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@android:color/black"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:tint="@color/bg_commom"
+
+            android:layout_height="20dp"
+            android:onClick="next"
+            android:src="@drawable/calendar_next_arrow"
+
+            />
+    </LinearLayout>
+    <com.imedical.mobiledoctor.widget.WeekView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/white"
+        app:wv_textColor="#333333"
+        app:wv_textSize="14sp"/>
+
+    <com.imedical.mobiledoctor.widget.CalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:background="@android:color/white"
+        app:cv_dayBackground="@drawable/bg_day_un_selected"
+        app:cv_selectDayBackground="@drawable/bg_day_selected"
+        app:cv_selectTextColor="@android:color/white"
+        app:cv_textColor="#333333"
+        app:cv_textSize="14sp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="wrap_content" />
+ <TextView
+     android:layout_width="match_parent"
+     android:textColor="@color/black"
+     android:layout_marginBottom="20dp"
+     android:gravity="center"
+     android:text="请点击选择您要编辑的日期，再进行下方操作"
+     android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/tv_newsche"
+        android:layout_gravity="center"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_16dp"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
+        android:text="新增"
+        android:background="@drawable/button_shape_blue_gradient"/>
+</LinearLayout>

@@ -58,6 +58,8 @@
         <activity android:name="com.imedical.im.activity.OETabsActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.im.activity.AdmInfoActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.mobiledoctor.activity.visit.DateVisitMulitActivity" android:screenOrientation="portrait"/>
+
+        <activity android:name="com.imedical.mobiledoctor.activity.visit.MulitSelectedDateActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.mobiledoctor.activity.visit.SetDoctorScheduleActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.mobiledoctor.activity.visit.PatientAppScheduleActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.mobiledoctor.activity.visit.DoctorScheduleActivity" android:screenOrientation="portrait"/>

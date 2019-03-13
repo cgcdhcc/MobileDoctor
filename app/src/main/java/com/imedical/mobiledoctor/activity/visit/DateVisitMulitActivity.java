@@ -57,11 +57,13 @@ public class DateVisitMulitActivity extends BaseActivity {
 
 			@Override
 			public void onClick(View v) {
-				Intent intent=new Intent(DateVisitMulitActivity.this, SetDoctorScheduleActivity.class);
+//				Intent intent=new Intent(DateVisitMulitActivity.this, SetDoctorScheduleActivity.class);
+				Intent intent=new Intent(DateVisitMulitActivity.this, MulitSelectedDateActivity.class);
 				intent.putExtra("scheduleDate", nowDate);
 				startActivityForResult(intent,101);
 			}
 		});
+
         manager = new CalendarManager(LocalDate.now(), CalendarManager.State.MONTH, LocalDate.now().plusYears(-1), LocalDate.now().plusYears(1));
         mCalendarView = (OrderRegCalendarView) findViewById(R.id.calendar);
 		mCalendarView.setActivity(this);
@@ -232,6 +234,7 @@ public class DateVisitMulitActivity extends BaseActivity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if(100==resultCode){
+			showCustom("排班成功");
 			BIZ_CODE_GetScheduleListState(startDate,endDate);
 			GetDoctorSchedule();
 		}

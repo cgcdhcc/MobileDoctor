@@ -39,6 +39,7 @@ import com.imedical.mobiledoctor.XMLservice.SysManager;
 import com.imedical.mobiledoctor.activity.WardRoundActivity;
 import com.imedical.mobiledoctor.adapter.HisRecordsAdapter;
 import com.imedical.mobiledoctor.entity.SeeDoctorRecord;
+import com.imedical.mobiledoctor.util.AppManager;
 import com.imedical.mobiledoctor.util.StatusBarUtils;
 import com.imedical.mobiledoctor.widget.CustomProgressDialog;
 import com.umeng.analytics.MobclickAgent;
@@ -58,6 +59,7 @@ public abstract class BaseActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         StatusBarUtils.setWindowStatusBarColor(this, R.color.bg_commom);
         checkAndSetNetwork();
+        AppManager.getAppManager().addActivity(this);
     }
 
     protected void showNodata(boolean isNodata,View mView) {
@@ -284,5 +286,11 @@ public abstract class BaseActivity extends Activity {
         MobclickAgent.onPause(this); // 不能遗漏
         Log.d("msg", "onPause");
         isfront=false;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        AppManager.getAppManager().finishActivity(this);
     }
 }

@@ -16,7 +16,48 @@
         android:orientation="vertical">
 
     </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/layout_calendar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        >
 
+        <TextView
+            android:id="@+id/calendarCenter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="8dp" />
+
+        <ImageButton
+            android:id="@+id/calendarLeft"
+            android:layout_width="20dp"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:background="@null"
+            android:contentDescription="@null"
+            android:padding="8dp"
+            android:src="@drawable/calendar_prev_arrow" />
+
+        <ImageButton
+            android:id="@+id/calendarRight"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:background="@null"
+            android:contentDescription="@null"
+            android:padding="8dp"
+            android:src="@drawable/calendar_next_arrow" />
+
+        <com.imedical.mobiledoctor.widget.LCalendarView
+            android:id="@+id/calendar"
+            android:layout_width="fill_parent"
+            android:layout_height="200dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/calendarCenter" />
+
+    </RelativeLayout>
     <TextView
         android:id="@+id/tv_save"
         android:paddingTop="5dp"
