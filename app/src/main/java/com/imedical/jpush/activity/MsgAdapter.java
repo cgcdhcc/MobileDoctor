@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.imedical.jpush.bean.Message;
 import com.imedical.mobiledoctor.R;
+import com.imedical.mobiledoctor.util.DownloadUtil;
 
 import java.util.List;
 
@@ -52,6 +53,16 @@ public class MsgAdapter extends BaseAdapter {
             iv_type.setImageResource(R.drawable.msg_video);
         }else {
             iv_type.setImageResource(R.drawable.icon_common_head);
+            if(msg.extras.jumpData!=null){
+                String name =msg.extras.jumpData.get("patName")==null?msg.title:msg.extras.jumpData.get("patName").toString();
+                String url=msg.extras.jumpData.get("patAvatarUrl")==null?"":msg.extras.jumpData.get("patAvatarUrl").toString();
+                tv_title.setText(name);
+                DownloadUtil.loadImage(iv_type, url,
+                        R.drawable.icon_common_head,
+                        R.drawable.icon_common_head,
+                        R.drawable.icon_common_head);
+            }
+
         }
         return convertView;
     }
