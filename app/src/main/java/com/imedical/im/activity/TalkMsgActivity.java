@@ -203,6 +203,8 @@ public class TalkMsgActivity extends ActivityPhtotoPop {
                 // TODO Auto-generated method stub
                 Intent intent = new Intent(TalkMsgActivity.this, AddDiagnosisActivity.class);
                 intent.putExtra("admId", admInfo.admId);
+                intent.putExtra("callCode","2");
+
                 startActivityForResult(intent, 101);
             }
         });
