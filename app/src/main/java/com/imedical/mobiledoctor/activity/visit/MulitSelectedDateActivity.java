@@ -12,12 +12,15 @@ import android.widget.Toast;
 
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.base.BaseActivity;
+import com.imedical.mobiledoctor.util.DateUtil;
 import com.imedical.mobiledoctor.widget.CalendarView;
 import org.joda.time.LocalDate;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -60,15 +63,30 @@ public class MulitSelectedDateActivity extends BaseActivity {
                 Calendar cal1 = Calendar.getInstance();
                 cal1.set(year,month,day);
                 String outString=sdf.format(cal1.getTime());
+                Date dt =new Date();
+                String td=sdf.format(dt);
                 if(select){
                     DateList.add(outString);
-//                    Toast.makeText(getApplicationContext()
-//                            , "选中了：" + year + "年" + (month + 1) + "月" + day + "日/"+outString, Toast.LENGTH_SHORT).show();
                 }else{
                     DateList.remove(outString);
-//                    Toast.makeText(getApplicationContext()
-//                            , "取消选中了：" + year + "年" + (month + 1) + "月" + day + "日/"+outString, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext()取消选中了：" + year + "年" + (month + 1) + "月" + day + "日/"+outString, Toast.LENGTH_SHORT).show();
                 }
+                tv_newsche.setVisibility(View.VISIBLE);
+                for(String date :DateList){
+                    try {
+                        Date today = sdf.parse(td);
+                        Date target = sdf.parse(date);
+                        boolean before = target.before(today);
+                        if(before){
+                            tv_newsche.setVisibility(View.INVISIBLE);
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                        showCustom(e.toString());
+                    }
+
+                }
+
             }
         });
         // 设置是否能够改变日期状态
@@ -94,11 +112,15 @@ public class MulitSelectedDateActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 String scheduleDate="";
+                boolean canSumbit=false;
                 if(DateList.size()>0){
                     for (String s :DateList){
                         scheduleDate=scheduleDate+";"+s;
                     }
                     scheduleDate= scheduleDate.substring(1,scheduleDate.length());
+                }else {
+                    showCustom("至少选择一天排班");
+                    return;
                 }
                 if(DateList.size()>1){
                     isMuiltSeleced=true;
@@ -106,11 +128,10 @@ public class MulitSelectedDateActivity extends BaseActivity {
                 else {
                     isMuiltSeleced=false;
                 }
-                Intent intent=new Intent(MulitSelectedDateActivity.this, SetDoctorScheduleActivity.class);
-                intent.putExtra("scheduleDate", scheduleDate);
-                intent.putExtra("isMuiltSeleced",isMuiltSeleced);
-                startActivityForResult(intent,101);
-
+                    Intent intent=new Intent(MulitSelectedDateActivity.this, SetDoctorScheduleActivity.class);
+                    intent.putExtra("scheduleDate", scheduleDate);
+                    intent.putExtra("isMuiltSeleced",isMuiltSeleced);
+                    startActivityForResult(intent,101);
             }
         });
     }

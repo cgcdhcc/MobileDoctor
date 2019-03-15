@@ -105,8 +105,9 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             @Override
             public void run() {
                 Looper.prepare();
-                Toast.makeText(mContext, "程序开小差了呢..即将关闭", Toast.LENGTH_SHORT).show();
-                AppManager.getAppManager().AppExit(mContext);
+                Toast.makeText(mContext, "程序开小差了呢..请从后台关闭并重启", Toast.LENGTH_SHORT).show();
+//                System.exit(1);
+//                AppManager.getAppManager().AppExit(mContext);
                 Looper.loop();
             }
         }.start();
