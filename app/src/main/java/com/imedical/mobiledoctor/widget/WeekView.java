@@ -16,7 +16,7 @@ import com.imedical.mobiledoctor.R;
 
 public class WeekView extends View {
 
-    private String[] mWeeks = {"日", "一", "二", "三", "四", "五", "六"};
+    private String[] mWeeks = {"周日", "周一", "周二", "周三", "周四", "周五", "周六"};
 
     private int mTextSize;
     private int mTextColor;

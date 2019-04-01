@@ -6,12 +6,14 @@ import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.api.WsApiUtil;
 import com.imedical.mobiledoctor.entity.ArcimItem;
 import com.imedical.mobiledoctor.entity.BaseBean;
+import com.imedical.mobiledoctor.entity.CanUseRes;
 import com.imedical.mobiledoctor.entity.DiagItem;
 import com.imedical.mobiledoctor.entity.DiagStatus;
 import com.imedical.mobiledoctor.entity.Diagnosis;
 import com.imedical.mobiledoctor.entity.FormArcimItem;
 import com.imedical.mobiledoctor.entity.OETabs;
 import com.imedical.mobiledoctor.entity.PopMessage;
+import com.imedical.mobiledoctor.entity.ServiceOrder;
 import com.imedical.mobiledoctor.util.LogMe;
 import com.imedical.mobiledoctor.util.PropertyUtil;
 
@@ -93,6 +95,35 @@ public class DocOrderService {
 
         return list;
     }
+
+    //获取可以预约的检查项目列表
+    public static List<ServiceOrder> LoadServiceOrder(String userCode, String admId) throws Exception {
+
+        Map params = new HashMap();
+        params.put("userCode", userCode);
+        params.put("admId", admId);
+        params.put("flag", "");
+        String requestXml = PropertyUtil.buildRequestXml(params);
+        String resultXml = WsApiUtil.loadSoapObject(serviceUrl,Const.BIZ_CODE_getstoppingbasedata, requestXml);
+        LogMe.d(requestXml+"\n\n"+resultXml);
+        List<ServiceOrder> list = PropertyUtil.parseBeansToList(ServiceOrder.class, resultXml);
+        return list;
+    }
+
+    //获取可以预约的检查项目的时间段
+    public static List<CanUseRes> LoadCanUseRes(String userCode, String admId,String ordItemId) throws Exception {
+
+        Map params = new HashMap();
+        params.put("userCode", userCode);
+        params.put("admId", admId);
+        params.put("ordItemId",ordItemId);
+        String requestXml = PropertyUtil.buildRequestXml(params);
+        String resultXml = WsApiUtil.loadSoapObject(serviceUrl,Const.BIZ_CODE_getcanuseres, requestXml);
+        LogMe.d(requestXml+"\n\n"+resultXml);
+        List<CanUseRes> list = PropertyUtil.parseBeansToList(CanUseRes.class, resultXml);
+        return list;
+    }
+
     //获取增加的未审核的医嘱信息
     public static List<ArcimItem> loadArcimItemListSaved(String userCode, String admId) throws Exception {
 

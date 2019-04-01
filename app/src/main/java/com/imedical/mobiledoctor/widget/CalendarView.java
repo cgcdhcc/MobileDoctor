@@ -16,13 +16,16 @@ import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.widget.Toast;
 
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.util.DateUtils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -32,7 +35,8 @@ import java.util.Locale;
 public class CalendarView extends View {
 
     /** 默认的日期格式化格式 */
-    private static final String DATE_FORMAT_PATTERN = "yyyyMMdd";
+    private static final String DATE_FORMAT_PATTERN = "yyyy-MM-dd";
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
     /** 默认文字颜色 */
     private int mTextColor;
@@ -182,6 +186,23 @@ public class CalendarView extends View {
                 drawBackground(canvas, mSelectDayBackground, column, row);
                 drawText(canvas, dayStr, mSelectTextColor, mSelectTextSize, x, y);
             }
+
+            try {
+                Date dt =new Date();
+                String td=sdf.format(dt);
+                String targetString = getFormatDate(year, month-1, day);
+                Date today = sdf.parse(td);
+                Date target = sdf.parse(targetString);
+                boolean before = target.before(today);
+                if(before){
+                    drawBackground(canvas, mDayBackground, column, row);
+                    drawText(canvas, dayStr, getResources().getColor(R.color.gray), mTextSize, x, y);
+                }
+            }catch (Exception ee){
+                Toast.makeText(getContext(), "初始化错误"+ee.toString(),Toast.LENGTH_SHORT).show();
+            }
+
+
         }
     }
 
@@ -229,7 +250,11 @@ public class CalendarView extends View {
                 if(diffX < mSlop && diffY < mSlop){
                     int column = upX / mColumnWidth;
                     int row    = upY / mRowHeight;
-                    onClick(mDays[row][column]);
+                    try {
+                        onClick(mDays[row][column]);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                 }
                 break;
             default:
@@ -237,13 +262,24 @@ public class CalendarView extends View {
         return super.onTouchEvent(event);
     }
 
-    private void onClick(int day){
+    private void onClick(int day) throws ParseException {
         if(day < 1){
             return;
         }
 
+
         int year = mCalendar.get(Calendar.YEAR);
         int month = mCalendar.get(Calendar.MONTH);
+        Date dt =new Date();
+        String td=sdf.format(dt);
+        String targetString = getFormatDate(year, month, day);
+        Date today = sdf.parse(td);
+        Date target = sdf.parse(targetString);
+        boolean before = target.before(today);
+        if(before){
+            return;
+        }
+
         if(mOnDataClickListener != null){
             mOnDataClickListener.onDataClick(this, year, month, day);
         }

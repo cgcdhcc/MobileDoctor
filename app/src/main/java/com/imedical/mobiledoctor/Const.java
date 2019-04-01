@@ -200,6 +200,11 @@ public final class Const {
 	public static final String BIZ_CODE_ViewTempture               =  "doctor.tempature.chart";//50702//手动绘制体温单所需数据
 	public static final String BIZ_CODE_LIST_BrowseLocation 	   =  "doctor.case.image";//50801//电子病历
 
+	public static final String BIZ_CODE_getstoppingbasedata 	           =  "doctor.dinspect.getstoppingbasedata";//52501//获取检查申请医嘱列表
+	public static final String BIZ_CODE_getcanuseres 	           =  "doctor.dinspect.getcanuseres";//52502//获取有预约资源的日期
+	public static final String BIZ_CODE_autobooked 	           =  "doctor.dinspect.autobooked";//52503//发送申请单并预约
+	public static final String BIZ_CODE_cancelbooked 	           =  "doctor.dinspect.cancelbooked";//52504//取消预约
+
 	public static final String BIZ_CODE_LIST_Priority 	           =  "doctor.advice.prioritycode";//50901//获取医嘱优先级代码
 	public static final String BIZ_CODE_LIST_Frequency 	           =  "doctor.advice.frequencycode";//50902//获取医嘱频次代码
 	public static final String BIZ_CODE_LIST_Instruction           =  "doctor.advice.instructioncode";//50903//获取医嘱优先级代码

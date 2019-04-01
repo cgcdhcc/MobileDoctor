@@ -139,6 +139,7 @@
     </LinearLayout>
   <ScrollView
       android:layout_width="match_parent"
+      android:layout_weight="1"
       android:background="@color/white"
       android:layout_height="match_parent">
       <LinearLayout
@@ -181,7 +182,6 @@
           </LinearLayout>
 
           <LinearLayout
-              android:visibility="gone"
               android:layout_width="match_parent"
               android:orientation="vertical"
               android:layout_marginTop="10dp"
@@ -230,5 +230,31 @@
 
 
   </ScrollView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="200dp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textColor="@color/white"
+            android:id="@+id/tv_goto"
+            android:layout_marginTop="10dp"
+            android:background="@xml/ripple_bg_shape_blue_gradient"
+            android:text="检查预约申请"
+            android:textSize="@dimen/font_16dp"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="match_parent"
+            android:text="检查医嘱审核后必须预约申请时间"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:textSize="@dimen/font_14dp"
+            android:padding="10dp"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
 </LinearLayout>

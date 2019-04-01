@@ -1,6 +1,5 @@
 package com.imedical.im.activity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,7 +14,6 @@ import com.imedical.im.service.AdmManager;
 import com.imedical.mobiledoctor.Const;
 import com.imedical.mobiledoctor.R;
 import com.imedical.mobiledoctor.XMLservice.ArcimItemManager;
-import com.imedical.mobiledoctor.XMLservice.DateOrderManager;
 import com.imedical.mobiledoctor.XMLservice.DocOrderService;
 import com.imedical.mobiledoctor.base.BaseActivity;
 import com.imedical.mobiledoctor.entity.ArcimItem;
@@ -25,71 +23,42 @@ import com.imedical.mobiledoctor.util.Validator;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddDiagnosisActivity extends BaseActivity {
+public class DiagnosisListActivity extends BaseActivity {
     public String admId,callCode="0";
-    public TextView tv_patientName, tv_patientAge, tv_patientCard, tv_doctorName, tv_departmentName, tv_doctorTitle,tv_save,tv_input,tv_goto;
+    public TextView tv_patientName, tv_patientAge, tv_patientCard, tv_doctorName, tv_departmentName, tv_submit,tv_save,tv_input;
     public EditText et_msgContent;
     public LinearLayout ll_content;
     public List<ArcimItem> list_data = new ArrayList<ArcimItem>();
     public boolean needLoad=false;
     private AdmInfo temAI;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         admId=this.getIntent().getStringExtra("admId");
         callCode=this.getIntent().getStringExtra("callCode")==null?"0":this.getIntent().getStringExtra("callCode");
-        this.setContentView(R.layout.activity_add_diagnosis_record);
-        setTitle("诊疗方案");
+        temAI=(AdmInfo)this.getIntent().getSerializableExtra("tempAI");
+        this.setContentView(R.layout.activity_diagnosis_list);
+        setTitle("请录入医嘱");
         intiView();
-        loadData();
     }
 
     public void intiView() {
         tv_input=findViewById(R.id.tv_input);
-        tv_goto=findViewById(R.id.tv_goto);
+        tv_submit=findViewById(R.id.tv_submit);
         ll_content=findViewById(R.id.ll_content);
-        et_msgContent=findViewById(R.id.et_msgContent);
-        tv_patientName = findViewById(R.id.tv_patientName);
-        tv_patientAge = findViewById(R.id.tv_patientAge);
-        tv_patientCard = findViewById(R.id.tv_patientCard);
-        tv_doctorName = findViewById(R.id.tv_doctorName);
-        tv_departmentName = findViewById(R.id.tv_departmentName);
-        tv_doctorTitle = findViewById(R.id.tv_doctorTitle);
-        tv_save= findViewById(R.id.tv_save);
-        if(callCode.equals("3")){  //视频结束后啥都不能干
-            tv_save.setVisibility(View.GONE);
-            et_msgContent.setEnabled(false);
-            tv_input.setEnabled(false);
-            tv_input.setClickable(false);
-        }else if(callCode.equals("0")||callCode.equals("1")) { //视频未开始
-            showCustom("请先与患者视频后，再下诊疗建议!");
-            finish();
-        }else {
-            tv_save.setVisibility(View.VISIBLE);
-            et_msgContent.setEnabled(true);
-        }
-        tv_save.setOnClickListener(new View.OnClickListener() {
+        tv_submit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(AddDiagnosisActivity.this);
-                builder.setMessage("提交后，你将不能修改【诊疗建议】内容，是否提交？")
-                        .setTitle("确认提交")
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(DiagnosisListActivity.this);
+                builder.setMessage("确认后，将完成医嘱审核，检查项目将需要选择预约时间，是否确认？")
+                        .setTitle("确认审核")
                         .setCancelable(false)
                         .setPositiveButton("确定",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog,
                                                         int id) {
-//                                        saveAdvice();
-                                        if(list_data.size()>0){
-                                            String msgContent=et_msgContent.getText()==null?"":et_msgContent.getText().toString();
-                                            if(!Validator.isBlank(msgContent)){
-                                                veryfy();//先审核医嘱
-                                            }else{
-                                                showCustom("请填写诊疗建议");
-                                            }
-                                        }else{
-                                            saveAdvice();//直接完成建议
-                                        }
+                                        veryfy();
                                     }
                                 })
                         .setNegativeButton("取消",
@@ -104,29 +73,13 @@ public class AddDiagnosisActivity extends BaseActivity {
         tv_input.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent it =new Intent(AddDiagnosisActivity.this,DiagnosisListActivity.class);
-                it.putExtra("tempAI",temAI);
-                startActivity(it);
-            }
-        });
-        tv_goto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent it =new Intent(AddDiagnosisActivity.this,ReservationListActivity.class);
+                Intent it =new Intent(DiagnosisListActivity.this,OETabsActivity.class);
                 it.putExtra("tempAI",temAI);
                 startActivity(it);
             }
         });
     }
 
-    private void saveAdvice(){
-        String msgContent=et_msgContent.getText()==null?"":et_msgContent.getText().toString();
-        if(!Validator.isBlank(msgContent)){
-            saveData(msgContent);
-        }else{
-            showCustom("请填写诊疗建议");
-        }
-    }
 
     @Override
     protected void onResume() {
@@ -138,90 +91,6 @@ public class AddDiagnosisActivity extends BaseActivity {
         }
 
     }
-    public void intiData(AdmInfo admInfo) {
-        et_msgContent.setText(admInfo.doctorContent);
-        tv_patientName.setText(admInfo.patientName);
-        tv_patientAge.setText(admInfo.patientAge + " | " + admInfo.patientSex);
-        tv_patientCard.setText(admInfo.patientId);
-        tv_doctorName.setText(admInfo.doctorName);
-        tv_departmentName.setText(admInfo.departmentName);//
-        tv_doctorTitle.setText(admInfo.doctorTitle);//
-        String Content=admInfo.doctorContent==null?"":admInfo.doctorContent;
-        if(Content.length()>0){
-            tv_save.setVisibility(View.GONE);
-            et_msgContent.setEnabled(false);
-            tv_input.setTextColor(getResources().getColor(R.color.gray));
-            tv_input.setEnabled(false);
-            tv_input.setClickable(false);
-        }
-    }
-    public void loadData() {
-        showProgress();
-        new Thread() {
-            List<AdmInfo> templist;
-            String msg = "加载失败了";
-            @Override
-            public void run() {
-                super.run();
-                try {
-                    templist = AdmManager.GetAdmInfo(Const.DeviceId, Const.loginInfo.userCode, admId);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    msg = e.getMessage();
-                }
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (templist != null && templist.size() > 0) {
-                            temAI=templist.get(0);
-                            intiData(temAI);
-                            dismissProgress();
-                            loadArcimItemData();
-                        } else {
-                            dismissProgress();
-                            showToast(msg);
-                            finish();
-                        }
-                    }
-                });
-            }
-        }.start();
-    }
-
-    public void saveData(final String msgContent) {
-        showProgress();
-        new Thread() {
-            String msg = "";
-            BaseBean baseBean;
-            @Override
-            public void run() {
-                super.run();
-                try {
-                    baseBean = AdmManager.UpdateDoctorContentByAdm(Const.DeviceId, admId, msgContent);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    msg = e.getMessage();
-                }
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        dismissProgress();
-                        if (baseBean!=null&&baseBean.getResultCode().equals("0")) {
-                            msg = "保存成功";
-                            setResult(100,getIntent());
-                            finish();
-                        } else {
-                            if(baseBean!=null){
-                                msg = baseBean.getResultDesc();
-                            }
-                        }
-                        showCustom(msg);
-                    }
-                });
-            }
-        }.start();
-    }
-
 
     public void loadArcimItemData() {
         list_data.clear();
@@ -269,7 +138,7 @@ public class AddDiagnosisActivity extends BaseActivity {
             tv_edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(AddDiagnosisActivity.this, DocOrderActivity.class);
+                    Intent intent = new Intent(DiagnosisListActivity.this, DocOrderActivity.class);
                     intent.putExtra("showIndex", list_data.get(num).showIndex);
                     intent.putExtra("tempAI",temAI);
                     startActivity(intent);
@@ -280,7 +149,7 @@ public class AddDiagnosisActivity extends BaseActivity {
             tv_delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(AddDiagnosisActivity.this);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(DiagnosisListActivity.this);
                     builder.setMessage("确定要删除此医嘱项吗？")
                             .setTitle("提示信息")
                             .setCancelable(false)
@@ -357,10 +226,12 @@ public class AddDiagnosisActivity extends BaseActivity {
                     public void run() {
                         dismissProgress();
                         if(b!=null&&b.getResultCode().equals("0")){
-                            showToast("医嘱审核成功");
+                            showCustom("医嘱审核成功");
                             list_data.clear();
                             ll_content.removeAllViews();
-                            saveAdvice();//再提交建议
+                            Intent it =new Intent(DiagnosisListActivity.this,ReservationListActivity.class);
+                            startActivity(it);
+                            finish();
                         }else {
                             showCustom(mInfo);
                         }

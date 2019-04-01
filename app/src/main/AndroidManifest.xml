@@ -55,6 +55,8 @@
         <activity android:name="com.imedical.im.activity.TalkImageShowActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.im.activity.TalkMsgActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>
         <activity android:name="com.imedical.im.activity.AddDiagnosisActivity" android:screenOrientation="portrait"/>
+        <activity android:name="com.imedical.im.activity.DiagnosisListActivity" android:screenOrientation="portrait"/>
+        <activity android:name="com.imedical.im.activity.ReservationListActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.im.activity.DocOrderActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.im.activity.OETabsActivity" android:screenOrientation="portrait"/>
         <activity android:name="com.imedical.im.activity.AdmInfoActivity" android:screenOrientation="portrait"/>
