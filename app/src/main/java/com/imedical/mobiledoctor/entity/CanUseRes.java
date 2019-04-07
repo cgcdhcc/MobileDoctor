@@ -15,4 +15,6 @@ public class CanUseRes implements Serializable {
         bookedDate=date;
     }
 
+    public CanUseRes() {
+    }
 }

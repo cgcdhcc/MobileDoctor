@@ -34,16 +34,16 @@ import java.util.List;
 
 public class ReservationListActivity extends BaseActivity implements View.OnClickListener {
     public String admId,callCode="0";
-    public TextView tv_patientName, tv_patientAge, tv_patientCard, tv_doctorName, tv_departmentName, tv_submit,tv_save,tv_input;
+    public TextView tv_patientName, tv_yes, tv_no, tv_doctorName, tv_departmentName, tv_submit,tv_yes_line,tv_no_line,tv_input;
     public ListView lv_data;
     public AdapterReservation mApdate;
     public Adapter_ReserDate mApdater_date;
-
-    public LinearLayout ll_content;
+    public LinearLayout ll_content,ll_yes,ll_no;
     public List<ServiceOrder> list_data = new ArrayList<ServiceOrder>();
     public List<CanUseRes> list_date = new ArrayList<CanUseRes>();
     private AdmInfo temAI;
     private Dialog dialog;
+    public String swtichFlag="";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,14 +53,42 @@ public class ReservationListActivity extends BaseActivity implements View.OnClic
         this.setContentView(R.layout.activity_revervation_list);
         setTitle("检查预约申请");
         intiView();
-        LoadData();
+        LoadData(swtichFlag);
     }
 
     public void intiView() {
         lv_data=(ListView) findViewById(R.id.lv_data);
         tv_input=findViewById(R.id.tv_input);
         tv_submit=findViewById(R.id.tv_submit);
+        tv_yes_line=findViewById(R.id.tv_yes_line);
+        tv_no_line=findViewById(R.id.tv_no_line);
         ll_content=findViewById(R.id.ll_content);
+        ll_yes=findViewById(R.id.ll_yes);
+        ll_yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tv_yes.setTextColor(getResources().getColor(R.color.mobile_blue));
+                tv_yes_line.setBackground(getDrawable(R.color.mobile_blue));
+                tv_no.setTextColor(getResources().getColor(R.color.gray));
+                tv_no_line.setBackground(getDrawable(R.color.white));
+                swtichFlag = "on";
+                LoadData(swtichFlag);
+            }
+        });
+        ll_no=findViewById(R.id.ll_no);
+        ll_no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tv_no.setTextColor(getResources().getColor(R.color.mobile_blue));
+                tv_no_line.setBackground(getDrawable(R.color.mobile_blue));
+                tv_yes.setTextColor(getResources().getColor(R.color.gray));
+                tv_yes_line.setBackground(getDrawable(R.color.white));
+                swtichFlag = "";
+                LoadData(swtichFlag);
+            }
+        });
+        tv_yes=(TextView) findViewById(R.id.tv_yes);
+        tv_no=(TextView) findViewById(R.id.tv_no);
         mApdate=new AdapterReservation(ReservationListActivity.this);
         lv_data.setAdapter(mApdate);
 
@@ -88,7 +116,7 @@ public class ReservationListActivity extends BaseActivity implements View.OnClic
 
     }
 
-    public void LoadData() {
+    public void LoadData(final String flag) {
         list_data.clear();
         mApdate.notifyDataSetChanged();
         showProgress();
@@ -98,7 +126,7 @@ public class ReservationListActivity extends BaseActivity implements View.OnClic
             public void run() {
                 super.run();
                 try {
-                    list = DocOrderService.getInstance().LoadServiceOrder(Const.loginInfo.userCode, temAI.admId);
+                    list = DocOrderService.getInstance().LoadServiceOrder(Const.loginInfo.userCode, temAI.admId,flag);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -120,6 +148,11 @@ public class ReservationListActivity extends BaseActivity implements View.OnClic
         }.start();
     }
 
+    @SuppressLint("InflateParams")
+    public void showPop() {
+        LoadDateForReser();
+        if(!dialog.isShowing()) dialog.show();
+    }
 
     public void LoadDateForReser() {
         list_date.clear();
@@ -150,11 +183,13 @@ public class ReservationListActivity extends BaseActivity implements View.OnClic
                     public void run() {
                         dismissProgress();
                         if (list == null) {
-                            showCustom("医嘱列表加载失败");
-                        } else {
-                            CanUseRes c=new CanUseRes("2019-04-02 11:10");
-                            CanUseRes b=new CanUseRes("2019-04-03 10:11");
-                            list.add(c);list.add(b);
+                            showCustom("医嘱列表加载失败，请重新再试");
+                            if(dialog!=null)dialog.dismiss();
+                        } else if(list.size()==0){
+                            showCustom("无预约资源！");
+                            if(dialog!=null)dialog.dismiss();
+                        }
+                        else {
                             list_date.addAll(list);
                             mApdater_date.notifyDataSetChanged();
                         }
@@ -164,15 +199,52 @@ public class ReservationListActivity extends BaseActivity implements View.OnClic
             }
         }.start();
     }
-    @SuppressLint("InflateParams")
-    public void showPop() {
 
-        LoadDateForReser();
-
-
-        if(!dialog.isShowing()) dialog.show();
-
+    public void submitDateForReser(final String chooseDate) {
+    String ordItemId="";
+    for(ServiceOrder so:list_data){
+        if(so.IsChecked){
+            ordItemId=ordItemId+"@"+so.orderRowId;
+        }
     }
+    if(ordItemId.length()>0){
+        ordItemId=ordItemId.substring(1,ordItemId.length());
+    }
+    final String ordIdStrings =ordItemId;
+    showProgress();
+    new Thread() {
+      BaseBean b=null;
+        @Override
+        public void run() {
+            super.run();
+            try {
+                b = DocOrderService.getInstance().SubmitUseRes(Const.loginInfo.userCode, temAI.admId,ordIdStrings,chooseDate);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            finally {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        dismissProgress();
+                        if (b == null) {
+                            showCustom("提交数据失败");
+                        } else {
+                            if(b.getResultCode().equals("0")){
+                                showCustom("提交成功！");
+                            }else{
+                                showCustom(b.getResultDesc());
+                            }
+                        }
+                        if(dialog!=null)dialog.dismiss();
+                        LoadData(swtichFlag);
+                    }
+                });
+            }
+        }
+    }.start();
+}
+
 
     private void ReList(List<ServiceOrder> list_temp){
         int p=0;
@@ -186,7 +258,6 @@ public class ReservationListActivity extends BaseActivity implements View.OnClic
 
 
     private void ListGroup(String nowAppType,String nowServiceId,int count){
-
             for(ServiceOrder so_2:list_data){
                 if(nowAppType.equals(so_2.appType)&&nowServiceId.equals(so_2.serviceId)){
                     so_2.IsGroup=count;
@@ -199,9 +270,33 @@ public class ReservationListActivity extends BaseActivity implements View.OnClic
         switch (v.getId()){
             case R.id.tv_submit:
                 if(list_date.size()>0){
-                    String content=list_date.get(mApdater_date.getCurrentItem()).bookedDate;
-                    showCustom("你选择了"+content);
-                    dialog.dismiss();
+                   final String content=list_date.get(mApdater_date.getCurrentItem()).bookedDate;
+                    String ordItemContent="";
+                    for(ServiceOrder so:list_data){
+                        if(so.IsChecked){
+                            ordItemContent=ordItemContent+","+so.orderRowId;
+                        }
+                    }
+                    if(ordItemContent.length()>0){
+                        ordItemContent=ordItemContent.substring(1,ordItemContent.length());
+                    }
+                    final String ordContentStrings =ordItemContent;
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ReservationListActivity.this);
+                    builder.setMessage("您已经选择为【"+temAI.patientName+"】患者选中检查项目【"+ordContentStrings+" "+content+"】,确认后将发送至患者，是否确认？")
+                            .setTitle("预约确认")
+                            .setCancelable(false)
+                            .setPositiveButton("确定",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            submitDateForReser(content);
+                                        }
+                                    })
+                            .setNegativeButton("取消",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            if(dialog!=null)dialog.dismiss();
+                                        }
+                                    }).show();
                 }
                 break;
             case R.id.tv_cancel:

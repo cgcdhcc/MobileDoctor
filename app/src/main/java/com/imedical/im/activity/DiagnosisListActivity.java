@@ -84,12 +84,7 @@ public class DiagnosisListActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(needLoad){
             loadArcimItemData();
-        }else{
-            needLoad=true;
-        }
-
     }
 
     public void loadArcimItemData() {

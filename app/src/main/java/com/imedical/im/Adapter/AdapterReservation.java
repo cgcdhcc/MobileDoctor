@@ -50,6 +50,12 @@ public class AdapterReservation extends BaseAdapter {
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = LayoutInflater.from(ctx).inflate(R.layout.adapter_reservation, null);
+            holder.ll_checkBox = convertView.findViewById(R.id.ll_checkBox);
+            holder.ll_conent =convertView.findViewById(R.id.ll_conent);
+            holder.tv_desc_yes = (TextView) convertView.findViewById(R.id.tv_desc_yes);
+            holder.tv_date = (TextView) convertView.findViewById(R.id.tv_date);
+            holder.tv_appStatus = (TextView) convertView.findViewById(R.id.tv_appStatus);
+            holder.tv_cancel = (TextView) convertView.findViewById(R.id.tv_cancel);
             holder.checkBox = (CheckBox) convertView.findViewById(R.id.checkBox);
             holder.tv_desc = (TextView) convertView.findViewById(R.id.tv_desc);
             convertView.setTag(holder);
@@ -57,10 +63,18 @@ public class AdapterReservation extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         holder.tv_desc.setText(SO.orderName);
+        holder.tv_desc_yes.setText(SO.orderName);
+        holder.tv_appStatus.setText(SO.appStatus);
+        holder.tv_date.setText("预约时间:"+SO.bookedDate+" "+SO.bookedTime);
+        holder.tv_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ctx.showCustom("点击了");
+            }
+        });
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
                 int IsGroup=SO.IsGroup;
                 for(ServiceOrder so:ctx.list_data){
                     if(IsGroup==so.IsGroup){
@@ -75,16 +89,24 @@ public class AdapterReservation extends BaseAdapter {
         }else{
             holder.checkBox.setChecked(false);
         }
-        convertView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ListUnChecked();
-                holder.checkBox.performClick();
-                if(ListIsChecked()){
-                    ctx.showPop();
-                }
-            }
-        });
+       holder.ll_checkBox.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               ListUnChecked();
+               holder.checkBox.performClick();
+               if(ListIsChecked()){
+                   ctx.showPop();
+               }
+           }
+       });
+        String St=SO.appStatus==null?"": SO.appStatus;
+        if(St.equals("预约")){
+            holder.ll_checkBox.setVisibility(View.GONE);
+            holder.ll_conent.setVisibility(View.VISIBLE);
+        }else{
+            holder.ll_conent.setVisibility(View.GONE);
+            holder.ll_checkBox.setVisibility(View.VISIBLE);
+        }
         return convertView;
     }
 
@@ -108,7 +130,9 @@ public class AdapterReservation extends BaseAdapter {
 
 
     public class ViewHolder {
-        public TextView tv_desc;
+        public TextView tv_desc,tv_desc_yes,tv_date,tv_cancel,tv_appStatus;
         public CheckBox checkBox;
+        public View ll_checkBox;
+        public View ll_conent;
     }
 }

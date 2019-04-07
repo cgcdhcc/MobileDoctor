@@ -235,7 +235,7 @@ public class AddDiagnosisActivity extends BaseActivity {
                 try {
                     list = DocOrderService.getInstance().loadArcimItemListSaved(Const.loginInfo.userCode, temAI.admId);
                     for (int i = list.size() - 1; i >-1; i--) {
-                        if (("核实").equals(list.get(i).ordState)) {
+                        if (!("核实").equals(list.get(i).ordState)) {
                             list.remove(i);
                         }
                     }
@@ -261,45 +261,10 @@ public class AddDiagnosisActivity extends BaseActivity {
     public void intiArcimItemView() {
         ll_content.removeAllViews();
         for (int i = 0; i < list_data.size(); i++) {
-            View view = getLayoutInflater().inflate(R.layout.item_temp_order_view, null);
+            View view = getLayoutInflater().inflate(R.layout.item_temp_order_view_yes, null);
             TextView tv_arcimDesc = (TextView) view.findViewById(R.id.tv_arcimDesc);
             tv_arcimDesc.setText(list_data.get(i).arcimDesc);
             final int num = i;
-            TextView tv_edit = (TextView) view.findViewById(R.id.tv_edit);
-            tv_edit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(AddDiagnosisActivity.this, DocOrderActivity.class);
-                    intent.putExtra("showIndex", list_data.get(num).showIndex);
-                    intent.putExtra("tempAI",temAI);
-                    startActivity(intent);
-                }
-            });
-
-            TextView tv_delete = (TextView) view.findViewById(R.id.tv_delete);
-            tv_delete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(AddDiagnosisActivity.this);
-                    builder.setMessage("确定要删除此医嘱项吗？")
-                            .setTitle("提示信息")
-                            .setCancelable(false)
-                            .setPositiveButton("确定",
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog,
-                                                            int id) {
-                                            delArcimItemSyn(list_data.get(num).showIndex);
-                                        }
-                                    })
-                            .setNegativeButton("取消",
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog,
-                                                            int id) {
-                                            dialog.cancel();
-                                        }
-                                    }).show();
-                }
-            });
             ll_content.addView(view);
         }
     }

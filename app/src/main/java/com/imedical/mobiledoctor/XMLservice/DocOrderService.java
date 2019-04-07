@@ -97,12 +97,12 @@ public class DocOrderService {
     }
 
     //获取可以预约的检查项目列表
-    public static List<ServiceOrder> LoadServiceOrder(String userCode, String admId) throws Exception {
+    public static List<ServiceOrder> LoadServiceOrder(String userCode, String admId,String flag) throws Exception {
 
         Map params = new HashMap();
         params.put("userCode", userCode);
         params.put("admId", admId);
-        params.put("flag", "");
+        params.put("flag", flag);
         String requestXml = PropertyUtil.buildRequestXml(params);
         String resultXml = WsApiUtil.loadSoapObject(serviceUrl,Const.BIZ_CODE_getstoppingbasedata, requestXml);
         LogMe.d(requestXml+"\n\n"+resultXml);
@@ -122,6 +122,20 @@ public class DocOrderService {
         LogMe.d(requestXml+"\n\n"+resultXml);
         List<CanUseRes> list = PropertyUtil.parseBeansToList(CanUseRes.class, resultXml);
         return list;
+    }
+
+    //提交可以预约的检查项目的时间段，
+    public static BaseBean SubmitUseRes(String userCode, String admId,String ordItemId,String chooseDate) throws Exception {
+        Map params = new HashMap();
+        params.put("userCode", userCode);
+        params.put("admId", admId);
+        params.put("ordItemId",ordItemId);
+        params.put("chooseDate",chooseDate);
+        String requestXml = PropertyUtil.buildRequestXml(params);
+        String resultXml = WsApiUtil.loadSoapObject(serviceUrl,Const.BIZ_CODE_autobooked, requestXml);
+        LogMe.d(requestXml+"\n\n"+resultXml);
+        BaseBean b = PropertyUtil.parseToBaseInfo(resultXml);
+        return b;
     }
 
     //获取增加的未审核的医嘱信息

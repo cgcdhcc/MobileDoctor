@@ -14,33 +14,53 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
-        android:padding="10dp"
         android:background="@color/white"
         android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_height="40dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="检验检查"
-                android:textSize="@dimen/font_16dp"
-                android:textColor="@color/text_base"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:id="@+id/tv_input"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_weight="1"
-                android:gravity="right"
-                android:layout_height="wrap_content"
-                android:text="医嘱录入  "
-                android:textSize="@dimen/font_16dp"
-                android:textColor="@color/basecolor"/>
-            <ImageView
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:src="@drawable/all_arrow" />
+                android:orientation="vertical"
+                android:id="@+id/ll_no"
+                android:layout_height="40dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:text="未申请"
+                    android:id="@+id/tv_no"
+                    android:textSize="@dimen/font_16dp"
+                    android:textColor="@color/mobile_blue"
+                    android:layout_height="38dp" />
+                <TextView
+                    android:id="@+id/tv_no_line"
+                    android:layout_width="match_parent"
+                    android:background="@color/mobile_blue"
+                    android:layout_height="2dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_yes"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_height="40dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:id="@+id/tv_yes"
+                    android:text="已申请"
+                    android:textSize="@dimen/font_16dp"
+                    android:textColor="@color/gray"
+                    android:layout_height="38dp" />
+                <TextView
+                    android:id="@+id/tv_yes_line"
+                    android:layout_width="match_parent"
+                    android:background="@color/white"
+                    android:layout_height="2dp" />
+            </LinearLayout>
+
         </LinearLayout>
         <TextView
             android:layout_width="match_parent"
