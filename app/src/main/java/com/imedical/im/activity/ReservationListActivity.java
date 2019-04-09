@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -34,16 +36,18 @@ import java.util.List;
 
 public class ReservationListActivity extends BaseActivity implements View.OnClickListener {
     public String admId,callCode="0";
-    public TextView tv_patientName, tv_yes, tv_no, tv_doctorName, tv_departmentName, tv_submit,tv_yes_line,tv_no_line,tv_input;
+    public TextView tv_patientName, tv_yes, tv_no, tv_doctorName, tv_departmentName, tv_submit,tv_yes_line,tv_no_line,tv_input,tv_time;
     public ListView lv_data;
     public AdapterReservation mApdate;
     public Adapter_ReserDate mApdater_date;
     public LinearLayout ll_content,ll_yes,ll_no;
     public List<ServiceOrder> list_data = new ArrayList<ServiceOrder>();
     public List<CanUseRes> list_date = new ArrayList<CanUseRes>();
+    private CheckBox cb_manual;
     private AdmInfo temAI;
     private Dialog dialog;
     public String swtichFlag="";
+    public boolean IsManual=false;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +61,27 @@ public class ReservationListActivity extends BaseActivity implements View.OnClic
     }
 
     public void intiView() {
+//        cb_manual=(CheckBox) findViewById(R.id.cb_manual);
+//        cb_manual.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                IsManual=isChecked;
+//                if(IsManual) {
+//                    showCustom("手动拆分");
+//                }else {
+//                    showCustom("默认关联");
+//                }
+//            }
+//        });
+        tv_time=(TextView) findViewById(R.id.tv_time);
+        tv_time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(ListIsChecked()){
+                   showPop();
+               }
+            }
+        });
         lv_data=(ListView) findViewById(R.id.lv_data);
         tv_input=findViewById(R.id.tv_input);
         tv_submit=findViewById(R.id.tv_submit);
@@ -127,6 +152,14 @@ public class ReservationListActivity extends BaseActivity implements View.OnClic
                 super.run();
                 try {
                     list = DocOrderService.getInstance().LoadServiceOrder(Const.loginInfo.userCode, temAI.admId,flag);
+                    if(flag.equals("on")&&list!=null){
+                        for (int i = list.size() - 1; i >-1; i--) {
+                            ServiceOrder so=list.get(i);
+                            if (so.appStatus==null||!so.appStatus.equals("预约")) {
+                                list.remove(i);
+                            }
+                        }
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -138,7 +171,7 @@ public class ReservationListActivity extends BaseActivity implements View.OnClic
                             showCustom("医嘱列表加载失败");
                         } else {
                             list_data.addAll(list);
-                            ReList(list);
+                            ReList(list);//关联相同资源医嘱数据
                             mApdate.notifyDataSetChanged();
                         }
                     }
@@ -154,6 +187,17 @@ public class ReservationListActivity extends BaseActivity implements View.OnClic
         if(!dialog.isShowing()) dialog.show();
     }
 
+    //判断是否有勾选
+    private boolean ListIsChecked(){
+        boolean rtn=false;
+        for(ServiceOrder so:list_data){
+            if( so.IsChecked){
+                rtn=true;
+                break;
+            }
+        }
+        return  rtn;
+    }
     public void LoadDateForReser() {
         list_date.clear();
         mApdater_date.notifyDataSetChanged();
@@ -245,6 +289,42 @@ public class ReservationListActivity extends BaseActivity implements View.OnClic
     }.start();
 }
 
+    public void cancelDateForReser(final String ordItemId) {
+
+        showProgress();
+        new Thread() {
+            BaseBean b=null;
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    b = DocOrderService.getInstance().cancelUseRes(Const.loginInfo.userCode, temAI.admId,ordItemId);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                finally {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            dismissProgress();
+                            if (b == null) {
+                                showCustom("取消数据失败");
+                            } else {
+                                if(b.getResultCode().equals("0")){
+                                    showCustom("取消成功！");
+                                }else{
+                                    showCustom(b.getResultDesc());
+                                }
+                            }
+                            if(dialog!=null)dialog.dismiss();
+                            LoadData(swtichFlag);
+                        }
+                    });
+                }
+            }
+        }.start();
+    }
+
 
     private void ReList(List<ServiceOrder> list_temp){
         int p=0;
@@ -256,7 +336,7 @@ public class ReservationListActivity extends BaseActivity implements View.OnClic
         }
     }
 
-
+    //判断是否存在关联医嘱serviceId和appType同时满足，分配同一组编号
     private void ListGroup(String nowAppType,String nowServiceId,int count){
             for(ServiceOrder so_2:list_data){
                 if(nowAppType.equals(so_2.appType)&&nowServiceId.equals(so_2.serviceId)){
@@ -274,7 +354,7 @@ public class ReservationListActivity extends BaseActivity implements View.OnClic
                     String ordItemContent="";
                     for(ServiceOrder so:list_data){
                         if(so.IsChecked){
-                            ordItemContent=ordItemContent+","+so.orderRowId;
+                            ordItemContent=ordItemContent+","+so.orderName;
                         }
                     }
                     if(ordItemContent.length()>0){

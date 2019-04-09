@@ -21,6 +21,8 @@ import com.imedical.mobiledoctor.util.Validator;
 
 public class AdapterReservation extends BaseAdapter {
     ReservationListActivity ctx=null;
+    int atSameGroupCount=0;
+    int curtGroup=0;
     public AdapterReservation(ReservationListActivity activity) {
         this.ctx=activity;
     }
@@ -69,19 +71,26 @@ public class AdapterReservation extends BaseAdapter {
         holder.tv_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ctx.showCustom("点击了");
+                ctx.cancelDateForReser(SO.orderRowId);
             }
         });
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                int IsGroup=SO.IsGroup;
-                for(ServiceOrder so:ctx.list_data){
-                    if(IsGroup==so.IsGroup){
-                        so.IsChecked=isChecked;
+                if(atSameGroupCount==0){//初始状态可以关联
+                    //同一组医嘱资源更新选择状态
+                    int IsGroup=SO.IsGroup;
+                    curtGroup=SO.IsGroup;
+                    for(ServiceOrder so:ctx.list_data){
+                        if(IsGroup==so.IsGroup){
+                            so.IsChecked=isChecked;
+                            atSameGroupCount++;//计数有几个关联的医嘱
+                        }
                     }
+                }else{ //不关联，手动选择
+                    SO.IsChecked=isChecked;
+                    int IsGroup=SO.IsGroup;
                 }
-                notifyDataSetChanged();
             }
         });
         if(SO.IsChecked){
@@ -89,14 +98,21 @@ public class AdapterReservation extends BaseAdapter {
         }else{
             holder.checkBox.setChecked(false);
         }
+        if(SO.IsGroup==curtGroup){
+            holder.ll_checkBox.setBackgroundColor(ctx.getResources().getColor(R.color.background));
+        }else {
+            holder.ll_checkBox.setBackgroundColor(ctx.getResources().getColor(R.color.white));
+        }
        holder.ll_checkBox.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-               ListUnChecked();
-               holder.checkBox.performClick();
-               if(ListIsChecked()){
-                   ctx.showPop();
+               if(curtGroup!= SO.IsGroup&&atSameGroupCount!=0){
+                   ListUnChecked();//因为不是同一组，全部设置为不选择
                }
+               holder.checkBox.performClick();
+               notifyDataSetChanged();
+//               ctx.showCustom("当前"+atSameGroupCount);
+//
            }
        });
         String St=SO.appStatus==null?"": SO.appStatus;
@@ -111,21 +127,12 @@ public class AdapterReservation extends BaseAdapter {
     }
 
     private void ListUnChecked(){
+        atSameGroupCount=0;//重置默认关联医嘱数量
         for(ServiceOrder so:ctx.list_data){
             so.IsChecked=false;
         }
     }
 
-    private boolean ListIsChecked(){
-        boolean rtn=false;
-        for(ServiceOrder so:ctx.list_data){
-            if( so.IsChecked){
-                rtn=true;
-                break;
-            }
-        }
-        return  rtn;
-    }
 
 
 

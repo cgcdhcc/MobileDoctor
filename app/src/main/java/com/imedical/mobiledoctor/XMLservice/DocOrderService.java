@@ -138,6 +138,19 @@ public class DocOrderService {
         return b;
     }
 
+    //取消可以预约的检查项目的时间段，
+    public static BaseBean cancelUseRes(String userCode, String admId,String ordItemId) throws Exception {
+        Map params = new HashMap();
+        params.put("userCode", userCode);
+        params.put("admId", admId);
+        params.put("ordItemId",ordItemId);
+        String requestXml = PropertyUtil.buildRequestXml(params);
+        String resultXml = WsApiUtil.loadSoapObject(serviceUrl,Const.BIZ_CODE_cancelbooked, requestXml);
+        LogMe.d(requestXml+"\n\n"+resultXml);
+        BaseBean b = PropertyUtil.parseToBaseInfo(resultXml);
+        return b;
+    }
+
     //获取增加的未审核的医嘱信息
     public static List<ArcimItem> loadArcimItemListSaved(String userCode, String admId) throws Exception {
 

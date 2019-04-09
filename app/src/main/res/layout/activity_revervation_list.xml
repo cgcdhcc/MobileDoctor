@@ -6,11 +6,20 @@
     android:orientation="vertical">
 
     <include layout="@layout/dhcc_white_head" />
+
     <TextView
         android:layout_width="match_parent"
+        android:textColor="@color/red"
+        android:gravity="center"
         android:background="@color/background"
-        android:layout_height="10dp" />
-
+        android:text="自动勾选的检查存在关联，可预约同一时间，可以手动拆分"
+        android:layout_height="wrap_content" />
+    <CheckBox
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:id="@+id/cb_manual"
+        android:text="勾选执行手动拆分"
+        android:layout_height="wrap_content" />
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
@@ -68,10 +77,23 @@
             android:layout_height="0.5dp" />
         <ListView
             android:layout_width="match_parent"
+            android:layout_weight="1"
             android:id="@+id/lv_data"
             android:layout_height="wrap_content">
 
         </ListView>
+        <TextView
+            android:layout_width="200dp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/white"
+            android:id="@+id/tv_time"
+            android:layout_marginTop="10dp"
+            android:background="@xml/ripple_bg_shape_blue_gradient"
+            android:text="预约时间"
+            android:textSize="@dimen/font_16dp"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
 </LinearLayout>

@@ -115,6 +115,11 @@ public class DiagnosisListActivity extends BaseActivity {
                         } else {
                             list_data.addAll(list);
                             intiArcimItemView();
+                            if(list_data.size()>0){
+                                tv_submit.setVisibility(View.VISIBLE);
+                            }else {
+                                tv_submit.setVisibility(View.GONE);
+                            }
                         }
                     }
                 });
@@ -225,6 +230,7 @@ public class DiagnosisListActivity extends BaseActivity {
                             list_data.clear();
                             ll_content.removeAllViews();
                             Intent it =new Intent(DiagnosisListActivity.this,ReservationListActivity.class);
+                            it.putExtra("tempAI",temAI);
                             startActivity(it);
                             finish();
                         }else {

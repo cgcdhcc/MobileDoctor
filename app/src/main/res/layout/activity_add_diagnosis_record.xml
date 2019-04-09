@@ -137,11 +137,7 @@
                 android:text="内科 主治医师"/>
         </LinearLayout>
     </LinearLayout>
-  <ScrollView
-      android:layout_width="match_parent"
-      android:layout_weight="1"
-      android:background="@color/white"
-      android:layout_height="match_parent">
+
       <LinearLayout
           android:layout_width="match_parent"
           android:orientation="vertical"
@@ -169,7 +165,7 @@
                   android:layout_height="wrap_content"
                   android:textColor="@color/black"
                   android:textSize="@dimen/font_14dp"
-                  android:minLines="5"
+                  android:minLines="4"
                   android:background="@drawable/bg_shape_input_black"/>
               <LinearLayout
                   android:layout_width="match_parent"
@@ -192,7 +188,7 @@
                   android:layout_width="match_parent"
                   android:orientation="horizontal"
                   android:gravity="center_vertical"
-                  android:layout_height="40dp">
+                  android:layout_height="wrap_content">
                   <TextView
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
@@ -213,23 +209,25 @@
                       android:layout_height="18dp"
                       android:src="@drawable/all_arrow" />
               </LinearLayout>
-              <TextView
-                  android:layout_width="match_parent"
-                  android:background="@color/gray"
-                  android:layout_height="0.5dp" />
-              <LinearLayout
-                  android:layout_marginTop="1dp"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:orientation="vertical"
-                  android:id="@+id/ll_content">
-              </LinearLayout>
           </LinearLayout>
 
       </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:background="@color/gray"
+        android:layout_height="0.5dp" />
+    <com.imedical.mobiledoctor.widget.ListViewPull
+        android:id="@+id/elv_data"
+        android:layout_width="fill_parent"
+        android:dividerHeight="0.5dp"
+        android:layout_weight="1"
+        android:padding="10dp"
+        android:layout_height="fill_parent"
+        android:background="@color/white"
+        android:cacheColorHint="#00000000"
+        android:drawSelectorOnTop="false"
+        android:groupIndicator="@null" />
 
-
-  </ScrollView>
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
