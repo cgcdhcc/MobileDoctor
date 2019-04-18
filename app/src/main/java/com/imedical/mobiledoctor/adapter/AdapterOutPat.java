@@ -49,7 +49,7 @@ public class AdapterOutPat extends BaseAdapter {
 			holder.tv_inDate = (TextView) convertView.findViewById(R.id.tv_inDate);
 			holder.tv_admId= (TextView) convertView.findViewById(R.id.tv_admId);
 			holder.iv_head     = (ImageView)convertView.findViewById(R.id.iv_head);
-
+			holder.tv_bedCode = (TextView)convertView.findViewById(R.id.tv_bedCode);
 			convertView.setTag(holder);
 		}else{
 			holder = (ViewHolder) convertView.getTag();
@@ -63,6 +63,7 @@ public class AdapterOutPat extends BaseAdapter {
 		holder.tv_patName.setText(p.patientName);
 		holder.tv_admId.setText(p.admId);
 		holder.tv_inDate.setText(p.registerDate);
+		holder.tv_bedCode.setText(p.seqCode);
 		if(Const.curPat!=null&&Const.curPat.admId.equals(p.admId)){
 			convertView.setBackgroundResource(R.color.mobile_gray);
 			holder.tv_admId.setTextColor(Color.WHITE);
@@ -88,5 +89,6 @@ public class AdapterOutPat extends BaseAdapter {
 		public TextView tv_inDate;
 		public TextView tv_admId;
 		public TextView tv_patName;
+		public TextView tv_bedCode;
 	}
 }

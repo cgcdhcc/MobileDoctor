@@ -33,7 +33,7 @@
             android:id="@+id/tv_bedCode"
             android:textStyle="bold"
             android:layout_marginLeft="5dp"
-            android:textColor="@color/gray"
+            android:textColor="@color/red"
             android:textSize="@dimen/font_16dp"
             android:layout_height="wrap_content" />
     </LinearLayout>

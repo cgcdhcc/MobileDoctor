@@ -199,6 +199,7 @@ public class WardRoundActivity extends BaseRoundActivity implements View.OnClick
             tv_patSwitch.setVisibility(View.VISIBLE);
         }else{
             tv_patSwitch.setVisibility(View.GONE);
+            setTitle("患者资料");
         }
     }
 

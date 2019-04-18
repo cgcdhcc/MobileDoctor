@@ -60,7 +60,7 @@ public class CommonBrowserActivity extends Activity {
 		mWebView.getSettings().setJavaScriptEnabled(true);
 		mWebView.getSettings().setDomStorageEnabled(true);
 		mWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-		mWebView.getSettings().setDefaultTextEncodingName("utf-8");
+		mWebView.getSettings().setDefaultTextEncodingName("gbk");
 		mWebView.requestFocus();
 		mWebView.setVerticalScrollbarOverlay(true); //指定的垂直滚动条有叠加样式
 
@@ -201,7 +201,7 @@ public class CommonBrowserActivity extends Activity {
 				super.onReceivedTitle(view, title);
 			}
 		});
-
+//		mWebView.loadDataWithBaseURL(this.reportURL,null,"text/html","utf-8", null);
 		mWebView.loadUrl(this.reportURL);
 
 	}//end method onCreate
