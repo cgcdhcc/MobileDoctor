@@ -10,6 +10,7 @@ import java.io.Serializable;
 public class AdmInfo implements Serializable {
     @Desc(label = "就诊Id", type = "") public String admId;
     @Desc(label = "患者年龄", type = "") public String patientAge;
+    @Desc(label = "患者登记号", type = "") public String patientNo;
     @Desc(label = "患者性别", type = "") public String patientSex;
     @Desc(label = "患者姓名", type = "") public String patientName;
     @Desc(label = "医生Id", type = "") public String doctorId;
